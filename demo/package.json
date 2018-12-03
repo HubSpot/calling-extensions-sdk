@@ -1,0 +1,26 @@
+{
+  "name": "calling_framework",
+  "version": "0.0.1",
+  "description": "HubSpot calling framework",
+  "private": true,
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack --progress --colors --watch --mode=dev",
+    "test": "karma start karma.conf.js --single-run",
+    "cover": "open coverage/lcov-report/index.html",
+    "eslint": "eslint src --ext .js",
+    "eslint:fix": "eslint src .js --fix",
+    "eslint:test": "eslint -c test/.eslintrc test --ext .js",
+    "prepublish": "npm run build",
+    "start": "webpack-dev-server --open",
+    "watch": "webpack --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "clean-webpack-plugin": "^0.1.19",
+    "webpack": "^4.23.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
+  }
+}

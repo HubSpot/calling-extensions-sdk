@@ -1,0 +1,225 @@
+"use es6";
+
+import { messageType, VERSION } from "./Constants";
+
+/*
+ * IFrameManager abstracts the iFrame communication between the IFrameHost and an IFrame
+ * An IFrameManager instance can act as part of the IFrameHost and an IFrame depending on
+ * the options.
+ */
+class IFrameManager {
+  constructor(options) {
+    this.options = options;
+    const { iFrameOptions, onMessageHandler, debugMode } = options;
+
+    this.onMessageHandler = onMessageHandler;
+    if (!this.onMessageHandler) {
+      throw new Error("Invalid options: onMessageHandler is not defined");
+    }
+    this.isIFrameHost = !!iFrameOptions;
+    this.debugMode = debugMode;
+
+    // Keeps track of all the callbacks
+    this.callbacks = {};
+
+    this.instanceId = Date.now();
+    this.instanceRegexp = new RegExp(`^${this.instanceId}`);
+    this.isReady = false;
+
+    this.messageHandler = event => this.onMessage(event);
+    window.addEventListener("message", this.messageHandler);
+
+    if (iFrameOptions) {
+      this.iFrame = IFrameManager.createIFrame(iFrameOptions, () =>
+        this.sendSync()
+      );
+    }
+
+    this.destinationWindow = iFrameOptions
+      ? this.iFrame.contentWindow
+      : window.parent;
+
+    this.destinationHost = IFrameManager.getDestinationHost(iFrameOptions);
+  }
+
+  /*
+   * Creates a new message id
+   */
+  static createMessageId(instanceId) {
+    return `${instanceId}_${Date.now()}`;
+  }
+
+  /*
+   * Gets the html element that hosts the iFrame
+   */
+  static getHostElement(hostElementSelector) {
+    const hostElement = document.querySelector(hostElementSelector);
+    if (!hostElement) {
+      throw new Error(
+        `hostElement not found. Selector - ${hostElementSelector}`
+      );
+    }
+    return hostElement;
+  }
+
+  static getDestinationHost(iFrameOptions) {
+    const extractHostFromUrl = url => {
+      const a = document.createElement("a");
+      a.href = url;
+      return `${a.protocol}//${a.host}`;
+    };
+
+    const url = iFrameOptions ? iFrameOptions.src : document.referrer;
+    return extractHostFromUrl(url);
+  }
+
+  static createIFrame(iFrameOptions, onLoadCallback) {
+    const { src, width, height, hostElementSelector } = iFrameOptions;
+
+    if (!src || !width || !height || !hostElementSelector) {
+      throw new Error(
+        "iFrameOptions is missing one of the required properties - {src, width, height, hostElementSelector}."
+      );
+    }
+
+    const iFrame = document.createElement("iFrame");
+    iFrame.onload = onLoadCallback;
+    iFrame.src = src;
+    iFrame.width = width;
+    iFrame.height = height;
+
+    const element = IFrameManager.getHostElement(hostElementSelector);
+    element.innerHTML = "";
+    element.appendChild(iFrame);
+
+    return element.querySelector("iFrame");
+  }
+
+  updateIFrameSize(sizeInfo) {
+    const { width, height } = sizeInfo;
+    const formatSize = size => (typeof size === "number" ? `${size}px` : size);
+    if (width) {
+      this.iFrame.setAttribute("width", formatSize(width));
+    }
+    if (height) {
+      this.iFrame.setAttribute("height", formatSize(height));
+    }
+  }
+
+  onReady() {
+    this.isReady = true;
+    this.onMessageHandler({
+      type: messageType.READY
+    });
+  }
+  /*
+   * Unload the iFrame
+   */
+  remove() {
+    window.removeEventListener("message", this.messageHandler);
+
+    if (this.iFrame) {
+      const element = IFrameManager.getHostElement(
+        this.options.iFrameOptions.hostElementSelector
+      );
+      element.innerHTML = "";
+
+      this.iFrame = null;
+      this.options = null;
+    }
+  }
+
+  /*
+   * Send a message to the destination window.
+   */
+  sendMessage(message, callback) {
+    const { type } = message;
+    if (type !== messageType.SYNC && !this.isReady) {
+      // Do not send a message unless the iFrame is ready to receive.
+      console.warn("iFrame not initialized to send a message", message);
+      return;
+    }
+
+    let { messageId } = message;
+    if (!messageId) {
+      // Initiating a new message
+      messageId = IFrameManager.createMessageId(this.instanceId);
+      if (callback) {
+        // Keep track of the callback
+        this.callbacks[messageId] = callback;
+      }
+    }
+
+    const newMessage = Object.assign({}, message, {
+      messageId
+    });
+
+    this.logDebugMessage("postMessage", message);
+    this.destinationWindow.postMessage(newMessage, this.destinationHost);
+  }
+
+  onMessage(event) {
+    const { data, origin } = event;
+    if (this.destinationHost !== origin) {
+      // Ignore messags from an unkown origin
+      return;
+    }
+
+    const { type } = event.data;
+    if (type === messageType.SYNC) {
+      const message = Object.assign({}, event.data, {
+        type: messageType.SYNC_ACK,
+        debugMode: this.debugMode,
+        version: VERSION
+      });
+      this.onReady();
+      this.sendMessage(message);
+      return;
+    }
+
+    this.logDebugMessage("onMessage", { data });
+    const { messageId } = data;
+    if (this.instanceRegexp.test(messageId)) {
+      // This is a response to some message generated by HubSpot
+      const callBack = this.callbacks[messageId];
+      if (callBack) {
+        callBack(data);
+        delete this.callbacks[messageId];
+      }
+      return;
+    }
+
+    // This is a new message, let the handler handle it.
+    this.onMessageHandler(data);
+  }
+
+  sendSync() {
+    this.sendMessage(
+      {
+        type: messageType.SYNC
+      },
+      eventData => {
+        this.onReady();
+        this.debugMode = eventData && eventData.debugMode;
+      }
+    );
+
+    // In cases where the call widget loads the calling extensions asynchronously, message
+    // handlers may not be set up - retry until a response from the iFrame
+    window.setTimeout(() => {
+      if (this.iFrame && !this.isReady) {
+        this.sendSync();
+      }
+    }, 100);
+  }
+
+  logDebugMessage(...args) {
+    if (this.debugMode) {
+      const msg = this.isIFrameHost ? "IFrame host" : "IFrame";
+      args.unshift(msg);
+      console.log.call(null, args);
+    }
+  }
+}
+
+export default IFrameManager;

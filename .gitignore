@@ -1,0 +1,7 @@
+node_modules
+npm-debug.log
+dist
+*.pem
+coverage
+build
+.DS_STORE
