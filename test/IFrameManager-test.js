@@ -24,7 +24,7 @@ describe("iFrameManager", () => {
 
     it("should get origin", () => {
       const instance = createInstance();
-      expect(instance.destinationHost).toBe(document.origin);
+      expect(instance.destinationHost).toBe(window.location.origin);
     });
 
     it("should handle incoming SYNC message", () => {
@@ -32,6 +32,7 @@ describe("iFrameManager", () => {
       spyOn(instance, "sendMessage");
 
       const eventData = {
+        origin: window.location.origin,
         data: {
           type: messageType.SYNC
         }
@@ -40,7 +41,8 @@ describe("iFrameManager", () => {
       instance.onMessage(eventData);
       expect(instance.sendMessage).toHaveBeenCalledWith({
         type: messageType.SYNC_ACK,
-        debugMode: undefined
+        debugMode: undefined,
+        version: "0.0.1"
       });
     });
   });

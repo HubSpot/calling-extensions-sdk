@@ -1,3 +1,6 @@
-import CallingExtensionAPI from "./src/CallingExtensionsAPI";
+import CallingExtensions from "./src/CallingExtensions";
+import * as Constants from "./src/Constants";
+import IFrameManager from "./src/IFrameManager";
 
-export default CallingExtensionAPI;
+export default CallingExtensions;
+export { Constants, IFrameManager };

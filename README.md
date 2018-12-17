@@ -45,7 +45,7 @@ TBD - Register the calling application and the calling extensions
 Download the SDK using npm or yarn
 
 ```shell
-npm install -s @hs/TBD
+npm install -s @hubspot/calling-extensions-sdk
 ```
 
 ### Using the Calling Extension SDK
@@ -55,7 +55,7 @@ The Calling Extension SDK exposes a simple API for HubSpot and a Soft Phone to e
 #### Create an instance
 
 ```js
-import CallingExtensionAPI from "CallingExtensionAPI";
+import CallingExtensions from "@hubspot/calling-extensions-sdk";
 
 const options = {
   // Whether to log various inbound/outbound messages to console
@@ -67,7 +67,7 @@ const options = {
   }
 };
 
-const callingExtensionAPI = new CallingExtensionAPI(options);
+const CallingExtensions = new CallingExtensions(options);
 ```
 
 #### Sending the messages to HubSpot
@@ -89,7 +89,7 @@ The messages are sent to HubSpot through method calls. Following is a list of me
           width: number
       }
   }
-  callingExtensionAPI.initialized(payload);
+  CallingExtensions.initialized(payload);
   ```
 
 - LOGGED_IN
@@ -97,7 +97,7 @@ The messages are sent to HubSpot through method calls. Following is a list of me
   Sends a message indicating that user has logged in
 
   ```js
-  callingExtensionAPI.userLoggedIn();
+  CallingExtensions.userLoggedIn();
   ```
 
 - LOGGED_OUT
@@ -105,7 +105,7 @@ The messages are sent to HubSpot through method calls. Following is a list of me
   Sends a message indicating that user has logged out
 
   ```js
-  callingExtensionAPI.userLoggedOut();
+  CallingExtensions.userLoggedOut();
   ```
 
 - INCOMING_CALL
@@ -116,7 +116,7 @@ The messages are sent to HubSpot through method calls. Following is a list of me
 
   ```js
   const callInfo = { phoneNumber: string };
-  callingExtensionAPI.incomingCall(callInfo);
+  CallingExtensions.incomingCall(callInfo);
   ```
 
 - OUTGOING_CALL_STARTED
@@ -125,7 +125,7 @@ The messages are sent to HubSpot through method calls. Following is a list of me
 
   ```js
   const callInfo = { phoneNumber: string };
-  callingExtensionAPI.outgoingCall(callInfo);
+  CallingExtensions.outgoingCall(callInfo);
   ```
 
   - CALL_ANSWERED
@@ -133,7 +133,7 @@ The messages are sent to HubSpot through method calls. Following is a list of me
   Sends a message to notify HubSpot that an outgoing call is being answered.
 
   ```js
-  callingExtensionAPI.callAnswered();
+  CallingExtensions.callAnswered();
   ```
 
   - CALL_ENDED
@@ -141,7 +141,7 @@ The messages are sent to HubSpot through method calls. Following is a list of me
   Sends a message to notify HubSpot that the call has ended.
 
   ```js
-  callingExtensionAPI.callEnded();
+  CallingExtensions.callEnded();
   ```
 
 * RINGTONE_ENDED
@@ -150,7 +150,7 @@ Sends a message to notify HubSpot that an outgoing call ringtone has ended.
 
 ```js
 const callInfo = { reason: answered | disconnected | rejected };
-callingExtensionAPI.ringtoneEnded(callInfo);
+CallingExtensions.ringtoneEnded(callInfo);
 ```
 
 - RESIZE_WIDGET
@@ -159,7 +159,7 @@ callingExtensionAPI.ringtoneEnded(callInfo);
 
   ```js
   const newSize = { width: number, height: number };
-  callingExtensionAPI.resizeWidget(newSize);
+  CallingExtensions.resizeWidget(newSize);
   ```
 
 - CALL_DATA
@@ -171,7 +171,7 @@ callingExtensionAPI.ringtoneEnded(callInfo);
     // engagementId of the enagagement created for this call (inbound or outbound)
     engagementId: number
   };
-  callingExtensionAPI.sendCallData(data);
+  CallingExtensions.sendCallData(data);
   ```
 
 #### Handling a message sent from HubSpot to the soft phone
@@ -189,7 +189,7 @@ callingExtensionAPI.ringtoneEnded(callInfo);
 
 - Visibility Change
 
-  Handler for the dial number event.
+  Handler for visibility change event.
 
   ```js
     onVisibilityChanged(data) {

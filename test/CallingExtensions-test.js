@@ -1,10 +1,10 @@
-import CallingExtensionsAPI from "../src/CallingExtensionsAPI";
+import CallingExtensions from "../src/CallingExtensions";
 import { messageType } from "../src/Constants";
 
 describe("CallingExtensionsAPI", () => {
   let instance;
   beforeEach(() => {
-    instance = new CallingExtensionsAPI({
+    instance = new CallingExtensions({
       eventHandlers: {}
     });
   });
@@ -70,7 +70,7 @@ describe("CallingExtensionsAPI", () => {
         width: 1234,
         height: 1234
       };
-      instance.sendCallData(data);
+      instance.callData(data);
       expect(instance.sendMessage).toHaveBeenCalledWith({
         type: messageType.CALL_DATA,
         data

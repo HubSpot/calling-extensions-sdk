@@ -1,8 +1,10 @@
 {
-  "name": "calling_framework",
-  "version": "0.0.1",
-  "description": "HubSpot calling framework",
-  "private": true,
+  "name": "@hubspot/calling-extensions-sdk",
+  "version": "0.0.2",
+  "description": "HubSpot calling extensions sdk for call widget integration.",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "karma start karma.conf.js --browsers ChromeHeadless --single-run",
     "test:debug": "karma start karma.conf.js --browsers Chrome",
