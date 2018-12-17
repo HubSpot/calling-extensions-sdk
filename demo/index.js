@@ -1,4 +1,4 @@
-import HubSpotCTI from "../index";
+import CallingExtensions from "../index";
 
 const callback = () => {
   let rowId = 0;
@@ -17,7 +17,7 @@ const callback = () => {
     height: 600
   };
 
-  const cti = new HubSpotCTI({
+  const cti = new CallingExtensions({
     debugMode: true,
     eventHandlers: {
       onReady: () => {

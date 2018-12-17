@@ -87,6 +87,7 @@ class IFrameManager {
     iFrame.src = src;
     iFrame.width = width;
     iFrame.height = height;
+    iFrame.allow = "microphone; autoplay";
 
     const element = IFrameManager.getHostElement(hostElementSelector);
     element.innerHTML = "";
@@ -167,13 +168,17 @@ class IFrameManager {
 
     const { type } = event.data;
     if (type === messageType.SYNC) {
-      const message = Object.assign({}, event.data, {
-        type: messageType.SYNC_ACK,
-        debugMode: this.debugMode,
-        version: VERSION
-      });
-      this.onReady();
-      this.sendMessage(message);
+      // The iFrame host can send this message multiple times, don't respond more than once
+      if (!this.isReady) {
+        this.isReady = true;
+        const message = Object.assign({}, event.data, {
+          type: messageType.SYNC_ACK,
+          debugMode: this.debugMode,
+          version: VERSION
+        });
+        this.sendMessage(message);
+        this.onReady();
+      }
       return;
     }
 
