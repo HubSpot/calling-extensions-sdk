@@ -144,15 +144,6 @@ The messages are sent to HubSpot through method calls. Following is a list of me
   CallingExtensions.callEnded();
   ```
 
-* RINGTONE_ENDED
-
-Sends a message to notify HubSpot that an outgoing call ringtone has ended.
-
-```js
-const callInfo = { reason: answered | disconnected | rejected };
-CallingExtensions.ringtoneEnded(callInfo);
-```
-
 - RESIZE_WIDGET
 
   Sends a message to resize the iFrame
