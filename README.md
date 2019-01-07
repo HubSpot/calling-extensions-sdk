@@ -23,14 +23,19 @@ Note that the SYNC message sent repetidly until it receives a response from the 
 The following messages are exchanged when user initiates a call -
 
 1. [HubSpot] Sends DIAL_NUMBER message with phone_number to dial
-2. [SoftPhone] Sends DATA message with engagementId once the engagement is created
+2. [SoftPhone] Sends the OUTGOING_CALL_STARTED message with the phone number that is dialed
+3. [SoftPhone] Sends the CALL_ANSWERED message
+4. [SoftPhone] Sends DATA message with engagementId once the engagement is created
+5. [SoftPhone] Sends the CALL_ENDED message
 
 ### Incoming call
 
 The following messages are exchanged for an incoming call -
 
 1. [SoftPhone] Sends the INCOMING_CALL message with caller information
-2. [SoftPhone] Sends DATA message with enagegementId once the engagement is created
+2. [SoftPhone] Sends the CALL_ANSWERED message
+3. [SoftPhone] Sends DATA message with enagegementId once the engagement is created
+4. [SoftPhone] Sends the CALL_ENDED message
 
 # Getting Started
 
@@ -188,6 +193,45 @@ The messages are sent to HubSpot through method calls. Following is a list of me
         ...
     }
   ```
+
+### Running the demo Calling Extension Widget project
+
+The calling extensions are enabled for any portal that is starter or above.
+
+#### Build the demo widget project
+
+```shell
+# install npm build dependencies and build the demo project
+cd /demo
+npm i
+npm run build
+```
+
+#### Serve the demo widget
+
+Easiest way to serve the demo widget is through running http-serve.
+
+```shell
+npm install -g http-serve 
+# Create a temperory certificate to use for HTTPS
+openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem
+# cd into the demo folder
+cd /demo
+# Run the http server
+http-serve -S -C cert.pem -o
+```
+
+Load the demo page in chrome and accept the invalid cert exception
+
+#### Add local storage override for calling extensions
+
+The calling widget settings are added during application creation in the developer portal. The following localstorage override is available for testing purposes -
+
+localStorage.setItem('LocalSettings:Sales:CallingExtensions', '{"name": "Localhost", "url": "https://myWidgetUrl/path/"}')
+
+#### Navigate to a contacts/company page and launch calling
+
+The calling extension demo widget would load iFrame should load.
 
 # Feedback
 
