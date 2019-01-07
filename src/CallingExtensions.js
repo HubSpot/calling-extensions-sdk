@@ -86,13 +86,6 @@ class CallingExtensionAPI {
     });
   }
 
-  ringtonEnded(data) {
-    this.sendMessage({
-      type: messageType.RINGTONE_ENDED,
-      data
-    });
-  }
-
   sendMessage(message) {
     this.iFrameManager.sendMessage(message);
   }
@@ -110,6 +103,11 @@ class CallingExtensionAPI {
       case messageType.DIAL_NUMBER: {
         const { onDialNumber } = eventHandlers;
         handler = onDialNumber;
+        break;
+      }
+      case messageType.END_CALL: {
+        const { onEndCall } = eventHandlers;
+        handler = onEndCall;
         break;
       }
       case messageType.VISIBILITY_CHANGED: {

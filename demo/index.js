@@ -1,4 +1,4 @@
-import CallingExtensions from "../index";
+import CallingExtensions, { Constants } from "../index";
 
 const callback = () => {
   let rowId = 0;
@@ -28,6 +28,12 @@ const callback = () => {
       },
       onDialNumber: (data, rawEvent) => {
         appendMsg(data, rawEvent);
+        cti.outgoingCall();
+      },
+      onEndCall: () => {
+        window.setTimeout(() => {
+          cti.callEnded();
+        }, 500);
       },
       onVisibilityChanged: (data, rawEvent) => {
         appendMsg(data, rawEvent);
@@ -54,21 +60,29 @@ const callback = () => {
       case "incoming call":
         window.setTimeout(() => {
           cti.incomingCall();
-        }, 2000);
+        }, 500);
         break;
-      case "outgoing call":
+      case "outgoing call started":
         window.setTimeout(() => {
           cti.outgoingCall();
-        }, 2000);
+        }, 500);
         break;
       case "call answered":
         cti.callAnswered();
         break;
-      case "ringtone ended":
-        cti.ringtonEnded();
-        break;
       case "call ended":
         cti.callEnded();
+        break;
+      case "send data":
+        cti.callData({
+          engagementId: "8533003"
+        });
+        break;
+      case "send error":
+        cti.sendError({
+          type: Constants.errorType.GENERIC,
+          message: "This is a message shown in Hubspot UI"
+        });
         break;
       case "change size":
         defaultSize.width += 20;
