@@ -19,7 +19,8 @@ const messageTypeList = [
   "SYNC",
   "SYNC_ACK",
   "UNLOADING",
-  "VISIBILITY_CHANGED"
+  "VISIBILITY_CHANGED",
+  "SYNC_ACK_FAILED"
 ];
 
 const errorTypeList = ["UNKNOWN_MESSAGE_TYPE", "GENERIC"];

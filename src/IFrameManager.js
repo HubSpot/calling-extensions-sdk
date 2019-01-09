@@ -1,6 +1,6 @@
-"use es6";
+'use es6';
 
-import { messageType, VERSION } from "./Constants";
+import { messageType, VERSION } from './Constants';
 
 /*
  * IFrameManager abstracts the iFrame communication between the IFrameHost and an IFrame
@@ -14,7 +14,7 @@ class IFrameManager {
 
     this.onMessageHandler = onMessageHandler;
     if (!this.onMessageHandler) {
-      throw new Error("Invalid options: onMessageHandler is not defined");
+      throw new Error('Invalid options: onMessageHandler is not defined');
     }
     this.isIFrameHost = !!iFrameOptions;
     this.debugMode = debugMode;
@@ -27,12 +27,13 @@ class IFrameManager {
     this.isReady = false;
 
     this.messageHandler = event => this.onMessage(event);
-    window.addEventListener("message", this.messageHandler);
+    window.addEventListener('message', this.messageHandler);
 
     if (iFrameOptions) {
-      this.iFrame = IFrameManager.createIFrame(iFrameOptions, () =>
-        this.sendSync()
-      );
+      this.iFrame = IFrameManager.createIFrame(iFrameOptions, () => {
+        this.firstSyncSent = Date.now();
+        this.sendSync();
+      });
     }
 
     this.destinationWindow = iFrameOptions
@@ -64,7 +65,7 @@ class IFrameManager {
 
   static getDestinationHost(iFrameOptions) {
     const extractHostFromUrl = url => {
-      const a = document.createElement("a");
+      const a = document.createElement('a');
       a.href = url;
       return `${a.protocol}//${a.host}`;
     };
@@ -78,52 +79,52 @@ class IFrameManager {
 
     if (!src || !width || !height || !hostElementSelector) {
       throw new Error(
-        "iFrameOptions is missing one of the required properties - {src, width, height, hostElementSelector}."
+        'iFrameOptions is missing one of the required properties - {src, width, height, hostElementSelector}.'
       );
     }
 
-    const iFrame = document.createElement("iFrame");
+    const iFrame = document.createElement('iFrame');
     iFrame.onload = onLoadCallback;
     iFrame.src = src;
     iFrame.width = width;
     iFrame.height = height;
-    iFrame.allow = "microphone; autoplay";
+    iFrame.allow = 'microphone; autoplay';
 
     const element = IFrameManager.getHostElement(hostElementSelector);
-    element.innerHTML = "";
+    element.innerHTML = '';
     element.appendChild(iFrame);
 
-    return element.querySelector("iFrame");
+    return element.querySelector('iFrame');
   }
 
   updateIFrameSize(sizeInfo) {
     const { width, height } = sizeInfo;
-    const formatSize = size => (typeof size === "number" ? `${size}px` : size);
+    const formatSize = size => (typeof size === 'number' ? `${size}px` : size);
     if (width) {
-      this.iFrame.setAttribute("width", formatSize(width));
+      this.iFrame.setAttribute('width', formatSize(width));
     }
     if (height) {
-      this.iFrame.setAttribute("height", formatSize(height));
+      this.iFrame.setAttribute('height', formatSize(height));
     }
   }
 
   onReady() {
     this.isReady = true;
     this.onMessageHandler({
-      type: messageType.READY
+      type: messageType.READY,
     });
   }
   /*
    * Unload the iFrame
    */
   remove() {
-    window.removeEventListener("message", this.messageHandler);
+    window.removeEventListener('message', this.messageHandler);
 
     if (this.iFrame) {
       const element = IFrameManager.getHostElement(
         this.options.iFrameOptions.hostElementSelector
       );
-      element.innerHTML = "";
+      element.innerHTML = '';
 
       this.iFrame = null;
       this.options = null;
@@ -137,7 +138,7 @@ class IFrameManager {
     const { type } = message;
     if (type !== messageType.SYNC && !this.isReady) {
       // Do not send a message unless the iFrame is ready to receive.
-      console.warn("iFrame not initialized to send a message", message);
+      console.warn('iFrame not initialized to send a message', message);
       return;
     }
 
@@ -152,10 +153,10 @@ class IFrameManager {
     }
 
     const newMessage = Object.assign({}, message, {
-      messageId
+      messageId,
     });
 
-    this.logDebugMessage("postMessage", message);
+    this.logDebugMessage('postMessage', message);
     this.destinationWindow.postMessage(newMessage, this.destinationHost);
   }
 
@@ -171,10 +172,11 @@ class IFrameManager {
       // The iFrame host can send this message multiple times, don't respond more than once
       if (!this.isReady) {
         this.isReady = true;
+
         const message = Object.assign({}, event.data, {
           type: messageType.SYNC_ACK,
           debugMode: this.debugMode,
-          version: VERSION
+          version: VERSION,
         });
         this.sendMessage(message);
         this.onReady();
@@ -182,7 +184,7 @@ class IFrameManager {
       return;
     }
 
-    this.logDebugMessage("onMessage", { data });
+    this.logDebugMessage('onMessage', { data });
     const { messageId } = data;
     if (this.instanceRegexp.test(messageId)) {
       // This is a response to some message generated by HubSpot
@@ -199,9 +201,17 @@ class IFrameManager {
   }
 
   sendSync() {
+    // No SYNC_ACK message after 30sec results in a failure
+    if (Date.now() - this.firstSyncSent > 30000) {
+      this.onMessageHandler({
+        type: messageType.SYNC_ACK_FAILED,
+      });
+      return;
+    }
+
     this.sendMessage(
       {
-        type: messageType.SYNC
+        type: messageType.SYNC,
       },
       eventData => {
         this.onReady();
@@ -220,7 +230,7 @@ class IFrameManager {
 
   logDebugMessage(...args) {
     if (this.debugMode) {
-      const msg = this.isIFrameHost ? "IFrame host" : "IFrame";
+      const msg = this.isIFrameHost ? 'IFrame host' : 'IFrame';
       args.unshift(msg);
       console.log.call(null, args);
     }
