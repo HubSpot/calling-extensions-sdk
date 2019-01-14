@@ -85,6 +85,7 @@ class IFrameManager {
 
     const iFrame = document.createElement('iFrame');
     iFrame.onload = onLoadCallback;
+    iFrame.onerror = this.handleLoadError;
     iFrame.src = src;
     iFrame.width = width;
     iFrame.height = height;
@@ -95,6 +96,12 @@ class IFrameManager {
     element.appendChild(iFrame);
 
     return element.querySelector('iFrame');
+  }
+
+  handleLoadError() {
+    this.onMessageHandler({
+      type: messageType.SYNC_ACK_FAILED,
+    });
   }
 
   updateIFrameSize(sizeInfo) {
@@ -201,6 +208,7 @@ class IFrameManager {
   }
 
   sendSync() {
+
     // No SYNC_ACK message after 30sec results in a failure
     if (Date.now() - this.firstSyncSent > 30000) {
       this.onMessageHandler({
