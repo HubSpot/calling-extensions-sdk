@@ -208,7 +208,6 @@ class IFrameManager {
   }
 
   sendSync() {
-
     // No SYNC_ACK message after 30sec results in a failure
     if (Date.now() - this.firstSyncSent > 30000) {
       this.onMessageHandler({
