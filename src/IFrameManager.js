@@ -1,6 +1,6 @@
 "use es6";
 
-import { messageType, VERSION } from './Constants';
+import { messageType, VERSION } from "./Constants";
 
 /*
  * IFrameManager abstracts the iFrame communication between the IFrameHost and an IFrame
@@ -100,7 +100,7 @@ class IFrameManager {
 
   handleLoadError() {
     this.onMessageHandler({
-      type: messageType.SYNC_ACK_FAILED,
+      type: messageType.SYNC_ACK_FAILED
     });
   }
 
@@ -179,7 +179,6 @@ class IFrameManager {
       // The iFrame host can send this message multiple times, don't respond more than once
       if (!this.isReady) {
         this.isReady = true;
-
         const message = Object.assign({}, event.data, {
           type: messageType.SYNC_ACK,
           debugMode: this.debugMode,
@@ -211,7 +210,7 @@ class IFrameManager {
     // No SYNC_ACK message after 30sec results in a failure
     if (Date.now() - this.firstSyncSent > 30000) {
       this.onMessageHandler({
-        type: messageType.SYNC_ACK_FAILED,
+        type: messageType.SYNC_ACK_FAILED
       });
       return;
     }
