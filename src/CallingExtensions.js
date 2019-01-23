@@ -27,12 +27,6 @@ class CallingExtensions {
     });
   }
 
-  initFailed() {
-    this.sendMessage({
-      type: messageType.SYNC_ACK_FAILED
-    })
-  }
-
   userLoggedIn() {
     this.sendMessage({
       type: messageType.LOGGED_IN

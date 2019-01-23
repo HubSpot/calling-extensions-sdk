@@ -50,9 +50,6 @@ const callback = () => {
           isLoggedIn: true
         });
         break;
-      case "init failed":
-        cti.initFailed();
-        break;
       case "log in":
         cti.userLoggedIn();
         break;
