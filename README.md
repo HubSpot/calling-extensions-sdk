@@ -12,11 +12,11 @@ The following messages are exchanged when a calling widget is instantiated -
 
 1. [HubSpot] Sends a SYNC message
 2. [SoftPhone] Sends SYNC_ACK message
-3. [SoftPhone] Sends INITIALIZED message with login state and optionally widegt size
+3. [SoftPhone] Sends INITIALIZED message with login state and optionally widget size
 
 After this point, the messages can be exchanged between the soft phone widget and HubSpot.
 
-Note that the SYNC message sent repetidly until it receives a response from the iFrame to account for slow loading of
+Note that the SYNC message sent repeatedly until it receives a response from the iFrame to account for slow loading call widgets.
 
 ### Outbound call
 
@@ -25,8 +25,7 @@ The following messages are exchanged when user initiates a call -
 1. [HubSpot] Sends DIAL_NUMBER message with phone_number to dial
 2. [SoftPhone] Sends the OUTGOING_CALL_STARTED message with the phone number that is dialed
 3. [SoftPhone] Sends the CALL_ANSWERED message
-4. [SoftPhone] Sends DATA message with engagementId once the engagement is created
-5. [SoftPhone] Sends the CALL_ENDED message
+4. [SoftPhone] Sends the CALL_ENDED message
 
 ### Incoming call
 
@@ -34,8 +33,7 @@ The following messages are exchanged for an incoming call -
 
 1. [SoftPhone] Sends the INCOMING_CALL message with caller information
 2. [SoftPhone] Sends the CALL_ANSWERED message
-3. [SoftPhone] Sends DATA message with enagegementId once the engagement is created
-4. [SoftPhone] Sends the CALL_ENDED message
+3. [SoftPhone] Sends the CALL_ENDED message
 
 # Getting Started
 
@@ -60,7 +58,7 @@ The Calling Extension SDK exposes a simple API for HubSpot and a Soft Phone to e
 #### Create an instance
 
 ```js
-import CallingExtensions from "@hubspot/calling-extensions-sdk";
+import CallingExtensions from '@hubspot/calling-extensions-sdk';
 
 const options = {
   // Whether to log various inbound/outbound messages to console
@@ -164,7 +162,7 @@ The messages are sent to HubSpot through method calls. Following is a list of me
 
   ```js
   const data = {
-    // engagementId of the enagagement created for this call (inbound or outbound)
+    // engagementId of the engagement created for this call (inbound or outbound)
     engagementId: number
   };
   CallingExtensions.sendCallData(data);
@@ -213,7 +211,7 @@ Easiest way to serve the demo widget is through running http-serve.
 
 ```shell
 npm install -g http-serve 
-# Create a temperory certificate to use for HTTPS
+# Create a temporary certificate to use for HTTPS
 openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem
 # cd into the demo folder
 cd /demo
