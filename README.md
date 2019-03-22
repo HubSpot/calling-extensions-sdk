@@ -1,45 +1,16 @@
-# Overview
+## Overview
 
-Calling Extension SDK enables an integrated end user calling experience for both outbound and inbound calling.
+Calling Extension SDK enables an integrated end user calling experience for both outbound and inbound calling. A 3rd party web based call widget is rendered inside HubSpot UI and a lightweight wrapper around HTML5 postMessage API facilitates cross-origin communication between the call widget and HubSpot.
 
-The soft phone widget is rendered inside HubSpot CRM and a lightweight wrapper around HTML5 postMessage API facilitates cross-origin communication between a soft phone widget and HubSpot.
+## Getting Started
 
-# Typical message flow
+1. [Create](https://developers.hubspot.com/docs/faq/how-do-i-create-an-app-in-hubspot) a HubSpot application.
+2. Integrate with the [Engagement API](https://developers.hubspot.com/docs/methods/engagements/engagements-overview) to log calls to the timeline.
+3. [Request access](https://developers.hubspot.com/calling-extensions-sdk) to the Calling Extensions SDK (Beta).
+4. [Integrate](https://github.com/HubSpot/calling-extensions-sdk#integrate-calling-extensions-sdk) the Calling Extension SDK with your call widget.
+5. Send the call widget settings ({url: prodctionWidgetURL, height: number, width: number}) to HubSpot; we'll add these settings to your HubSpot application. Note that localStorage can be used to test the widget hosted locally or in staging environment.
 
-### Loading the widget
-
-The following messages are exchanged when a calling widget is instantiated -
-
-1. [HubSpot] Sends a SYNC message
-2. [SoftPhone] Sends SYNC_ACK message
-3. [SoftPhone] Sends INITIALIZED message with login state and optionally widget size
-
-After this point, the messages can be exchanged between the soft phone widget and HubSpot.
-
-Note that the SYNC message sent repeatedly until it receives a response from the iFrame to account for slow loading call widgets.
-
-### Outbound call
-
-The following messages are exchanged when user initiates a call -
-
-1. [HubSpot] Sends DIAL_NUMBER message with phone_number to dial
-2. [SoftPhone] Sends the OUTGOING_CALL_STARTED message with the phone number that is dialed
-3. [SoftPhone] Sends the CALL_ANSWERED message
-4. [SoftPhone] Sends the CALL_ENDED message
-
-### Incoming call
-
-The following messages are exchanged for an incoming call -
-
-1. [SoftPhone] Sends the INCOMING_CALL message with caller information
-2. [SoftPhone] Sends the CALL_ANSWERED message
-3. [SoftPhone] Sends the CALL_ENDED message
-
-# Getting Started
-
-## Register you calling extensions
-
-TBD - Register the calling application and the calling extensions
+Once your application is added to the HubSpot portal, all outbound call will be handled by your softphone widget.
 
 ## Integrate Calling Extensions SDK
 
@@ -156,18 +127,6 @@ The messages are sent to HubSpot through method calls. Following is a list of me
   CallingExtensions.resizeWidget(newSize);
   ```
 
-- CALL_DATA
-
-  Sends a message transferring the engagementId
-
-  ```js
-  const data = {
-    // engagementId of the engagement created for this call (inbound or outbound)
-    engagementId: number
-  };
-  CallingExtensions.sendCallData(data);
-  ```
-
 #### Handling a message sent from HubSpot to the soft phone
 
 - onDialNumber
@@ -223,13 +182,44 @@ Load the demo page in chrome and accept the invalid cert exception
 
 #### Add local storage override for calling extensions
 
-The calling widget settings are added during application creation in the developer portal. The following localstorage override is available for testing purposes -
+The call widget settings are added during application creation in the developer portal. The following localstorage override is available for testing purposes -
 
 localStorage.setItem('LocalSettings:Sales:CallingExtensions', '{"name": "Localhost", "url": "https://myWidgetUrl/path/"}')
 
-#### Navigate to a contacts/company page and launch calling
+#### Navigate to a contacts/company page and launch call
 
-The calling extension demo widget would load iFrame should load.
+The calling extension demo widget should load inside an iFrame.
+
+## Typical message flow between the call widget and HubSpot
+
+### Loading the call widget
+
+The following messages are exchanged when a call widget is instantiated -
+
+1. [HubSpot] Sends a SYNC message
+2. [SoftPhone] Sends SYNC_ACK message
+3. [SoftPhone] Sends INITIALIZED message with login state and optionally widget size
+
+At this point, the messages can be exchanged between the call widget and HubSpot.
+
+Note that the SYNC message sent repeatedly until it receives a response from the iFrame to account for slow loading call widgets.
+
+### Outbound call
+
+The following messages are exchanged when user initiates a call -
+
+1. [HubSpot] Sends DIAL_NUMBER message with phone_number to dial
+2. [SoftPhone] Sends the OUTGOING_CALL_STARTED message with the phone number that is dialed
+3. [SoftPhone] Sends the CALL_ANSWERED message
+4. [SoftPhone] Sends the CALL_ENDED message
+
+### Incoming call
+
+The following messages are exchanged for an incoming call -
+
+1. [SoftPhone] Sends the INCOMING_CALL message with caller information
+2. [SoftPhone] Sends the CALL_ANSWERED message
+3. [SoftPhone] Sends the CALL_ENDED message
 
 # Feedback
 
