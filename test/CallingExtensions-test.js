@@ -1,7 +1,7 @@
 import CallingExtensions from "../src/CallingExtensions";
 import { messageType } from "../src/Constants";
 
-describe("CallingExtensionsAPI", () => {
+describe("CallingExtensions", () => {
   let instance;
   beforeEach(() => {
     instance = new CallingExtensions({

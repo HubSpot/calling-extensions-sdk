@@ -4,9 +4,9 @@ import IFrameManager from "./IFrameManager";
 import { messageType, errorType } from "./Constants";
 
 /*
- * CallingExtensionAPI allows call providers to communicate with HubSpot.
+ * CallingExtensions allows call providers to communicate with HubSpot.
  */
-class CallingExtensionAPI {
+class CallingExtensions {
   constructor(options) {
     if (!options || !options.eventHandlers) {
       throw new Error("Invalid options or missing eventHandlers.");
@@ -140,4 +140,4 @@ class CallingExtensionAPI {
   }
 }
 
-export default CallingExtensionAPI;
+export default CallingExtensions;
