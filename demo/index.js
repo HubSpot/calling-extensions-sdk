@@ -73,11 +73,6 @@ const callback = () => {
       case "call ended":
         cti.callEnded();
         break;
-      case "send data":
-        cti.callData({
-          engagementId: "8533003"
-        });
-        break;
       case "send error":
         cti.sendError({
           type: Constants.errorType.GENERIC,
