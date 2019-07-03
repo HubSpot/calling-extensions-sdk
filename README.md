@@ -8,9 +8,18 @@ Calling Extension SDK enables an integrated end user calling experience for both
 2. Integrate with the [Engagement API](https://developers.hubspot.com/docs/methods/engagements/engagements-overview) to log calls to the timeline.
 3. [Request access](https://developers.hubspot.com/calling-extensions-sdk) to the Calling Extensions SDK (Beta).
 4. [Integrate](https://github.com/HubSpot/calling-extensions-sdk#integrate-calling-extensions-sdk) the Calling Extension SDK with your call widget.
-5. Send the call widget settings ({url: prodctionWidgetURL, height: number, width: number}) to HubSpot; we'll add these settings to your HubSpot application. Note that localStorage can be used to test the widget hosted locally or in staging environment.
+5. Send the call widget settings ({url: prodctionWidgetURL, height: number, width: number}) to HubSpot; we'll add these settings to your HubSpot application.
 
 Once your application is added to the HubSpot portal, all outbound call will be handled by your softphone widget.
+
+## Development
+LocalStorage can be used to test the widget hosted locally or in staging environment. In your Hubspot testing application open the devtools console and add the item to your localstorage:
+
+```js
+  localStorage.setItem('LocalSettings:Sales:CallingExtensions', '{"name": "Localhost", "url": "https://myWidgetUrl/path/"}')
+```
+
+On calling one of your contacts the widget will appear, with the iframe loaded inside it.
 
 ## Integrate Calling Extensions SDK
 
@@ -63,7 +72,14 @@ The messages are sent to HubSpot through method calls. Following is a list of me
           width: number
       }
   }
-  CallingExtensions.initialized(payload);
+  window.addEventListener("message", (event) => {
+    switch (event.data.type) {
+      case "SYNC": {
+          CallingExtensions.initialized(payload);
+          break;
+      }
+    }
+  }
   ```
 
 - LOGGED_IN
@@ -129,7 +145,7 @@ The messages are sent to HubSpot through method calls. Following is a list of me
 
 #### Handling a message sent from HubSpot to the soft phone
 
-- onDialNumber
+- Dial Number
 
   Handler for the dial number event.
 
@@ -148,6 +164,16 @@ The messages are sent to HubSpot through method calls. Following is a list of me
     onVisibilityChanged(data) {
         const { isMinimized, isHidden } = data;
         ...
+    }
+  ```
+
+- Default event handler
+
+  Default handler for events. Will match all events without handlers.
+
+  ```js
+    defaultEventHandler(event) {
+        console.info("Event received. Do you need to handle it?", event);
     }
   ```
 
