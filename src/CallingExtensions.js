@@ -115,6 +115,11 @@ class CallingExtensions {
         handler = onVisibilityChanged;
         break;
       }
+      case messageType.SET_CALL_STATE: {
+        const { onSetCallState } = eventHandlers;
+        handler = onSetCallState;
+        break;
+      }
       default: {
         // Send back a message indicating an unknown event is received
         this.sendMessage({
