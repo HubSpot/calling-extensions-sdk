@@ -16,6 +16,7 @@ const messageTypeList = [
   "OUTGOING_CALL_STARTED",
   "READY",
   "RESIZE_WIDGET",
+  "SET_CALL_STATE",
   "SYNC",
   "SYNC_ACK",
   "UNLOADING",
