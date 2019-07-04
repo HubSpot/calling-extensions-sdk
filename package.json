@@ -6,6 +6,7 @@
     "access": "public"
   },
   "scripts": {
+    "prepublish": "@babel/cli/bin/babel.js src -d lib",
     "test": "karma start karma.conf.js --browsers ChromeHeadless --single-run",
     "test:debug": "karma start karma.conf.js --browsers Chrome",
     "cover": "open coverage/lcov-report/index.html",
@@ -15,6 +16,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^1.0.0",
     "eslint": "^3.13.0",
     "eslint-config-airbnb": "^14.0.0",
