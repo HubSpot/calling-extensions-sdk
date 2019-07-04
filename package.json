@@ -6,7 +6,7 @@
     "access": "public"
   },
   "scripts": {
-    "prepublish": "@babel/cli/bin/babel.js src -d lib",
+    "prepublish": "@babel/cli/bin/babel.js src -d lib && @babel/cli/bin/babel.js index.es6.js --out-file index.js",
     "test": "karma start karma.conf.js --browsers ChromeHeadless --single-run",
     "test:debug": "karma start karma.conf.js --browsers Chrome",
     "cover": "open coverage/lcov-report/index.html",

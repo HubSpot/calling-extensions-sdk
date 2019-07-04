@@ -7,3 +7,4 @@ karma.conf.js
 webpack.config.js
 coverage
 src
+index.es6.js
