@@ -1,5 +1,3 @@
-"use es6";
-
 export const VERSION = "0.0.1";
 
 const messageTypeList = [

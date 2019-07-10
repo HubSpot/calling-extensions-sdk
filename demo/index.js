@@ -1,4 +1,4 @@
-import CallingExtensions, { Constants } from "../index";
+import CallingExtensions, { Constants } from "../src";
 
 const callback = () => {
   let rowId = 0;

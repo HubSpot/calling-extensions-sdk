@@ -1,3 +1,4 @@
 node_modules
 demo/build
 karma.conf.js
+dist
