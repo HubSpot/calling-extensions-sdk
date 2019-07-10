@@ -6,15 +6,21 @@
     "access": "public"
   },
   "scripts": {
+    "build": "rollup -c",
+    "prepublish": "npm run build",
     "test": "karma start karma.conf.js --browsers ChromeHeadless --single-run",
     "test:debug": "karma start karma.conf.js --browsers Chrome",
     "cover": "open coverage/lcov-report/index.html",
     "eslint": "eslint src --ext .js",
     "eslint:fix": "eslint src .js --fix"
   },
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.5.4",
+    "@babel/preset-env": "^7.5.4",
     "clean-webpack-plugin": "^1.0.0",
     "eslint": "^3.13.0",
     "eslint-config-airbnb": "^14.0.0",
@@ -34,6 +40,8 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-spec-reporter": "0.0.26",
     "karma-webpack": "^1.8.0",
+    "rollup": "^1.16.7",
+    "rollup-plugin-babel": "^4.3.3",
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10",

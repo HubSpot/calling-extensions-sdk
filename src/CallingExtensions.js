@@ -1,5 +1,3 @@
-"use es6";
-
 import IFrameManager from "./IFrameManager";
 import { messageType, errorType } from "./Constants";
 

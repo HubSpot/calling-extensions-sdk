@@ -1,5 +1,3 @@
-"use es6";
-
 import { messageType, VERSION } from "./Constants";
 
 /*
