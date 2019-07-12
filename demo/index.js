@@ -1,4 +1,4 @@
-import CallingExtensions, { Constants } from "../index";
+import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 
 const callback = () => {
   let rowId = 0;

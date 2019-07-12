@@ -1,7 +1,7 @@
 "use es6";
 
-import IFrameManager from "../src/IFrameManager";
-import { messageType } from "../src/Constants";
+import { Constants, IFrameManager } from "../dist/main";
+const { messageType } = Constants;
 
 describe("iFrameManager", () => {
   const defaultOptions = {
