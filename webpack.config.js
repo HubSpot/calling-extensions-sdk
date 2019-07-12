@@ -22,5 +22,8 @@ module.exports = {
   },
   module: {
     rules: [babelLoader]
+  },
+  optimization: {
+    minimize: false
   }
 };
