@@ -14,7 +14,6 @@ const babelLoader = {
 
 module.exports = {
   entry: "./index.js",
-  mode: "development",
   plugins: [new CleanWebpackPlugin("build")],
   output: {
     filename: "main.js",
