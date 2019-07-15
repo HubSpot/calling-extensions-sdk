@@ -13,7 +13,8 @@
     "test:debug": "karma start karma.conf.js --browsers Chrome",
     "cover": "open coverage/lcov-report/index.html",
     "eslint": "eslint src --ext .js",
-    "eslint:fix": "eslint src .js --fix"
+    "eslint:fix": "eslint src .js --fix",
+    "travis": "npm run build:test"
   },
   "main": "./dist/main.js",
   "module": "./index.js",
