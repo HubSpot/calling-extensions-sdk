@@ -1,0 +1,9 @@
+sudo: false
+language: node_js
+node_js:
+  - "7"
+before_script:
+  - npm install
+scripts: {
+  "test: "npm run build:test"
+}
