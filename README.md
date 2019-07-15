@@ -13,10 +13,14 @@ Calling Extension SDK enables an integrated end user calling experience for both
 Once your application is added to the HubSpot portal, all outbound call will be handled by your softphone widget.
 
 ## Development
+
 LocalStorage can be used to test the widget hosted locally or in staging environment. In your Hubspot testing application open the devtools console and add the item to your localstorage:
 
 ```js
-  localStorage.setItem('LocalSettings:Sales:CallingExtensions', '{"name": "Localhost", "url": "https://myWidgetUrl/path/"}')
+localStorage.setItem(
+  "LocalSettings:Sales:CallingExtensions",
+  '{"name": "Localhost", "url": "https://myWidgetUrl/path/"}'
+);
 ```
 
 On calling one of your contacts the widget will appear, with the iframe loaded inside it.
@@ -38,7 +42,7 @@ The Calling Extension SDK exposes a simple API for HubSpot and a Soft Phone to e
 #### Create an instance
 
 ```js
-import CallingExtensions from '@hubspot/calling-extensions-sdk';
+import CallingExtensions from "@hubspot/calling-extensions-sdk";
 
 const options = {
   // Whether to log various inbound/outbound messages to console
@@ -181,36 +185,22 @@ The messages are sent to HubSpot through method calls. Following is a list of me
 
 The calling extensions are enabled for any portal that is starter or above.
 
-#### Build the demo widget project
+#### Run the demo widget project
 
 ```shell
-# install npm build dependencies and build the demo project
+# install npm build dependencies and start the demo project
 cd /demo
 npm i
-npm run build
-```
-
-#### Serve the demo widget
-
-Easiest way to serve the demo widget is through running http-serve.
-
-```shell
-npm install -g http-serve 
-# Create a temporary certificate to use for HTTPS
-openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem
-# cd into the demo folder
-cd /demo
-# Run the http server
-http-serve -S -C cert.pem -o
+npm start
 ```
 
 Load the demo page in chrome and accept the invalid cert exception
 
 #### Add local storage override for calling extensions
 
-The call widget settings are added during application creation in the developer portal. The following localstorage override is available for testing purposes -
+Add the following localstorage override for testing purposes -
 
-localStorage.setItem('LocalSettings:Sales:CallingExtensions', '{"name": "Localhost", "url": "https://myWidgetUrl/path/"}')
+localStorage.setItem('LocalSettings:Sales:CallingExtensions', '{"name": "Localhost", "url": "https://localhost:9025/"}')
 
 #### Navigate to a contacts/company page and launch call
 
