@@ -1,5 +1,8 @@
 ## Overview
 
+[![Build Status](https://travis-ci.org/HubSpot/calling-extensions-sdk.svg?branch=master)](https://travis-ci.org/HubSpot/calling-extensions-sdk)
+[![calling-extensions-sdk on npm](https://img.shields.io/npm/v/@hubspot/calling-extensions-sdk.svg?style=flat-square)](http://npmjs.com/@hubspot/calling-extensions-sdk)
+
 Calling Extension SDK enables an integrated end user calling experience for both outbound and inbound calling. A 3rd party web based call widget is rendered inside HubSpot UI and a lightweight wrapper around HTML5 postMessage API facilitates cross-origin communication between the call widget and HubSpot.
 
 ## Getting Started
