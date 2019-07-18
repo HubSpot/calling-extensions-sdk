@@ -52,8 +52,15 @@ const options = {
   debugMode: true | false,
   // eventHandlers handle inbound messages
   eventHandlers: {
-    onDialNumber: event => {},
-    onVisibilityChanged: event => {}
+    onReady: () => {
+      /* HubSpot is ready to receive messages. */
+    },
+    onDialNumber: event => {
+      /* Dial a number */
+    },
+    onVisibilityChanged: event => {
+      /* Call widget's visibility is changed. */
+    }
   }
 };
 
@@ -62,7 +69,9 @@ const CallingExtensions = new CallingExtensions(options);
 
 #### Sending the messages to HubSpot
 
-The messages are sent to HubSpot through method calls. Following is a list of messages that can be sent to HubSpot
+The messages are sent to HubSpot through method calls. Following is a list of messages that can be sent to HubSpot.
+
+_Wait for the onReady event before sending sending any messages to HubSpot._
 
 - INITIALIZED
 
@@ -79,14 +88,8 @@ The messages are sent to HubSpot through method calls. Following is a list of me
           width: number
       }
   }
-  window.addEventListener("message", (event) => {
-    switch (event.data.type) {
-      case "SYNC": {
-          CallingExtensions.initialized(payload);
-          break;
-      }
-    }
-  }
+
+  CallingExtensions.initialized(payload);
   ```
 
 - LOGGED_IN
