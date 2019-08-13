@@ -193,7 +193,7 @@ class IFrameManager {
     this.logDebugMessage("onMessage", { data });
     const { messageId } = data;
 
-    if (!messageId) {
+    if (!messageId || !type) {
       return;
     }
 
