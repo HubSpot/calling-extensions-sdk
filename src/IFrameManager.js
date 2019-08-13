@@ -90,6 +90,7 @@ class IFrameManager {
     iFrame.width = width;
     iFrame.height = height;
     iFrame.allow = "microphone; autoplay";
+    iFrame.id = "hubspot-calling-extension-iframe";
 
     const element = IFrameManager.getHostElement(hostElementSelector);
     element.innerHTML = "";
