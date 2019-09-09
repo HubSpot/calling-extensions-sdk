@@ -1,6 +1,6 @@
 {
   "name": "@hubspot/calling-extensions-sdk",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "HubSpot calling extensions sdk for call widget integration.",
   "publishConfig": {
     "access": "public"
@@ -26,7 +26,7 @@
     "@babel/preset-env": "^7.4.5",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^1.0.0",
-    "eslint": "^3.13.0",
+    "eslint": "^6.3.0",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-loader": "1.5.0",
     "eslint-plugin-import": "^2.2.0",
