@@ -42,7 +42,8 @@ describe("iFrameManager", () => {
       expect(instance.sendMessage).toHaveBeenCalledWith({
         type: messageType.SYNC_ACK,
         debugMode: undefined,
-        version: "0.0.1"
+        version: "0.0.1",
+        iFrameUrl: IFrameManager.extractHostFromUrl(window.location.href)
       });
     });
   });
