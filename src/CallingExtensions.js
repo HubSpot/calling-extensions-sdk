@@ -66,9 +66,17 @@ class CallingExtensions {
     });
   }
 
-  callEnded(data) {
+  callEnded(engagementData) {
     this.sendMessage({
-      type: messageType.CALL_ENDED
+      type: messageType.CALL_ENDED,
+      data: engagementData
+    });
+  }
+
+  callCompleted(callCompletedData) {
+    this.sendMessage({
+      type: messageType.CALL_COMPLETED,
+      data: callCompletedData
     });
   }
 
@@ -138,7 +146,7 @@ class CallingExtensions {
     if (handler) {
       handler(data, event);
     } else {
-      throw new Error(
+      console.error(
         `No event handler is available to handle message of type: ${type}`
       );
     }

@@ -17,12 +17,13 @@ Once your application is added to the HubSpot portal, all outbound call will be 
 
 ## Development
 
-LocalStorage can be used to test the widget hosted locally or in staging environment. In your Hubspot testing application open the devtools console and add the item to your localstorage:
+The following LocalStorage setting can be used to test the widget hosted locally or in staging environment.
 
 ```js
+// Execute the following command in the browsers debug console
 localStorage.setItem(
   "LocalSettings:Sales:CallingExtensions",
-  '{"name": "Localhost", "url": "https://myWidgetUrl/path/"}'
+  '{"name": "Demo widget", "url": "https://myWidgetUrl/path/"}'
 );
 ```
 
@@ -40,7 +41,7 @@ npm install -s @hubspot/calling-extensions-sdk
 
 ### Using the Calling Extension SDK
 
-The Calling Extension SDK exposes a simple API for HubSpot and a Soft Phone to exchange messages. The messages are sent as a method call and received through eventHandlers.
+The Calling Extension SDK exposes a simple API for HubSpot and a Soft Phone to exchange messages. The messages are sent through methods exposed by SDK and received through eventHandlers.
 
 #### Create an instance
 
@@ -64,128 +65,188 @@ const options = {
   }
 };
 
-const CallingExtensions = new CallingExtensions(options);
+const extensions = new CallingExtensions(options);
 ```
 
 #### Sending the messages to HubSpot
 
-The messages are sent to HubSpot through method calls. Following is a list of messages that can be sent to HubSpot.
+:warning: _Wait for the onReady event before sending sending any messages to HubSpot._
 
-_Wait for the onReady event before sending sending any messages to HubSpot._
+<details>
+ <summary>initialized </summary>
+ <p>
 
-- INITIALIZED
-
-  Sends a message indicating that the soft phone is ready for interaction.
-
-  ```js
-  const payload
-  {
-      // Whether a user is logged-in
-      isLoggedIn: true|false,
-      // Optionally send the desired widget size
-      widgetSize: {
-          height: number,
-          width: number
-      }
+```js
+// Sends a message indicating that the soft phone is ready for interaction.
+const payload
+{
+  // Whether a user is logged-in
+  isLoggedIn: true|false,
+  // Optionally send the desired widget size
+  widgetSize: {
+    height: number,
+    width: number
   }
+}
 
-  CallingExtensions.initialized(payload);
-  ```
+extensions.initialized(payload);
 
-- LOGGED_IN
+```
 
-  Sends a message indicating that user has logged in
+ </p>
+</details>
 
-  ```js
-  CallingExtensions.userLoggedIn();
-  ```
+<details>
+ <summary>userLoggedIn </summary>
+ <p>
 
-- LOGGED_OUT
+```js
+// Sends a message indicating that user has logged in
+// This message is only needed when user isn't loged in when initialized
+extensions.userLoggedIn();
+```
 
-  Sends a message indicating that user has logged out
+</p>
+</details>
 
-  ```js
-  CallingExtensions.userLoggedOut();
-  ```
+<details>
+ <summary>userLoggedOut</summary>
+ <p>
 
-- INCOMING_CALL
+```js
+// Sends a message indicating that user has logged out
+extensions.userLoggedOut();
+```
 
-  Sends a message to notify HubSpot of an incoming call.
+</p>
+</details>
 
-  Note that the incoming calling is not yet supported across HubSpot. If the widget is active, this method will ensure that the widget is made visible.
+<details>
+ <summary>outgoingCall</summary>
+ <p>
 
-  ```js
-  const callInfo = { phoneNumber: string };
-  CallingExtensions.incomingCall(callInfo);
-  ```
+```js
+// Sends a message to notify HubSpot that an outgoing call has started.
+// This is a case where a user dials a number directly throught the call widget.
+const callInfo = { phoneNumber: string };
+extensions.outgoingCall(callInfo);
+```
 
-- OUTGOING_CALL_STARTED
+</p>
+</details>
 
-  Sends a message to notify HubSpot that an outgoing call has started.
+<details>
+ <summary>callAnswered</summary>
+ <p>
 
-  ```js
-  const callInfo = { phoneNumber: string };
-  CallingExtensions.outgoingCall(callInfo);
-  ```
+Sends a message to notify HubSpot that an outgoing call is being answered.
 
-  - CALL_ANSWERED
+```js
+extensions.callAnswered();
+```
 
-  Sends a message to notify HubSpot that an outgoing call is being answered.
+</p>
+</details>
 
-  ```js
-  CallingExtensions.callAnswered();
-  ```
+<details>
+ <summary>callEnded</summary>
+ <p>
 
-  - CALL_ENDED
+```js
+// Sends a message to notify HubSpot that the call has ended.
+// After receiving the call ended event, the user can navigate away, can close the call widget.
+extensions.callEnded();
+```
 
-  Sends a message to notify HubSpot that the call has ended.
+</p>
+</details>
 
-  ```js
-  CallingExtensions.callEnded();
-  ```
+<details>
+ <summary>callCompleted</summary>
+ <p>
 
-- RESIZE_WIDGET
+```js
+// Sends a message to notify HubSpot that the call has completed.
+// After receiving the call completed event, HubSpot will
+//   1) insert the engagement into the timeline
+//   2) set the default associations on the engagement
+const data = { engagementId: number };
+extensions.callCompleted(data);
+```
 
-  Sends a message to resize the iFrame
+</p>
+</details>
 
-  ```js
-  const newSize = { width: number, height: number };
-  CallingExtensions.resizeWidget(newSize);
-  ```
+<details>
+ <summary>resizeWidget</summary>
+ <p>
 
-#### Handling a message sent from HubSpot to the soft phone
+```js
+// Sends a message to HubSpot to resize the iFrame
+const newSize = { width: number, height: number };
+extensions.resizeWidget(newSize);
+```
 
-- Dial Number
+</p>
+</details>
 
-  Handler for the dial number event.
+#### Receiving messages from HubSpot
 
-  ```js
-    onDialNumber(data) {
-        const { phoneNumber } = data;
-        ...
-    }
-  ```
+</p>
+</details>
 
-- Visibility Change
+<details>
+ <summary>onDialNumber</summary>
+ <p>
 
-  Handler for visibility change event.
+```js
+// Message indicating that user has triggered an outbound call
+onDialNumber(data) {
+  const {
+    /* The phone nubmer to dial */
+    phoneNumber: string,
+    /* The id of the logged in user.   */
+    ownerId: number,
+    /* HubSpot object Id of the phoneNumber */
+    objectId: number,
+    /* HubSpot  object type of the phoneNumber */
+    objectType: CONTACT | COMPANY
+   } = data;
+    ...
+  }
+```
 
-  ```js
-    onVisibilityChanged(data) {
-        const { isMinimized, isHidden } = data;
-        ...
-    }
-  ```
+</p>
+</details>
 
-- Default event handler
+<details>
+ <summary>onVisibilityChanged</summary>
+ <p>
 
-  Default handler for events. Will match all events without handlers.
+```js
+  // Message indicating if user has minimized/hide the call widget
+  onVisibilityChanged(data) {
+    const { isMinimized, isHidden } = data;
+    ...
+  }
+```
 
-  ```js
-    defaultEventHandler(event) {
-        console.info("Event received. Do you need to handle it?", event);
-    }
-  ```
+</p>
+</details>
+
+<details>
+ <summary>defaultEventHandler</summary>
+ <p>
+
+```js
+  // Default handler for events.
+  defaultEventHandler(event) {
+    console.info("Event received. Do you need to handle it?", event);
+  }
+```
+
+</p>
+</details>
 
 ### Running the demo Calling Extension Widget project
 
@@ -206,7 +267,12 @@ Load the demo page in chrome and accept the invalid cert exception
 
 Add the following localstorage override for testing purposes -
 
-localStorage.setItem('LocalSettings:Sales:CallingExtensions', '{"name": "Localhost", "url": "https://localhost:9025/"}')
+```js
+localStorage.setItem(
+  "LocalSettings:Sales:CallingExtensions",
+  '{"name": "Demo widget", "url": "https://localhost:9025/"}'
+);
+```
 
 #### Navigate to a contacts/company page and launch call
 
@@ -234,14 +300,6 @@ The following messages are exchanged when user initiates a call -
 2. [SoftPhone] Sends the OUTGOING_CALL_STARTED message with the phone number that is dialed
 3. [SoftPhone] Sends the CALL_ANSWERED message
 4. [SoftPhone] Sends the CALL_ENDED message
-
-### Incoming call
-
-The following messages are exchanged for an incoming call -
-
-1. [SoftPhone] Sends the INCOMING_CALL message with caller information
-2. [SoftPhone] Sends the CALL_ANSWERED message
-3. [SoftPhone] Sends the CALL_ENDED message
 
 # Feedback
 
