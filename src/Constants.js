@@ -4,6 +4,7 @@ export const VERSION = "0.0.1";
 
 const messageTypeList = [
   "CALL_ANSWERED",
+  "CALL_COMPLETED",
   "CALL_DATA",
   "CALL_ENDED",
   "DIAL_NUMBER",
