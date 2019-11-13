@@ -1,7 +1,7 @@
-//import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
+import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 
-import CallingExtensions from "../src/CallingExtensions";
-import Constants from "../src/Constants";
+// import CallingExtensions from "../src/CallingExtensions";
+// import * as Constants from "../src/Constants";
 
 const callback = () => {
   let rowId = 0;
@@ -80,6 +80,7 @@ const callback = () => {
         cti.callCompleted({
           engagementId: 12345
         });
+        break;
       case "send error":
         cti.sendError({
           type: Constants.errorType.GENERIC,
