@@ -283,23 +283,32 @@ The calling extension demo widget should load inside an iFrame.
 ### Loading the call widget
 
 The following messages are exchanged when a call widget is instantiated -
+![Image description](./docs/images/InitializeCallWidgetIFrame.png)
+Hubspot send the SYNC message to the widget after iFrame is loaded and repetedly send this message until it receives the SYNC_ACK response from the widget. If the SYNC_ACK response isn't received for 30 seconds, the widget is marked as failed. Note that sending SYNC/SYNC_ACK messages are handled by the framework.
 
-1. [HubSpot] Sends a SYNC message
-2. [SoftPhone] Sends SYNC_ACK message
-3. [SoftPhone] Sends INITIALIZED message with login state and optionally widget size
-
-At this point, the messages can be exchanged between the call widget and HubSpot.
-
-Note that the SYNC message sent repeatedly until it receives a response from the iFrame to account for slow loading call widgets.
+The call widget sends the Initialized event once it receives the ready event. At this point, the messages can be exchanged between the call widget and HubSpot.
 
 ### Outbound call
 
 The following messages are exchanged when user initiates a call -
+![Image description](./docs/images/OutboundCallSequenceDiagram.png)
+Hubspot ensures the call widget is logged in before sending in a dial number event. For the active
 
-1. [HubSpot] Sends DIAL_NUMBER message with phone_number to dial
-2. [SoftPhone] Sends the OUTGOING_CALL_STARTED message with the phone number that is dialed
-3. [SoftPhone] Sends the CALL_ANSWERED message
-4. [SoftPhone] Sends the CALL_ENDED message
+# FAQs
+
+<details>
+ <summary>How is user authentication handled?</summary>
+ <p>
+    The call widget should handle authentication.
+</p>
+</details>
+
+<details>
+ <summary>Is Calling Extensions hosted on a CDN.</summary>
+ <p>
+    No. The calling entensions is tiny and should bundled with the call widget.  If this doesn't work, the npm package includes a compiled UMD bundle that can be included into HTML (../node_modules/@hubspot/calling-extensions-sdk/dist/main.js).
+</p>
+</details>
 
 # Feedback
 
