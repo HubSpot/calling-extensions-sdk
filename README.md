@@ -83,7 +83,7 @@ const payload
   // Whether a user is logged-in
   isLoggedIn: true|false,
   // Optionally send the desired widget size
-  widgetSize: {
+  sizeInfo: {
     height: number,
     width: number
   }
