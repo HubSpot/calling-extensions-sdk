@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/HubSpot/calling-extensions-sdk.svg?branch=master)](https://travis-ci.org/HubSpot/calling-extensions-sdk)
 [![calling-extensions-sdk on npm](https://img.shields.io/npm/v/@hubspot/calling-extensions-sdk.svg?style=flat-square)](http://npmjs.com/@hubspot/calling-extensions-sdk)
 
-Calling Extension SDK enables an integrated end user calling experience for both outbound calling. A 3rd party web based call widget is rendered inside HubSpot UI and a lightweight wrapper around HTML5 postMessage API facilitates cross-origin communication between the call widget and HubSpot.
+Calling Extension SDK enables an integrated end user calling experience for outbound calling. A 3rd party web based call widget is rendered inside HubSpot UI and a lightweight wrapper around HTML5 postMessage API facilitates cross-origin communication between the call widget and HubSpot.
 
 ## Getting Started
 
@@ -11,23 +11,10 @@ Calling Extension SDK enables an integrated end user calling experience for both
 2. Integrate with the [Engagement API](https://developers.hubspot.com/docs/methods/engagements/engagements-overview) to log calls to the timeline.
 3. [Request access](https://developers.hubspot.com/calling-extensions-sdk) to the Calling Extensions SDK (Beta).
 4. [Integrate](https://github.com/HubSpot/calling-extensions-sdk#integrate-calling-extensions-sdk) the Calling Extension SDK with your call widget.
-5. Send the call widget settings ({url: prodctionWidgetURL, height: number, width: number}) to HubSpot; we'll add these settings to your HubSpot application.
+5. Send the call widget settings ({name: integrationName, url: prodctionWidgetURL, height: number, width: number}) to HubSpot; we'll add these settings to your HubSpot application.
+6. Publish the application to marketplace.
 
-Once your application is added to the HubSpot portal, all outbound call will be handled by your softphone widget.
-
-## Development
-
-The following LocalStorage setting can be used to test the widget hosted locally or in staging environment.
-
-```js
-// Execute the following command in the browsers debug console
-localStorage.setItem(
-  "LocalSettings:Sales:CallingExtensions",
-  '{"name": "Demo widget", "url": "https://myWidgetUrl/path/"}'
-);
-```
-
-On calling one of your contacts the widget will appear, with the iframe loaded inside it.
+Once the administrator installs the call application to a HubSpot portal, it will show up as an option to start an outbound call.
 
 ## Integrate Calling Extensions SDK
 
