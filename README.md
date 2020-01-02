@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/HubSpot/calling-extensions-sdk.svg?branch=master)](https://travis-ci.org/HubSpot/calling-extensions-sdk)
 [![calling-extensions-sdk on npm](https://img.shields.io/npm/v/@hubspot/calling-extensions-sdk.svg?style=flat-square)](http://npmjs.com/@hubspot/calling-extensions-sdk)
 
-Calling Extension SDK enables an integrated end user calling experience for both outbound and inbound calling. A 3rd party web based call widget is rendered inside HubSpot UI and a lightweight wrapper around HTML5 postMessage API facilitates cross-origin communication between the call widget and HubSpot.
+Calling Extension SDK enables an integrated end user calling experience for both outbound calling. A 3rd party web based call widget is rendered inside HubSpot UI and a lightweight wrapper around HTML5 postMessage API facilitates cross-origin communication between the call widget and HubSpot.
 
 ## Getting Started
 
@@ -237,8 +237,8 @@ onDialNumber(data) {
 <details>
  <summary>defaultEventHandler</summary>
  <p>
-
-```js
+ 
+ ```js
   // Default handler for events.
   defaultEventHandler(event) {
     console.info("Event received. Do you need to handle it?", event);
@@ -282,17 +282,17 @@ The calling extension demo widget should load inside an iFrame.
 
 ### Loading the call widget
 
-The following messages are exchanged when a call widget is instantiated -
+The following messages are exchanged when a call widget is instantiated.
 ![Image description](./docs/images/InitializeCallWidgetIFrame.png)
-Hubspot send the SYNC message to the widget after iFrame is loaded and repetedly send this message until it receives the SYNC_ACK response from the widget. If the SYNC_ACK response isn't received for 30 seconds, the widget is marked as failed. Note that sending SYNC/SYNC_ACK messages are handled by the framework.
+Hubspot send the SYNC message to the widget after iFrame is loaded and repetedly send this message until it receives the SYNC_ACK response from the widget. If the SYNC_ACK response isn't received within 30 seconds, the widget is marked as failed. Note that sending SYNC/SYNC_ACK messages are handled by the framework.
 
 The call widget sends the Initialized event once it receives the ready event. At this point, the messages can be exchanged between the call widget and HubSpot.
 
 ### Outbound call
 
-The following messages are exchanged when user initiates a call -
+The following messages are exchanged when user initiates a call.
 ![Image description](./docs/images/OutboundCallSequenceDiagram.png)
-Hubspot ensures the call widget is logged in before sending in a dial number event. For the active
+Hubspot ensures the call widget is logged in before sending in a dial number event - if the widget is not logged in, an alert is shown in HubSpot's UI.
 
 # FAQs
 
@@ -304,9 +304,9 @@ Hubspot ensures the call widget is logged in before sending in a dial number eve
 </details>
 
 <details>
- <summary>Is Calling Extensions hosted on a CDN.</summary>
+ <summary>Is Calling Extensions hosted on a CDN?</summary>
  <p>
-    No. The calling entensions is tiny and should bundled with the call widget.  If this doesn't work, the npm package includes a compiled UMD bundle that can be included into HTML (../node_modules/@hubspot/calling-extensions-sdk/dist/main.js).
+    No. The calling entensions is very small and should be bundled with the call widget.  If bundling the file is not possible, the npm package includes a compiled UMD bundle that can be included into HTML (../node_modules/@hubspot/calling-extensions-sdk/dist/main.js).
 </p>
 </details>
 
