@@ -113,6 +113,11 @@ class CallingExtensions {
         handler = onDialNumber;
         break;
       }
+      case messageType.ENGAGEMENT_CREATED: {
+        const { onEngagementCreated } = eventHandlers;
+        handler = onEngagementCreated;
+        break;
+      }
       case messageType.END_CALL: {
         const { onEndCall } = eventHandlers;
         handler = onEndCall;
