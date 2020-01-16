@@ -59,6 +59,9 @@ const options = {
     onDialNumber: event => {
       /* Dial a number */
     },
+    onEngagementCreated: event => {
+      /* HubSpot has created an engagement for this call. */
+    },
     onVisibilityChanged: event => {
       /* Call widget's visibility is changed. */
     }
@@ -213,6 +216,24 @@ onDialNumber(data) {
     objectType: CONTACT | COMPANY
    } = data;
     ...
+  }
+```
+
+</p>
+</details>
+
+<details>
+ <summary>onEngagementCreated</summary>
+ <p>
+
+```js
+  // Message indicating that HubSpot has created
+  onEngagementCreated(data) {
+    const {
+      /* A HubSpot created engagement id. */
+      engagementId: number,
+    } = data;
+      ...
   }
 ```
 
