@@ -8,7 +8,8 @@ const messageTypeList = [
   "CALL_DATA",
   "CALL_ENDED",
   "DIAL_NUMBER",
-  "SET_CALL_STATE",
+  "ENGAGEMENT_CREATED",
+
   "END_CALL",
   "ERROR",
   "INCOMING_CALL",
@@ -17,13 +18,14 @@ const messageTypeList = [
   "LOGGED_OUT",
   "OUTGOING_CALL_STARTED",
   "READY",
-  "SET_WIDGET_URL",
   "RESIZE_WIDGET",
+  "SET_CALL_STATE",
+  "SET_WIDGET_URL",
   "SYNC",
   "SYNC_ACK",
+  "SYNC_ACK_FAILED",
   "UNLOADING",
-  "VISIBILITY_CHANGED",
-  "SYNC_ACK_FAILED"
+  "VISIBILITY_CHANGED"
 ];
 
 const errorTypeList = ["UNKNOWN_MESSAGE_TYPE", "GENERIC"];

@@ -1,7 +1,7 @@
-import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
+// import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 
-// import CallingExtensions from "../src/CallingExtensions";
-// import * as Constants from "../src/Constants";
+import CallingExtensions from "../src/CallingExtensions";
+import { errorType } from "../src/Constants";
 
 const callback = () => {
   let rowId = 0;
@@ -20,6 +20,8 @@ const callback = () => {
     height: 600
   };
 
+  const state = {};
+
   const cti = new CallingExtensions({
     debugMode: true,
     eventHandlers: {
@@ -31,7 +33,21 @@ const callback = () => {
       },
       onDialNumber: (data, rawEvent) => {
         appendMsg(data, rawEvent);
-        cti.outgoingCall();
+        const { phoneNumber } = data;
+        state.phoneNumber = phoneNumber;
+        window.setTimeout(
+          () =>
+            cti.outgoingCall({
+              createEngagement: true,
+              phoneNumber
+            }),
+          500
+        );
+      },
+      onEngagementCreated: (data, rawEvent) => {
+        const { engagementId } = data;
+        state.engagementId = engagementId;
+        appendMsg(data, rawEvent);
       },
       onEndCall: () => {
         window.setTimeout(() => {
@@ -67,7 +83,10 @@ const callback = () => {
         break;
       case "outgoing call started":
         window.setTimeout(() => {
-          cti.outgoingCall();
+          cti.outgoingCall({
+            createEngagement: "true",
+            phoneNumber: state.phoneNumber
+          });
         }, 500);
         break;
       case "call answered":
@@ -78,12 +97,12 @@ const callback = () => {
         break;
       case "call completed":
         cti.callCompleted({
-          engagementId: 12345
+          engagementId: state.engagementId
         });
         break;
       case "send error":
         cti.sendError({
-          type: Constants.errorType.GENERIC,
+          type: errorType.GENERIC,
           message: "This is a message shown in Hubspot UI"
         });
         break;
@@ -96,7 +115,7 @@ const callback = () => {
         });
         break;
       default:
-        throw new Error("unknown option");
+        break;
     }
   });
 };
