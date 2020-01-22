@@ -26,6 +26,31 @@ Download the SDK using npm or yarn
 npm install -s @hubspot/calling-extensions-sdk
 ```
 
+#### Running the demo Calling Extension Widget project
+
+##### Run the demo widget project
+
+```shell
+# install npm build dependencies and start the demo project
+# The following commands will automatically start the browser on the demo page.
+cd /demo
+npm start
+```
+
+##### Add local storage override for calling extensions
+
+```js
+// Add the following localstorage override for demo widget
+localStorage.setItem(
+  "LocalSettings:Sales:CallingExtensions",
+  '{"name": "Demo widget", "url": "https://localhost:9025/"}'
+);
+```
+
+##### Launch the demo widget from HubSpot
+
+Navigate to the a contact/company page in HubSpot and launch calling, the demo widget should load inside an iFrame.
+
 ### Using the Calling Extension SDK
 
 The Calling Extension SDK exposes a simple API for HubSpot and a Soft Phone to exchange messages. The messages are sent through methods exposed by SDK and received through eventHandlers.
@@ -117,8 +142,11 @@ extensions.userLoggedOut();
 
 ```js
 // Sends a message to notify HubSpot that an outgoing call has started.
-// This is a case where a user dials a number directly throught the call widget.
-const callInfo = { phoneNumber: string };
+
+const callInfo = {
+  phoneNumber: string, // optional unless call is initiated by the widget
+  createEngagement: true // whether HubSpot should create an engagement for this call
+};
 extensions.outgoingCall(callInfo);
 ```
 
@@ -162,19 +190,6 @@ extensions.callEnded();
 //   2) set the default associations on the engagement
 const data = { engagementId: number };
 extensions.callCompleted(data);
-```
-
-</p>
-</details>
-
-<details>
- <summary>resizeWidget</summary>
- <p>
-
-```js
-// Sends a message to HubSpot to resize the iFrame
-const newSize = { width: number, height: number };
-extensions.resizeWidget(newSize);
 ```
 
 </p>
@@ -256,45 +271,15 @@ onDialNumber(data) {
 </p>
 </details>
 
-### Running the demo Calling Extension Widget project
-
-The calling extensions are enabled for any portal that is starter or above.
-
-#### Run the demo widget project
-
-```shell
-# install npm build dependencies and start the demo project
-cd /demo
-npm i
-npm start
-```
-
-Load the demo page in chrome and accept the invalid cert exception
-
-#### Add local storage override for calling extensions
-
-Add the following localstorage override for testing purposes -
-
-```js
-localStorage.setItem(
-  "LocalSettings:Sales:CallingExtensions",
-  '{"name": "Demo widget", "url": "https://localhost:9025/"}'
-);
-```
-
-#### Navigate to a contacts/company page and launch call
-
-The calling extension demo widget should load inside an iFrame.
-
 ## Typical message flow between the call widget and HubSpot
 
-### Loading the call widget
+### Initializing the call widget
 
 The following messages are exchanged when a call widget is instantiated.
 ![Image description](./docs/images/InitializeCallWidgetIFrame.png)
-Hubspot send the SYNC message to the widget after iFrame is loaded and repetedly send this message until it receives the SYNC_ACK response from the widget. If the SYNC_ACK response isn't received within 30 seconds, the widget is marked as failed. Note that sending SYNC/SYNC_ACK messages are handled by the framework.
+Once the widget iFrame is created, Hubspot send the SYNC message to the widget after iFrame is loaded and repetedly send this message until it receives the SYNC_ACK response from the widget. If the SYNC_ACK response isn't received within 30 seconds, the widget is marked as failed. Note that sending SYNC/SYNC_ACK messages are handled by the framework. Once the widget and host page are synchronized, the frameworks triggers the ready event.
 
-The call widget sends the Initialized event once it receives the ready event. At this point, the messages can be exchanged between the call widget and HubSpot.
+The call widget should waits for the ready event from the framework and send the initialized event to HubSpot. At this point, the messages can be exchanged between the call widget and HubSpot.
 
 ### Outbound call
 
@@ -302,7 +287,20 @@ The following messages are exchanged when user initiates a call.
 ![Image description](./docs/images/OutboundCallSequenceDiagram.png)
 Hubspot ensures the call widget is logged in before sending in a dial number event - if the widget is not logged in, an alert is shown in HubSpot's UI.
 
+Here is description of events:
+
+1. **Dial number** - HubSpot sends the dial number event.
+2. **Outbound call started** - Widget notifies HubSpot when the call is started.
+3. **Create engagement** - HubSpot creates an engagement with minimum information if requested by the widget.
+4. **Engagement created** - HubSpot creates an engagement.
+5. **Engagement created** - HubSpot sends the engagementId to the widget.
+6. **Call ended** - Widget notifies when call is ended.
+7. **Call completed** - Widget notifies when user is done with the widget user experience.
+8. **Update engagement** - Widget fetches the engagment by the engagementId, merges and updates the engagement with additional call details. [Call engagement overview](https://developers.hubspot.com/docs/methods/engagements/engagements-overview), [Docs on updating the engagement](https://developers.hubspot.com/docs/methods/engagements/update_engagement-patch)
+
 # FAQs
+
+### App
 
 <details>
  <summary>How is user authentication handled?</summary>
@@ -315,6 +313,13 @@ Hubspot ensures the call widget is logged in before sending in a dial number eve
  <summary>Is Calling Extensions hosted on a CDN?</summary>
  <p>
     No. The calling entensions is very small and should be bundled with the call widget.  If bundling the file is not possible, the npm package includes a compiled UMD bundle that can be included into HTML (../node_modules/@hubspot/calling-extensions-sdk/dist/main.js).
+</p>
+</details>
+
+<details>
+ <summary>When an engagement should be created vs updated.</summary>
+ <p>
+    A user can initiate a call from inside the HubSpot UI and outside of the HubSpot UI (e.g. mobile app/redirected number/etc.)  If a call is initiated from within HubSpot UI, HubSpot will create a call engagement and send the engagement to the call widget.  Once the call finishes, the call widget can update this engagement with additional call details.  If a call is initiated outside of HubSpot UI, the widget should create the call engagement. 
 </p>
 </details>
 
