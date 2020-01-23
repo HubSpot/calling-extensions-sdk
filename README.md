@@ -279,7 +279,7 @@ The following messages are exchanged when a call widget is instantiated.
 ![Image description](./docs/images/InitializeCallWidgetIFrame.png)
 Once the widget iFrame is created, Hubspot send the SYNC message to the widget after iFrame is loaded and repetedly send this message until it receives the SYNC_ACK response from the widget. If the SYNC_ACK response isn't received within 30 seconds, the widget is marked as failed. Note that sending SYNC/SYNC_ACK messages are handled by the framework. Once the widget and host page are synchronized, the frameworks triggers the ready event.
 
-The call widget should waits for the ready event from the framework and send the initialized event to HubSpot. At this point, the messages can be exchanged between the call widget and HubSpot.
+The call widget should wait for the ready event from the framework and send the initialized event to HubSpot. At this point, the messages can be exchanged between the call widget and HubSpot.
 
 ### Outbound call
 
@@ -292,7 +292,7 @@ Here is description of events:
 1. **Dial number** - HubSpot sends the dial number event.
 2. **Outbound call started** - Widget notifies HubSpot when the call is started.
 3. **Create engagement** - HubSpot creates an engagement with minimum information if requested by the widget.
-4. **Engagement created** - HubSpot creates an engagement.
+4. **Engagement created** - HubSpot created an engagement.
 5. **Engagement created** - HubSpot sends the engagementId to the widget.
 6. **Call ended** - Widget notifies when call is ended.
 7. **Call completed** - Widget notifies when user is done with the widget user experience.
