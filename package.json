@@ -1,6 +1,6 @@
 {
   "name": "@hubspot/calling-extensions-sdk",
-  "version": "0.0.7",
+  "version": "0.0.10",
   "description": "HubSpot calling extensions sdk for call widget integration.",
   "publishConfig": {
     "access": "public"

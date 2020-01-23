@@ -1,4 +1,4 @@
-//import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
+// import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 
 import CallingExtensions from "../src/CallingExtensions";
 import { errorType } from "../src/Constants";
@@ -34,7 +34,7 @@ const callback = () => {
       onDialNumber: (data, rawEvent) => {
         appendMsg(data, rawEvent);
         const { phoneNumber } = data;
-        state["phoneNumber"] = phoneNumber;
+        state.phoneNumber = phoneNumber;
         window.setTimeout(
           () =>
             cti.outgoingCall({
@@ -46,7 +46,7 @@ const callback = () => {
       },
       onEngagementCreated: (data, rawEvent) => {
         const { engagementId } = data;
-        state["engagementId"] = engagementId;
+        state.engagementId = engagementId;
         appendMsg(data, rawEvent);
       },
       onEndCall: () => {
@@ -97,7 +97,7 @@ const callback = () => {
         break;
       case "call completed":
         cti.callCompleted({
-          engagementId: state["engagementId"]
+          engagementId: state.engagementId
         });
         break;
       case "send error":
@@ -113,6 +113,8 @@ const callback = () => {
           width: defaultSize.width,
           height: defaultSize.height
         });
+        break;
+      default:
         break;
     }
   });
