@@ -3,19 +3,19 @@
 [![Build Status](https://travis-ci.org/HubSpot/calling-extensions-sdk.svg?branch=master)](https://travis-ci.org/HubSpot/calling-extensions-sdk)
 [![calling-extensions-sdk on npm](https://img.shields.io/npm/v/@hubspot/calling-extensions-sdk.svg?style=flat-square)](http://npmjs.com/@hubspot/calling-extensions-sdk)
 
-Calling Extension SDK enables 3rd party VOIP providers or enterprise calling systems seamlessly integrate their CTI (referred to as call widget) with HubSpot for outbound calling. Call Widget is rendered inside HubSpot UI and a lightweight wrapper around HTML5 postMessage API facilitates cross-origin communication between the widget and HubSpot.
+Calling Extensions SDK enables 3rd party VOIP providers or enterprise calling systems seamlessly integrate their CTI (referred to as call widget) with HubSpot for outbound calling. Call Widget is rendered inside HubSpot UI and a lightweight wrapper around HTML5 postMessage API facilitates cross-origin communication between the widget and HubSpot.
 
 ## Getting Started
 
 1. [Create](https://developers.hubspot.com/docs/faq/how-do-i-create-an-app-in-hubspot) a HubSpot application and [setup a test](https://developers.hubspot.com/docs/faq/how-do-i-create-a-test-account) portal
-2. [Integrate](https://github.com/HubSpot/calling-extensions-sdk#integrate-calling-extensions-sdk) the Calling Extension SDK with your call widget.
-3. [Test](https://github.com/HubSpot/calling-extensions-sdk#test-your-app-in-local-environment) your app in local environment 
-4. Get your app ready for production
-5. Publish app to the HubSpot marketplace. 
+2. [Integrate](https://github.com/HubSpot/calling-extensions-sdk#integrate-calling-extensions-sdk) the Calling Extensions SDK with your call widget.
+3. [Test](https://github.com/HubSpot/calling-extensions-sdk#test-your-app-in-local-environment) your app in local environment
+4. [Get your app](https://github.com/HubSpot/calling-extensions-sdk#get-your-app-ready-for-production) ready for production
+5. [Publish your app](https://github.com/HubSpot/calling-extensions-sdk#publish-application-to-the-hubspot-marketplace) to the HubSpot marketplace.
 
 ## Integrate Calling Extensions SDK
 
-### Get the Calling Extension SDK
+### Get the Calling Extensions SDK
 
 Download the SDK using npm or yarn
 
@@ -23,7 +23,7 @@ Download the SDK using npm or yarn
 npm install -s @hubspot/calling-extensions-sdk
 ```
 
-#### Running the demo Calling Extension Widget project
+#### Running the demo Calling Extensions Widget project
 
 ##### Run the demo widget project
 
@@ -34,15 +34,13 @@ cd /demo
 npm start
 ```
 
-
-
 ##### Launch the demo widget from HubSpot
 
 Navigate to the a contact/company page in HubSpot and launch calling, the demo widget should load inside an iFrame.
 
-### Using the Calling Extension SDK
+### Using the Calling Extensions SDK
 
-The Calling Extension SDK exposes a simple API for HubSpot and a Soft Phone to exchange messages. The messages are sent through methods exposed by SDK and received through eventHandlers.
+The Calling Extensions SDK exposes a simple API for HubSpot and a Soft Phone to exchange messages. The messages are sent through methods exposed by SDK and received through eventHandlers.
 
 #### Create an instance
 
@@ -266,6 +264,7 @@ onDialNumber(data) {
 
 The following messages are exchanged when a call widget is instantiated.
 ![Image description](./docs/images/InitializeCallWidgetIFrame.png)
+
 Once the widget iFrame is created, Hubspot send the SYNC message to the widget after iFrame is loaded and repetedly send this message until it receives the SYNC_ACK response from the widget. If the SYNC_ACK response isn't received within 30 seconds, the widget is marked as failed. Note that sending SYNC/SYNC_ACK messages are handled by the framework. Once the widget and host page are synchronized, the frameworks triggers the ready event.
 
 The call widget should wait for the ready event from the framework and send the initialized event to HubSpot. At this point, the messages can be exchanged between the call widget and HubSpot.
@@ -282,7 +281,7 @@ Here is description of events:
 2. **Outbound call started** - Widget notifies HubSpot when the call is started.
 3. **Create engagement** - HubSpot creates an engagement with minimum information if requested by the widget.
 4. **Engagement created** - HubSpot created an engagement.
-5. **Engagement created** - HubSpot sends the engagementId to the widget.
+5. **EngagementId sent to Widget** - HubSpot sends the engagementId to the widget.
 6. **Call ended** - Widget notifies when call is ended.
 7. **Call completed** - Widget notifies when user is done with the widget user experience.
 8. **Update engagement** - Widget fetches the engagment by the engagementId, merges and updates the engagement with additional call details. [Call engagement overview](https://developers.hubspot.com/docs/methods/engagements/engagements-overview), [Docs on updating the engagement](https://developers.hubspot.com/docs/methods/engagements/update_engagement-patch)
@@ -300,6 +299,7 @@ localStorage.setItem(
   '{"name": "Demo widget", "url": "https://localhost:9025/"}'
 );
 ```
+
 The name value will be the title that appears in the header of the calling widget, and the url will be the URL used for the iframe. While this item is set, the name you set will appear as an option for the call provider when you click the call icon, and the calling widget will use the iframe url you set.
 
 ## Get your app ready for production
@@ -391,7 +391,7 @@ The final step once your app is setup is to list in the HubSpot marketplace. You
 <details>
  <summary> If a user already has my app installed, does the integration automatically show up? </summary>
  <p>
-    Yes, if a user already has installed your app, and you are updating the same app with the calling extension the integration will automatically show up. Currently, there is no way for the developer to enable the call widget only to a subset of customers.
+    Yes, if a user already has installed your app, and you are updating the same app with the calling extensions the integration will automatically show up. Currently, there is no way for the developer to enable the call widget only to a subset of customers.
 </details>
 
 <details>
@@ -399,4 +399,3 @@ The final step once your app is setup is to list in the HubSpot marketplace. You
  <p>
     No. Only users who have necessary permissions can install and uninstall an app. These permissions can be found in HubSpot portal settings page in the "Users & Teams" tab.
 </details>
-
