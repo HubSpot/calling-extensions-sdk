@@ -304,6 +304,41 @@ The name value will be the title that appears in the header of the calling widge
 
 ## Get your app ready for production
 
+In order to launch the calling extensions iFrame for end users, HubSpot requires the following iFrame parameters.
+
+```js
+{
+  name: string /* The name of your calling service to display to users. */,
+  url: string  /* The URL to your phone/calling UI, built with the Calling Extensions */,
+  width: number /* The iFrame's width */,
+  height: number /* The iFrame's height */,
+  isReady: boolean /* Whether the widget is ready for users (default=true) */
+}
+```
+
+Using your favorite API tool (postman/etc.), send this payload to our settings API.
+
+```shell
+# Example payload to add the call widget app settings
+curl --request POST \
+  --url 'https://api.hubapi.com/crm/v3/extensions/calling/APP_ID/settings?hapikey=HUBSPOT_API_KEY' \
+  --header 'accept: application/json' \
+  --header 'content-type: application/json' \
+  --data '{"name":"demo widget","url":"https://mywidget.com/widget","height":600,"width":400,"isReady":true}'
+
+# Note that this endpoint also support GET and DELETE
+```
+
+The isReady flag indicate whether the widget is ready for production. This flag should be set to false during testing. Note that this flag (or any other field) can be overwritten through localStorage.
+
+```js
+/* Override the isReady flag for "Demo widget" */
+localStorage.setItem(
+  "LocalSettings:Sales:CallingExtensions",
+  '{"name": "Demo widget", "isReady": true}'
+);
+```
+
 ## Publish application to the HubSpot marketplace
 
 The final step once your app is setup is to list in the HubSpot marketplace. You can find more details [here](https://developers.hubspot.com/submit-an-application-to-the-marketplace) . You can also choose to not list in the marketplace if this application is for your internal use only.
