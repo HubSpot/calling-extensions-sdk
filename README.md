@@ -438,5 +438,5 @@ The final step once your app is setup is to list in the HubSpot marketplace. You
 <details>
  <summary> Need help with the SDK? </summary>
  <p>
-    Head over to the <a href="https://community.hubspot.com/t5/APIs-Integrations/bd-p/integrations">HubSpot developer support forum</a> and post your questions. Someone from our developer support team will answer your queries. </p>
+    Head over to the <a href="https://community.hubspot.com/t5/APIs-Integrations/bd-p/integrations" target="_blank">HubSpot developer support forum</a> and post your questions. Someone from our developer support team will answer your queries. </p>
 </details>
