@@ -175,7 +175,11 @@ extensions.callEnded();
 // After receiving the call completed event, HubSpot will
 //   1) insert the engagement into the timeline
 //   2) set the default associations on the engagement
-const data = { engagementId: number };
+//   3) closes the the widget unless `hideWidget` is set to false.
+const data = {
+  engagementId: number,
+  hideWidget: boolean // (optional) defaults to true
+};
 extensions.callCompleted(data);
 ```
 
