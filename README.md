@@ -189,6 +189,8 @@ onDialNumber(data) {
     phoneNumber: string,
     /* The id of the logged in user.   */
     ownerId: number,
+    /* The id of the hubspot account */
+    portalId: number,
     /* HubSpot object Id of the phoneNumber */
     objectId: number,
     /* HubSpot  object type of the phoneNumber */
