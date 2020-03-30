@@ -9,9 +9,10 @@ Calling Extensions SDK enables 3rd party VOIP providers or enterprise calling sy
 
 1. [Create](https://developers.hubspot.com/docs/faq/how-do-i-create-an-app-in-hubspot) a HubSpot application and [setup a test](https://developers.hubspot.com/docs/faq/how-do-i-create-a-test-account) portal
 2. [Integrate](https://github.com/HubSpot/calling-extensions-sdk#integrate-calling-extensions-sdk) the Calling Extensions SDK with your call widget.
-3. [Test](https://github.com/HubSpot/calling-extensions-sdk#test-your-app-in-local-environment) your app in local environment
-4. [Get your app](https://github.com/HubSpot/calling-extensions-sdk#get-your-app-ready-for-production) ready for production
-5. [Publish your app](https://github.com/HubSpot/calling-extensions-sdk#publish-application-to-the-hubspot-marketplace) to the HubSpot marketplace.
+3. [Running the Demo Project](https://github.com/hubspot/calling-extensions-sdk#running-the-demo-project) example usage and how to display the project in the CRM.
+4. [Test](https://github.com/HubSpot/calling-extensions-sdk#testing-your-app-from-a-local-environment) your app in local environment
+5. [Get your app](https://github.com/HubSpot/calling-extensions-sdk#get-your-app-ready-for-production) ready for production
+6. [Publish your app](https://github.com/HubSpot/calling-extensions-sdk#publish-application-to-the-hubspot-marketplace) to the HubSpot marketplace.
 
 ## Integrate Calling Extensions SDK
 
@@ -22,21 +23,6 @@ Download the SDK using npm or yarn
 ```shell
 npm install -s @hubspot/calling-extensions-sdk
 ```
-
-#### Running the demo Calling Extensions Widget project
-
-##### Run the demo widget project
-
-```shell
-# install npm build dependencies and start the demo project
-# The following commands will automatically start the browser on the demo page.
-cd /demo
-npm start
-```
-
-##### Launch the demo widget from HubSpot
-
-Navigate to the a contact/company page in HubSpot and launch calling, the demo widget should load inside an iFrame.
 
 ### Using the Calling Extensions SDK
 
@@ -290,17 +276,42 @@ Here is description of events:
 7. **Call completed** - Widget notifies when user is done with the widget user experience.
 8. **Update engagement** - Widget fetches the engagment by the engagementId, merges and updates the engagement with additional call details. [Call engagement overview](https://developers.hubspot.com/docs/methods/engagements/engagements-overview), [Docs on updating the engagement](https://developers.hubspot.com/docs/methods/engagements/update_engagement-patch)
 
-## Test your app in local environment
+## Running the demo project
 
-While you're in the process of building your application, you can manually set the iframe URL for your browser by setting a localStorage value. This will allow you to set a localhost URL for local testing.
+#### Starting the demo project
 
-To set the value, open the developer tools for your browser, and run the following JavaScript command in the developer console:
+```shell
+# install npm build dependencies and start the demo project
+# The following commands will automatically start the browser on the demo page.
+cd /demo
+npm start
+```
+
+#### Launch the demo widget from HubSpot
+
+Open the console in your perfered browser and paste the following:
 
 ```js
 // Add the following localstorage override for demo widget
 localStorage.setItem(
   "LocalSettings:Sales:CallingExtensions",
   '{"name": "Demo widget", "url": "https://localhost:9025/"}'
+);
+```
+
+Navigate to the a contact/company page in HubSpot and locate the calling icon on the left toolbar, click to open the settings popover.
+Once open you'll see a provider dropdown in the top right of the popover, select "Demo Widget" and click "call from browser".
+
+## Testing your app from a local environment
+
+While you're in the process of building your application, you can manually set the iframe URL for your browser by setting a localStorage value. This will allow you to set a localhost URL for local testing.
+
+To set the value, open the developer tools for your browser, and run the following JavaScript command in the developer console:
+
+```js
+localStorage.setItem(
+  "LocalSettings:Sales:CallingExtensions",
+  '{"name": "<your intended widget name>", "url": "<your dev url or prod url>"}'
 );
 ```
 
