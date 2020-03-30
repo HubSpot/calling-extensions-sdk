@@ -10,7 +10,7 @@ Calling Extensions SDK enables 3rd party VOIP providers or enterprise calling sy
 1. [Create](https://developers.hubspot.com/docs/faq/how-do-i-create-an-app-in-hubspot) a HubSpot application and [setup a test](https://developers.hubspot.com/docs/faq/how-do-i-create-a-test-account) portal
 2. [Integrate](https://github.com/HubSpot/calling-extensions-sdk#integrate-calling-extensions-sdk) the Calling Extensions SDK with your call widget.
 3. [Running the Demo Project](https://github.com/hubspot/calling-extensions-sdk#running-the-demo-project) example usage and how to display the project in the CRM.
-4. [Test](https://github.com/HubSpot/calling-extensions-sdk#test-your-app-in-local-environment) your app in local environment
+4. [Test](https://github.com/HubSpot/calling-extensions-sdk#testing-your-app-from-a-local-environment) your app in local environment
 5. [Get your app](https://github.com/HubSpot/calling-extensions-sdk#get-your-app-ready-for-production) ready for production
 6. [Publish your app](https://github.com/HubSpot/calling-extensions-sdk#publish-application-to-the-hubspot-marketplace) to the HubSpot marketplace.
 
@@ -302,7 +302,7 @@ localStorage.setItem(
 Navigate to the a contact/company page in HubSpot and locate the calling icon on the left toolbar, click to open the settings popover.
 Once open you'll see a provider dropdown in the top right of the popover, select "Demo Widget" and click "call from browser".
 
-## Testing your app in local environment
+## Testing your app from a local environment
 
 While you're in the process of building your application, you can manually set the iframe URL for your browser by setting a localStorage value. This will allow you to set a localhost URL for local testing.
 
