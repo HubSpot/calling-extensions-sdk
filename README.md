@@ -413,7 +413,7 @@ The final step once your app is setup is to list in the HubSpot marketplace. You
 <details>
  <summary> How can users install the integration? </summary>
  <p>
-    Users can install the app is one of two ways 1) Search for the app in the HubSpot Marketplace and follow the steps 2) If the app is not listed in the marketplace, they can install it by clicking on the OAuth URl (can be found in your developer portal under app settings) </p>
+    Users can install the app is one of two ways 1) Search for the app in the HubSpot Marketplace and follow the steps 2) If the app is not listed in the marketplace, they can install it by clicking on the OAuth URl (can be found in your developer portal under app settings). Users can find directions in our knowledge base article <a href="https://knowledge.hubspot.com/calling/integrate-a-third-party-calling-provider-with-hubspot" target="_blank">here</a></p>
 </details>
 
 <details>
@@ -432,12 +432,6 @@ The final step once your app is setup is to list in the HubSpot marketplace. You
  <summary> Can free users install app integrations? </summary>
  <p>
     No, this feature is available on to paid customers. At this point in time, users will be able to install the app but will not be able to access it. </p>
-</details>
-
-<details>
- <summary> How can users install the integration? </summary>
- <p>
-    The current SDK does not support inbound calling. We understand this is a big feature request and will have more to share about our plans for inbound calling in the future. </p>
 </details>
 
 <details>
