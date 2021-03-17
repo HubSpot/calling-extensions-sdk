@@ -361,12 +361,14 @@ The isReady flag indicate whether the widget is ready for production. This flag 
 
 ```js
 /* Override the isReady flag for "Demo widget" */
-localStorage.setItem(
-  "LocalSettings:Sales:CallingExtensions",
-  '{"name": "Demo widget", "isReady": true}'
-);
+// Add the following localstorage override for the newer floating widget
 localStorage.setItem(
   "LocalSettings:Calling:CallingExtensions",
+  '{"name": "Demo widget", "isReady": true}'
+);
+// Add the following localstorage override for the fixed widget
+localStorage.setItem(
+  "LocalSettings:Sales:CallingExtensions",
   '{"name": "Demo widget", "isReady": true}'
 );
 ```
