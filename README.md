@@ -294,7 +294,12 @@ npm start
 Open the console in your perfered browser and paste the following:
 
 ```js
-// Add the following localstorage override for demo widget
+// Add the following localstorage override for the floating widget
+localStorage.setItem(
+  "LocalSettings:Calling:CallingExtensions",
+  '{"name": "Demo widget", "url": "https://localhost:9025/"}'
+);
+// Add the following localstorage override for the non movable demo widget
 localStorage.setItem(
   "LocalSettings:Sales:CallingExtensions",
   '{"name": "Demo widget", "url": "https://localhost:9025/"}'
@@ -311,6 +316,12 @@ While you're in the process of building your application, you can manually set t
 To set the value, open the developer tools for your browser, and run the following JavaScript command in the developer console:
 
 ```js
+// Add the following localstorage override for the newer floating widget
+localStorage.setItem(
+  "LocalSettings:Calling:CallingExtensions",
+  '{"name": "<your intended widget name>", "url": "<your dev url or prod url>"}'
+);
+// Add the following localstorage override for the non movable demo widget
 localStorage.setItem(
   "LocalSettings:Sales:CallingExtensions",
   '{"name": "<your intended widget name>", "url": "<your dev url or prod url>"}'
@@ -352,6 +363,10 @@ The isReady flag indicate whether the widget is ready for production. This flag 
 /* Override the isReady flag for "Demo widget" */
 localStorage.setItem(
   "LocalSettings:Sales:CallingExtensions",
+  '{"name": "Demo widget", "isReady": true}'
+);
+localStorage.setItem(
+  "LocalSettings:Calling:CallingExtensions",
   '{"name": "Demo widget", "isReady": true}'
 );
 ```
