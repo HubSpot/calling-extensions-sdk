@@ -464,6 +464,34 @@ The final step once your app is setup is to list in the HubSpot marketplace. You
 </details>
 
 <details>
+  <summary>Can I place a call from a custom object??</summary>
+  <p>Yes, calling integrations can now place calls from custom objects as long as they only use the SDK to create the call. In order to take advantage of these improvements, each integration will need to verify that they only use the Calling SDK to create calls and to notify HubSpot in the outgoingCall event.</p>
+
+  <p>1. Verify that the integration is using the Calling SDK to create engagements in the outgoingCall event:</p>
+
+  ```js
+createEngagement: true
+```
+
+  <p>2. If createEngagements is true, include the following change in the outgoingCall event:</p>
+
+    ```js
+supportsCustomObjects : true
+```
+
+<p>Here is the example for the entire outgoingCall event</p>
+
+```js
+const callInfo = {
+  phoneNumber: string, // optional unless call is initiated by the widget
+  createEngagement: true // whether HubSpot should create an engagement for this call
+  supportsCustomObjects : true // indicate if calls can be placed from a custom object
+};
+extensions.outgoingCall(callInfo);
+```
+</details>
+
+<details>
  <summary> Need help with the SDK? </summary>
  <p>
     Head over to the <a href="https://community.hubspot.com/t5/APIs-Integrations/bd-p/integrations" target="_blank">HubSpot developer support forum</a> and post your questions. Someone from our developer support team will answer your queries. </p>
