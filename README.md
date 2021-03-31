@@ -341,6 +341,7 @@ In order to launch the calling extensions iFrame for end users, HubSpot requires
   width: number /* The iFrame's width */,
   height: number /* The iFrame's height */,
   isReady: boolean /* Whether the widget is ready for users (default=true) */
+  supportsCustomObjects : true // indicate if calls can be placed from a custom object
 }
 ```
 
@@ -470,14 +471,11 @@ The final step once your app is setup is to list in the HubSpot marketplace. You
   <p>1. Verify that the integration is using the Calling SDK to create engagements in the outgoingCall event:</p>
 
   ```js
-createEngagement: true
+outgoingCall({ createEngagement: true })
 ```
 
-  <p>2. If createEngagements is true, include the following change in the outgoingCall event:</p>
+  <p>2. If createEngagements is true, update your widget infomation following these [instructions](https://github.com/HubSpot/calling-extensions-sdk/#get-your-app-ready-for-production):</p>
 
-    ```js
-supportsCustomObjects : true
-```
 
 <p>Here is the example for the entire outgoingCall event</p>
 
@@ -485,7 +483,6 @@ supportsCustomObjects : true
 const callInfo = {
   phoneNumber: string, // optional unless call is initiated by the widget
   createEngagement: true // whether HubSpot should create an engagement for this call
-  supportsCustomObjects : true // indicate if calls can be placed from a custom object
 };
 extensions.outgoingCall(callInfo);
 ```
