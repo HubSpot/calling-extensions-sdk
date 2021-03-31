@@ -340,7 +340,7 @@ In order to launch the calling extensions iFrame for end users, HubSpot requires
   url: string  /* The URL to your phone/calling UI, built with the Calling Extensions */,
   width: number /* The iFrame's width */,
   height: number /* The iFrame's height */,
-  isReady: boolean /* Whether the widget is ready for users (default=true) */
+  isReady: boolean /* Whether the widget is ready for users (default=true) */,
   supportsCustomObjects : true // indicate if calls can be placed from a custom object
 }
 ```
