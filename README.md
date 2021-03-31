@@ -474,7 +474,7 @@ The final step once your app is setup is to list in the HubSpot marketplace. You
 outgoingCall({ createEngagement: true })
 ```
 
-  <p>2. If createEngagements is true, update your widget infomation following these [instructions](https://github.com/HubSpot/calling-extensions-sdk/#get-your-app-ready-for-production):</p>
+  <p>2. If createEngagements is true, update your widget infomation following these instructions(https://github.com/HubSpot/calling-extensions-sdk/#get-your-app-ready-for-production):</p>
 
 
 <p>Here is the example for the entire outgoingCall event</p>
