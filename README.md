@@ -448,7 +448,7 @@ The final step once your app is setup is to list in the HubSpot marketplace. You
 <details>
  <summary> Can free users install app integrations? </summary>
  <p>
-    No, this feature is available on to paid customers. At this point in time, users will be able to install the app but will not be able to access it. </p>
+    Yes, users will be able to install the app. </p>
 </details>
 
 <details>
