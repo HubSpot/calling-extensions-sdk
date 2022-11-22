@@ -345,12 +345,12 @@ In order to launch the calling extensions iFrame for end users, HubSpot requires
 }
 ```
 
-Using your favorite API tool (postman/etc.), send this payload to our settings API. Please get the APP_ID of your calling widget application and your dev portal's [HUBSPOT_API_KEY](https://app.hubspot.com/l/api-key/)
+Using your favorite API tool (postman/etc.), send this payload to our settings API. Please get the APP_ID of your calling widget application and your app [DEVELOPER_ACCOUNT_API_KEY](https://developers.hubspot.com/docs/api/developer-tools-overview#authentication)
 
 ```shell
 # Example payload to add the call widget app settings
 curl --request POST \
-  --url 'https://api.hubapi.com/crm/v3/extensions/calling/APP_ID/settings?hapikey=HUBSPOT_API_KEY' \
+  --url 'https://api.hubapi.com/crm/v3/extensions/calling/APP_ID/settings?hapikey=DEVELOPER_ACCOUNT_API_KEY' \
   --header 'accept: application/json' \
   --header 'content-type: application/json' \
   --data '{"name":"demo widget","url":"https://mywidget.com/widget","height":600,"width":400,"isReady":true}'
