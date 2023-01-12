@@ -294,8 +294,10 @@ npm start
 Open the console in your perfered browser and paste the following:
 
 ```js
-// Note: The LocalSettings:Sales:CallingExtensions localstorage key for the non movable demo widget has been deprecated
-// Please use the following localstorage override for the newer floating widget
+/**
+ * @deprecated LocalSettings:Sales:CallingExtensions localstorage key for the non movable demo widget
+ * Use LocalSettings:Calling:CallingExtensions for the newer floating widget instead
+ */
 localStorage.setItem(
   "LocalSettings:Calling:CallingExtensions",
   '{"name": "Demo widget", "url": "https://localhost:9025/"}'
@@ -312,8 +314,10 @@ While you're in the process of building your application, you can manually set t
 To set the value, open the developer tools for your browser, and run the following JavaScript command in the developer console:
 
 ```js
-// Note: The LocalSettings:Sales:CallingExtensions localstorage key for the non movable demo widget has been deprecated
-// Please use the following localstorage override for the newer floating widget
+/**
+ * @deprecated LocalSettings:Sales:CallingExtensions localstorage key for the non movable demo widget
+ * Use LocalSettings:Calling:CallingExtensions for the newer floating widget instead
+ */
 localStorage.setItem(
   "LocalSettings:Calling:CallingExtensions",
   '{"name": "<your intended widget name>", "url": "<your dev url or prod url>"}'
@@ -354,8 +358,10 @@ The isReady flag indicate whether the widget is ready for production. This flag 
 
 ```js
 /* Override the isReady flag for "Demo widget" */
-// Note: The LocalSettings:Sales:CallingExtensions localstorage key for the non movable demo widget has been deprecated
-// Please use the following localstorage override for the newer floating widget
+/**
+ * @deprecated LocalSettings:Sales:CallingExtensions localstorage key for the non movable demo widget
+ * Use LocalSettings:Calling:CallingExtensions for the newer floating widget instead
+ */
 localStorage.setItem(
   "LocalSettings:Calling:CallingExtensions",
   '{"name": "Demo widget", "isReady": true}'
