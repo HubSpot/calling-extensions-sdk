@@ -3,20 +3,20 @@
 [![Build Status](https://travis-ci.org/HubSpot/calling-extensions-sdk.svg?branch=master)](https://travis-ci.org/HubSpot/calling-extensions-sdk)
 [![calling-extensions-sdk on npm](https://img.shields.io/npm/v/@hubspot/calling-extensions-sdk.svg?style=flat-square)](http://npmjs.com/@hubspot/calling-extensions-sdk)
 
-Calling Extensions SDK enables 3rd party VOIP providers or enterprise calling systems seamlessly integrate their CTI (referred to as call widget) with HubSpot for outbound calling. Call Widget is rendered inside HubSpot UI and a lightweight wrapper around HTML5 postMessage API facilitates cross-origin communication between the widget and HubSpot.
+Calling Extensions SDK enables 3rd party VOIP providers or enterprise calling systems to seamlessly integrate their CTI (referred to as call widget) with HubSpot for outbound calling. The Call Widget is rendered inside the HubSpot UI, and a lightweight wrapper around the HTML5 postMessage API facilitates cross-origin communication between the widget and HubSpot.
 
 ## Getting Started
 
-1. [Create](https://developers.hubspot.com/docs/faq/how-do-i-create-an-app-in-hubspot) a HubSpot application and [setup a test](https://developers.hubspot.com/docs/faq/how-do-i-create-a-test-account) portal
-2. [Integrate](https://github.com/HubSpot/calling-extensions-sdk#integrate-calling-extensions-sdk) the Calling Extensions SDK with your call widget.
+1. [Create a HubSpot application](https://developers.hubspot.com/docs/faq/how-do-i-create-an-app-in-hubspot) and [create a test account](https://developers.hubspot.com/docs/faq/how-do-i-create-a-test-account).
+2. [Integrate](https://github.com/HubSpot/calling-extensions-sdk#integrate-the-calling-extensions-sdk) the Calling Extensions SDK with your call widget.
 3. [Running the Demo Project](https://github.com/hubspot/calling-extensions-sdk#running-the-demo-project) example usage and how to display the project in the CRM.
-4. [Test](https://github.com/HubSpot/calling-extensions-sdk#testing-your-app-from-a-local-environment) your app in local environment
-5. [Get your app](https://github.com/HubSpot/calling-extensions-sdk#get-your-app-ready-for-production) ready for production
+4. [Test](https://github.com/HubSpot/calling-extensions-sdk#testing-your-app-from-a-local-environment) your app in local environment.
+5. [Get your app](https://github.com/HubSpot/calling-extensions-sdk#get-your-app-ready-for-production) ready for production.
 6. [Publish your app](https://github.com/HubSpot/calling-extensions-sdk#publish-application-to-the-hubspot-marketplace) to the HubSpot marketplace.
 
-## Integrate Calling Extensions SDK
+## Integrate the Calling Extensions SDK
 
-### Get the Calling Extensions SDK
+### Installation
 
 Download the SDK using npm or yarn
 
@@ -26,7 +26,7 @@ npm install -s @hubspot/calling-extensions-sdk
 
 ### Using the Calling Extensions SDK
 
-The Calling Extensions SDK exposes a simple API for HubSpot and a Soft Phone to exchange messages. The messages are sent through methods exposed by SDK and received through eventHandlers.
+The Calling Extensions SDK exposes a simple API for HubSpot and a Soft Phone to exchange messages. The messages are sent through methods exposed by the SDK and received through eventHandlers.
 
 #### Create an instance
 
