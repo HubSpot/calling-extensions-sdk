@@ -239,7 +239,7 @@ onDialNumber(data) {
 <details>
  <summary>defaultEventHandler</summary>
  <p>
- 
+
  ```js
   // Default handler for events.
   defaultEventHandler(event) {
@@ -294,14 +294,12 @@ npm start
 Open the console in your perfered browser and paste the following:
 
 ```js
-// Add the following localstorage override for the floating widget
+/**
+ * @deprecated LocalSettings:Sales:CallingExtensions localstorage key for the non movable demo widget
+ * Use LocalSettings:Calling:CallingExtensions for the newer floating widget instead
+ */
 localStorage.setItem(
   "LocalSettings:Calling:CallingExtensions",
-  '{"name": "Demo widget", "url": "https://localhost:9025/"}'
-);
-// Add the following localstorage override for the non movable demo widget
-localStorage.setItem(
-  "LocalSettings:Sales:CallingExtensions",
   '{"name": "Demo widget", "url": "https://localhost:9025/"}'
 );
 ```
@@ -316,14 +314,12 @@ While you're in the process of building your application, you can manually set t
 To set the value, open the developer tools for your browser, and run the following JavaScript command in the developer console:
 
 ```js
-// Add the following localstorage override for the newer floating widget
+/**
+ * @deprecated LocalSettings:Sales:CallingExtensions localstorage key for the non movable demo widget
+ * Use LocalSettings:Calling:CallingExtensions for the newer floating widget instead
+ */
 localStorage.setItem(
   "LocalSettings:Calling:CallingExtensions",
-  '{"name": "<your intended widget name>", "url": "<your dev url or prod url>"}'
-);
-// Add the following localstorage override for the non movable demo widget
-localStorage.setItem(
-  "LocalSettings:Sales:CallingExtensions",
   '{"name": "<your intended widget name>", "url": "<your dev url or prod url>"}'
 );
 ```
@@ -362,14 +358,12 @@ The isReady flag indicate whether the widget is ready for production. This flag 
 
 ```js
 /* Override the isReady flag for "Demo widget" */
-// Add the following localstorage override for the newer floating widget
+/**
+ * @deprecated LocalSettings:Sales:CallingExtensions localstorage key for the non movable demo widget
+ * Use LocalSettings:Calling:CallingExtensions for the newer floating widget instead
+ */
 localStorage.setItem(
   "LocalSettings:Calling:CallingExtensions",
-  '{"name": "Demo widget", "isReady": true}'
-);
-// Add the following localstorage override for the fixed widget
-localStorage.setItem(
-  "LocalSettings:Sales:CallingExtensions",
   '{"name": "Demo widget", "isReady": true}'
 );
 ```
@@ -399,7 +393,7 @@ The final step once your app is setup is to list in the HubSpot marketplace. You
 <details>
  <summary>When an engagement should be created vs updated.</summary>
  <p>
-    A user can initiate a call from inside the HubSpot UI and outside of the HubSpot UI (e.g. mobile app/redirected number/etc.)  If a call is initiated from within HubSpot UI, HubSpot will create a call engagement and send the engagement to the call widget.  Once the call finishes, the call widget can update this engagement with additional call details.  If a call is initiated outside of HubSpot UI, the widget should create the call engagement. 
+    A user can initiate a call from inside the HubSpot UI and outside of the HubSpot UI (e.g. mobile app/redirected number/etc.)  If a call is initiated from within HubSpot UI, HubSpot will create a call engagement and send the engagement to the call widget.  Once the call finishes, the call widget can update this engagement with additional call details.  If a call is initiated outside of HubSpot UI, the widget should create the call engagement.
 </p>
 </details>
 
