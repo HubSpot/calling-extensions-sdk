@@ -298,7 +298,7 @@ cd demo && npm start
 
 #### Launch the demo call widget from HubSpot
 
-Open the console in your perfered browser and paste the following:
+Open the console in your preferred browser and paste the following:
 
 ```js
 // Add the following localstorage override for the floating widget
