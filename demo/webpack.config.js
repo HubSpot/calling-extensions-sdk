@@ -10,20 +10,20 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      inject: false,
+      inject: true,
       chunks: ['index'],
       filename: 'index.html'
     }),
     new HtmlWebpackPlugin({
       template: './src/outbound.html',
-      inject: false,
+      inject: true,
       chunks: ['outbound'],
       filename: 'outbound.html'
     }),
   ],
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: '[name].js',
+    filename: '[name].bundle.js',
     clean: true,
   },
   devServer: {
