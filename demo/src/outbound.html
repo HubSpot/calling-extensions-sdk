@@ -1,0 +1,291 @@
+<html>
+  <head>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    * {
+    box-sizing: border-box
+    }
+
+    body {
+      background-color: #070D0D;
+    }
+
+    .container {
+      margin: 0 auto;
+      width: 300px;
+      height: 560px;
+      background-color: white;
+      position: relative;
+    }
+
+    .keypad, .actionpad {
+      margin: 0 20px;
+    }
+
+    #callingkeypad {
+      margin: 0 40px;
+    }
+
+    #callingkeypadnumber {
+      margin-bottom: 10px;
+    }
+
+    .row {
+      display: flex;
+	    justify-content: space-evenly;
+    }
+
+    .keypadheader {
+      display: flex;
+	    justify-content: space-evenly;
+      padding: 20px 20px;
+    }
+
+    .contactheader {
+      display: block;
+      padding: 20px 10px;
+    }
+
+    input[type=button], button {
+      cursor: pointer;
+    }
+
+    input:focus, button:focus {
+      outline: none;
+    }
+
+    input[type=button]:hover, button:hover {
+      color: orange;
+    }
+
+    .login {
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+
+    .hidden {
+      display: none
+    }
+
+    #login, #logout {
+      width: 180px;
+    }
+
+    #tonumber {
+      width: 255px;
+      border: none;
+    }
+
+    .key {
+      border-radius: 50px;
+      color:#444;
+      background-color: white;
+      width: 60px;
+      height: 60px;
+      text-align: center;
+      float:left;
+      font-size: 24px;
+      margin:0 0 10px 0;
+      border: 1px solid #444;
+    }
+    .key span, .key1 span {
+      display: block;
+      color:#444;
+      text-align:center;
+      font-size:12px;
+      text-transform:uppercase;
+    }
+    .key:hover, .key1:hover {
+      color: orange;
+      border-color: orange;
+    }
+
+    .key1 {
+      border-radius: 50px;
+      color:#444;
+      background-color: white;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      float:left;
+      font-size: 18px;
+      margin:0 7px 10px 7px;
+      border: 1px solid #444;
+    }
+    #backspace {
+      width: 25px;
+      height: 45px;
+      background-color: white;
+      border: none;
+    }
+    .startcall, .endcall {
+      border-radius: 50px;
+      width: 60px;
+      height: 60px;
+      background-color: white;
+      border: 1px solid;
+      margin: 20px;
+    }
+    .action {
+      color:#444;
+      background-color: white;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      float:left;
+      font-size: 16px;
+      margin:0 7px 10px 7px;
+      border: none;
+      font-size: 12px;
+    }
+    .action span {
+      font-size: 12px;
+    }
+  </style>
+  </head>
+  <body>
+    <div class="container screen0">
+      <div class="login">
+        <input type="button" id="login" value="log in"/>
+      </div>
+    </div>
+    <div class="container screen1 hidden">
+      <div class="keypadheader">
+        <input type="tel" value="" id="tonumber" />
+        <button id="backspace">
+          <i class="bi bi-backspace" id="backspace"></i>
+        </button>
+      </div>
+      <div class="keypad">
+        <div class="row">
+          <button class="key" id="1">1</button>
+          <button class="key" id="2">2<span id="2">abc</span></button>
+          <button class="key" id="3">3<span id="3">def</span></button>
+        </div>
+        <div class="row">
+          <button class="key" id="4">4<span id="4">ghi</span></button>
+          <button class="key" id="5">5<span id="5">jkl</span></button>
+          <button class="key" id="6">6<span id="6">mno</span></button>
+        </div>
+        <div class="row">
+          <button class="key" id="7">7<span id="7">pqs</span></button>
+          <button class="key" id="8">8<span id="8">tuv</span></button>
+          <button class="key" id="9">9<span id="9">wxyz</span></button>
+        </div>
+        <div class="row">
+          <button class="key" id="*">*</button>
+          <button class="key" id="0">0<span id="+">+</span></button>
+          <button class="key" id="#">#</button>
+        </div>
+        <div class="keypad row">
+          <button class="startcall" id="startcall">
+            <i class="bi bi-telephone-fill" id="startcall" style="font-size: 20px"></i>
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <span>From number: </span>
+      </div>
+      <div class="row">
+        <input placeholder="Add from number" id="fromnumber"/>
+      </div>
+    </div>
+    <div class="container screen2 hidden">
+      <div class="contactheader">
+        <div class="row">
+          <span>Contact Name </span>
+        </div>
+        <div class="row">
+          <span id="tonumberdisplay"></span>
+        </div>
+      </div>
+      <div class="row actionpad">
+        <button class="action" id="mute">
+          <i class="bi bi-mic-mute" id="mute" style="font-size: 20px"></i>
+          mute
+        </button>
+        <button class="action hidden" id="unmute">
+          <i class="bi bi-mic unmute" id="unmute" style="font-size: 20px"></i>
+          unmute
+        </button>
+        <button class="action" id="keypad">
+          <i class="bi bi-phone" id="keypad" style="font-size: 20px"></i>
+          keypad
+        </button>
+        <button class="action" id="notes" value="notes">
+          <i class="bi bi-sticky" id="notes" style="font-size: 20px"></i>
+          notes
+        </button>
+        <button class="action" id="record" value="record">
+          <i class="bi bi-record" id="record" style="font-size: 20px"></i>
+          record
+        </button>
+        <button class="action hidden" id="stoprecord" value="stoprecord">
+          <i class="bi bi-pause-fill" id="stoprecord" style="font-size: 20px"></i>
+          stop
+        </button>
+      </div>
+      <div class="keypad hidden" id="callingkeypad">
+        <div class="row">
+          <input id="callingkeypadnumber" value=""/>
+        </div>
+        <div class="row">
+          <button class="key1" value="1">1</button>
+          <button class="key1" value="2">2</button>
+          <button class="key1" value="3">3</button>
+        </div>
+        <div class="row">
+          <button class="key1" value="4">4</button>
+          <button class="key1" value="5">5</button>
+          <button class="key1" value="6">6</button>
+        </div>
+        <div class="row">
+          <button class="key1" value="7">7</button>
+          <button class="key1" value="8">8</button>
+          <button class="key1" value="9">9</button>
+        </div>
+        <div class="row">
+          <button class="key1" value="*">*</button>
+          <button class="key1" value="0">0</button>
+          <button class="key1" value="#">#</button>
+        </div>
+      </div>
+      <div class="row">
+        <textarea id="callingnotes" rows="12" placeholder="Type your notes here"></textarea>
+      </div>
+      </textarea>
+      <div class="keypad row">
+        <button class="endcall" id="endcall">
+          <i class="bi bi-telephone-x-fill" id="endcall"></i>
+        </button>
+      </div>
+    </div>
+
+    <script src="./outbound.js" async></script>
+  </body>
+</html>
