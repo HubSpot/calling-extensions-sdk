@@ -92,7 +92,7 @@
       display: none
     }
 
-    #login, #logout {
+    #login, #logout, #back {
       width: 180px;
     }
 
@@ -172,6 +172,11 @@
     .action span {
       font-size: 12px;
     }
+
+    #timer, #callduration {
+      font-size: 11px;
+      margin-bottom: 5px;
+    }
   </style>
   </head>
   <body>
@@ -224,7 +229,10 @@
     <div class="container screen2 hidden">
       <div class="contactheader">
         <div class="row">
-          <span>Contact Name </span>
+          <span id="timer">00:00:00</span>
+        </div>
+        <div class="row">
+          <span>Contact Name</span>
         </div>
         <div class="row">
           <span id="tonumberdisplay"></span>
@@ -282,13 +290,27 @@
         </div>
       </div>
       <div class="row">
-        <textarea id="callingnotes" rows="12" placeholder="Type your notes here"></textarea>
+        <textarea id="callingnotes" rows="10" placeholder="Type your notes here"></textarea>
       </div>
       </textarea>
       <div class="keypad row">
         <button class="endcall" id="endcall">
           <i class="bi bi-telephone-x-fill" id="endcall"></i>
         </button>
+      </div>
+    </div>
+    <div class="container screen3 hidden">
+      <div class="row" id="callduration">
+        Call duration
+      </div>
+      <div class="row">
+        <span>Contact Name</span>
+      </div>
+      <div class="row">
+        <input type="button" id="back" value="back"/>
+      </div>
+      <div class="row">
+        <input type="button" id="logout" value="log out"/>
       </div>
     </div>
 
