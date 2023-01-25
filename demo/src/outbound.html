@@ -180,12 +180,12 @@
   </style>
   </head>
   <body>
-    <div class="container screen0">
+    <div class="container" id="login-screen">
       <div class="login">
         <input type="button" id="login" value="log in"/>
       </div>
     </div>
-    <div class="container screen1 hidden">
+    <div class="container hidden" id="keypad-screen">
       <div class="keypadheader">
         <input type="tel" value="" id="tonumber" />
         <button id="backspace">
@@ -226,7 +226,7 @@
         <input placeholder="Add from number" id="fromnumber"/>
       </div>
     </div>
-    <div class="container screen2 hidden">
+    <div class="container hidden" id="callactions-screen">
       <div class="contactheader">
         <div class="row">
           <span id="timer">00:00:00</span>
@@ -299,7 +299,7 @@
         </button>
       </div>
     </div>
-    <div class="container screen3 hidden">
+    <div class="container hidden" id="callended-screen">
       <div class="row" id="callduration">
         Call duration
       </div>

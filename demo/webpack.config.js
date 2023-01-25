@@ -5,6 +5,11 @@ module.exports = {
   entry: {
     index: './src/index.js',
     outbound: './src/outbound.js',
+    login: './src/screens/login.js',
+    keypad: './src/screens/keypad.js',
+    callActions: './src/screens/callActions.js',
+    callEnded: './src/screens/callEnded.js',
+    screens: './src/screens/index.js',
   },
   mode: "development",
   plugins: [
@@ -17,7 +22,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/outbound.html',
       inject: true,
-      chunks: ['outbound'],
+      chunks: ['outbound', 'callActions', 'callEnded', 'keypad', 'login', 'screens'],
       filename: 'outbound.html'
     }),
   ],
