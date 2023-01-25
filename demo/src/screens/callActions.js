@@ -1,4 +1,4 @@
-import { keys, formatTime, clearTimer, getTotalSeconds } from "../outbound";
+import { keys, formatTime, clearTimer, getState } from "../outbound";
 import { screenIds, showScreen, screenNames } from "./index";
 
 function toggleKeypad(value) {
@@ -35,6 +35,9 @@ function resetInputFields() {
   document.querySelector("#tonumber").value = "";
   document.querySelector("#fromnumber").value = "";
   document.querySelector("#notes").value = "";
+  toggleMute();
+  toggleRecord();
+  toggleKeypad();
 }
 
 export default function callback() {
@@ -50,8 +53,8 @@ export default function callback() {
     switch (clickedButtonId) {
       case "endcall":
         // TODO: Update call data
-        if (getTotalSeconds()) {
-          document.querySelector("#callduration").innerHTML = `Call Duration ${formatTime(getTotalSeconds())}`;
+        if (getState().totalSeconds) {
+          document.querySelector("#callduration").innerHTML = `Call Duration ${formatTime(getState().totalSeconds)}`;
         }
         clearTimer();
         resetInputFields();

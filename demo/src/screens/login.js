@@ -1,4 +1,4 @@
-import { toggleLogin } from "../outbound";
+import { toggleLogin, getState } from "../outbound";
 import { screenIds, showScreen, screenNames } from "./index";
 
 export default function callback() {
@@ -9,7 +9,7 @@ export default function callback() {
       toggleLogin();
       showScreen(screenNames.keypad);
       document.querySelector("#tonumber").focus();
-      document.querySelector("#tonumber").value = window.state.toNumber;
+      document.querySelector("#tonumber").value = getState().toNumber;
     }
   });
 }

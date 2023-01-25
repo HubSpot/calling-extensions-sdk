@@ -1,4 +1,4 @@
-import { formatTime, toggleLogin, getTotalSeconds } from "../outbound";
+import { formatTime, toggleLogin, getState } from "../outbound";
 import { screenIds, showScreen, screenNames } from "./index";
 
 export default function callback() {
@@ -19,8 +19,8 @@ export default function callback() {
   });
 
   callEndedScreen.addEventListener("DOMContentLoaded", () => {
-    if (getTotalSeconds()) {
-      document.querySelector("#callduration").value = `Call Duration ${formatTime(getTotalSeconds())}`;
+    if (getState().totalSeconds) {
+      document.querySelector("#callduration").value = `Call Duration ${formatTime(getState().totalSeconds)}`;
     }
   });
 }
