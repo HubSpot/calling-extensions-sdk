@@ -52,7 +52,7 @@ export default function callback() {
 
     switch (clickedButtonId) {
       case "endcall":
-        // TODO: Update call data
+        window.cti.callEnded();
         if (getState().totalSeconds) {
           document.querySelector("#callduration").innerHTML = `Call Duration ${formatTime(getState().totalSeconds)}`;
         }

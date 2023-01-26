@@ -1,4 +1,4 @@
-import { formatTime, toggleLogin, getState } from "../outbound";
+import { formatTime, getState } from "../outbound";
 import { screenIds, showScreen, screenNames } from "./index";
 
 export default function callback() {
@@ -8,10 +8,6 @@ export default function callback() {
     switch (clickedButtonId) {
       case "back":
         showScreen(screenNames.keypad);
-        break;
-      case "logout":
-        toggleLogin();
-        showScreen(screenNames.login);
         break;
       default:
         break;

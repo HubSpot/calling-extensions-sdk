@@ -1,9 +1,8 @@
-import { keys, startTimer, setCallData } from "../outbound";
+import { keys, startTimer, getState, setState } from "../outbound";
 import { showScreen, screenNames } from "./index";
 
 const localState = {
   cursorPosition: 0,
-  numberInputField: null
 };
 
 function isDiaNumberValid() {
@@ -14,19 +13,14 @@ export default function callback() {
   document.querySelector("#tonumber").addEventListener("blur", function(_e) {
     localState.cursorPosition = this.selectionEnd;
   });
-  document.querySelector("#tonumber").addEventListener("click", function(_e) {
-    localState.numberInputField = this;
-  });
-  document.querySelector("#fromnumber").addEventListener("click", function(_e) {
-    localState.numberInputField = this;
-  });
 
   document.querySelector(".keypadheader").addEventListener("click", event => {
     const clickedButtonId = event.target.id;
-    const dialNumberVal = document.querySelector("#tonumber").value;
-    if (clickedButtonId === "backspace" && localState.cursorPosition >= 1) {
-      document.querySelector("#tonumber").value = dialNumberVal.substring(0, state.cursorPosition - 1) + dialNumberVal.substring(state.cursorPosition);
-      document.querySelector("#tonumber").setSelectionRange(localState.cursorPosition - 1, state.cursorPosition - 1);
+    if (clickedButtonId === "backspace") {
+      const toNumberVal = document.querySelector("#tonumber").value;
+      document.querySelector("#tonumber").value = toNumberVal.substring(0, localState.cursorPosition - 1) + toNumberVal.substring(localState.cursorPosition);
+      document.querySelector("#tonumber").setSelectionRange(localState.cursorPosition - 1, localState.cursorPosition - 1);
+      setState({ toNumber: document.querySelector("#tonumber").value });
     }
     document.querySelector("#tonumber").focus();
   });
@@ -41,14 +35,15 @@ export default function callback() {
   keypad.addEventListener("click", event => {
     const clickedButtonId = event.target.id;
 
-    const numberInputField = localState.numberInputField ? localState.numberInputField : document.querySelector("#tonumber");
     if (keys.has(clickedButtonId)) {
-      numberInputField.value += clickedButtonId;
+      const curr = getState().toNumber;
+      setState({toNumber: curr + clickedButtonId})
+      document.querySelector("#toNumber").value = curr + clickedButtonId;
     } else if (clickedButtonId === "startcall") {
       if (isDiaNumberValid()) {
-        setCallData({
-          fromNumber: document.querySelector("#fromNumber").value,
-          toNumber: document.querySelector("#toNumber").value
+        window.cti.outgoingCall({
+          createEngagement: "true",
+          phoneNumber: document.querySelector("#toNumber").value
         });
         showScreen(screenNames.callActions);
         startTimer();
@@ -56,7 +51,7 @@ export default function callback() {
       document.querySelector("#tonumberdisplay").textContent = document.querySelector("#toNumber").value;
       return;
     }
-    numberInputField.focus();
+    document.querySelector("#tonumber").focus();
   });
 }
 
@@ -68,3 +63,5 @@ if (
 } else {
   document.addEventListener("DOMContentLoaded", callback);
 }
+
+console.log('keypad')

@@ -26,6 +26,9 @@ module.exports = {
       filename: 'outbound.html'
     }),
   ],
+  optimization: {
+    runtimeChunk: 'single',
+  },
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: '[name].bundle.js',

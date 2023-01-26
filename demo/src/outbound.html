@@ -31,12 +31,10 @@
       background-color: #070D0D;
     }
 
-    .container {
-      margin: 0 auto;
-      width: 300px;
-      height: 560px;
+    .controls {
+      width: 400px;
+      height: 600px;
       background-color: white;
-      position: relative;
     }
 
     .keypad, .actionpad {
@@ -51,6 +49,10 @@
       margin-bottom: 10px;
     }
 
+    #incoming-msgs {
+      font-size: 10px;
+    }
+
     .row {
       display: flex;
       justify-content: space-evenly;
@@ -59,7 +61,7 @@
     .keypadheader {
       display: flex;
       justify-content: space-evenly;
-      padding: 20px 20px;
+      padding: 20px 0;
     }
 
     .contactheader {
@@ -79,20 +81,11 @@
       color: orange;
     }
 
-    .login {
-      margin: 0;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      -ms-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
-    }
-
     .hidden {
       display: none
     }
 
-    #login, #logout, #back {
+    #login, #logout, #back, #gotokeypad, #updatemessages {
       width: 180px;
     }
 
@@ -101,12 +94,16 @@
       border: none;
     }
 
+    .keypadtonumber {
+      padding: 0 10px;
+    }
+
     .key {
       border-radius: 50px;
       color:#444;
       background-color: white;
-      width: 60px;
-      height: 60px;
+      width: 65px;
+      height: 65px;
       text-align: center;
       float:left;
       font-size: 24px;
@@ -149,8 +146,8 @@
 
     .startcall, .endcall {
       border-radius: 50px;
-      width: 60px;
-      height: 60px;
+      width: 65px;
+      height: 65px;
       background-color: white;
       border: 1px solid;
       margin: 20px;
@@ -180,137 +177,152 @@
   </style>
   </head>
   <body>
-    <div class="container" id="login-screen">
-      <div class="login">
-        <input type="button" id="login" value="log in"/>
+    <div class="controls">
+      <div class="container" id="login-screen">
+        <div class="row">
+          <a href="/">home page</a>
+        </div>
+        <div class="row">
+          <input type="button" id="login" value="log in"/>
+        </div>
+        <div class="row">
+          <input class ="hidden" type="button" id="logout" value="log out"/>
+        </div>
+        <div class="row">
+          <input type="button" id="gotokeypad" value="keypad"/>
+        </div>
+        <div class="row">
+          <input type="button" id="updatemessages" value="refresh messages"/>
+        </div>
+        <div>Incoming Messages</div>
+        <div id="incoming-msgs"></div>
       </div>
-    </div>
-    <div class="container hidden" id="keypad-screen">
-      <div class="keypadheader">
-        <input type="tel" value="" id="tonumber" />
-        <button id="backspace">
-          <i class="bi bi-backspace" id="backspace"></i>
-        </button>
+      <div class="container hidden" id="keypad-screen">
+        <div class="keypadheader">
+          <div class="keypadtonumber">
+            <input type="tel" value="" id="tonumber" />
+            <button id="backspace">
+              <i class="bi bi-backspace" id="backspace" style="font-size: 18px"></i>
+            </button>
+          </div>
+        </div>
+        <div class="keypad">
+          <div class="row">
+            <button class="key" id="1">1</button>
+            <button class="key" id="2">2<span id="2">abc</span></button>
+            <button class="key" id="3">3<span id="3">def</span></button>
+          </div>
+          <div class="row">
+            <button class="key" id="4">4<span id="4">ghi</span></button>
+            <button class="key" id="5">5<span id="5">jkl</span></button>
+            <button class="key" id="6">6<span id="6">mno</span></button>
+          </div>
+          <div class="row">
+            <button class="key" id="7">7<span id="7">pqs</span></button>
+            <button class="key" id="8">8<span id="8">tuv</span></button>
+            <button class="key" id="9">9<span id="9">wxyz</span></button>
+          </div>
+          <div class="row">
+            <button class="key" id="*">*</button>
+            <button class="key" id="0">0<span id="+">+</span></button>
+            <button class="key" id="#">#</button>
+          </div>
+          <div class="keypad row">
+            <button class="startcall" id="startcall">
+              <i class="bi bi-telephone-fill" id="startcall" style="font-size: 24px"></i>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <span>From number: </span>
+        </div>
+          <div class="row">
+            <input type="tel" id="fromnumber" disabled/>
+          </div>
       </div>
-      <div class="keypad">
-        <div class="row">
-          <button class="key" id="1">1</button>
-          <button class="key" id="2">2<span id="2">abc</span></button>
-          <button class="key" id="3">3<span id="3">def</span></button>
+      <div class="container hidden" id="callactions-screen">
+        <div class="contactheader">
+          <div class="row">
+            <span id="timer">00:00:00</span>
+          </div>
+          <div class="row">
+            <span>Contact Name</span>
+          </div>
+          <div class="row">
+            <span id="tonumberdisplay"></span>
+          </div>
+        </div>
+        <div class="row actionpad">
+          <button class="action" id="mute">
+            <i class="bi bi-mic-mute" id="mute" style="font-size: 24px"></i>
+            mute
+          </button>
+          <button class="action hidden" id="unmute">
+            <i class="bi bi-mic unmute" id="unmute" style="font-size: 24px"></i>
+            unmute
+          </button>
+          <button class="action" id="keypad">
+            <i class="bi bi-phone" id="keypad" style="font-size: 24px"></i>
+            keypad
+          </button>
+          <button class="action" id="notes" value="notes">
+            <i class="bi bi-sticky" id="notes" style="font-size: 24px"></i>
+            notes
+          </button>
+          <button class="action" id="record" value="record">
+            <i class="bi bi-record" id="record" style="font-size: 24px"></i>
+            record
+          </button>
+          <button class="action hidden" id="stoprecord" value="stoprecord">
+            <i class="bi bi-pause-fill" id="stoprecord" style="font-size: 24px"></i>
+            stop
+          </button>
+        </div>
+        <div class="keypad hidden" id="callingkeypad">
+          <div class="row">
+            <input id="callingkeypadnumber" value=""/>
+          </div>
+          <div class="row">
+            <button class="key1" value="1">1</button>
+            <button class="key1" value="2">2</button>
+            <button class="key1" value="3">3</button>
+          </div>
+          <div class="row">
+            <button class="key1" value="4">4</button>
+            <button class="key1" value="5">5</button>
+            <button class="key1" value="6">6</button>
+          </div>
+          <div class="row">
+            <button class="key1" value="7">7</button>
+            <button class="key1" value="8">8</button>
+            <button class="key1" value="9">9</button>
+          </div>
+          <div class="row">
+            <button class="key1" value="*">*</button>
+            <button class="key1" value="0">0</button>
+            <button class="key1" value="#">#</button>
+          </div>
         </div>
         <div class="row">
-          <button class="key" id="4">4<span id="4">ghi</span></button>
-          <button class="key" id="5">5<span id="5">jkl</span></button>
-          <button class="key" id="6">6<span id="6">mno</span></button>
+          <textarea id="callingnotes" rows="10" placeholder="Type your notes here"></textarea>
         </div>
-        <div class="row">
-          <button class="key" id="7">7<span id="7">pqs</span></button>
-          <button class="key" id="8">8<span id="8">tuv</span></button>
-          <button class="key" id="9">9<span id="9">wxyz</span></button>
-        </div>
-        <div class="row">
-          <button class="key" id="*">*</button>
-          <button class="key" id="0">0<span id="+">+</span></button>
-          <button class="key" id="#">#</button>
-        </div>
+        </textarea>
         <div class="keypad row">
-          <button class="startcall" id="startcall">
-            <i class="bi bi-telephone-fill" id="startcall" style="font-size: 20px"></i>
+          <button class="endcall" id="endcall">
+            <i class="bi bi-telephone-x-fill" id="endcall"></i>
           </button>
         </div>
       </div>
-      <div class="row">
-        <span>From number: </span>
-      </div>
-      <div class="row">
-        <input placeholder="Add from number" id="fromnumber"/>
-      </div>
-    </div>
-    <div class="container hidden" id="callactions-screen">
-      <div class="contactheader">
-        <div class="row">
-          <span id="timer">00:00:00</span>
+      <div class="container hidden" id="callended-screen">
+        <div class="row" id="callduration">
+          Call duration
         </div>
         <div class="row">
           <span>Contact Name</span>
         </div>
         <div class="row">
-          <span id="tonumberdisplay"></span>
+          <input type="button" id="back" value="keypad"/>
         </div>
-      </div>
-      <div class="row actionpad">
-        <button class="action" id="mute">
-          <i class="bi bi-mic-mute" id="mute" style="font-size: 20px"></i>
-          mute
-        </button>
-        <button class="action hidden" id="unmute">
-          <i class="bi bi-mic unmute" id="unmute" style="font-size: 20px"></i>
-          unmute
-        </button>
-        <button class="action" id="keypad">
-          <i class="bi bi-phone" id="keypad" style="font-size: 20px"></i>
-          keypad
-        </button>
-        <button class="action" id="notes" value="notes">
-          <i class="bi bi-sticky" id="notes" style="font-size: 20px"></i>
-          notes
-        </button>
-        <button class="action" id="record" value="record">
-          <i class="bi bi-record" id="record" style="font-size: 20px"></i>
-          record
-        </button>
-        <button class="action hidden" id="stoprecord" value="stoprecord">
-          <i class="bi bi-pause-fill" id="stoprecord" style="font-size: 20px"></i>
-          stop
-        </button>
-      </div>
-      <div class="keypad hidden" id="callingkeypad">
-        <div class="row">
-          <input id="callingkeypadnumber" value=""/>
-        </div>
-        <div class="row">
-          <button class="key1" value="1">1</button>
-          <button class="key1" value="2">2</button>
-          <button class="key1" value="3">3</button>
-        </div>
-        <div class="row">
-          <button class="key1" value="4">4</button>
-          <button class="key1" value="5">5</button>
-          <button class="key1" value="6">6</button>
-        </div>
-        <div class="row">
-          <button class="key1" value="7">7</button>
-          <button class="key1" value="8">8</button>
-          <button class="key1" value="9">9</button>
-        </div>
-        <div class="row">
-          <button class="key1" value="*">*</button>
-          <button class="key1" value="0">0</button>
-          <button class="key1" value="#">#</button>
-        </div>
-      </div>
-      <div class="row">
-        <textarea id="callingnotes" rows="10" placeholder="Type your notes here"></textarea>
-      </div>
-      </textarea>
-      <div class="keypad row">
-        <button class="endcall" id="endcall">
-          <i class="bi bi-telephone-x-fill" id="endcall"></i>
-        </button>
-      </div>
-    </div>
-    <div class="container hidden" id="callended-screen">
-      <div class="row" id="callduration">
-        Call duration
-      </div>
-      <div class="row">
-        <span>Contact Name</span>
-      </div>
-      <div class="row">
-        <input type="button" id="back" value="back"/>
-      </div>
-      <div class="row">
-        <input type="button" id="logout" value="log out"/>
       </div>
     </div>
   </body>
