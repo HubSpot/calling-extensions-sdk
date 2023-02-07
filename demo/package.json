@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "build": "webpack",
-    "support-node-17": "export NODE_OPTIONS=--openssl-legacy-provider || set NODE_OPTIONS=--openssl-legacy-provider",
-    "start": "sh scripts/support-node-17.sh && webpack-dev-server --open"
+    "serve": "npm i && webpack-dev-server --open",
+    "start": "sh scripts/start.sh"
   },
   "license": "ISC",
   "devDependencies": {
