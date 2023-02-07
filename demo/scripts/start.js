@@ -12,13 +12,13 @@ const needsOpenSslLegacyProvider = match && match[1] > 16;
 
 needsOpenSslLegacyProvider && console.warn('Setting --openssl-legacy-provider to support Node.js v17+.');
 
-const test = spawn('cross-env',
+const child = spawn('cross-env',
   needsOpenSslLegacyProvider ? ['NODE_OPTIONS=--openssl-legacy-provider', ...args] : args, {
     shell: true,
     stdio: 'inherit'
   }
 );
 
-test.on('exit', function (code) {
+child.on('exit', function (code) {
   process.exit(code)
 })
