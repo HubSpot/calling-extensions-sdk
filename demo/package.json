@@ -5,11 +5,13 @@
   "private": true,
   "scripts": {
     "build": "webpack",
-    "start": "npm i && webpack-dev-server --open"
+    "serve": "npm i && webpack-dev-server --open",
+    "start": "node scripts/start.js npm run serve"
   },
   "license": "ISC",
   "devDependencies": {
     "clean-webpack-plugin": "^0.1.19",
+    "cross-env": "^7.0.3",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10"
