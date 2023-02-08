@@ -10,7 +10,6 @@ assignees: ''
 <!-- Any bugs that are not specifically related to the HubSpot Calling Extensions SDK and are more related to the HubSpot product should be filed to our support team. More information on contacting our support team can be found here (https://knowledge.hubspot.com/account/get-help-with-hubspot). -->
 
 **Checklist**
-
 - [ ] I have read the [FAQs](https://github.com/HubSpot/calling-extensions-sdk#faqs).
 - [ ] I have checked the [issue tracker](https://github.com/HubSpot/calling-extensions-sdk/issues) for duplicate issues.
 

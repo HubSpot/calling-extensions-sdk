@@ -10,7 +10,6 @@ assignees: ''
 <!-- Any feature requests that are not specifically related to the HubSpot Calling Extensions SDK and are more related to the HubSpot product should be submitted to our ideas forum (https://community.hubspot.com/t5/Ideas/ct-p/ideas) or in the #ideas channel in our public developer Slack channel (https://developers.hubspot.com/slack). -->
 
 **Checklist**
-
 - [ ] I have read the [FAQs](https://github.com/HubSpot/calling-extensions-sdk#faqs).
 - [ ] I have checked the [issue tracker](https://github.com/HubSpot/calling-extensions-sdk/issues) for duplicate issues.
 
