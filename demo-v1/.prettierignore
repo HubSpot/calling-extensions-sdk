@@ -1,0 +1,4 @@
+# Ignore artifacts:
+dist
+node_modules
+src/visitor-ui-component-library
