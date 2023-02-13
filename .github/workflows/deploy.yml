@@ -1,0 +1,19 @@
+name: Deploy to GitHub pages
+on:
+  push:
+    branches: [ project-demo-v1 ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: demo-v1
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        run: yarn install && yarn build
+      - name: Start app
+        run: yarn start
