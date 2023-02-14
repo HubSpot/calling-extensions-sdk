@@ -1,4 +1,0 @@
-# These owners will be the default owners for everything in the repo.
-# Visit the following for more information:
-# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
-* @HubSpot/calling-dev-integrations-fe

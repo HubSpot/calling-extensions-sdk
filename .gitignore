@@ -1,8 +1,0 @@
-node_modules
-npm-debug.log
-**/dist/*.js
-*.pem
-coverage
-build
-.DS_STORE
-lib

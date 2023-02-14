@@ -1,54 +1,27 @@
 {
-  "name": "@hubspot/calling-extensions-sdk",
-  "version": "0.0.10",
-  "description": "HubSpot calling extensions sdk for call widget integration.",
-  "publishConfig": {
-    "access": "public"
-  },
+  "name": "calling-extensions-sdk-demo",
+  "version": "0.0.1",
+  "homepage": "https://github.hubspot.com/calling-extensions-sdk/demo",
+  "description": "HubSpot calling extension sdk demo",
+  "private": true,
   "scripts": {
     "build": "webpack",
-    "build:test": "npm run build && npm run test",
-    "prepublish": "npm run build:test",
-    "test": "karma start karma.conf.js --browsers ChromeHeadless --single-run",
-    "test:debug": "karma start karma.conf.js --browsers Chrome",
-    "cover": "open coverage/lcov-report/index.html",
-    "eslint": "eslint src --ext .js",
-    "eslint:fix": "eslint src .js --fix",
-    "travis": "npm run build:test"
+    "serve": "npm i && webpack-dev-server --open",
+    "start": "node scripts/start.js npm run serve",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d ."
   },
-  "main": "./dist/main.js",
-  "module": "./index.js",
-  "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
-    "@typescript-eslint/parser": "^5.52.0",
-    "babel-loader": "^8.0.6",
-    "clean-webpack-plugin": "^1.0.0",
-    "eslint": "^6.3.0",
-    "eslint-config-airbnb": "^14.0.0",
-    "eslint-import-resolver-typescript": "^3.5.3",
-    "eslint-loader": "1.5.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsx-a11y": "^3.0.2",
-    "eslint-plugin-mocha": "^4.7.0",
-    "eslint-plugin-react": "^6.9.0",
-    "jasmine-core": "^3.3.0",
-    "karma": "^6.3.17",
-    "karma-babel-preprocessor": "^8.0.2",
-    "karma-chrome-launcher": "^3.1.1",
-    "karma-coverage": "^2.2.0",
-    "karma-jasmine": "^4.0.1",
-    "karma-jasmine-html-reporter": "^1.7.0",
-    "karma-mocha": "^2.0.1",
-    "karma-sourcemap-loader": "^0.3.8",
-    "karma-spec-reporter": "0.0.33",
-    "karma-webpack": "^5.0.0",
-    "webpack": "^4.25.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "cross-env": "^7.0.3",
+    "gh-pages": "^5.0.0",
+    "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10",
-    "webpack-merge": "^4.1.4"
+    "webpack-dev-server": "^3.1.10"
+  },
+  "dependencies": {
+    "@hubspot/calling-extensions-sdk": "^0.0.6"
   }
 }
+

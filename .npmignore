@@ -1,8 +1,0 @@
-*.pem
-.eslintignore
-.eslintrc
-node_modules
-circle.yml
-karma.conf.js
-webpack.config.js
-coverage

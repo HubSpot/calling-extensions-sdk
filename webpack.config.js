@@ -1,29 +1,18 @@
 const path = require("path");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-
-const babelLoader = {
-  test: /\.js$/,
-  exclude: /(node_modules)/,
-  use: {
-    loader: "babel-loader",
-    options: {
-      presets: ["@babel/preset-env"]
-    }
-  }
-};
-
 module.exports = {
   entry: "./index.js",
+  mode: "development",
   plugins: [new CleanWebpackPlugin("build")],
   output: {
-    filename: "main.js",
+    filename: "index_combined.js",
     libraryTarget: "umd",
-    path: path.resolve(__dirname, "dist")
+    path: path.resolve(__dirname, "bin")
   },
-  module: {
-    rules: [babelLoader]
-  },
-  optimization: {
-    minimize: false
+  devServer: {
+    contentBase: "./",
+    publicPath: "/bin",
+    https: true,
+    port: 9025
   }
 };
