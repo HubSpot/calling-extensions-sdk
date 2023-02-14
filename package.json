@@ -1,7 +1,6 @@
 {
   "name": "@hubspot/calling-extensions-sdk",
   "version": "0.0.10",
-  "homepage": "https://github.hubspot.com/calling-extensions-sdk",
   "description": "HubSpot calling extensions sdk for call widget integration.",
   "publishConfig": {
     "access": "public"
@@ -15,9 +14,7 @@
     "cover": "open coverage/lcov-report/index.html",
     "eslint": "eslint src --ext .js",
     "eslint:fix": "eslint src .js --fix",
-    "travis": "npm run build:test",
-    "predeploy": "cd demo-v1 && yarn build",
-    "deploy": "cd demo-v1 && gh-pages -b project-demo-v1 -d dist"
+    "travis": "npm run build:test"
   },
   "main": "./dist/main.js",
   "module": "./index.js",

@@ -1,17 +1,21 @@
 {
   "name": "calling-extensions-sdk-demo",
   "version": "0.0.1",
+  "homepage": "https://github.hubspot.com/calling-extensions-sdk/demo",
   "description": "HubSpot calling extension sdk demo",
   "private": true,
   "scripts": {
     "build": "webpack",
     "serve": "npm i && webpack-dev-server --open",
-    "start": "node scripts/start.js npm run serve"
+    "start": "node scripts/start.js npm run serve",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d ."
   },
   "license": "ISC",
   "devDependencies": {
     "clean-webpack-plugin": "^0.1.19",
     "cross-env": "^7.0.3",
+    "gh-pages": "^5.0.0",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10"
@@ -20,3 +24,4 @@
     "@hubspot/calling-extensions-sdk": "^0.0.6"
   }
 }
+
