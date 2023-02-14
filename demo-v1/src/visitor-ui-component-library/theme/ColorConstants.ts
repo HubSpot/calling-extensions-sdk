@@ -17,3 +17,6 @@ export const DEFAULT_INPUT_BACKGROUND_COLOR = '#f5f8fa';
 export const DEFAULT_HAPPY_COLOR = '#a2d28f';
 export const DEFAULT_NEUTRAL_COLOR = '#fea58e';
 export const DEFAULT_SAD_COLOR = '#ea90b1';
+
+export const DEFAULT_TOOLTIP_BACKGROUND_COLOR = '#425b76';
+export const DEFAULT_TOOLTIP_TEXT_COLOR = WHITE;

@@ -36,12 +36,10 @@ export const setTextOnPrimaryColor = setThemeProperty('textOnPrimary');
 export const getErrorTextColor = getThemeProperty('errorText');
 export const setErrorTextColor = setThemeProperty('errorText');
 
-export const getDisabledBackgroundColor = getThemeProperty(
-  'disabledBackground'
-);
-export const setDisabledBackgroundColor = setThemeProperty(
-  'disabledBackground'
-);
+export const getDisabledBackgroundColor =
+  getThemeProperty('disabledBackground');
+export const setDisabledBackgroundColor =
+  setThemeProperty('disabledBackground');
 
 export const getDisabledTextColor = getThemeProperty('disabledText');
 export const setDisabledTextColor = setThemeProperty('disabledText');

@@ -22,7 +22,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Input = styled(VizExInput).attrs({
-  backgroundColor: "transparent",
+  backgroundColor: "white",
 })``;
 
 export const KeypadInput = styled(VizExInput).attrs({
@@ -33,9 +33,13 @@ export const RoundedInput = styled(VizExInput).attrs({
   containerStyles: { borderRadius: "25px", marginBottom: "10px" },
 })``;
 
-export const Button = styled(VizExButton)``;
+export const Button = styled(VizExButton).attrs((props) => ({
+  disabled: props.disabled,
+}))``;
 
-export const RoundedButton = styled(Button)`
+export const RoundedButton = styled(Button).attrs((props) => ({
+  disabled: props.disabled,
+}))`
   border-radius: 25px;
   min-width: 150px;
 `;

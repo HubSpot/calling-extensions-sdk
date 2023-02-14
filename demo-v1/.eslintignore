@@ -1,4 +1,2 @@
-# Ignore artifacts:
 dist
-node_modules
 visitor-ui-component-library

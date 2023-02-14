@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
-import CallingExtensions from "@hubspot/calling-extensions-sdk";
-// import CallingExtensions from "../../../src/CallingExtensions";
+
+// @ts-expect-error module not typed
+// import CallingExtensions from "@hubspot/calling-extensions-sdk";
+import CallingExtensions from "../../../src/CallingExtensions";
 
 const handleMessage = (event: any) => {
   console.log("Incoming Message: ", event.type, event);

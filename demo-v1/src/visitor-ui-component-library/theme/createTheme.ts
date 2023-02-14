@@ -13,6 +13,8 @@ import {
   DEFAULT_SAD_COLOR,
   DEFAULT_NEUTRAL_COLOR,
   DEFAULT_HAPPY_COLOR,
+  DEFAULT_TOOLTIP_BACKGROUND_COLOR,
+  DEFAULT_TOOLTIP_TEXT_COLOR,
 } from './ColorConstants';
 import {
   setPrimaryColor,
@@ -31,6 +33,10 @@ import {
   setSadColor,
   setHappyColor,
 } from '../ratings/theme/VizExCsatRatingThemeOperator';
+import {
+  setTooltipBackgroundColor,
+  setTooltipTextColor,
+} from '../tooltip/theme/tooltipThemeOperators';
 import { DefaultTheme } from 'styled-components';
 import { components as defaultComponents } from './defaultTheme';
 import { computeComponentStyles } from './createThemeV2';
@@ -50,6 +56,8 @@ export const createTheme = (...themeOperatorOverrides: any[]) =>
     setSadColor(DEFAULT_SAD_COLOR),
     setNeutralColor(DEFAULT_NEUTRAL_COLOR),
     setHappyColor(DEFAULT_HAPPY_COLOR),
+    setTooltipBackgroundColor(DEFAULT_TOOLTIP_BACKGROUND_COLOR),
+    setTooltipTextColor(DEFAULT_TOOLTIP_TEXT_COLOR),
     ...themeOperatorOverrides
   )({
     components: computeComponentStyles(defaultComponents),

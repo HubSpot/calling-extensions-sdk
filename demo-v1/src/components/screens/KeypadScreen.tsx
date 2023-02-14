@@ -22,9 +22,10 @@ function KeypadScreen({
   const dialNumberInput = useAutoFocus();
   const [cursorStart, setCursorStart] = useState(0);
   const [cursorEnd, setCursorEnd] = useState(0);
+  const [isDialNumberValid, setIsDialNumberValid] = useState(false);
 
-  const isDialNumberValid = () => {
-    return dialNumber.length > 0;
+  const validatePhoneNumber = (value: string) => {
+    return value.length > 2;
   };
 
   const handleLogout = () => {
@@ -39,27 +40,34 @@ function KeypadScreen({
     setCursorEnd(selectionEnd || 0);
   };
 
+  const handleSetDialNumber = useCallback((value: string) => {
+    setDialNumber(value);
+    if (validatePhoneNumber(value)) {
+      setIsDialNumberValid(true);
+      return;
+    }
+    setIsDialNumberValid(false);
+  }, []);
+
   const handleDialNumber = ({
     target: { value },
   }: ChangeEvent<HTMLInputElement>) => {
-    setDialNumber(value);
+    handleSetDialNumber(value);
   };
 
   const addToDialNumber = (value: string) => {
-    setDialNumber(dialNumber + value);
+    handleSetDialNumber(dialNumber + value);
     dialNumberInput.current?.focus();
   };
 
-  const handleStartCall = () => {
-    if (isDialNumberValid()) {
-      cti.outgoingCall({
-        createEngagement: "true",
-        phoneNumber: dialNumber,
-      });
-      startTimer(Date.now());
-      handleNextScreen();
-    }
-  };
+  const handleStartCall = useCallback(() => {
+    cti.outgoingCall({
+      createEngagement: "true",
+      phoneNumber: dialNumber,
+    });
+    startTimer(Date.now());
+    handleNextScreen();
+  }, [cti]);
 
   const handleBackspace = useCallback(() => {
     let updatedDialNumber =
@@ -70,11 +78,11 @@ function KeypadScreen({
         dialNumber.substring(cursorEnd);
     }
 
-    setDialNumber(updatedDialNumber);
+    handleSetDialNumber(updatedDialNumber);
     dialNumberInput.current!.value = updatedDialNumber;
     dialNumberInput.current!.setSelectionRange(cursorStart, cursorStart);
     dialNumberInput.current!.focus();
-  }, [cursorEnd, cursorStart]);
+  }, [cursorEnd, cursorStart, dialNumber]);
 
   return (
     <Wrapper>
@@ -90,7 +98,11 @@ function KeypadScreen({
       </div>
       <Keypad addToDialNumber={addToDialNumber} />
       <Row>
-        <RoundedButton use="primary" onClick={handleStartCall}>
+        <RoundedButton
+          use="primary"
+          disabled={!isDialNumberValid}
+          onClick={handleStartCall}
+        >
           Call
         </RoundedButton>
       </Row>

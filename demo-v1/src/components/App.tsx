@@ -2,9 +2,11 @@ import { useState, useMemo, MouseEventHandler } from "react";
 import { ThemeProvider } from "styled-components";
 import { createTheme } from "../visitor-ui-component-library/theme/createTheme";
 import {
+  setDisabledBackgroundColor,
   setPrimaryColor,
   setTextColor,
 } from "../visitor-ui-component-library/theme/defaultThemeOperators";
+import { setTooltipBackgroundColor } from "../visitor-ui-component-library/tooltip/theme/tooltipThemeOperators";
 import LoginScreen from "./screens/LoginScreen";
 import KeypadScreen from "./screens/KeypadScreen";
 import DialingScreen from "./screens/DialingScreen";
@@ -12,6 +14,7 @@ import CallingScreen from "./screens/CallingScreen";
 import CallEndedScreen from "./screens/CallEndedScreen";
 import { useCti } from "../hooks/useCti";
 import { useCallDurationTimer } from "../hooks/useTimer";
+import { WHITE } from "../visitor-ui-component-library/theme/ColorConstants";
 
 export interface ScreenProps {
   handleNextScreen: Function;
@@ -48,9 +51,8 @@ export const screens = [
 ];
 
 export const formatTime = (totalSeconds: number) => {
-  const getTimeStr = (time: number) => {
-    return time < 10 ? `0${time}` : time.toString();
-  };
+  const getTimeStr = (time: number) =>
+    time < 10 ? `0${time}` : time.toString();
   const hour = Math.floor(totalSeconds / 3600);
   const minute = Math.floor((totalSeconds - hour * 3600) / 60);
   const second = totalSeconds - (hour * 3600 + minute * 60);
@@ -127,7 +129,12 @@ function App() {
 
   return (
     <ThemeProvider
-      theme={createTheme(setPrimaryColor("#05a3bd"), setTextColor("#516f91"))}
+      theme={createTheme(
+        setPrimaryColor("#05a3bd"),
+        setTextColor("#516f91"),
+        setDisabledBackgroundColor("#eaf0f6"),
+        setTooltipBackgroundColor(WHITE)
+      )}
     >
       <div>{screenComponent}</div>
     </ThemeProvider>
