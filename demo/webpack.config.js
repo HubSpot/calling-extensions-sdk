@@ -1,18 +1,27 @@
 const path = require("path");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   entry: "./index.js",
   mode: "development",
-  plugins: [new CleanWebpackPlugin("build")],
+  plugins: [new HtmlWebpackPlugin({
+    template: "./index.html",
+    inject: false,
+    filename: "demo.html"
+  })],
   output: {
-    filename: "index_combined.js",
     libraryTarget: "umd",
-    path: path.resolve(__dirname, "bin")
+    path: path.resolve(__dirname, "bin"),
+    filename: "demo.bundle.js",
+    clean: true
   },
   devServer: {
-    contentBase: "./",
-    publicPath: "/bin",
     https: true,
-    port: 9025
+    port: 9025,
+    static: {
+      directory: path.resolve(__dirname, "bin")
+    },
+    historyApiFallback: {
+      index: "demo.html"
+    }
   }
 };

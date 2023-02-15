@@ -4,7 +4,7 @@
   "description": "HubSpot calling integration sdk test app",
   "private": true,
   "scripts": {
-    "build": "webpack",
+    "build": "webpack && cp -a dist/. ../build",
     "start": "npm i && webpack-dev-server --open"
   },
   "license": "ISC",
@@ -25,6 +25,7 @@
     "@types/styled-components": "^5.1.26",
     "babel-loader": "^9.1.2",
     "babel-plugin-styled-components": "^2.0.7",
+    "html-webpack-plugin": "^5.5.0",
     "prettier": "2.8.4",
     "prop-types": "^15.8.1",
     "webpack": "^5.75.0",

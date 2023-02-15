@@ -13,7 +13,12 @@ import { createTheme } from "../visitor-ui-component-library/theme/createTheme";
  * This file has a dependency on visitor-ui-component-library. Do not directly edit files in the library!
  */
 
-export const TextArea = styled.textarea`
+export const TextArea = styled.textarea.attrs({
+  placeholderTextColor: "#cbd6e2",
+})`
+  padding: 10px;
+  margin: 10px 0;
+  font-family: Lexend;
   border: 1px solid ${DEFAULT_INPUT_BORDER_COLOR};
 `;
 
@@ -21,16 +26,22 @@ export const Wrapper = styled.div`
   margin: 10px 40px;
 `;
 
-export const Input = styled(VizExInput).attrs({
-  backgroundColor: "white",
-})``;
+export const Input = styled(VizExInput)``;
 
-export const KeypadInput = styled(VizExInput).attrs({
-  containerStyles: { width: "225px" },
+export const KeypadInput = styled(Input).attrs({
+  containerStyles: {
+    backgroundColor: "white",
+    width: "225px",
+    borderColor: "#05a3bd",
+  },
 })``;
 
 export const RoundedInput = styled(VizExInput).attrs({
-  containerStyles: { borderRadius: "25px", marginBottom: "10px" },
+  containerStyles: {
+    backgroundColor: "white",
+    borderRadius: "25px",
+    marginBottom: "10px",
+  },
 })``;
 
 export const Button = styled(VizExButton).attrs((props) => ({
