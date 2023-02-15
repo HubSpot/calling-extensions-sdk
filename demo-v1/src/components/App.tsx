@@ -131,12 +131,21 @@ function App() {
     <ThemeProvider
       theme={createTheme(
         setPrimaryColor("#05a3bd"),
-        setTextColor("#516f91"),
+        setTextColor("#516f90"),
         setDisabledBackgroundColor("#eaf0f6"),
         setTooltipBackgroundColor(WHITE)
       )}
     >
-      <div>{screenComponent}</div>
+      <div
+        style={{
+          backgroundColor: "#f5f8fa",
+          color: "#2d3e50",
+          minWidth: "400px",
+          minHeight: "600px",
+        }}
+      >
+        {screenComponent}
+      </div>
     </ThemeProvider>
   );
 }

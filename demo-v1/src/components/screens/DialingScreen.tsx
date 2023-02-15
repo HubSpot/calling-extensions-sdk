@@ -11,7 +11,7 @@ function DialingScreen({
   useEffect(() => {
     const timer = setTimeout(() => {
       handleNextScreen();
-    }, 3000);
+    }, 2500);
     return () => clearTimeout(timer);
   }, []);
 
