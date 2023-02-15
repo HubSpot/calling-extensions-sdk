@@ -39,6 +39,8 @@ module.exports = {
     static: {
       directory: path.join(__dirname, "dist"),
     },
-    open: false,
+    historyApiFallback: {
+      index: "demo-v1.html",
+    },
   },
 };

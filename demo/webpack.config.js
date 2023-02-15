@@ -19,6 +19,9 @@ module.exports = {
     port: 9025,
     static: {
       directory: path.join(__dirname, "bin")
+    },
+    historyApiFallback: {
+      index: "demo.html"
     }
   }
 };
