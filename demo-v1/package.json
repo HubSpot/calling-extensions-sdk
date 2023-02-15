@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "webpack && cp -a dist/. ../build",
-    "start": "yarn install && webpack-dev-server --open"
+    "start": "npm i && webpack-dev-server --open"
   },
   "license": "ISC",
   "dependencies": {

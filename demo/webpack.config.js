@@ -18,7 +18,7 @@ module.exports = {
     https: true,
     port: 9025,
     static: {
-      directory: path.join(__dirname, "bin")
+      directory: path.resolve(__dirname, "bin")
     },
     historyApiFallback: {
       index: "demo.html"
