@@ -136,7 +136,15 @@ function App() {
         setTooltipBackgroundColor(WHITE)
       )}
     >
-      <div>{screenComponent}</div>
+      <div
+        style={{
+          backgroundColor: "#f5f8fa",
+          minWidth: "400px",
+          minHeight: "600px",
+        }}
+      >
+        {screenComponent}
+      </div>
     </ThemeProvider>
   );
 }

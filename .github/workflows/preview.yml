@@ -1,0 +1,25 @@
+name: Deploy PR previews
+run-name: ${{ github.actor }} is deploying a PR
+on: [pull_request]
+
+concurrency: preview-${{ github.ref }}
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install and Build Demo apps
+        run: |
+          npm install
+          npm run build:demos
+        with:
+          node-version: '19'
+
+      - uses: rossjrw/pr-preview-action@v1.3.0
+        with:
+          source-dir: ./build
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          action: auto
