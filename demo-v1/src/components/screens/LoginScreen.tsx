@@ -23,14 +23,18 @@ function LoginScreen({ cti, handleNextScreen }: ScreenProps) {
   return (
     <Wrapper>
       <h4 style={{ textAlign: "center" }}>Log into your calling account</h4>
-      <div style={{ marginBottom: "5px" }}>User Name</div>
+      <div style={{ marginBottom: "5px", fontSize: "14px" }}>User Name</div>
       <RoundedInput
         value={username}
         onChange={handleUsername}
         ref={usernameInput}
       />
-      <div style={{ marginBottom: "5px" }}>Password</div>
-      <RoundedInput value={password} onChange={handlePassword} />
+      <div style={{ marginBottom: "5px", fontSize: "14px" }}>Password</div>
+      <RoundedInput
+        type="password"
+        value={password}
+        onChange={handlePassword}
+      />
       <Row>
         <RoundedButton use="primary" onClick={handleLogin}>
           Log in

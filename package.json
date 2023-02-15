@@ -1,12 +1,13 @@
 {
   "name": "@hubspot/calling-extensions-sdk",
   "version": "0.0.10",
+  "homepage": "https://github.hubspot.com/calling-extensions-sdk",
   "description": "HubSpot calling extensions sdk for call widget integration.",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "webpack",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider webpack",
     "build:test": "npm run build && npm run test",
     "prepublish": "npm run build:test",
     "test": "karma start karma.conf.js --browsers ChromeHeadless --single-run",
@@ -14,7 +15,12 @@
     "cover": "open coverage/lcov-report/index.html",
     "eslint": "eslint src --ext .js",
     "eslint:fix": "eslint src .js --fix",
-    "travis": "npm run build:test"
+    "travis": "npm run build:test",
+    "build:demo": "cd demo && npm run build",
+    "build:demo-v1": "cd demo-v1 && npm run build",
+    "build:demos": "npm run build:demo-v1 && npm run build:demo && cp ./src/index.html build/index.html",
+    "predeploy": "npm run build:demos",
+    "deploy": "gh-pages -d build"
   },
   "main": "./dist/main.js",
   "module": "./index.js",
@@ -35,6 +41,7 @@
     "eslint-plugin-jsx-a11y": "^3.0.2",
     "eslint-plugin-mocha": "^4.7.0",
     "eslint-plugin-react": "^6.9.0",
+    "gh-pages": "^5.0.0",
     "jasmine-core": "^3.3.0",
     "karma": "^6.3.17",
     "karma-babel-preprocessor": "^8.0.2",
