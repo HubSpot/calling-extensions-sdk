@@ -18,7 +18,9 @@
     "travis": "npm run build:test",
     "build:demo": "cd demo && npm run build",
     "build:demo-v1": "cd demo-v1 && yarn build",
-    "build:demos": "npm run build:demo-v1 && npm run build:demo"
+    "build:demos": "npm run build:demo-v1 && npm run build:demo",
+    "predeploy": "npm run build:demos",
+    "deploy": "gh-pages -d build"
   },
   "main": "./dist/main.js",
   "module": "./index.js",
@@ -39,6 +41,7 @@
     "eslint-plugin-jsx-a11y": "^3.0.2",
     "eslint-plugin-mocha": "^4.7.0",
     "eslint-plugin-react": "^6.9.0",
+    "gh-pages": "^5.0.0",
     "jasmine-core": "^3.3.0",
     "karma": "^6.3.17",
     "karma-babel-preprocessor": "^8.0.2",
