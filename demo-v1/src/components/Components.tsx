@@ -13,16 +13,21 @@ import { createTheme } from "../visitor-ui-component-library/theme/createTheme";
  * This file has a dependency on visitor-ui-component-library. Do not directly edit files in the library!
  */
 
-export const TextArea = styled.textarea.attrs({
-  placeholderTextColor: "#cbd6e2",
-})`
+export const TextArea = styled.textarea`
   padding: 10px;
   margin: 10px 0;
   font-family: Lexend;
   border: 1px solid ${DEFAULT_INPUT_BORDER_COLOR};
+  border-radius: 5px;
+  ::placeholder {
+    color: #99acc2;
+  }
+  resize: none;
+  width: 100%;
 `;
 
 export const Wrapper = styled.div`
+  color: #2d3e50;
   margin: 10px 40px;
 `;
 
@@ -64,7 +69,9 @@ export const Row = styled.div`
   justify-content: space-evenly;
 `;
 
-export const Link = styled(VizExLink)``;
+export const Link = styled(VizExLink)`
+  font-size: 13px;
+`;
 
 export const Key = styled(VizExButton).attrs({
   use: "transparent-on-primary",

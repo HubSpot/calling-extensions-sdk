@@ -1,6 +1,12 @@
 import { ChangeEvent } from "react";
+import styled from "styled-components";
 import { ScreenProps } from "../App";
 import { RoundedButton, Row, Timer, TextArea } from "../Components";
+
+const StyledRow = styled(Row)`
+  justify-content: flex-start;
+  padding: 0 60px;
+`;
 
 function CallEndedScreen({
   handleSaveCall,
@@ -19,15 +25,16 @@ function CallEndedScreen({
         <h2>Call with {dialNumber} ended</h2>
         <Timer>{callDurationString}</Timer>
       </div>
-      <Row>Notes</Row>
-      <Row>
+      <StyledRow>Notes</StyledRow>
+      <StyledRow>
         <TextArea
           id="callingnotes"
           rows={10}
           value={notes}
           onChange={handleNotes}
         ></TextArea>
-      </Row>
+      </StyledRow>
+      <br />
       <Row>
         <RoundedButton use="primary" onClick={handleSaveCall}>
           Save Call
