@@ -14,23 +14,39 @@ import { createTheme } from "../visitor-ui-component-library/theme/createTheme";
  */
 
 export const TextArea = styled.textarea`
+  padding: 10px;
+  margin: 10px 0;
+  font-family: Lexend;
   border: 1px solid ${DEFAULT_INPUT_BORDER_COLOR};
+  border-radius: 5px;
+  ::placeholder {
+    color: #99acc2;
+  }
+  resize: none;
+  width: 100%;
 `;
 
 export const Wrapper = styled.div`
+  color: #2d3e50;
   margin: 10px 40px;
 `;
 
-export const Input = styled(VizExInput).attrs({
-  backgroundColor: "white",
-})``;
+export const Input = styled(VizExInput)``;
 
-export const KeypadInput = styled(VizExInput).attrs({
-  containerStyles: { width: "225px" },
+export const KeypadInput = styled(Input).attrs({
+  containerStyles: {
+    backgroundColor: "white",
+    width: "225px",
+    borderColor: "#05a3bd",
+  },
 })``;
 
 export const RoundedInput = styled(VizExInput).attrs({
-  containerStyles: { borderRadius: "25px", marginBottom: "10px" },
+  containerStyles: {
+    backgroundColor: "white",
+    borderRadius: "25px",
+    marginBottom: "10px",
+  },
 })``;
 
 export const Button = styled(VizExButton).attrs((props) => ({
@@ -53,7 +69,9 @@ export const Row = styled.div`
   justify-content: space-evenly;
 `;
 
-export const Link = styled(VizExLink)``;
+export const Link = styled(VizExLink)`
+  font-size: 13px;
+`;
 
 export const Key = styled(VizExButton).attrs({
   use: "transparent-on-primary",

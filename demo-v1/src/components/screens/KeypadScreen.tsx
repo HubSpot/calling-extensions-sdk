@@ -1,4 +1,5 @@
 import { useState, ChangeEvent, useCallback } from "react";
+import styled from "styled-components";
 import { useAutoFocus } from "../../hooks/useAutoFocus";
 import { ScreenNames, ScreenProps } from "../App";
 import {
@@ -10,6 +11,10 @@ import {
   Button,
 } from "../Components";
 import { Keypad } from "../Keypad";
+
+const StyledRow = styled(Row)`
+  justify-content: flex-end;
+`;
 
 function KeypadScreen({
   handleNextScreen,
@@ -86,7 +91,10 @@ function KeypadScreen({
 
   return (
     <Wrapper>
-      <Link onClick={handleLogout}>Logout</Link>
+      <StyledRow>
+        <Link onClick={handleLogout}>Logout</Link>
+      </StyledRow>
+      <br />
       <div style={{ display: "flex", justifyContent: "space-evenly" }}>
         <KeypadInput
           value={dialNumber}
@@ -96,6 +104,7 @@ function KeypadScreen({
         />
         <Button onClick={handleBackspace}>X</Button>
       </div>
+      <br />
       <Keypad addToDialNumber={addToDialNumber} />
       <Row>
         <RoundedButton

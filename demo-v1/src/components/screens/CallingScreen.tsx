@@ -48,7 +48,7 @@ function CallingScreen({
   return (
     <>
       <div style={{ textAlign: "center" }}>
-        <h2>Call with {dialNumber} ...</h2>
+        <h2>Call with {dialNumber}</h2>
         <Timer>{callDurationString}</Timer>
       </div>
       <Row style={{ marginBottom: "20px" }}>
@@ -138,7 +138,7 @@ function CallingScreen({
         </EndCallButton>
       </Row>
       <br />
-      <hr />
+      <hr style={{ margin: "0 30px", border: "0.8px solid #cbd6e2" }} />
       <br />
       <Row>Notes</Row>
       <Row>
@@ -147,6 +147,7 @@ function CallingScreen({
           rows={10}
           value={notes}
           onChange={handleNotes}
+          placeholder="Enter notes from your call ..."
         ></TextArea>
       </Row>
     </>

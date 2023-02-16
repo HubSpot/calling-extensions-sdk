@@ -131,7 +131,7 @@ function App() {
     <ThemeProvider
       theme={createTheme(
         setPrimaryColor("#05a3bd"),
-        setTextColor("#516f91"),
+        setTextColor("#516f90"),
         setDisabledBackgroundColor("#eaf0f6"),
         setTooltipBackgroundColor(WHITE)
       )}
@@ -139,6 +139,7 @@ function App() {
       <div
         style={{
           backgroundColor: "#f5f8fa",
+          color: "#516f90",
           minWidth: "400px",
           minHeight: "600px",
         }}
