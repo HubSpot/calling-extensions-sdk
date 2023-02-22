@@ -13,7 +13,7 @@ Calling Extensions SDK enables 3rd party VOIP providers or enterprise calling sy
 4. Understand the [typical message flow between the call widget and HubSpot](https://github.com/hubspot/calling-extensions-sdk#run-the-demo-call-widget).
 5. [Test](https://github.com/HubSpot/calling-extensions-sdk#test-your-app-from-a-local-environment) your app from a local environment.
 6. [Get your app](https://github.com/HubSpot/calling-extensions-sdk#get-your-app-ready-for-production) ready for production.
-7. [Publish your app](https://github.com/HubSpot/calling-extensions-sdk#publish-application-to-the-hubspot-marketplace) to the HubSpot marketplace.
+7. [Publish your app](https://github.com/HubSpot/calling-extensions-sdk#publish-your-calling-app-to-the-hubspot-marketplace) to the HubSpot marketplace.
 
 ## Install the Calling Extensions SDK on your call widget
 
@@ -362,9 +362,9 @@ localStorage.setItem(
 );
 ```
 
-## Publish application to the HubSpot marketplace
+## Publish your calling app to the HubSpot marketplace
 
-The final step once your app is setup is to list in the HubSpot marketplace. You can find more details [here](https://developers.hubspot.com/submit-an-application-to-the-marketplace) . You can also choose to not list in the marketplace if this application is for your internal use only.
+The final step once your app is setup is to list your calling app in the HubSpot marketplace. You can find more details [here](https://developers.hubspot.com/submit-an-application-to-the-marketplace) . You can also choose to not list it in the marketplace if this application is for your internal use only.
 
 # FAQs
 
