@@ -314,10 +314,6 @@ While you're in the process of building your application, you can manually set t
 To set the value, open the developer tools for your browser, and run the following JavaScript command in the developer console:
 
 ```js
-/**
- * @deprecated LocalSettings:Sales:CallingExtensions localstorage key for the non movable demo widget
- * Use LocalSettings:Calling:CallingExtensions for the newer floating widget instead
- */
 localStorage.setItem(
   "LocalSettings:Calling:CallingExtensions",
   '{"name": "<your intended widget name>", "url": "<your dev url or prod url>"}'
@@ -357,10 +353,8 @@ curl --request POST \
 The isReady flag indicate whether the widget is ready for production. This flag should be set to false during testing. Note that this flag (or any other field) can be overwritten through localStorage.
 
 ```js
-/* Override the isReady flag for "Demo widget" */
 /**
- * @deprecated LocalSettings:Sales:CallingExtensions localstorage key for the non movable demo widget
- * Use LocalSettings:Calling:CallingExtensions for the newer floating widget instead
+ * Override the isReady flag for the "Demo widget"
  */
 localStorage.setItem(
   "LocalSettings:Calling:CallingExtensions",
