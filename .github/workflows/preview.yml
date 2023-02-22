@@ -39,11 +39,9 @@ jobs:
           npm install
           npm run build:demos
           npm run test
-        with:
-          node-version: '19'
       - name: Deploy  🚀
         uses: JamesIves/github-pages-deploy-action@v4
-          with:
-            folder: dist
-            branch: gh-pages
-            clean-exclude: pr-preview
+        with:
+          folder: dist
+          branch: gh-pages
+          clean-exclude: pr-preview
