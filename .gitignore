@@ -7,3 +7,5 @@ coverage
 build
 .DS_STORE
 lib
+__tests__
+package-lock.json
