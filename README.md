@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/HubSpot/calling-extensions-sdk.svg?branch=master)](https://travis-ci.org/HubSpot/calling-extensions-sdk)
 [![calling-extensions-sdk on npm](https://img.shields.io/npm/v/@hubspot/calling-extensions-sdk.svg?style=flat-square)](http://npmjs.com/@hubspot/calling-extensions-sdk)
 
-Calling Extensions SDK enables 3rd party VOIP providers or enterprise calling systems to seamlessly integrate their CTI (referred to as call widget) with HubSpot for outbound calling. The Call Widget is rendered inside the HubSpot UI, and a lightweight wrapper around the HTML5 postMessage API facilitates cross-origin communication between the widget and HubSpot.
+Calling Extensions SDK enables 3rd party VOIP providers or enterprise calling systems to seamlessly integrate their Computer Telephony Integration (CTI), also known as call widget, with HubSpot for outbound calling. The Call Widget is rendered inside the HubSpot UI, and a lightweight wrapper around the HTML5 postMessage API facilitates cross-origin communication between the widget and HubSpot.
 
 ## Getting Started
 
