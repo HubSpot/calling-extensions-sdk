@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "webpack",
-    "serve": "npm i && webpack-dev-server --open",
+    "serve": "webpack-dev-server --open",
     "start": "node scripts/start.js npm run serve"
   },
   "license": "ISC",

@@ -9,8 +9,8 @@ Calling Extensions SDK enables 3rd party VOIP providers or enterprise calling sy
 
 1. [Create a HubSpot app](https://developers.hubspot.com/docs/faq/how-do-i-create-an-app-in-hubspot) and [create a test account](https://developers.hubspot.com/docs/faq/how-do-i-create-a-test-account).
 2. [Install](https://github.com/HubSpot/calling-extensions-sdk#install-the-calling-extensions-sdk-on-your-call-widget) the Calling Extensions SDK on your call widget. Alternatively, you can [run the demo call widget](https://github.com/hubspot/calling-extensions-sdk#run-the-demo-call-widget) if you'd like to see the SDK in action first.
-3. Learn how to [use the Calling Extensions SDK](https://github.com/hubspot/calling-extensions-sdk#using-the-calling-extensions-sdk).
-4. Understand the [typical message flow between the call widget and HubSpot](https://github.com/HubSpot/calling-extensions-sdk#typical-message-flow-between-the-call-widget-and-hubspot).
+3. Understand the [typical message flow between the call widget and HubSpot](https://github.com/HubSpot/calling-extensions-sdk#typical-message-flow-between-the-call-widget-and-hubspot).
+4. Learn how to [use the Calling Extensions SDK](https://github.com/hubspot/calling-extensions-sdk#using-the-calling-extensions-sdk).
 5. [Test](https://github.com/HubSpot/calling-extensions-sdk#test-your-app-from-a-local-environment) your app from a local environment.
 6. [Get your app](https://github.com/HubSpot/calling-extensions-sdk#get-your-app-ready-for-production) ready for production.
 7. [Publish your app](https://github.com/HubSpot/calling-extensions-sdk#publish-your-calling-app-to-the-hubspot-marketplace) to the HubSpot marketplace.
@@ -34,23 +34,61 @@ We have installed the SDK on a demo call widget as an example.
 
 ### Installation
 1. Download the demo call widget by cloning/forking this repo or by [downloading the ZIP](https://github.com/HubSpot/calling-extensions-sdk/archive/refs/heads/master.zip).
-2. From your terminal, navigate to the root directory of the project and start the browser on the demo page by running:
-
+2. In your terminal, locate the root directory of the project, then navigate to the demo directory by running:
 ```shell
-cd demo && npm start
+cd demo
 ```
+3. Install the project's [Node.js](https://nodejs.org/en/) dependencies using the [npm CLI](https://docs.npmjs.com/cli/v9) by running:
+```shell
+npm i
+```
+4. Start the demo app on your browser by running:
+```shell
+npm start
+```
+This command will open a new tab at https://localhost:9025/. Note that you may need bypass a "Your connection is not secure" warning in order to access the application.
 
 ### Launch the demo call widget from HubSpot
 1. In HubSpot, navigate to a contact or company page.
-2. Open the browser's console and paste the following:
+2. Open the browser's developer console and paste the following:
 ```js
 localStorage.setItem(
   "LocalSettings:Calling:CallingExtensions",
   '{"name": "Demo widget", "url": "https://localhost:9025/"}'
 );
 ```
-3. Refresh the page and click the calling icon on the left toolbar to open the settings popover.
-4. Once open you'll see a provider dropdown in the top right of the popover, select "Demo Widget" and click "call from browser".
+3. Refresh the page and click the "Make a phone call" button on the left toolbar to open the calling settings popover.
+4. In the calling settings popover, click on "Open call options" then select the "Demo widget" under the Calling Provider options.
+5. You can now click on the "Call" button to see how the demo widget integrates with HubSpot via the Calling Extensions SDK. You can also see the events logged to your browser's developer console!
+
+## Typical message flow between the call widget and HubSpot
+
+### Initializing the call widget
+
+The following messages are exchanged when a call widget is instantiated:
+
+![Image description](./docs/images/InitializeCallWidgetIFrame.png)
+
+In order to initialize the call widget, the Calling Extensions SDK executes a SYNC/SYNC_ACK routine where Hubspot repeatedly sends a SYNC message to the widget once the iFrame is loaded until it receives the SYNC_ACK response from the widget. If the SYNC_ACK response is not received within 30 seconds, the widget initialization is marked as failed. Otherwise, the ready event is triggered to mark that HubSpot and the call widget are synchronized and can now exchange messages (events). Therefore, the call widget should wait for the ready event from the SDK and send the initialized event to HubSpot.
+
+### Outbound call
+
+The following messages are exchanged when user initiates a call:
+
+![Image description](./docs/images/OutboundCallSequenceDiagram.png)
+
+Hubspot ensures the call widget is logged in before sending in a dial number event - if the widget is not logged in, an alert is shown in HubSpot's UI.
+
+Here is a description of the events:
+
+1. **Dial number** - HubSpot sends the dial number event.
+2. **Outbound call started** - Widget notifies HubSpot when the call is started.
+3. **Create engagement** - HubSpot creates [a call engagement](https://developers.hubspot.com/docs/api/crm/calls) with minimal information if requested by the widget.
+4. **Engagement created** - HubSpot created an engagement.
+5. **EngagementId sent to Widget** - HubSpot sends the engagementId to the widget.
+6. **Call ended** - Widget notifies when the call is ended.
+7. **Call completed** - Widget notifies when the user is done with the widget user experience.
+8. **Update engagement** - Widget fetches the engagement by the engagementId, then merges and updates the engagement with additional call details. Visit the HubSpot Developer Docs to learn more about [updating a call engagement](https://developers.hubspot.com/docs/api/crm/calls#update-calls).
 
 ## Using the Calling Extensions SDK
 
@@ -277,35 +315,6 @@ onDialNumber(data) {
 
 </p>
 </details>
-
-## Typical message flow between the call widget and HubSpot
-
-### Initializing the call widget
-
-The following messages are exchanged when a call widget is instantiated:
-
-![Image description](./docs/images/InitializeCallWidgetIFrame.png)
-
-In order to initialize the call widget, the Calling Extensions SDK executes a SYNC/SYNC_ACK routine where Hubspot repeatedly sends a SYNC message to the widget once the iFrame is loaded until it receives the SYNC_ACK response from the widget. If the SYNC_ACK response is not received within 30 seconds, the widget initialization is marked as failed. Otherwise, the ready event is triggered to mark that HubSpot and the call widget are synchronized and can now exchange messages (events). Therefore, the call widget should wait for the ready event from the SDK and send the initialized event to HubSpot.
-
-### Outbound call
-
-The following messages are exchanged when user initiates a call:
-
-![Image description](./docs/images/OutboundCallSequenceDiagram.png)
-
-Hubspot ensures the call widget is logged in before sending in a dial number event - if the widget is not logged in, an alert is shown in HubSpot's UI.
-
-Here is a description of the events:
-
-1. **Dial number** - HubSpot sends the dial number event.
-2. **Outbound call started** - Widget notifies HubSpot when the call is started.
-3. **Create engagement** - HubSpot creates an engagement with minimum information if requested by the widget.
-4. **Engagement created** - HubSpot created an engagement.
-5. **EngagementId sent to Widget** - HubSpot sends the engagementId to the widget.
-6. **Call ended** - Widget notifies when the call is ended.
-7. **Call completed** - Widget notifies when the user is done with the widget user experience.
-8. **Update engagement** - Widget fetches the engagement by the engagementId, merges and updates the engagement with additional call details. For more, visit the [Call Engagement Overview](https://developers.hubspot.com/docs/methods/engagements/engagements-overview) and the docs to [Update an Engagement](https://developers.hubspot.com/docs/methods/engagements/update_engagement-patch)
 
 ## Test your app from a local environment
 
