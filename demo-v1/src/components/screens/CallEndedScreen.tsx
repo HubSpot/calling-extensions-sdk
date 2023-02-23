@@ -1,11 +1,10 @@
 import { ChangeEvent } from "react";
 import styled from "styled-components";
-import { RoundedButton, Row, Timer, TextArea } from "../Components";
+import { RoundedButton, Row, Timer, TextArea, Wrapper } from "../Components";
 import { ScreenProps } from "../../types/ScreenTypes";
 
 const StyledRow = styled(Row)`
   justify-content: flex-start;
-  padding: 0 60px;
 `;
 
 function CallEndedScreen({
@@ -20,7 +19,7 @@ function CallEndedScreen({
   };
 
   return (
-    <>
+    <Wrapper>
       <div style={{ textAlign: "center" }}>
         <h2>Call with {dialNumber} ended</h2>
         <Timer>{callDurationString}</Timer>
@@ -40,7 +39,7 @@ function CallEndedScreen({
           Save Call
         </RoundedButton>
       </Row>
-    </>
+    </Wrapper>
   );
 }
 

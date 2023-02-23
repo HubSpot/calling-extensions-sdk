@@ -1,25 +1,127 @@
 import { useMemo, useState } from "react";
 
+// import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 // @ts-expect-error module not typed
-// import CallingExtensions from "@hubspot/calling-extensions-sdk";
 import CallingExtensions from "../../../src/CallingExtensions";
+// @ts-expect-error module not typed
+import { messageType } from "../../../src/Constants";
 
-const handleMessage = (event: any) => {
-  console.log("Incoming Message: ", event.type, event);
+const logMsg = (event: any, prefix: string) => {
+  if (event.data) {
+    console.log(prefix, event.type, event.data);
+    return;
+  }
+  console.log(prefix, event.type);
 };
+
+const logMsgFromHubSpot = (event: any) => {
+  logMsg(event, "[From HubSpot]");
+};
+
+const logMsgToHubSpot = (event: any) => {
+  logMsg(event, "[To HubSpot]");
+};
+
+class CallingExtensionsWithLogs extends CallingExtensions {
+  constructor(options: any) {
+    super(options);
+  }
+
+  initialized(userData: any) {
+    super.initialized(userData);
+    logMsgToHubSpot({
+      type: messageType.INITIALIZED,
+    });
+  }
+  userLoggedIn() {
+    super.userLoggedIn();
+    logMsgToHubSpot({
+      type: messageType.LOGGED_IN,
+    });
+  }
+  userLoggedOut() {
+    super.userLoggedOut();
+    logMsgToHubSpot({
+      type: messageType.LOGGED_OUT,
+    });
+  }
+  incomingCall(callDetails: any) {
+    super.sendMessage(callDetails);
+    logMsgToHubSpot({
+      type: messageType.INCOMING_CALL,
+      data: callDetails,
+    });
+  }
+  outgoingCall(callDetails: any) {
+    super.outgoingCall(callDetails);
+    logMsgToHubSpot({
+      type: messageType.OUTGOING_CALL_STARTED,
+      data: callDetails,
+    });
+  }
+
+  callAnswered() {
+    super.callAnswered();
+    logMsgToHubSpot({
+      type: messageType.CALL_ANSWERED,
+    });
+  }
+
+  callData(data: any) {
+    super.callData(data);
+    logMsgToHubSpot({
+      type: messageType.CALL_DATA,
+      data,
+    });
+  }
+
+  callEnded(engagementData: any) {
+    super.callEnded(engagementData);
+    logMsgToHubSpot({
+      type: messageType.CALL_ENDED,
+      data: engagementData,
+    });
+  }
+
+  callCompleted(callCompletedData: any) {
+    super.callCompleted(callCompletedData);
+    logMsgToHubSpot({
+      type: messageType.CALL_COMPLETED,
+      data: callCompletedData,
+    });
+  }
+
+  sendError(errorData: any) {
+    super.sendError(errorData);
+    logMsgToHubSpot({
+      type: messageType.ERROR,
+      data: errorData,
+    });
+  }
+
+  resizeWidget(sizeInfo: any) {
+    super.resizeWidget(sizeInfo);
+    logMsgToHubSpot({
+      type: messageType.RESIZE_WIDGET,
+      data: sizeInfo,
+    });
+  }
+}
+
 export const useCti = () => {
   const defaultSize = { width: 400, height: 600 };
   const [phoneNumber, setPhoneNumber] = useState("");
   const [engagementId, setEngagementId] = useState("");
   const cti = useMemo(() => {
-    return new CallingExtensions({
+    return new CallingExtensionsWithLogs({
       debugMode: true,
       eventHandlers: {
-        onReady: () => {
+        onReady: (_data: any, rawEvent: any) => {
+          logMsgFromHubSpot(rawEvent);
           cti.initialized({ isLoggedIn: true, sizeInfo: defaultSize });
         },
         onDialNumber: (data: any, rawEvent: any) => {
-          handleMessage(rawEvent);
+          logMsgFromHubSpot(rawEvent);
           const { phoneNumber } = data;
           setPhoneNumber(phoneNumber);
           window.setTimeout(
@@ -34,15 +136,15 @@ export const useCti = () => {
         onEngagementCreated: (data: any, rawEvent: any) => {
           const { engagementId } = data;
           setEngagementId(engagementId);
-          handleMessage(rawEvent);
+          logMsgFromHubSpot(rawEvent);
         },
         onEndCall: (data: any, rawEvent: any) => {
           window.setTimeout(() => {
-            cti.callEnded();
+            cti.callEnded(data);
           }, 500);
         },
         onVisibilityChanged: (data: any, rawEvent: any) => {
-          handleMessage(rawEvent);
+          logMsgFromHubSpot(rawEvent);
         },
       },
     });

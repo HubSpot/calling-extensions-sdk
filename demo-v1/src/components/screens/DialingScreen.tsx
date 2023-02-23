@@ -1,22 +1,24 @@
 import { useEffect } from "react";
-import { EndCallButton, Row, Timer } from "../Components";
-import { ScreenNames, ScreenProps } from "../../types/ScreenTypes";
+import { EndCallButton, Row, Timer, Wrapper } from "../Components";
+import { ScreenProps } from "../../types/ScreenTypes";
 
 function DialingScreen({
   handleNextScreen,
   dialNumber,
   callDurationString,
   handleEndCall,
+  cti,
 }: ScreenProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
+      cti.callAnswered();
       handleNextScreen();
     }, 2500);
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <>
+    <Wrapper>
       <div style={{ textAlign: "center" }}>
         <h2>Dialing {dialNumber} ...</h2>
         <Timer>{callDurationString}</Timer>
@@ -26,7 +28,7 @@ function DialingScreen({
           End Call
         </EndCallButton>
       </Row>
-    </>
+    </Wrapper>
   );
 }
 

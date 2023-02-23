@@ -27,7 +27,6 @@ export const TextArea = styled.textarea`
 `;
 
 export const Wrapper = styled.div`
-  color: #2d3e50;
   margin: 10px 40px;
 `;
 
