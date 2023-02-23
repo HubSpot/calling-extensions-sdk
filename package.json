@@ -16,8 +16,8 @@
     "eslint": "eslint src --ext .js",
     "eslint:fix": "eslint src .js --fix",
     "travis": "npm run build:test",
-    "build:demo": "cd demo && npm run build",
-    "build:demo-v1": "cd demo-v1 && npm run build",
+    "build:demo": "cd demo && npm i && npm run build",
+    "build:demo-v1": "cd demo-v1 && npm i && npm run build",
     "build:demos": "npm run build:demo-v1 && npm run build:demo && cp ./src/index.html build/index.html",
     "predeploy": "npm run build:demos",
     "deploy": "gh-pages -d build"
