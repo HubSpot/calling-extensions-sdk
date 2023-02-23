@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from "react";
 import styled from "styled-components";
-import { ScreenProps } from "../App";
+import { ScreenNames, ScreenProps } from "../../types/ScreenTypes";
 import {
   CallActionButton,
   EndCallButton,

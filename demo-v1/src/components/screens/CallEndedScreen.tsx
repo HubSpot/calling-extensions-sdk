@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react";
 import styled from "styled-components";
-import { ScreenProps } from "../App";
 import { RoundedButton, Row, Timer, TextArea } from "../Components";
+import { ScreenProps } from "../../types/ScreenTypes";
 
 const StyledRow = styled(Row)`
   justify-content: flex-start;

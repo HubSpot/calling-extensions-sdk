@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { EndCallButton, Row, Timer } from "../Components";
-import { ScreenProps } from "../App";
+import { ScreenNames, ScreenProps } from "../../types/ScreenTypes";
 
 function DialingScreen({
   handleNextScreen,

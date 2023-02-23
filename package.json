@@ -7,7 +7,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "NODE_OPTIONS=--openssl-legacy-provider webpack",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack",
     "build:test": "npm run build && npm run test",
     "prepublish": "npm run build:test",
     "test": "karma start karma.conf.js --browsers ChromeHeadless --single-run",
@@ -16,9 +16,10 @@
     "eslint": "eslint src --ext .js",
     "eslint:fix": "eslint src .js --fix",
     "travis": "npm run build:test",
-    "build:demo": "cd demo && npm run build",
-    "build:demo-v1": "cd demo-v1 && npm run build",
+    "build:demo": "cd demo && npm ci && npm run build",
+    "build:demo-v1": "cd demo-v1 && npm ci && npm run build",
     "build:demos": "npm run build:demo-v1 && npm run build:demo && cp ./src/index.html build/index.html",
+    "test:demo-v1": "cd demo-v1 && npm run test",
     "predeploy": "npm run build:demos",
     "deploy": "gh-pages -d build"
   },
@@ -33,6 +34,7 @@
     "@typescript-eslint/parser": "^5.52.0",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^1.0.0",
+    "cross-env": "^7.0.3",
     "eslint": "^6.3.0",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-import-resolver-typescript": "^3.5.3",
