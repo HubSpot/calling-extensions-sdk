@@ -1,11 +1,9 @@
-name: Deploy PR previews
+name: Deploy PR previews for demo apps
 run-name: ${{ github.actor }} is deploying a PR
 concurrency: preview-${{ github.ref }}
 on:
   workflow_dispatch:
   pull_request:
-    branches: [project-demo-v1]
-  push:
     branches: [project-demo-v1]
 
 jobs:
@@ -15,9 +13,9 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
       - name: Install and build 🔧
-        run: |
-          npm run build:demos
-          npm run test:demo-v1
+        run: npm run build:demos
+      - name: Run tests ✅
+        run: npm run test:demo-v1
       - name: Deploy preview 🚀
         uses: rossjrw/pr-preview-action@v1.3.0
         with:
@@ -25,21 +23,3 @@ jobs:
           preview-branch: gh-pages
           umbrella-dir: pr-preview
           action: auto
-
-  build-and-deploy:
-    concurrency: ci-${{ github.ref }}
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' }}
-    steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v3
-      - name: Install and Build 🔧
-        run: |
-          npm run build:demos
-          npm run test
-      - name: Deploy  🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: dist
-          branch: gh-pages
-          clean-exclude: pr-preview
