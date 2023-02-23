@@ -7,7 +7,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "NODE_OPTIONS=--openssl-legacy-provider webpack",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack",
     "build:test": "npm run build && npm run test",
     "prepublish": "npm run build:test",
     "test": "karma start karma.conf.js --browsers ChromeHeadless --single-run",
@@ -34,6 +34,7 @@
     "@typescript-eslint/parser": "^5.52.0",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^1.0.0",
+    "cross-env": "^7.0.3",
     "eslint": "^6.3.0",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-import-resolver-typescript": "^3.5.3",
