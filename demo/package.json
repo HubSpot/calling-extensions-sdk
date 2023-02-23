@@ -4,9 +4,8 @@
   "description": "HubSpot calling extension sdk demo",
   "private": true,
   "scripts": {
-    "build": "webpack",
-    "serve": "npm i && webpack-dev-server --open",
-    "start": "node scripts/start.js npm run serve"
+    "build": "node scripts/support_node_17+.js webpack",
+    "start": "node scripts/support_node_17+.js webpack-dev-server --open"
   },
   "license": "ISC",
   "devDependencies": {
