@@ -16,7 +16,6 @@ jobs:
         uses: actions/checkout@v3
       - name: Install and build 🔧
         run: |
-          npm install
           npm run build:demos
           npm run test
       - name: Deploy preview 🚀
@@ -36,7 +35,6 @@ jobs:
         uses: actions/checkout@v3
       - name: Install and Build 🔧
         run: |
-          npm install
           npm run build:demos
           npm run test
       - name: Deploy  🚀
