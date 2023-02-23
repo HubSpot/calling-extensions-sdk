@@ -11,6 +11,7 @@
     "module": "esnext",
     "target": "esnext",
     "isolatedModules": true,
-    "noErrorTruncation": true
+    "noErrorTruncation": true,
+    "types": ["jasmine", "node", "@testing-library/jasmine-dom"]
   }
 }

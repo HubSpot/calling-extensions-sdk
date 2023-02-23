@@ -1,4 +1,4 @@
-import { useState, useMemo, MouseEventHandler } from "react";
+import { useState, useMemo } from "react";
 import { ThemeProvider } from "styled-components";
 import { createTheme } from "../visitor-ui-component-library/theme/createTheme";
 import {
@@ -15,32 +15,7 @@ import CallEndedScreen from "./screens/CallEndedScreen";
 import { useCti } from "../hooks/useCti";
 import { useCallDurationTimer } from "../hooks/useTimer";
 import { WHITE } from "../visitor-ui-component-library/theme/ColorConstants";
-
-export interface ScreenProps {
-  handleNextScreen: Function;
-  handlePreviousScreen: Function;
-  handleNavigateToScreen: Function;
-  cti: any;
-  phoneNumber: string;
-  engagementId: string;
-  dialNumber: string;
-  setDialNumber: Function;
-  notes: string;
-  setNotes: Function;
-  callDurationString: string;
-  startTimer: Function;
-  stopTimer: Function;
-  handleEndCall: MouseEventHandler<HTMLButtonElement>;
-  handleSaveCall: MouseEventHandler<HTMLButtonElement>;
-}
-
-export enum ScreenNames {
-  Login,
-  Keypad,
-  Dialing,
-  Calling,
-  CallEnded,
-}
+import { ScreenNames } from "../types/ScreenTypes";
 
 export const screens = [
   LoginScreen,
