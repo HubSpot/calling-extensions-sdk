@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "webpack && cp -a dist/. ../build",
-    "serve": "npm i && webpack-dev-server --open",
+    "serve": "webpack-dev-server --open",
     "start": "npm run build && npm run serve",
     "test:build": "cross-env NODE_ENV=test npx webpack --config webpack-test.config.js --mode development",
     "test:watch": "cross-env NODE_ENV=test npx webpack --config webpack-test.config.js --mode development --watch",
