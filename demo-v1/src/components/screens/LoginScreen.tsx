@@ -1,7 +1,13 @@
 import { useState, ChangeEvent } from "react";
 import { useAutoFocus } from "../../hooks/useAutoFocus";
-import { Wrapper, RoundedInput, RoundedButton, Row, Link } from "../Components";
-import { ScreenProps } from "../App";
+import {
+  Wrapper,
+  RoundedInput,
+  RoundedButton,
+  LinkButton,
+  Row,
+} from "../Components";
+import { ScreenNames, ScreenProps } from "../../types/ScreenTypes";
 
 function LoginScreen({ cti, handleNextScreen }: ScreenProps) {
   const usernameInput = useAutoFocus();
@@ -21,7 +27,7 @@ function LoginScreen({ cti, handleNextScreen }: ScreenProps) {
   }: ChangeEvent<HTMLInputElement>) => setPassword(value);
 
   return (
-    <Wrapper>
+    <Wrapper data-testid="login">
       <h4 style={{ textAlign: "center" }}>Log into your calling account</h4>
       <div style={{ marginBottom: "5px", fontSize: "14px" }}>User Name</div>
       <RoundedInput
@@ -42,9 +48,9 @@ function LoginScreen({ cti, handleNextScreen }: ScreenProps) {
       </Row>
       <br />
       <Row>
-        <Link use="default" onClick={handleLogin}>
+        <LinkButton use="transparent-on-primary" onClick={handleLogin}>
           Sign in with SSO
-        </Link>
+        </LinkButton>
       </Row>
     </Wrapper>
   );

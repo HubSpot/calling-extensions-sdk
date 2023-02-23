@@ -1,6 +1,7 @@
 import { ChangeEvent } from "react";
-import { ScreenProps } from "../App";
+import styled from "styled-components";
 import { RoundedButton, Row, Timer, TextArea } from "../Components";
+import { ScreenProps } from "../../types/ScreenTypes";
 
 function CallEndedScreen({
   handleSaveCall,

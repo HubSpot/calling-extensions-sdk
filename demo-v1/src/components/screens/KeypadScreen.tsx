@@ -1,10 +1,10 @@
 import { useState, ChangeEvent, useCallback } from "react";
 import { useAutoFocus } from "../../hooks/useAutoFocus";
-import { ScreenNames, ScreenProps } from "../App";
+import { ScreenNames, ScreenProps } from "../../types/ScreenTypes";
 import {
   Wrapper,
   RoundedButton,
-  Link,
+  LinkButton,
   KeypadInput,
   Row,
   Button,
@@ -85,8 +85,11 @@ function KeypadScreen({
   }, [cursorEnd, cursorStart, dialNumber]);
 
   return (
-    <Wrapper>
-      <Link onClick={handleLogout}>Logout</Link>
+    <Wrapper data-testid="keypad">
+      <StyledRow>
+        <LinkButton onClick={handleLogout}>Log out</LinkButton>
+      </StyledRow>
+      <br />
       <div style={{ display: "flex", justifyContent: "space-evenly" }}>
         <KeypadInput
           value={dialNumber}
