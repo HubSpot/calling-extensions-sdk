@@ -33,6 +33,10 @@ function KeypadScreen({
     return value.length > 2;
   };
 
+  const validateKeypadInput = (value: string) => {
+    return /^[0-9-+*#]*$/.test(value);
+  };
+
   const handleLogout = () => {
     cti.userLoggedOut();
     handleNavigateToScreen(ScreenNames.Login);
@@ -57,7 +61,9 @@ function KeypadScreen({
   const handleDialNumber = ({
     target: { value },
   }: ChangeEvent<HTMLInputElement>) => {
-    handleSetDialNumber(value);
+    if (validateKeypadInput(value)) {
+      handleSetDialNumber(value);
+    }
   };
 
   const addToDialNumber = (value: string) => {
