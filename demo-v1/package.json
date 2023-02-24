@@ -10,7 +10,7 @@
     "test:build": "cross-env NODE_ENV=test npx webpack --config webpack-test.config.js --mode development",
     "test:watch": "cross-env NODE_ENV=test npx webpack --config webpack-test.config.js --mode development --watch",
     "test": "npm run test:build && jasmine-browser-runner runSpecs --config=test/support/jasmine-browser.json --browser=headlessChrome",
-    "test:serve": "npm run test:build && jasmine-browser-runner serve --config=test/support/jasmine-browser.json"
+    "test:serve": "npm run test:watch & jasmine-browser-runner serve --config=test/support/jasmine-browser.json"
   },
   "license": "ISC",
   "dependencies": {
