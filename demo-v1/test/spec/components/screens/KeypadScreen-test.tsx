@@ -1,5 +1,7 @@
-import { fireEvent } from "@testing-library/react";
-import KeypadScreen from "../../../../src/components/screens/KeypadScreen";
+import { fireEvent, waitFor } from "@testing-library/react";
+import KeypadScreen, {
+  validateKeypadInput,
+} from "../../../../src/components/screens/KeypadScreen";
 import { ScreenNames } from "../../../../src/types/ScreenTypes";
 import { renderWithWrapper } from "../../../render";
 
@@ -33,6 +35,7 @@ beforeEach(() => {
   cti.outgoingCall = jasmine.createSpy("outgoingCall");
   props.handleNextScreen = jasmine.createSpy("handleNextScreen");
   props.handleNavigateToScreen = jasmine.createSpy("handleNavigateToScreen");
+  props.setDialNumber = jasmine.createSpy("setDialNumber");
 });
 
 describe("Log out", () => {
@@ -76,5 +79,37 @@ describe("Start call", () => {
     button.click();
     expect(cti.outgoingCall).toHaveBeenCalled();
     expect(props.handleNextScreen).toHaveBeenCalled();
+  });
+});
+
+describe("Number validation", () => {
+  it("Validates keypad characters", () => {
+    expect(validateKeypadInput("a")).toBe(false);
+    expect(validateKeypadInput("(617)-934-1958")).toBe(false);
+    expect(validateKeypadInput("+16179341958")).toBe(true);
+    expect(validateKeypadInput("*+")).toBe(true);
+  });
+
+  it("Allows keypad characters in input field", async () => {
+    const { getByTestId } = renderWithWrapper(<KeypadScreen {...props} />);
+
+    const input = await getByTestId("VizExInput-Input");
+
+    fireEvent.change(input, {
+      target: { value: "617" },
+    });
+
+    expect(props.setDialNumber).toHaveBeenCalledWith("617");
+  });
+
+  it("Does not allow non keypad characters in input field", async () => {
+    const { getByTestId } = renderWithWrapper(<KeypadScreen {...props} />);
+
+    const input = await getByTestId("VizExInput-Input");
+    fireEvent.change(input, {
+      target: { value: "-" },
+    });
+
+    expect(props.setDialNumber).not.toHaveBeenCalled();
   });
 });

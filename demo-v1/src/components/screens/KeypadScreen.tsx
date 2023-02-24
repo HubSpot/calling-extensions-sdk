@@ -16,6 +16,10 @@ const StyledRow = styled(Row)`
   justify-content: flex-end;
 `;
 
+export const validateKeypadInput = (value: string) => {
+  return /^[0-9+*#]*$/.test(value);
+};
+
 function KeypadScreen({
   handleNextScreen,
   cti,
@@ -31,10 +35,6 @@ function KeypadScreen({
 
   const validatePhoneNumber = (value: string) => {
     return value.length > 2;
-  };
-
-  const validateKeypadInput = (value: string) => {
-    return /^[0-9-+*#]*$/.test(value);
   };
 
   const handleLogout = () => {
