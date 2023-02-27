@@ -11,6 +11,14 @@ import {
 } from "../Components";
 import { Keypad } from "../Keypad";
 
+const StyledRow = styled(Row)`
+  justify-content: flex-end;
+`;
+
+export const validateKeypadInput = (value: string) => {
+  return /^[0-9+*#]*$/.test(value);
+};
+
 function KeypadScreen({
   handleNextScreen,
   cti,
@@ -52,7 +60,9 @@ function KeypadScreen({
   const handleDialNumber = ({
     target: { value },
   }: ChangeEvent<HTMLInputElement>) => {
-    handleSetDialNumber(value);
+    if (validateKeypadInput(value)) {
+      handleSetDialNumber(value);
+    }
   };
 
   const addToDialNumber = (value: string) => {
