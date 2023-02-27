@@ -148,8 +148,8 @@ class IFrameManager {
     const { type } = message;
     if (type !== messageType.SYNC && !this.isReady) {
       // Do not send a message unless the iFrame is ready to receive.
-      console.warn("iFrame not initialized to send a message", message);
-      return;
+      console.warn("[to HubSpot] iFrame not initialized to send a message", message);
+      // return;
     }
 
     let { messageId } = message;
@@ -259,8 +259,7 @@ class IFrameManager {
   logDebugMessage(...args) {
     if (this.debugMode) {
       const msg = this.isIFrameHost ? "IFrame host" : "IFrame";
-      args.unshift(msg);
-      console.log.call(null, args);
+      console.log("[to HubSpot]", msg, ...args);
     }
   }
 }
