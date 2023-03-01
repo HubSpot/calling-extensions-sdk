@@ -1,17 +1,8 @@
 import { useMemo, useState } from "react";
 
-// import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 // @ts-expect-error module not typed
+// import CallingExtensions from "@hubspot/calling-extensions-sdk";
 import CallingExtensions from "../../../src/CallingExtensions";
-
-const logMessage = (event: any) => {
-  const prefix = "[From HubSpot]";
-  if (event.data) {
-    console.log(prefix, event.type, event.data);
-    return;
-  }
-  console.log(prefix, event.type);
-};
 
 export const useCti = () => {
   const defaultSize = { width: 400, height: 600 };
@@ -21,12 +12,10 @@ export const useCti = () => {
     return new CallingExtensions({
       debugMode: true,
       eventHandlers: {
-        onReady: (_data: any, rawEvent: any) => {
-          logMessage(rawEvent);
+        onReady: () => {
           cti.initialized({ isLoggedIn: true, sizeInfo: defaultSize });
         },
         onDialNumber: (data: any, rawEvent: any) => {
-          logMessage(rawEvent);
           const { phoneNumber } = data;
           setPhoneNumber(phoneNumber);
           window.setTimeout(
@@ -41,16 +30,13 @@ export const useCti = () => {
         onEngagementCreated: (data: any, rawEvent: any) => {
           const { engagementId } = data;
           setEngagementId(engagementId);
-          logMessage(rawEvent);
         },
         onEndCall: (data: any, rawEvent: any) => {
           window.setTimeout(() => {
-            cti.callEnded(data);
+            cti.callEnded();
           }, 500);
         },
-        onVisibilityChanged: (data: any, rawEvent: any) => {
-          logMessage(rawEvent);
-        },
+        onVisibilityChanged: (data: any, rawEvent: any) => {},
       },
     });
   }, []);
