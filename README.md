@@ -63,6 +63,8 @@ localStorage.setItem(
 
 ## Typical message flow between the call widget and HubSpot
 
+The Calling Extensions SDK exposes a simple API for HubSpot and a Call Widget to exchange messages. The messages are sent through methods exposed by the SDK and received through eventHandlers.
+
 ### Initializing the call widget
 
 The following messages are exchanged when a call widget is instantiated:
@@ -91,8 +93,6 @@ Here is a description of the events:
 8. **Update engagement** - Widget fetches the engagement by the engagementId, then merges and updates the engagement with additional call details. Visit the HubSpot Developer Docs to learn more about [updating a call engagement](https://developers.hubspot.com/docs/api/crm/calls#update-calls).
 
 ## Using the Calling Extensions SDK
-
-The Calling Extensions SDK exposes a simple API for HubSpot and a Call Widget to exchange messages. The messages are sent through methods exposed by the SDK and received through eventHandlers.
 
 ### Create an instance
 
