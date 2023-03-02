@@ -7,7 +7,7 @@ import {
   LinkButton,
   Row,
 } from "../Components";
-import { ScreenNames, ScreenProps } from "../../types/ScreenTypes";
+import { ScreenProps } from "../../types/ScreenTypes";
 
 function LoginScreen({ cti, handleNextScreen }: ScreenProps) {
   const usernameInput = useAutoFocus();
@@ -27,7 +27,7 @@ function LoginScreen({ cti, handleNextScreen }: ScreenProps) {
   }: ChangeEvent<HTMLInputElement>) => setPassword(value);
 
   return (
-    <Wrapper data-testid="login">
+    <Wrapper style={{ color: "#2d3e50" }}>
       <h4 style={{ textAlign: "center" }}>Log into your calling account</h4>
       <div style={{ marginBottom: "5px", fontSize: "14px" }}>User Name</div>
       <RoundedInput

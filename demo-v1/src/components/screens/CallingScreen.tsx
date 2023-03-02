@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from "react";
 import styled from "styled-components";
-import { ScreenNames, ScreenProps } from "../../types/ScreenTypes";
+import { ScreenProps } from "../../types/ScreenTypes";
 import {
   CallActionButton,
   EndCallButton,
@@ -8,6 +8,7 @@ import {
   Timer,
   Tooltip,
   TextArea,
+  Wrapper,
 } from "../Components";
 import { KeypadPopover } from "../Keypad";
 
@@ -46,7 +47,7 @@ function CallingScreen({
   };
 
   return (
-    <>
+    <Wrapper>
       <div style={{ textAlign: "center" }}>
         <h2>Call with {dialNumber}</h2>
         <Timer>{callDurationString}</Timer>
@@ -150,7 +151,7 @@ function CallingScreen({
           placeholder="Enter notes from your call ..."
         ></TextArea>
       </Row>
-    </>
+    </Wrapper>
   );
 }
 
