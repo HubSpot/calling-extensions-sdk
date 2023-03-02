@@ -68,14 +68,14 @@ function App() {
 
   const handleEndCall = () => {
     stopTimer();
-    cti.callCompleted({
-      engagementId,
-    });
     handleNavigateToScreen(ScreenNames.CallEnded);
   };
 
   const handleSaveCall = () => {
     resetInputs();
+    cti.callCompleted({
+      engagementId,
+    });
     handleNavigateToScreen(ScreenNames.Keypad);
   };
 
