@@ -96,7 +96,7 @@ function KeypadScreen({
   }, [cursorEnd, cursorStart, dialNumber]);
 
   return (
-    <Wrapper data-testid="keypad">
+    <Wrapper>
       <StyledRow>
         <LinkButton onClick={handleLogout}>Log out</LinkButton>
       </StyledRow>
