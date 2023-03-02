@@ -130,12 +130,12 @@ function App() {
         }}
       >
         {screenComponent}
-        {showAlert ? (
+        {showAlert && (
           <Alert
             title="Open your console to see the incoming and outgoing messages with HubSpot."
             onConfirm={hideAlert}
           />
-        ) : null}
+        )}
       </div>
     </ThemeProvider>
   );
