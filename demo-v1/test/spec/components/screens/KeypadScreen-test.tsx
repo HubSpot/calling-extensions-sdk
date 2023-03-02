@@ -1,11 +1,11 @@
-import { fireEvent, waitFor } from "@testing-library/react";
+import { fireEvent } from "@testing-library/react";
 import KeypadScreen, {
   validateKeypadInput,
 } from "../../../../src/components/screens/KeypadScreen";
 import { ScreenNames } from "../../../../src/types/ScreenTypes";
 import { renderWithWrapper } from "../../../render";
 
-const noop = () => {};
+const noop = (..._args: any[]) => {};
 
 const cti = {
   userLoggedOut: noop,

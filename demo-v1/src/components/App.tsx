@@ -16,6 +16,7 @@ import { useCti } from "../hooks/useCti";
 import { useCallDurationTimer } from "../hooks/useTimer";
 import { WHITE } from "../visitor-ui-component-library/theme/ColorConstants";
 import { ScreenNames } from "../types/ScreenTypes";
+import Alert from "./Alert";
 
 export const screens = [
   LoginScreen,
@@ -40,6 +41,7 @@ function App() {
   const [dialNumber, setDialNumber] = useState("+1");
   const [notes, setNotes] = useState("");
   const { callDurationString, startTimer, stopTimer } = useCallDurationTimer();
+  const [showAlert, setShowAlert] = useState(true);
 
   const handleNextScreen = () => {
     if (screenIndex === screens.length - 1) {
@@ -75,6 +77,10 @@ function App() {
   const handleSaveCall = () => {
     resetInputs();
     handleNavigateToScreen(ScreenNames.Keypad);
+  };
+
+  const hideAlert = () => {
+    setShowAlert(false);
   };
 
   const screenComponent = useMemo(() => {
@@ -116,11 +122,20 @@ function App() {
         style={{
           backgroundColor: "#f5f8fa",
           color: "#516f90",
-          minWidth: "400px",
+          width: "400px",
           minHeight: "600px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
         }}
       >
         {screenComponent}
+        {showAlert ? (
+          <Alert
+            title="Open your console to see the incoming and outgoing messages with HubSpot."
+            onConfirm={hideAlert}
+          />
+        ) : null}
       </div>
     </ThemeProvider>
   );
