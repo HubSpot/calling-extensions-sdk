@@ -2,7 +2,7 @@ import { fireEvent } from "@testing-library/react";
 import LoginScreen from "../../../../src/components/screens/LoginScreen";
 import { renderWithWrapper } from "../../../render";
 
-const noop = () => {};
+const noop = (..._args: any[]) => {};
 
 const cti = {
   userLoggedIn: noop,
