@@ -55,7 +55,7 @@ export const LinkButton = styled(VizExButton).attrs((props) => ({
   padding: 0;
 `;
 
-export const RoundedButton = styled(Button).attrs((props) => ({
+export const RoundedButton = styled(VizExButton).attrs((props) => ({
   disabled: props.disabled,
 }))`
   border-radius: 25px;
