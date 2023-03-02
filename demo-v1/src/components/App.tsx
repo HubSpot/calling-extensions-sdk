@@ -66,8 +66,9 @@ function App() {
 
   const handleEndCall = () => {
     stopTimer();
-    cti.callAnswered();
-    cti.callEnded();
+    cti.callCompleted({
+      engagementId,
+    });
     handleNavigateToScreen(ScreenNames.CallEnded);
   };
 
