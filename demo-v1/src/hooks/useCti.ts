@@ -31,11 +31,6 @@ export const useCti = () => {
           const { engagementId } = data;
           setEngagementId(engagementId);
         },
-        onEndCall: (data: any, rawEvent: any) => {
-          window.setTimeout(() => {
-            cti.callEnded();
-          }, 500);
-        },
         onVisibilityChanged: (data: any, rawEvent: any) => {},
       },
     });
