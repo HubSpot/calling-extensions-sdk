@@ -1,6 +1,6 @@
 {
   "name": "@hubspot/calling-extensions-sdk",
-  "version": "0.0.11-alpha.0",
+  "version": "0.0.11",
   "description": "HubSpot calling extensions sdk for call widget integration.",
   "publishConfig": {
     "access": "public"
@@ -8,12 +8,21 @@
   "scripts": {
     "build": "webpack",
     "build:test": "npm run build && npm run test",
-    "prepublish": "npm run build:test",
-    "test": "karma start karma.conf.js --browsers ChromeHeadless --single-run",
-    "test:debug": "karma start karma.conf.js --browsers Chrome",
     "cover": "open coverage/lcov-report/index.html",
     "eslint": "eslint src --ext .js",
     "eslint:fix": "eslint src .js --fix",
+    "prepublish:alpha": "npm run build:test && npm version prerelease --preid alpha && git push --all",
+    "prepublish:beta": "npm run build:test && npm version prerelease --preid beta && git push --all",
+    "prepublish:patch": "npm run build:test && npm version patch && git push --all",
+    "prepublish:minor": "npm run build:test && npm version minor && git push --all",
+    "prepublish:major": "npm run build:test && npm version major && git push --all",
+    "publish:alpha": "npm publish --access public --tag next",
+    "publish:beta": "npm publish --access public --tag beta",
+    "publish:patch": "npm publish --access public",
+    "publish:minor": "npm publish --access public",
+    "publish:major": "npm publish --access public",
+    "test": "karma start karma.conf.js --browsers ChromeHeadless --single-run",
+    "test:debug": "karma start karma.conf.js --browsers Chrome",
     "travis": "npm run build:test"
   },
   "main": "./dist/main.js",
