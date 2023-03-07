@@ -127,6 +127,7 @@ function KeypadScreen({
           use="primary"
           disabled={!isDialNumberValid}
           onClick={handleStartCall}
+          aria-label="start-call"
         >
           {StartCallSvg}
         </CallButton>
