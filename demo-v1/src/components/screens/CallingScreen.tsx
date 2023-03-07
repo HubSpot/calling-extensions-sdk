@@ -9,15 +9,18 @@ import {
   Tooltip,
   TextArea,
   Wrapper,
+  CallActionLabel,
 } from "../Components";
 import { KeypadPopover } from "../Keypad";
-
-const Label = styled.label`
-  font-size: 11px;
-  color: #444;
-  line-height: 40px;
-  margin-left: 10px;
-`;
+import {
+  EndCallSvg,
+  StartRecordSvg,
+  StopRecordSvg,
+  MuteSvg,
+  UnmuteSvg,
+  ShowKeypadSvg,
+  HideKeypadSvg,
+} from "../Icons";
 
 const content = <KeypadPopover />;
 
@@ -53,89 +56,70 @@ function CallingScreen({
         <Timer>{callDurationString}</Timer>
       </div>
       <Row style={{ marginBottom: "20px" }}>
-        <div style={{ marginRight: "20px" }}>
-          {toggleRecord ? (
-            <>
-              <CallActionButton
-                use="primary"
-                id="record"
-                onClick={handleToggleRecord}
-              >
-                X
-              </CallActionButton>
-              <Label>Record</Label>
-            </>
-          ) : (
-            <>
-              <CallActionButton
-                use="transparent-on-primary"
-                id="record"
-                onClick={handleToggleRecord}
-              >
-                X
-              </CallActionButton>
-              <Label>Record</Label>
-            </>
-          )}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <CallActionButton
+            use="transparent-on-primary"
+            id="record"
+            onClick={handleToggleRecord}
+            style={
+              toggleRecord
+                ? { backgroundColor: "#516F90" }
+                : { backgroundColor: "white" }
+            }
+          >
+            {toggleRecord ? StopRecordSvg : StartRecordSvg}
+          </CallActionButton>
+          <CallActionLabel>Record</CallActionLabel>
         </div>
-        <div style={{ marginRight: "20px" }}>
-          {toggleMute ? (
-            <>
-              <CallActionButton
-                use="primary"
-                id="mute"
-                onClick={handleToggleMute}
-              >
-                Y
-              </CallActionButton>
-              <Label>Mute</Label>
-            </>
-          ) : (
-            <>
-              <CallActionButton
-                use="transparent-on-primary"
-                id="mute"
-                onClick={handleToggleMute}
-              >
-                Y
-              </CallActionButton>
-              <Label>Mute</Label>
-            </>
-          )}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <CallActionButton
+            use="transparent-on-primary"
+            id="mute"
+            onClick={handleToggleMute}
+            style={
+              toggleMute
+                ? { backgroundColor: "#516F90" }
+                : { backgroundColor: "white" }
+            }
+          >
+            {toggleMute ? UnmuteSvg : MuteSvg}
+          </CallActionButton>
+          <CallActionLabel>Mute</CallActionLabel>
         </div>
-        <div>
-          {toggleKeypad ? (
-            <Tooltip content={content} open={true}>
-              <>
-                <CallActionButton
-                  use="primary"
-                  id="keypad"
-                  onClick={handleToggleKeypad}
-                >
-                  Z
-                </CallActionButton>
-                <Label>Keypad</Label>
-              </>
-            </Tooltip>
-          ) : (
-            <Tooltip content={content} open={false}>
-              <>
-                <CallActionButton
-                  use="transparent-on-primary"
-                  id="keypad"
-                  onClick={handleToggleKeypad}
-                >
-                  Z
-                </CallActionButton>
-                <Label>Keypad</Label>
-              </>
-            </Tooltip>
-          )}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <CallActionButton
+            use="transparent-on-primary"
+            id="keypad"
+            onClick={handleToggleKeypad}
+            style={
+              toggleKeypad
+                ? { backgroundColor: "#516F90" }
+                : { backgroundColor: "white" }
+            }
+          >
+            {toggleKeypad ? HideKeypadSvg : ShowKeypadSvg}
+          </CallActionButton>
+          <CallActionLabel>Keypad</CallActionLabel>
         </div>
       </Row>
       <Row>
         <EndCallButton use="primary" onClick={handleEndCall}>
-          End Call
+          {EndCallSvg}
         </EndCallButton>
       </Row>
       <br />

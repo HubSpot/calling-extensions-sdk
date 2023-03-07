@@ -38,7 +38,7 @@ export const formatTime = (totalSeconds: number) => {
 
 function App() {
   const { cti, phoneNumber, engagementId } = useCti();
-  const [screenIndex, setScreenIndex] = useState(0);
+  const [screenIndex, setScreenIndex] = useState(3);
   const [dialNumber, setDialNumber] = useState("+1");
   const [notes, setNotes] = useState("");
   const { callDuration, callDurationString, startTimer, stopTimer } =
