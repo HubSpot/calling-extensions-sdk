@@ -16,6 +16,6 @@ jobs:
       - name: Deploy  🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist
+          folder: build
           branch: gh-pages
           clean-exclude: pr-preview
