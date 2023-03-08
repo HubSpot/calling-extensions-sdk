@@ -1,12 +1,13 @@
 import { screen, waitForElementToBeRemoved } from "@testing-library/react";
 import App from "../../../src/components/App";
 import { renderWithWrapper } from "../../render";
+import * as useCti from "../../../src/hooks/useCti";
 
 describe("App", () => {
   it("Shows login screen", () => {
     renderWithWrapper(<App />);
     expect(
-      screen.getByText("Log into your calling account")
+      screen.getByText(/Log into your calling account/)
     ).toBeInTheDocument();
   });
 
@@ -14,7 +15,7 @@ describe("App", () => {
     renderWithWrapper(<App />);
     expect(
       screen.getByText(
-        /Open your console to see the incoming and outgoing messages with HubSpot./i
+        /Open your console to see the incoming and outgoing messages with HubSpot./
       )
     ).toBeInTheDocument();
   });
@@ -26,12 +27,12 @@ describe("App", () => {
 
     await waitForElementToBeRemoved(() =>
       screen.getByText(
-        /Open your console to see the incoming and outgoing messages with HubSpot./i
+        /Open your console to see the incoming and outgoing messages with HubSpot./
       )
     );
     expect(
       screen.queryByText(
-        /Open your console to see the incoming and outgoing messages with HubSpot./i
+        /Open your console to see the incoming and outgoing messages with HubSpot./
       )
     ).not.toBeInTheDocument();
   });

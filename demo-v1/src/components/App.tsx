@@ -17,7 +17,6 @@ import { useCallDurationTimer } from "../hooks/useTimer";
 import { WHITE } from "../visitor-ui-component-library/theme/ColorConstants";
 import { ScreenNames } from "../types/ScreenTypes";
 import Alert from "./Alert";
-import * as EngagementStatuses from "../types/EngagementStatuses";
 
 export const screens = [
   LoginScreen,
@@ -70,20 +69,11 @@ function App() {
 
   const handleEndCall = () => {
     stopTimer();
-    cti.callEnded({
-      callEndStatus: EngagementStatuses.INTERNAL_COMPLETED,
-    });
     handleNavigateToScreen(ScreenNames.CallEnded);
   };
 
   const handleSaveCall = () => {
     resetInputs();
-    cti.callCompleted({
-      engagementId,
-      hideWidget: false,
-      notes,
-      callDuration,
-    });
     handleNavigateToScreen(ScreenNames.Keypad);
   };
 
@@ -108,6 +98,7 @@ function App() {
         setDialNumber={setDialNumber}
         notes={notes}
         setNotes={setNotes}
+        callDuration={callDuration}
         callDurationString={callDurationString}
         startTimer={startTimer}
         stopTimer={stopTimer}

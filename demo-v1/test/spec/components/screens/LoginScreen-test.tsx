@@ -14,11 +14,12 @@ const props = {
   handleNavigateToScreen: noop,
   cti,
   phoneNumber: "",
-  engagementId: "",
+  engagementId: null,
   dialNumber: "",
   setDialNumber: noop,
   notes: "",
   setNotes: noop,
+  callDuration: 0,
   callDurationString: "",
   startTimer: noop,
   stopTimer: noop,
@@ -26,12 +27,12 @@ const props = {
   handleSaveCall: noop,
 };
 
-beforeEach(() => {
-  cti.userLoggedIn = jasmine.createSpy("userLoggedIn");
-  props.handleNextScreen = jasmine.createSpy("handleNextScreen");
-});
+describe("LoginScreen", () => {
+  beforeEach(() => {
+    cti.userLoggedIn = jasmine.createSpy("userLoggedIn");
+    props.handleNextScreen = jasmine.createSpy("handleNextScreen");
+  });
 
-describe("Log in", () => {
   it("Handles log in button click", () => {
     const { getByRole } = renderWithWrapper(<LoginScreen {...props} />);
     const button = getByRole("button", {

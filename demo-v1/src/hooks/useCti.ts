@@ -7,7 +7,7 @@ import CallingExtensions from "../../../src/CallingExtensions";
 export const useCti = () => {
   const defaultSize = { width: 400, height: 600 };
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [engagementId, setEngagementId] = useState("");
+  const [engagementId, setEngagementId] = useState<number | null>(null);
   const cti = useMemo(() => {
     return new CallingExtensions({
       debugMode: true,

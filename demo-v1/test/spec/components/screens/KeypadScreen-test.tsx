@@ -18,11 +18,12 @@ const props = {
   handleNavigateToScreen: noop,
   cti,
   phoneNumber: "",
-  engagementId: "",
+  engagementId: null,
   dialNumber: "",
   setDialNumber: noop,
   notes: "",
   setNotes: noop,
+  callDuration: 0,
   callDurationString: "",
   startTimer: noop,
   stopTimer: noop,
@@ -30,86 +31,88 @@ const props = {
   handleSaveCall: noop,
 };
 
-beforeEach(() => {
-  cti.userLoggedOut = jasmine.createSpy("userLoggedOut");
-  cti.outgoingCall = jasmine.createSpy("outgoingCall");
-  props.handleNextScreen = jasmine.createSpy("handleNextScreen");
-  props.handleNavigateToScreen = jasmine.createSpy("handleNavigateToScreen");
-  props.setDialNumber = jasmine.createSpy("setDialNumber");
-});
-
-describe("Log out", () => {
-  it("Handles log out button click", () => {
-    const { getByRole } = renderWithWrapper(<KeypadScreen {...props} />);
-    const button = getByRole("button", {
-      name: /Log out/i,
-    });
-
-    button.click();
-
-    expect(cti.userLoggedOut).toHaveBeenCalled();
-    expect(props.handleNavigateToScreen).toHaveBeenCalledWith(
-      ScreenNames.Login
-    );
-  });
-});
-
-describe("Start call", () => {
-  it("Button is disabled initially", () => {
-    const { getByRole } = renderWithWrapper(<KeypadScreen {...props} />);
-    const button = getByRole("button", {
-      name: /start-call/i,
-    });
-    expect(button).toHaveAttribute("disabled");
+describe("KeypadScreen", () => {
+  beforeEach(() => {
+    cti.userLoggedOut = jasmine.createSpy("userLoggedOut");
+    cti.outgoingCall = jasmine.createSpy("outgoingCall");
+    props.handleNextScreen = jasmine.createSpy("handleNextScreen");
+    props.handleNavigateToScreen = jasmine.createSpy("handleNavigateToScreen");
+    props.setDialNumber = jasmine.createSpy("setDialNumber");
   });
 
-  it("Handles start call button click", () => {
-    const { getByRole, getByTestId } = renderWithWrapper(
-      <KeypadScreen {...props} />
-    );
+  describe("Log out", () => {
+    it("Handles log out button click", () => {
+      const { getByRole } = renderWithWrapper(<KeypadScreen {...props} />);
+      const button = getByRole("button", {
+        name: /Log out/i,
+      });
 
-    const input = getByTestId("VizExInput-Input");
-    fireEvent.change(input, {
-      target: { value: "+16179341958" },
+      button.click();
+
+      expect(cti.userLoggedOut).toHaveBeenCalled();
+      expect(props.handleNavigateToScreen).toHaveBeenCalledWith(
+        ScreenNames.Login
+      );
     });
-
-    const button = getByRole("button", {
-      name: /start-call/i,
-    });
-    button.click();
-    expect(cti.outgoingCall).toHaveBeenCalled();
-    expect(props.handleNextScreen).toHaveBeenCalled();
-  });
-});
-
-describe("Number validation", () => {
-  it("Validates keypad characters", () => {
-    expect(validateKeypadInput("a")).toBe(false);
-    expect(validateKeypadInput("(617)-934-1958")).toBe(false);
-    expect(validateKeypadInput("+16179341958")).toBe(true);
-    expect(validateKeypadInput("*+")).toBe(true);
   });
 
-  it("Allows keypad characters in input field", async () => {
-    const { getByTestId } = renderWithWrapper(<KeypadScreen {...props} />);
-
-    const input = await getByTestId("VizExInput-Input");
-
-    fireEvent.change(input, {
-      target: { value: "617" },
+  describe("Start call", () => {
+    it("Button is disabled initially", () => {
+      const { getByRole } = renderWithWrapper(<KeypadScreen {...props} />);
+      const button = getByRole("button", {
+        name: /start-call/i,
+      });
+      expect(button).toHaveAttribute("disabled");
     });
 
-    expect(props.setDialNumber).toHaveBeenCalledWith("617");
+    it("Handles start call button click", () => {
+      const { getByRole, getByTestId } = renderWithWrapper(
+        <KeypadScreen {...props} />
+      );
+
+      const input = getByTestId("VizExInput-Input");
+      fireEvent.change(input, {
+        target: { value: "+16179341958" },
+      });
+
+      const button = getByRole("button", {
+        name: /start-call/i,
+      });
+      button.click();
+      expect(cti.outgoingCall).toHaveBeenCalled();
+      expect(props.handleNextScreen).toHaveBeenCalled();
+    });
   });
 
-  it("Does not allow non keypad characters in input field", async () => {
-    const { getByTestId } = renderWithWrapper(<KeypadScreen {...props} />);
-
-    const input = await getByTestId("VizExInput-Input");
-    fireEvent.change(input, {
-      target: { value: "-" },
+  describe("Number validation", () => {
+    it("Validates keypad characters", () => {
+      expect(validateKeypadInput("a")).toBe(false);
+      expect(validateKeypadInput("(617)-934-1958")).toBe(false);
+      expect(validateKeypadInput("+16179341958")).toBe(true);
+      expect(validateKeypadInput("*+")).toBe(true);
     });
 
-    expect(props.setDialNumber).not.toHaveBeenCalled();
+    it("Allows keypad characters in input field", async () => {
+      const { getByTestId } = renderWithWrapper(<KeypadScreen {...props} />);
+
+      const input = await getByTestId("VizExInput-Input");
+
+      fireEvent.change(input, {
+        target: { value: "617" },
+      });
+
+      expect(props.setDialNumber).toHaveBeenCalledWith("617");
+    });
+
+    it("Does not allow non keypad characters in input field", async () => {
+      const { getByTestId } = renderWithWrapper(<KeypadScreen {...props} />);
+
+      const input = await getByTestId("VizExInput-Input");
+      fireEvent.change(input, {
+        target: { value: "-" },
+      });
+
+      expect(props.setDialNumber).not.toHaveBeenCalled();
+    });
   });
 });

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { EndCallButton, Row, Timer, Wrapper } from "../Components";
 import { ScreenProps } from "../../types/ScreenTypes";
 import { EndCallSvg } from "../Icons";
+import * as EngagementStatuses from "../../types/EngagementStatuses";
 
 function DialingScreen({
   handleNextScreen,
@@ -18,6 +19,13 @@ function DialingScreen({
     return () => clearTimeout(timer);
   }, []);
 
+  const onEndCall = () => {
+    cti.callEnded({
+      callEndStatus: EngagementStatuses.INTERNAL_COMPLETED,
+    });
+    handleEndCall();
+  };
+
   return (
     <Wrapper>
       <div style={{ textAlign: "center" }}>
@@ -25,7 +33,7 @@ function DialingScreen({
         <Timer>{callDurationString}</Timer>
       </div>
       <Row>
-        <EndCallButton use="primary" onClick={handleEndCall}>
+        <EndCallButton use="primary" onClick={onEndCall}>
           {EndCallSvg}
         </EndCallButton>
       </Row>

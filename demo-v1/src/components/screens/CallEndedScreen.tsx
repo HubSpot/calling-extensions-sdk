@@ -8,14 +8,27 @@ const StyledRow = styled(Row)`
 `;
 
 function CallEndedScreen({
+  cti,
+  engagementId,
   handleSaveCall,
   dialNumber,
   notes,
   setNotes,
+  callDuration,
   callDurationString,
 }: ScreenProps) {
   const handleNotes = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setNotes(event.target.value);
+  };
+
+  const onSaveCall = () => {
+    cti.callCompleted({
+      engagementId,
+      hideWidget: false,
+      notes,
+      callDuration,
+    });
+    handleSaveCall();
   };
 
   return (
@@ -35,7 +48,11 @@ function CallEndedScreen({
       </StyledRow>
       <br />
       <Row>
-        <RoundedButton use="primary" onClick={handleSaveCall}>
+        <RoundedButton
+          use="primary"
+          onClick={onSaveCall}
+          aria-label="save-call"
+        >
           Save Call
         </RoundedButton>
       </Row>

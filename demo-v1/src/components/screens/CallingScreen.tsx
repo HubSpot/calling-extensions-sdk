@@ -20,10 +20,12 @@ import {
   ShowKeypadSvg,
   HideKeypadSvg,
 } from "../Icons";
+import * as EngagementStatuses from "../../types/EngagementStatuses";
 
 const content = <KeypadPopover />;
 
 function CallingScreen({
+  cti,
   dialNumber,
   notes,
   setNotes,
@@ -46,6 +48,12 @@ function CallingScreen({
 
   const handleNotes = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setNotes(event.target.value);
+  };
+  const onEndCall = () => {
+    cti.callEnded({
+      callEndStatus: EngagementStatuses.INTERNAL_COMPLETED,
+    });
+    handleEndCall();
   };
 
   return (
@@ -119,11 +127,7 @@ function CallingScreen({
         </div>
       </Row>
       <Row>
-        <EndCallButton
-          use="primary"
-          onClick={handleEndCall}
-          aria-label="end-call"
-        >
+        <EndCallButton use="primary" onClick={onEndCall} aria-label="end-call">
           {EndCallSvg}
         </EndCallButton>
       </Row>
