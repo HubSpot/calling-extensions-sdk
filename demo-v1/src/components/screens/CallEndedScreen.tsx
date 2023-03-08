@@ -25,8 +25,10 @@ function CallEndedScreen({
     cti.callCompleted({
       engagementId,
       hideWidget: false,
-      notes,
-      callDuration,
+      engagementProperties: {
+        hs_call_body: notes,
+        hs_call_duration: callDuration,
+      },
     });
     handleSaveCall();
   };
