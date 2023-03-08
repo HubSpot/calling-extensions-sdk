@@ -1,5 +1,4 @@
 import { useState, ChangeEvent } from "react";
-import styled from "styled-components";
 import { ScreenProps } from "../../types/ScreenTypes";
 import {
   CallActionButton,
@@ -102,23 +101,29 @@ function CallingScreen({
             flexDirection: "column",
           }}
         >
-          <CallActionButton
-            use="transparent-on-primary"
-            id="keypad"
-            onClick={handleToggleKeypad}
-            style={
-              toggleKeypad
-                ? { backgroundColor: "#516F90" }
-                : { backgroundColor: "white" }
-            }
-          >
-            {toggleKeypad ? HideKeypadSvg : ShowKeypadSvg}
-          </CallActionButton>
+          <Tooltip content={content} open={toggleKeypad}>
+            <CallActionButton
+              use="transparent-on-primary"
+              id="keypad"
+              onClick={handleToggleKeypad}
+              style={
+                toggleKeypad
+                  ? { backgroundColor: "#516F90" }
+                  : { backgroundColor: "white" }
+              }
+            >
+              {toggleKeypad ? HideKeypadSvg : ShowKeypadSvg}
+            </CallActionButton>
+          </Tooltip>
           <CallActionLabel>Keypad</CallActionLabel>
         </div>
       </Row>
       <Row>
-        <EndCallButton use="primary" onClick={handleEndCall}>
+        <EndCallButton
+          use="primary"
+          onClick={handleEndCall}
+          aria-label="end-call"
+        >
           {EndCallSvg}
         </EndCallButton>
       </Row>
