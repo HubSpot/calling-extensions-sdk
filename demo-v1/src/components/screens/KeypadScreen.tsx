@@ -4,13 +4,14 @@ import { useAutoFocus } from "../../hooks/useAutoFocus";
 import { ScreenNames, ScreenProps } from "../../types/ScreenTypes";
 import {
   Wrapper,
-  RoundedButton,
+  CallButton,
   LinkButton,
   KeypadInput,
   Row,
   Button,
 } from "../Components";
 import { Keypad } from "../Keypad";
+import { StartCallSvg, DeleteLeftSvg } from "../Icons";
 
 const StyledRow = styled(Row)`
   justify-content: flex-end;
@@ -101,25 +102,35 @@ function KeypadScreen({
         <LinkButton onClick={handleLogout}>Log out</LinkButton>
       </StyledRow>
       <br />
-      <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          backgroundColor: "white",
+          border: "2px solid #DFE3EB",
+          margin: "0 16px",
+          padding: "4px",
+        }}
+      >
         <KeypadInput
           value={dialNumber}
           onChange={handleDialNumber}
           onBlur={handleCursor}
           ref={dialNumberInput}
         />
-        <Button onClick={handleBackspace}>X</Button>
+        <Button>{DeleteLeftSvg}</Button>
       </div>
       <br />
       <Keypad addToDialNumber={addToDialNumber} />
       <Row>
-        <RoundedButton
+        <CallButton
           use="primary"
           disabled={!isDialNumberValid}
           onClick={handleStartCall}
+          aria-label="start-call"
         >
-          Call
-        </RoundedButton>
+          {StartCallSvg}
+        </CallButton>
       </Row>
     </Wrapper>
   );

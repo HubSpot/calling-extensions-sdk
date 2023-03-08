@@ -36,7 +36,7 @@ export const KeypadInput = styled(Input).attrs({
   containerStyles: {
     backgroundColor: "white",
     width: "225px",
-    borderColor: "#05a3bd",
+    border: "none",
   },
 })``;
 
@@ -50,7 +50,10 @@ export const RoundedInput = styled(VizExInput).attrs({
 
 export const Button = styled(VizExButton).attrs((props) => ({
   disabled: props.disabled,
-}))``;
+}))`
+  border: none;
+  padding: 0;
+`;
 
 export const LinkButton = styled(VizExButton).attrs((props) => ({
   disabled: props.disabled,
@@ -64,9 +67,20 @@ export const RoundedButton = styled(VizExButton).attrs((props) => ({
 }))`
   border-radius: 25px;
   min-width: 150px;
+  padding-top: 9px;
+  padding-bottom: 9px;
 `;
 
-export const EndCallButton = styled(RoundedButton).attrs({
+export const CallButton = styled(VizExButton).attrs((props) => ({
+  disabled: props.disabled,
+}))`
+  border-radius: 25px;
+  min-width: 150px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+`;
+
+export const EndCallButton = styled(CallButton).attrs({
   theme: createTheme(setPrimaryColor("#d94c53")),
 })``;
 
@@ -92,11 +106,17 @@ export const Key = styled(VizExButton).attrs({
 `;
 
 export const CallActionButton = styled(VizExButton)`
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  padding: 0;
-  border-radius: 50%;
+  border-radius: 8px;
+  border: 1px solid #d9d9d9;
+  padding: 10px 20px;
+`;
+
+export const CallActionLabel = styled.label`
+  line-height: 20px;
+  font-size: 11px;
+  margin: 0;
+  text-align: center;
+  color: #516f90;
 `;
 
 export const Timer = styled.div`

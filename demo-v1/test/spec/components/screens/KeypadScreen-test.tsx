@@ -58,7 +58,7 @@ describe("Start call", () => {
   it("Button is disabled initially", () => {
     const { getByRole } = renderWithWrapper(<KeypadScreen {...props} />);
     const button = getByRole("button", {
-      name: /Call/i,
+      name: /start-call/i,
     });
     expect(button).toHaveAttribute("disabled");
   });
@@ -74,7 +74,7 @@ describe("Start call", () => {
     });
 
     const button = getByRole("button", {
-      name: /Call/i,
+      name: /start-call/i,
     });
     button.click();
     expect(cti.outgoingCall).toHaveBeenCalled();
