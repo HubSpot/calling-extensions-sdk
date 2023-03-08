@@ -27,7 +27,7 @@ function CallEndedScreen({
       hideWidget: false,
       engagementProperties: {
         hs_call_body: notes,
-        hs_call_duration: callDuration,
+        hs_call_duration: callDuration.toString(),
       },
     });
     handleSaveCall();

@@ -61,8 +61,10 @@ describe("CallEndedScreen", () => {
     expect(cti.callCompleted).toHaveBeenCalledWith({
       engagementId: 1,
       hideWidget: false,
-      notes: "calling notes",
-      callDuration: 3000,
+      engagementProperties: {
+        hs_call_body: "calling notes",
+        hs_call_duration: "3000",
+      },
     });
   });
 });
