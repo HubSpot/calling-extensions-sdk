@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { EndCallButton, Row, Timer, Wrapper } from "../Components";
 import { ScreenProps } from "../../types/ScreenTypes";
+import { EndCallSvg } from "../Icons";
 
 function DialingScreen({
   handleNextScreen,
@@ -25,7 +26,7 @@ function DialingScreen({
       </div>
       <Row>
         <EndCallButton use="primary" onClick={handleEndCall}>
-          End Call
+          {EndCallSvg}
         </EndCallButton>
       </Row>
     </Wrapper>

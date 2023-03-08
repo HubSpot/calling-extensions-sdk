@@ -22,6 +22,11 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.svg$/i,
+        issuer: /\.[jt]sx?$/,
+        use: ["@svgr/webpack"],
+      },
+      {
         test: /\.(ts|tsx|js)$/,
         exclude: /node_modules/,
         use: {
