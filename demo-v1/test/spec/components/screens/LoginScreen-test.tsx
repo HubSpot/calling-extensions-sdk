@@ -1,6 +1,6 @@
 import { fireEvent } from "@testing-library/react";
 import LoginScreen from "../../../../src/components/screens/LoginScreen";
-import { renderWithWrapper } from "../../../render";
+import { renderWithContext } from "../../../render";
 
 const noop = (..._args: any[]) => {};
 
@@ -34,7 +34,7 @@ describe("LoginScreen", () => {
   });
 
   it("Handles log in button click", () => {
-    const { getByRole } = renderWithWrapper(<LoginScreen {...props} />);
+    const { getByRole } = renderWithContext(<LoginScreen {...props} />);
     const button = getByRole("button", {
       name: /Log in/i,
     });
@@ -46,7 +46,7 @@ describe("LoginScreen", () => {
   });
 
   it("Handles sign in button click", () => {
-    const { getByRole } = renderWithWrapper(<LoginScreen {...props} />);
+    const { getByRole } = renderWithContext(<LoginScreen {...props} />);
     const button = getByRole("button", {
       name: /Sign in with SSO/i,
     });

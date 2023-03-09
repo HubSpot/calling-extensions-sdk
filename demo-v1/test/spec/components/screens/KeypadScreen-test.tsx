@@ -3,7 +3,7 @@ import KeypadScreen, {
   validateKeypadInput,
 } from "../../../../src/components/screens/KeypadScreen";
 import { ScreenNames } from "../../../../src/types/ScreenTypes";
-import { renderWithWrapper } from "../../../render";
+import { renderWithContext } from "../../../render";
 
 const noop = (..._args: any[]) => {};
 
@@ -42,7 +42,7 @@ describe("KeypadScreen", () => {
 
   describe("Log out", () => {
     it("Handles log out button click", () => {
-      const { getByRole } = renderWithWrapper(<KeypadScreen {...props} />);
+      const { getByRole } = renderWithContext(<KeypadScreen {...props} />);
       const button = getByRole("button", {
         name: /Log out/i,
       });
@@ -58,7 +58,7 @@ describe("KeypadScreen", () => {
 
   describe("Start call", () => {
     it("Button is disabled initially", () => {
-      const { getByRole } = renderWithWrapper(<KeypadScreen {...props} />);
+      const { getByRole } = renderWithContext(<KeypadScreen {...props} />);
       const button = getByRole("button", {
         name: /start-call/i,
       });
@@ -66,7 +66,7 @@ describe("KeypadScreen", () => {
     });
 
     it("Handles start call button click", () => {
-      const { getByRole, getByTestId } = renderWithWrapper(
+      const { getByRole, getByTestId } = renderWithContext(
         <KeypadScreen {...props} />
       );
 
@@ -93,7 +93,7 @@ describe("KeypadScreen", () => {
     });
 
     it("Allows keypad characters in input field", async () => {
-      const { getByTestId } = renderWithWrapper(<KeypadScreen {...props} />);
+      const { getByTestId } = renderWithContext(<KeypadScreen {...props} />);
 
       const input = await getByTestId("VizExInput-Input");
 
@@ -105,7 +105,7 @@ describe("KeypadScreen", () => {
     });
 
     it("Does not allow non keypad characters in input field", async () => {
-      const { getByTestId } = renderWithWrapper(<KeypadScreen {...props} />);
+      const { getByTestId } = renderWithContext(<KeypadScreen {...props} />);
 
       const input = await getByTestId("VizExInput-Input");
       fireEvent.change(input, {
@@ -116,7 +116,7 @@ describe("KeypadScreen", () => {
     });
 
     it("Handles backspace", () => {
-      const { getByRole } = renderWithWrapper(
+      const { getByRole } = renderWithContext(
         <KeypadScreen {...props} dialNumber={"617"} />
       );
       const button = getByRole("button", {

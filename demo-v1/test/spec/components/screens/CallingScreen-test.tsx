@@ -1,5 +1,5 @@
 import CallingScreen from "../../../../src/components/screens/CallingScreen";
-import { renderWithWrapper } from "../../../render";
+import { renderWithContext } from "../../../render";
 
 const noop = (..._args: any[]) => {};
 
@@ -33,7 +33,7 @@ describe("CallingScreen", () => {
   });
 
   it("Ends call", () => {
-    const { getByRole } = renderWithWrapper(<CallingScreen {...props} />);
+    const { getByRole } = renderWithContext(<CallingScreen {...props} />);
     const button = getByRole("button", { name: /end-call/ });
     button.click();
     expect(props.handleEndCall).toHaveBeenCalled();

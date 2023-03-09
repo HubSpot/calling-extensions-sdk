@@ -1,7 +1,7 @@
 import { fireEvent, screen } from "@testing-library/react";
 import DialingScreen from "../../../../src/components/screens/DialingScreen";
 import { ScreenNames } from "../../../../src/types/ScreenTypes";
-import { renderWithWrapper } from "../../../render";
+import { renderWithContext } from "../../../render";
 
 const noop = (..._args: any[]) => {};
 
@@ -39,18 +39,18 @@ describe("DialingScreen", () => {
     jasmine.clock().uninstall();
   });
   it("Show dialing text", () => {
-    renderWithWrapper(<DialingScreen {...props} />);
+    renderWithContext(<DialingScreen {...props} />);
     expect(screen.getByText(/Dialing/)).toBeInTheDocument();
   });
 
   it("Sends callAnswered message", () => {
-    renderWithWrapper(<DialingScreen {...props} />);
+    renderWithContext(<DialingScreen {...props} />);
     jasmine.clock().tick(3000);
     expect(cti.callAnswered).toHaveBeenCalled();
   });
 
   it("Navigates to next screen", () => {
-    renderWithWrapper(<DialingScreen {...props} />);
+    renderWithContext(<DialingScreen {...props} />);
     jasmine.clock().tick(3000);
     expect(props.handleNextScreen).toHaveBeenCalled();
   });

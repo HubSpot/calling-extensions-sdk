@@ -1,5 +1,5 @@
 import CallEndedScreen from "../../../../src/components/screens/CallEndedScreen";
-import { renderWithWrapper } from "../../../render";
+import { renderWithContext } from "../../../render";
 
 const noop = (..._args: any[]) => {};
 
@@ -33,21 +33,21 @@ describe("CallEndedScreen", () => {
   });
 
   it("Shows call ended text", () => {
-    const { getByText } = renderWithWrapper(
+    const { getByText } = renderWithContext(
       <CallEndedScreen {...props} dialNumber="+123" />
     );
     expect(getByText(/Call with \+123/)).toBeInTheDocument();
   });
 
   it("Shows notes", () => {
-    const { getByText } = renderWithWrapper(
+    const { getByText } = renderWithContext(
       <CallEndedScreen {...props} notes="calling notes" />
     );
     expect(getByText(/calling notes/)).toBeInTheDocument();
   });
 
   it("Saves call", () => {
-    const { getByRole } = renderWithWrapper(
+    const { getByRole } = renderWithContext(
       <CallEndedScreen
         {...props}
         engagementId={1}
