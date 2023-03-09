@@ -114,5 +114,16 @@ describe("KeypadScreen", () => {
 
       expect(props.setDialNumber).not.toHaveBeenCalled();
     });
+
+    it("Handles backspace", () => {
+      const { getByRole } = renderWithWrapper(
+        <KeypadScreen {...props} dialNumber={"617"} />
+      );
+      const button = getByRole("button", {
+        name: /backspace/i,
+      });
+      button.click();
+      expect(props.setDialNumber).toHaveBeenCalledWith("61");
+    });
   });
 });

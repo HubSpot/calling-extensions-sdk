@@ -30,8 +30,8 @@ function KeypadScreen({
   startTimer,
 }: ScreenProps) {
   const dialNumberInput = useAutoFocus();
-  const [cursorStart, setCursorStart] = useState(0);
-  const [cursorEnd, setCursorEnd] = useState(0);
+  const [cursorStart, setCursorStart] = useState(dialNumber.length || 0);
+  const [cursorEnd, setCursorEnd] = useState(dialNumber.length || 0);
   const [isDialNumberValid, setIsDialNumberValid] = useState(false);
 
   const validatePhoneNumber = (value: string) => {
@@ -118,7 +118,9 @@ function KeypadScreen({
           onBlur={handleCursor}
           ref={dialNumberInput}
         />
-        <Button>{DeleteLeftSvg}</Button>
+        <Button aria-label="backspace" onClick={handleBackspace}>
+          {DeleteLeftSvg}
+        </Button>
       </div>
       <br />
       <Keypad addToDialNumber={addToDialNumber} />
