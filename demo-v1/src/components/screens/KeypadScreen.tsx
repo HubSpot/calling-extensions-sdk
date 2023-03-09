@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, useCallback } from "react";
+import { useState, ChangeEvent, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import { useAutoFocus } from "../../hooks/useAutoFocus";
 import { ScreenNames, ScreenProps } from "../../types/ScreenTypes";
@@ -24,6 +24,7 @@ export const validateKeypadInput = (value: string) => {
 function KeypadScreen({
   handleNextScreen,
   cti,
+  phoneNumber,
   dialNumber,
   setDialNumber,
   handleNavigateToScreen,
@@ -33,6 +34,13 @@ function KeypadScreen({
   const [cursorStart, setCursorStart] = useState(dialNumber.length || 0);
   const [cursorEnd, setCursorEnd] = useState(dialNumber.length || 0);
   const [isDialNumberValid, setIsDialNumberValid] = useState(false);
+
+  useEffect(() => {
+    if (phoneNumber) {
+      handleSetDialNumber(phoneNumber);
+      dialNumberInput.current!.focus();
+    }
+  }, [phoneNumber]);
 
   const validatePhoneNumber = (value: string) => {
     return value.length > 2;

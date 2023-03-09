@@ -18,14 +18,6 @@ export const useCti = () => {
         onDialNumber: (data: any, rawEvent: any) => {
           const { phoneNumber } = data;
           setPhoneNumber(phoneNumber);
-          window.setTimeout(
-            () =>
-              cti.outgoingCall({
-                createEngagement: true,
-                phoneNumber,
-              }),
-            500
-          );
         },
         onEngagementCreated: (data: any, rawEvent: any) => {
           const { engagementId } = data;
