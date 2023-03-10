@@ -21,6 +21,10 @@ export const validateKeypadInput = (value: string) => {
   return /^[0-9+*#]*$/.test(value);
 };
 
+const validatePhoneNumber = (value: string) => {
+  return value.length > 2;
+};
+
 function KeypadScreen({
   handleNextScreen,
   cti,
@@ -35,16 +39,24 @@ function KeypadScreen({
   const [cursorEnd, setCursorEnd] = useState(dialNumber.length || 0);
   const [isDialNumberValid, setIsDialNumberValid] = useState(false);
 
+  const handleSetDialNumber = useCallback(
+    (value: string) => {
+      setDialNumber(value);
+      if (validatePhoneNumber(value)) {
+        setIsDialNumberValid(true);
+        return;
+      }
+      setIsDialNumberValid(false);
+    },
+    [validatePhoneNumber]
+  );
+
   useEffect(() => {
     if (phoneNumber) {
       handleSetDialNumber(phoneNumber);
       dialNumberInput.current!.focus();
     }
-  }, [phoneNumber]);
-
-  const validatePhoneNumber = (value: string) => {
-    return value.length > 2;
-  };
+  }, [phoneNumber, handleSetDialNumber]);
 
   const handleLogout = () => {
     cti.userLoggedOut();
@@ -57,15 +69,6 @@ function KeypadScreen({
     setCursorStart(selectionStart || 0);
     setCursorEnd(selectionEnd || 0);
   };
-
-  const handleSetDialNumber = useCallback((value: string) => {
-    setDialNumber(value);
-    if (validatePhoneNumber(value)) {
-      setIsDialNumberValid(true);
-      return;
-    }
-    setIsDialNumberValid(false);
-  }, []);
 
   const handleDialNumber = ({
     target: { value },
