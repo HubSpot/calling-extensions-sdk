@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, useCallback } from "react";
+import { useState, ChangeEvent, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import { useAutoFocus } from "../../hooks/useAutoFocus";
 import { ScreenNames, ScreenProps } from "../../types/ScreenTypes";
@@ -21,9 +21,14 @@ export const validateKeypadInput = (value: string) => {
   return /^[0-9+*#]*$/.test(value);
 };
 
+const validatePhoneNumber = (value: string) => {
+  return value.length > 2;
+};
+
 function KeypadScreen({
   handleNextScreen,
   cti,
+  phoneNumber,
   dialNumber,
   setDialNumber,
   handleNavigateToScreen,
@@ -34,9 +39,24 @@ function KeypadScreen({
   const [cursorEnd, setCursorEnd] = useState(dialNumber.length || 0);
   const [isDialNumberValid, setIsDialNumberValid] = useState(false);
 
-  const validatePhoneNumber = (value: string) => {
-    return value.length > 2;
-  };
+  const handleSetDialNumber = useCallback(
+    (value: string) => {
+      setDialNumber(value);
+      if (validatePhoneNumber(value)) {
+        setIsDialNumberValid(true);
+        return;
+      }
+      setIsDialNumberValid(false);
+    },
+    [validatePhoneNumber]
+  );
+
+  useEffect(() => {
+    if (phoneNumber) {
+      handleSetDialNumber(phoneNumber);
+      dialNumberInput.current!.focus();
+    }
+  }, [phoneNumber, handleSetDialNumber]);
 
   const handleLogout = () => {
     cti.userLoggedOut();
@@ -49,15 +69,6 @@ function KeypadScreen({
     setCursorStart(selectionStart || 0);
     setCursorEnd(selectionEnd || 0);
   };
-
-  const handleSetDialNumber = useCallback((value: string) => {
-    setDialNumber(value);
-    if (validatePhoneNumber(value)) {
-      setIsDialNumberValid(true);
-      return;
-    }
-    setIsDialNumberValid(false);
-  }, []);
 
   const handleDialNumber = ({
     target: { value },

@@ -1,4 +1,4 @@
-import { fireEvent } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import KeypadScreen, {
   validateKeypadInput,
 } from "../../../../src/components/screens/KeypadScreen";
@@ -38,6 +38,17 @@ describe("KeypadScreen", () => {
     props.handleNextScreen = jasmine.createSpy("handleNextScreen");
     props.handleNavigateToScreen = jasmine.createSpy("handleNavigateToScreen");
     props.setDialNumber = jasmine.createSpy("setDialNumber");
+  });
+
+  it("Shows initial dial number", () => {
+    renderWithContext(<KeypadScreen {...props} dialNumber={"617000000"} />);
+    const input = screen.getByTestId("VizExInput-Input");
+    expect((input as HTMLInputElement).value).toEqual("617000000");
+  });
+
+  it("Sets initial dial number to be HubSpot phone number", () => {
+    renderWithContext(<KeypadScreen {...props} phoneNumber={"+1617000000"} />);
+    expect(props.setDialNumber).toHaveBeenCalledWith("+1617000000");
   });
 
   describe("Log out", () => {
