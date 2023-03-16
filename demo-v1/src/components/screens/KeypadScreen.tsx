@@ -1,4 +1,5 @@
-import { useState, ChangeEvent, useCallback } from "react";
+import { useState, ChangeEvent, useCallback, useEffect } from "react";
+import styled from "styled-components";
 import { useAutoFocus } from "../../hooks/useAutoFocus";
 import { ScreenNames, ScreenProps } from "../../types/ScreenTypes";
 import {
@@ -20,22 +21,38 @@ export const validateKeypadInput = (value: string) => {
   return /^[0-9+*#]*$/.test(value);
 };
 
+const validatePhoneNumber = (value: string) => {
+  return value.length > 2;
+};
+
 function KeypadScreen({
   handleNextScreen,
   cti,
+  phoneNumber,
   dialNumber,
   setDialNumber,
   handleNavigateToScreen,
   startTimer,
 }: ScreenProps) {
   const dialNumberInput = useAutoFocus();
-  const [cursorStart, setCursorStart] = useState(0);
-  const [cursorEnd, setCursorEnd] = useState(0);
+  const [cursorStart, setCursorStart] = useState(dialNumber.length || 0);
+  const [cursorEnd, setCursorEnd] = useState(dialNumber.length || 0);
   const [isDialNumberValid, setIsDialNumberValid] = useState(false);
 
-  const validatePhoneNumber = (value: string) => {
-    return value.length > 2;
-  };
+  const handleSetDialNumber = useCallback(
+    (value: string) => {
+      setDialNumber(value);
+      setIsDialNumberValid(validatePhoneNumber(value));
+    },
+    [validatePhoneNumber]
+  );
+
+  useEffect(() => {
+    if (phoneNumber) {
+      handleSetDialNumber(phoneNumber);
+      dialNumberInput.current!.focus();
+    }
+  }, [phoneNumber, handleSetDialNumber]);
 
   const handleLogout = () => {
     cti.userLoggedOut();
@@ -48,15 +65,6 @@ function KeypadScreen({
     setCursorStart(selectionStart || 0);
     setCursorEnd(selectionEnd || 0);
   };
-
-  const handleSetDialNumber = useCallback((value: string) => {
-    setDialNumber(value);
-    if (validatePhoneNumber(value)) {
-      setIsDialNumberValid(true);
-      return;
-    }
-    setIsDialNumberValid(false);
-  }, []);
 
   const handleDialNumber = ({
     target: { value },
@@ -73,7 +81,7 @@ function KeypadScreen({
 
   const handleStartCall = useCallback(() => {
     cti.outgoingCall({
-      createEngagement: "true",
+      createEngagement: true,
       phoneNumber: dialNumber,
     });
     startTimer(Date.now());
@@ -117,7 +125,9 @@ function KeypadScreen({
           onBlur={handleCursor}
           ref={dialNumberInput}
         />
-        <Button>{DeleteLeftSvg}</Button>
+        <Button aria-label="backspace" onClick={handleBackspace}>
+          {DeleteLeftSvg}
+        </Button>
       </div>
       <Keypad addToDialNumber={addToDialNumber} />
       <Row>
