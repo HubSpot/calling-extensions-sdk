@@ -14,14 +14,15 @@ export interface ScreenProps {
   handleNavigateToScreen: Function;
   cti: any;
   phoneNumber: string;
-  engagementId: string;
+  engagementId: number | null;
   dialNumber: string;
   setDialNumber: Function;
   notes: string;
   setNotes: Function;
+  callDuration: number;
   callDurationString: string;
   startTimer: Function;
   stopTimer: Function;
-  handleEndCall: MouseEventHandler<HTMLButtonElement>;
-  handleSaveCall: MouseEventHandler<HTMLButtonElement>;
+  handleEndCall: Function;
+  handleSaveCall: Function;
 }
