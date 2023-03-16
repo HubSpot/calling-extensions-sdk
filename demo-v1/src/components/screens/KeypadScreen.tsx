@@ -42,11 +42,7 @@ function KeypadScreen({
   const handleSetDialNumber = useCallback(
     (value: string) => {
       setDialNumber(value);
-      if (validatePhoneNumber(value)) {
-        setIsDialNumberValid(true);
-        return;
-      }
-      setIsDialNumberValid(false);
+      setIsDialNumberValid(validatePhoneNumber(value));
     },
     [validatePhoneNumber]
   );
@@ -85,7 +81,7 @@ function KeypadScreen({
 
   const handleStartCall = useCallback(() => {
     cti.outgoingCall({
-      createEngagement: "true",
+      createEngagement: true,
       phoneNumber: dialNumber,
     });
     startTimer(Date.now());
