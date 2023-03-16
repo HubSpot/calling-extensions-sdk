@@ -1,7 +1,7 @@
 {
   "name": "calling-integration-sdk-demo-react-ts",
   "version": "0.1.0",
-  "description": "HubSpot calling integration sdk test app",
+  "description": "HubSpot calling integration sdk demo react ts",
   "private": true,
   "scripts": {
     "build": "webpack",
