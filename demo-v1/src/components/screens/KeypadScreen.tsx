@@ -129,6 +129,7 @@ function KeypadScreen({
           {DeleteLeftSvg}
         </Button>
       </div>
+      <br />
       <Keypad addToDialNumber={addToDialNumber} />
       <Row>
         <CallButton

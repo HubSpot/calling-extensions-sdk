@@ -132,7 +132,7 @@ function CallingScreen({
         </EndCallButton>
       </Row>
       <br />
-      <hr />
+      <hr style={{ margin: "0 30px", border: "0.8px solid #cbd6e2" }} />
       <br />
       <Row>Notes</Row>
       <Row>
