@@ -41,6 +41,7 @@ function LoginScreen({ cti, handleNextScreen }: ScreenProps) {
         value={password}
         onChange={handlePassword}
       />
+      <br />
       <Row>
         <RoundedButton use="primary" onClick={handleLogin}>
           Log in
