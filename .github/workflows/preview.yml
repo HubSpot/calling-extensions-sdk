@@ -15,7 +15,7 @@ jobs:
       - name: Install and build 🔧
         run: npm run build:demos
       - name: Run tests ✅
-        run: npm run test:demo-v1
+        run: npm run test:demo-react-ts
       - name: Deploy preview 🚀
         uses: rossjrw/pr-preview-action@v1.3.0
         with:

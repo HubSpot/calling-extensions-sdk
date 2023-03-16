@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 
 // @ts-expect-error module not typed
 // import CallingExtensions from "@hubspot/calling-extensions-sdk";
-import CallingExtensions from "../../../src/CallingExtensions";
+import CallingExtensions from "../../../../src/CallingExtensions";
 
 export const useCti = () => {
   const defaultSize = { width: 400, height: 600 };

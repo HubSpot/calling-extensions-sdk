@@ -1,10 +1,10 @@
 {
-  "name": "calling-integration-sdk-demo-v1",
+  "name": "calling-integration-sdk-demo-react-ts",
   "version": "0.1.0",
   "description": "HubSpot calling integration sdk test app",
   "private": true,
   "scripts": {
-    "build": "webpack && cp -a dist/. ../build",
+    "build": "webpack",
     "serve": "webpack-dev-server --open",
     "start": "npm run build && npm run serve",
     "test:build": "cross-env NODE_ENV=test npx webpack --config webpack-test.config.js --mode development",
