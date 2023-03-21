@@ -257,11 +257,12 @@ class IFrameManager {
   }
 
   logDebugMessage(...args) {
-    if (this.debugMode) {
-      const msg = this.isIFrameHost ? "IFrame host" : "IFrame";
-      args.unshift(msg);
+    const msg = this.isIFrameHost ? "IFrame host" : "IFrame";
+    args.unshift(msg);
+    if (process.env.NODE_ENV === "development" && this.debugMode) {
       console.log.call(null, args);
     }
+    console.debug.call(null, args);
   }
 }
 
