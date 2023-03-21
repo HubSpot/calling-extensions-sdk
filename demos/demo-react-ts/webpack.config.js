@@ -8,7 +8,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/index.html",
       inject: false,
-      filename: "demo-v1.html",
+      filename: "demo-react-ts.html",
     }),
   ],
   resolve: {
@@ -16,7 +16,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "demo-v1.bundle.js",
+    filename: "demo-react-ts.bundle.js",
     clean: true,
   },
   module: {
@@ -45,7 +45,7 @@ module.exports = {
       directory: path.resolve(__dirname, "dist"),
     },
     historyApiFallback: {
-      index: "demo-v1.html",
+      index: "demo-react-ts.html",
     },
   },
 };
