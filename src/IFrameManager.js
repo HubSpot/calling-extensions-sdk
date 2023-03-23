@@ -259,7 +259,7 @@ class IFrameManager {
   logDebugMessage(...args) {
     const msg = this.isIFrameHost ? "IFrame host" : "IFrame";
     args.unshift(msg);
-    if (process.env.NODE_ENV === "development" && this.debugMode) {
+    if (this.debugMode) {
       console.log.call(null, args);
     }
     console.debug.call(null, args);
