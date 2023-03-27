@@ -100,7 +100,7 @@ Here is a description of the events:
 import CallingExtensions from "@hubspot/calling-extensions-sdk";
 
 const options = {
-  // Whether to log various inbound/outbound messages to console
+  /** @property {boolean} debugMode - Whether to log various inbound/outbound debug messages to the console. If false, console.debug will be used instead of console.log */
   debugMode: true | false,
   // eventHandlers handle inbound messages
   eventHandlers: {
@@ -108,7 +108,7 @@ const options = {
       /* HubSpot is ready to receive messages. */
     },
     onDialNumber: event => {
-      /* Dial a number */
+      /* HubSpot sends a dial number from the contact */
     },
     onEngagementCreated: event => {
       /* HubSpot has created an engagement for this call. */
