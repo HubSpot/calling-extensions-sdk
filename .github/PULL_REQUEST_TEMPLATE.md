@@ -14,7 +14,7 @@ Jira Ticket: CALL-xxxx
 | Minor: New Feature?      |
 | Major: Breaking Change?  |
 
-[BRAVE Checklist](../SHIP_WITH_CARE.md)
+[BRAVE Checklist](https://github.com/HubSpot/calling-extensions-sdk/blob/master/SHIP_WITH_CARE.md)
 
 - [ ] I have read the BRAVE checklist and confirmed if the following is necessary.
 
@@ -29,5 +29,3 @@ Jira Ticket: CALL-xxxx
 | Expect Dependencies to Fail?   |
 
 <!--- Add before-and-after screenshots/gifs/videos if UX is impacted -->
-
-cc @HubSpot/calling-dev-integrations-fe
