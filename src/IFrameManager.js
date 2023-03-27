@@ -261,6 +261,7 @@ class IFrameManager {
     args.unshift(msg);
     if (this.debugMode) {
       console.log.call(null, args);
+      return;
     }
     console.debug.call(null, args);
   }
