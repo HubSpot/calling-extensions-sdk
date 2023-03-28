@@ -257,11 +257,13 @@ class IFrameManager {
   }
 
   logDebugMessage(...args) {
+    const msg = this.isIFrameHost ? "IFrame host" : "IFrame";
+    args.unshift(msg);
     if (this.debugMode) {
-      const msg = this.isIFrameHost ? "IFrame host" : "IFrame";
-      args.unshift(msg);
       console.log.call(null, args);
+      return;
     }
+    console.debug.call(null, args);
   }
 }
 
