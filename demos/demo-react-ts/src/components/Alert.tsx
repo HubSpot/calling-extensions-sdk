@@ -1,4 +1,5 @@
 import { ReactElement, MouseEventHandler } from "react";
+import { BATTLESHIP, OLAF } from "../utils/colors";
 import { LinkButton } from "./Components";
 
 function Alert({
@@ -11,8 +12,8 @@ function Alert({
   return (
     <div
       style={{
-        backgroundColor: "white",
-        border: "2px solid #CBD6E2",
+        backgroundColor: OLAF,
+        border: `2px solid ${BATTLESHIP}`,
         padding: "10px",
         display: "flex",
         fontSize: "13px",

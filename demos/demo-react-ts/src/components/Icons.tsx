@@ -4,6 +4,8 @@ import DeleteLeft from "../icons/deleteLeft.svg";
 import Mute from "../icons/microphone.svg";
 import Unmute from "../icons/microphoneSlash.svg";
 import Keypad from "../icons/mobileRetro.svg";
+import CaretDown from "../icons/caretDown.svg";
+import { CALYPSO, SLINKY } from "../utils/colors";
 
 export const StartCallSvg = <Phone width="18" height="18" fill="white" />;
 
@@ -17,7 +19,7 @@ export const StartRecordSvg = (
     height="30"
     aria-hidden="true"
     focusable="false"
-    fill="#516F90"
+    fill={SLINKY}
   />
 );
 
@@ -37,7 +39,7 @@ export const DeleteLeftSvg = (
     height="30"
     aria-hidden="true"
     focusable="false"
-    fill="#05a3bd"
+    fill={CALYPSO}
   >
     X
   </DeleteLeft>
@@ -59,7 +61,7 @@ export const MuteSvg = (
     height="30"
     aria-hidden="true"
     focusable="false"
-    fill="#516F90"
+    fill={SLINKY}
   />
 );
 
@@ -82,7 +84,17 @@ export const ShowKeypadSvg = (
       height="30"
       aria-hidden="true"
       focusable="false"
-      fill="#516F90"
+      fill={SLINKY}
     />
   </div>
+);
+
+export const CaretDownSvg = (
+  <CaretDown
+    width="10"
+    height="10"
+    aria-hidden="true"
+    focusable="false"
+    fill={SLINKY}
+  />
 );

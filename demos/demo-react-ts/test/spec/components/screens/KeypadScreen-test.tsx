@@ -1,4 +1,8 @@
-import { fireEvent, screen } from "@testing-library/react";
+import {
+  fireEvent,
+  screen,
+  waitForElementToBeRemoved,
+} from "@testing-library/react";
 import KeypadScreen, {
   validateKeypadInput,
 } from "../../../../src/components/screens/KeypadScreen";
@@ -29,6 +33,8 @@ const props = {
   stopTimer: noop,
   handleEndCall: noop,
   handleSaveCall: noop,
+  fromNumber: "",
+  setFromNumber: noop,
 };
 
 describe("KeypadScreen", () => {
@@ -135,6 +141,44 @@ describe("KeypadScreen", () => {
       });
       button.click();
       expect(props.setDialNumber).toHaveBeenCalledWith("61");
+    });
+  });
+
+  describe("From Number", () => {
+    it("Shows default from number", () => {
+      const { getByText } = renderWithContext(<KeypadScreen {...props} />);
+
+      expect(getByText(/\+1 617-948-3986/)).toBeInTheDocument();
+    });
+
+    it("Shows from numbers dropdown when clicked", async () => {
+      const { getByRole, getByLabelText } = renderWithContext(
+        <KeypadScreen {...props} />
+      );
+      expect(getByLabelText(/from-number-close/)).toBeInTheDocument();
+      const button = getByRole("button", {
+        name: /from-number/i,
+      });
+      button.click();
+
+      await waitForElementToBeRemoved(() =>
+        getByLabelText(/from-number-close/)
+      );
+      expect(getByLabelText(/from-number-open/)).toBeInTheDocument();
+    });
+
+    it("Hides numbers dropdown when clicked again", async () => {
+      const { getByRole, findByLabelText, getByLabelText } = renderWithContext(
+        <KeypadScreen {...props} />
+      );
+      const button = getByRole("button", {
+        name: /from-number/i,
+      });
+      button.click();
+      expect(await findByLabelText(/from-number-open/)).toBeInTheDocument();
+      button.click();
+      await waitForElementToBeRemoved(() => getByLabelText(/from-number-open/));
+      expect(getByLabelText(/from-number-close/)).toBeInTheDocument();
     });
   });
 });

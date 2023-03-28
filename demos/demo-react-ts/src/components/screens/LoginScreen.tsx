@@ -8,6 +8,7 @@ import {
   Row,
 } from "../Components";
 import { ScreenProps } from "../../types/ScreenTypes";
+import { PANTERA } from "../../utils/colors";
 
 function LoginScreen({ cti, handleNextScreen }: ScreenProps) {
   const usernameInput = useAutoFocus();
@@ -27,7 +28,7 @@ function LoginScreen({ cti, handleNextScreen }: ScreenProps) {
   }: ChangeEvent<HTMLInputElement>) => setPassword(value);
 
   return (
-    <Wrapper style={{ color: "#2d3e50" }}>
+    <Wrapper style={{ color: PANTERA }}>
       <h4 style={{ textAlign: "center" }}>Log into your calling account</h4>
       <div style={{ marginBottom: "5px", fontSize: "14px" }}>User Name</div>
       <RoundedInput

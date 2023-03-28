@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useMemo } from "react";
 import { ScreenProps } from "../../types/ScreenTypes";
 import {
   CallActionButton,
@@ -21,8 +21,7 @@ import {
   HideKeypadSvg,
 } from "../Icons";
 import * as EngagementStatuses from "../../types/EngagementStatuses";
-
-const content = <KeypadPopover />;
+import { BATTLESHIP, SLINKY } from "../../utils/colors";
 
 function CallingScreen({
   cti,
@@ -56,6 +55,10 @@ function CallingScreen({
     handleEndCall();
   };
 
+  const content = useMemo(() => {
+    return <KeypadPopover />;
+  }, []);
+
   return (
     <Wrapper>
       <div style={{ textAlign: "center" }}>
@@ -75,7 +78,7 @@ function CallingScreen({
             onClick={handleToggleRecord}
             style={
               toggleRecord
-                ? { backgroundColor: "#516F90" }
+                ? { backgroundColor: SLINKY }
                 : { backgroundColor: "white" }
             }
           >
@@ -95,7 +98,7 @@ function CallingScreen({
             onClick={handleToggleMute}
             style={
               toggleMute
-                ? { backgroundColor: "#516F90" }
+                ? { backgroundColor: SLINKY }
                 : { backgroundColor: "white" }
             }
           >
@@ -116,7 +119,7 @@ function CallingScreen({
               onClick={handleToggleKeypad}
               style={
                 toggleKeypad
-                  ? { backgroundColor: "#516F90" }
+                  ? { backgroundColor: SLINKY }
                   : { backgroundColor: "white" }
               }
             >
@@ -132,7 +135,7 @@ function CallingScreen({
         </EndCallButton>
       </Row>
       <br />
-      <hr style={{ margin: "0 30px", border: "0.8px solid #cbd6e2" }} />
+      <hr style={{ margin: "0 30px", border: `0.8px solid ${BATTLESHIP}` }} />
       <br />
       <Row>Notes</Row>
       <Row>
