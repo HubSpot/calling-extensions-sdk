@@ -6,8 +6,14 @@ import VizExLink from "../visitor-ui-component-library/link/VizExLink";
 // @ts-expect-error module not typed
 import VizExTooltip from "../visitor-ui-component-library/tooltip/VizExTooltip";
 import { setPrimaryColor } from "../visitor-ui-component-library/theme/defaultThemeOperators";
-import { DEFAULT_INPUT_BORDER_COLOR } from "../visitor-ui-component-library/theme/ColorConstants";
 import { createTheme } from "../visitor-ui-component-library/theme/createTheme";
+import {
+  FLINT,
+  HEFFALUMP,
+  SLINKY,
+  CANDY_APPLE_DARK,
+  BATTLESHIP,
+} from "../utils/colors";
 
 /**
  * This file has a dependency on visitor-ui-component-library. Do not directly edit files in the library!
@@ -17,10 +23,10 @@ export const TextArea = styled.textarea`
   padding: 10px;
   margin: 10px 0;
   font-family: Lexend;
-  border: 1px solid ${DEFAULT_INPUT_BORDER_COLOR};
+  border: 1px solid ${BATTLESHIP};
   border-radius: 5px;
   ::placeholder {
-    color: #99acc2;
+    color: ${FLINT};
   }
   resize: none;
   width: 100%;
@@ -81,12 +87,37 @@ export const CallButton = styled(VizExButton).attrs((props) => ({
 `;
 
 export const EndCallButton = styled(CallButton).attrs({
-  theme: createTheme(setPrimaryColor("#d94c53")),
+  theme: createTheme(setPrimaryColor(CANDY_APPLE_DARK)),
 })``;
 
 export const Row = styled.div`
   display: flex;
   justify-content: space-evenly;
+`;
+
+export const FromNumberRow = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  font-size: 14px;
+`;
+
+export const FromNumberButton = styled(VizExButton).attrs({
+  use: "transparent-on-primary",
+  theme: createTheme(setPrimaryColor(HEFFALUMP)),
+})`
+  border: none;
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 14px;
+`;
+
+export const FromNumberToggleButton = styled(VizExButton).attrs((props) => ({
+  disabled: props.disabled,
+}))`
+  border: none;
+  padding: 0;
+  font-weight: 600;
 `;
 
 export const Link = styled(VizExLink)`
@@ -95,7 +126,7 @@ export const Link = styled(VizExLink)`
 
 export const Key = styled(VizExButton).attrs({
   use: "transparent-on-primary",
-  theme: createTheme(setPrimaryColor("#516f90")),
+  theme: createTheme(setPrimaryColor(SLINKY)),
 })`
   width: 65px;
   height: 65px;
@@ -116,7 +147,7 @@ export const CallActionLabel = styled.label`
   font-size: 11px;
   margin: 0;
   text-align: center;
-  color: #516f90;
+  color: ${SLINKY};
 `;
 
 export const Timer = styled.div`

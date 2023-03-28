@@ -25,4 +25,6 @@ export interface ScreenProps {
   stopTimer: Function;
   handleEndCall: Function;
   handleSaveCall: Function;
+  fromNumber: string;
+  setFromNumber: Function;
 }

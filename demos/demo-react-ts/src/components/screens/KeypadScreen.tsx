@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, useCallback, useEffect } from "react";
+import { useState, ChangeEvent, useCallback, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { useAutoFocus } from "../../hooks/useAutoFocus";
 import { ScreenNames, ScreenProps } from "../../types/ScreenTypes";
@@ -9,9 +9,14 @@ import {
   KeypadInput,
   Row,
   Button,
+  Tooltip,
+  FromNumberRow,
+  FromNumberButton,
 } from "../Components";
 import { Keypad } from "../Keypad";
-import { StartCallSvg, DeleteLeftSvg } from "../Icons";
+import { StartCallSvg, DeleteLeftSvg, CaretDownSvg } from "../Icons";
+import { GREAT_WHITE } from "../../utils/colors";
+import FromNumberPopover from "../FromNumberPopover";
 
 const StyledRow = styled(Row)`
   justify-content: flex-end;
@@ -33,11 +38,14 @@ function KeypadScreen({
   setDialNumber,
   handleNavigateToScreen,
   startTimer,
+  fromNumber,
+  setFromNumber,
 }: ScreenProps) {
   const dialNumberInput = useAutoFocus();
   const [cursorStart, setCursorStart] = useState(dialNumber.length || 0);
   const [cursorEnd, setCursorEnd] = useState(dialNumber.length || 0);
   const [isDialNumberValid, setIsDialNumberValid] = useState(false);
+  const [toggleFromNumbers, setToggleFromNumbers] = useState(false);
 
   const handleSetDialNumber = useCallback(
     (value: string) => {
@@ -114,7 +122,7 @@ function KeypadScreen({
           display: "flex",
           justifyContent: "space-evenly",
           backgroundColor: "white",
-          border: "2px solid #DFE3EB",
+          border: `2px solid ${GREAT_WHITE}`,
           margin: "0 16px",
           padding: "4px",
         }}
@@ -141,6 +149,14 @@ function KeypadScreen({
           {StartCallSvg}
         </CallButton>
       </Row>
+      <FromNumberRow>
+        <FromNumberPopover
+          fromNumber={fromNumber}
+          setFromNumber={setFromNumber}
+          toggleFromNumbers={toggleFromNumbers}
+          setToggleFromNumbers={setToggleFromNumbers}
+        />
+      </FromNumberRow>
     </Wrapper>
   );
 }

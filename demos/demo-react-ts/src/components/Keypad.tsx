@@ -28,6 +28,7 @@ export function Keypad({ addToDialNumber }: { addToDialNumber: Function }) {
 }
 
 export function KeypadPopover() {
+  debugger;
   return (
     <div>
       <Row>

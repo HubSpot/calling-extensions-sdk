@@ -14,9 +14,9 @@ import CallingScreen from "./screens/CallingScreen";
 import CallEndedScreen from "./screens/CallEndedScreen";
 import { useCti } from "../hooks/useCti";
 import { useCallDurationTimer } from "../hooks/useTimer";
-import { WHITE } from "../visitor-ui-component-library/theme/ColorConstants";
 import { ScreenNames } from "../types/ScreenTypes";
 import Alert from "./Alert";
+import { CALYPSO, GYPSUM, KOALA, OLAF, SLINKY } from "../utils/colors";
 
 export const screens = [
   LoginScreen,
@@ -43,6 +43,7 @@ function App() {
   const { callDuration, callDurationString, startTimer, stopTimer } =
     useCallDurationTimer();
   const [showAlert, setShowAlert] = useState(true);
+  const [fromNumber, setFromNumber] = useState("+1 617-948-3986");
 
   const handleNextScreen = () => {
     if (screenIndex === screens.length - 1) {
@@ -104,23 +105,25 @@ function App() {
         stopTimer={stopTimer}
         handleEndCall={handleEndCall}
         handleSaveCall={handleSaveCall}
+        fromNumber={fromNumber}
+        setFromNumber={setFromNumber}
       />
     );
-  }, [screenIndex, dialNumber, notes, callDurationString]);
+  }, [screenIndex, dialNumber, notes, callDurationString, fromNumber]);
 
   return (
     <ThemeProvider
       theme={createTheme(
-        setPrimaryColor("#05a3bd"),
-        setTextColor("#516f90"),
-        setDisabledBackgroundColor("#eaf0f6"),
-        setTooltipBackgroundColor(WHITE)
+        setPrimaryColor(CALYPSO),
+        setTextColor(SLINKY),
+        setDisabledBackgroundColor(KOALA),
+        setTooltipBackgroundColor(OLAF)
       )}
     >
       <div
         style={{
-          backgroundColor: "#f5f8fa",
-          color: "#516f90",
+          backgroundColor: GYPSUM,
+          color: SLINKY,
           width: "400px",
           minHeight: "600px",
           display: "flex",

@@ -24,6 +24,8 @@ const props = {
   stopTimer: noop,
   handleEndCall: noop,
   handleSaveCall: noop,
+  fromNumber: "",
+  setFromNumber: noop,
 };
 
 describe("CallingScreen", () => {
