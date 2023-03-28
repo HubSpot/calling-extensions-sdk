@@ -4,10 +4,10 @@ import {
   Tooltip,
   FromNumberToggleButton,
   FromNumberButton,
-} from "../components/Components";
-import { CaretDownSvg } from "../components/Icons";
+} from "./Components";
+import { CaretDownSvg } from "./Icons";
 
-function FromNumberPopover({
+function FromNumbersDropdown({
   fromNumber,
   setFromNumber,
   setToggleFromNumbers,
@@ -70,4 +70,4 @@ function FromNumberPopover({
   );
 }
 
-export default FromNumberPopover;
+export default FromNumbersDropdown;

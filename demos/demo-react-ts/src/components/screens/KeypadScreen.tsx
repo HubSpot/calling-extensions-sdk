@@ -16,7 +16,7 @@ import {
 import { Keypad } from "../Keypad";
 import { StartCallSvg, DeleteLeftSvg, CaretDownSvg } from "../Icons";
 import { GREAT_WHITE } from "../../utils/colors";
-import FromNumberPopover from "../FromNumberPopover";
+import FromNumbersDropdown from "../FromNumbersDropdown";
 
 const StyledRow = styled(Row)`
   justify-content: flex-end;
@@ -150,7 +150,7 @@ function KeypadScreen({
         </CallButton>
       </Row>
       <FromNumberRow>
-        <FromNumberPopover
+        <FromNumbersDropdown
           fromNumber={fromNumber}
           setFromNumber={setFromNumber}
           toggleFromNumbers={toggleFromNumbers}

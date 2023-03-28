@@ -151,7 +151,7 @@ describe("KeypadScreen", () => {
       expect(getByText(/\+1 617-948-3986/)).toBeInTheDocument();
     });
 
-    it("Shows from numbers popover when clicked", async () => {
+    it("Shows from numbers dropdown when clicked", async () => {
       const { getByRole, getByLabelText } = renderWithContext(
         <KeypadScreen {...props} />
       );
@@ -167,7 +167,7 @@ describe("KeypadScreen", () => {
       expect(getByLabelText(/from-number-open/)).toBeInTheDocument();
     });
 
-    it("Hides numbers popover when clicked again", async () => {
+    it("Hides numbers dropdown when clicked again", async () => {
       const { getByRole, findByLabelText, getByLabelText } = renderWithContext(
         <KeypadScreen {...props} />
       );

@@ -1,9 +1,4 @@
-import {
-  fireEvent,
-  screen,
-  waitForElementToBeRemoved,
-} from "@testing-library/react";
-import FromNumberPopover from "../../../src/components/FromNumberPopover";
+import FromNumbersDropdown from "../../../src/components/FromNumbersDropdown";
 import { renderWithContext } from "../../render";
 
 const noop = (..._args: any[]) => {};
@@ -15,26 +10,26 @@ const props = {
   toggleFromNumbers: false,
 };
 
-describe("FromNumberPopover", () => {
+describe("FromNumbersDropdown", () => {
   beforeEach(() => {
     props.setToggleFromNumbers = jasmine.createSpy("setToggleFromNumbers");
   });
-  it("Sets aria label of fromNumber popover correctly using toggleFromNumbers", () => {
+  it("Sets aria label of numbers dropdown correctly using toggleFromNumbers", () => {
     const { getByLabelText } = renderWithContext(
-      <FromNumberPopover {...props} />
+      <FromNumbersDropdown {...props} />
     );
     expect(getByLabelText(/from-number-close/)).toBeInTheDocument();
   });
   it("Shows US and UK numbers", () => {
     const { getByRole } = renderWithContext(
-      <FromNumberPopover {...props} toggleFromNumbers={true} />
+      <FromNumbersDropdown {...props} toggleFromNumbers={true} />
     );
     expect(getByRole("button", { name: "us-number" })).toBeInTheDocument();
     expect(getByRole("button", { name: "uk-number" })).toBeInTheDocument();
   });
-  it("Hides numbers popover when a number is clicked", async () => {
+  it("Hides numbers dropdown when a number is clicked", async () => {
     const { getByLabelText, getByRole } = renderWithContext(
-      <FromNumberPopover {...props} toggleFromNumbers={true} />
+      <FromNumbersDropdown {...props} toggleFromNumbers={true} />
     );
     expect(getByLabelText(/from-number-open/)).toBeInTheDocument();
     const button = getByRole("button", { name: "uk-number" });
