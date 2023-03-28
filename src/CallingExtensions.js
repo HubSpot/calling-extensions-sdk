@@ -3,10 +3,29 @@
 import IFrameManager from "./IFrameManager";
 import { messageType, errorType } from "./Constants";
 
+/**
+ * @typedef {Object} EventHandlers
+ * @property {function} onReady - Called when HubSpot is ready to receive messages.
+ * @property {function} onDialNumber - Called when the HubSpot sends a dial number from the contact.
+ * @property {function} onEngagementCreated - Called when HubSpot creates an engagement
+ * for the call.
+ * @property {function} onVisibilityChanged - Called when the call widget's visibility changes.
+ */
+
+/**
+ * @typedef {Object} Options
+ * @property {boolean} debugMode - Whether to log various inbound/outbound debug messages
+ * to the console.
+ * @property {EventHandlers} eventHandlers - Event handlers handle inbound messages.
+ */
+
 /*
  * CallingExtensions allows call providers to communicate with HubSpot.
  */
 class CallingExtensions {
+  /**
+   * @param {Options} options
+   */
   constructor(options) {
     if (!options || !options.eventHandlers) {
       throw new Error("Invalid options or missing eventHandlers.");
