@@ -1,7 +1,7 @@
 import { useMemo, useCallback } from "react";
 
 import {
-  Tooltip,
+  FromNumberTooltip,
   FromNumberToggleButton,
   FromNumberButton,
 } from "./Components";
@@ -54,7 +54,7 @@ function FromNumbersDropdown({
   return (
     <>
       <span style={{ marginRight: "10px" }}>From number:</span>
-      <Tooltip
+      <FromNumberTooltip
         aria-label={`from-number-${toggleFromNumbers ? "open" : "close"}`}
         content={FromNumbers}
         open={toggleFromNumbers}
@@ -65,7 +65,7 @@ function FromNumbersDropdown({
         >
           {fromNumber} {CaretDownSvg}
         </FromNumberToggleButton>
-      </Tooltip>
+      </FromNumberTooltip>
     </>
   );
 }

@@ -157,3 +157,7 @@ export const Timer = styled.div`
 export const Tooltip = styled(VizExTooltip).attrs({
   placement: "bottom right",
 })``;
+
+export const FromNumberTooltip = styled(VizExTooltip).attrs({
+  placement: "top right",
+})``;

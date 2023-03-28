@@ -9,9 +9,7 @@ import {
   KeypadInput,
   Row,
   Button,
-  Tooltip,
   FromNumberRow,
-  FromNumberButton,
 } from "../Components";
 import { Keypad } from "../Keypad";
 import { StartCallSvg, DeleteLeftSvg, CaretDownSvg } from "../Icons";
