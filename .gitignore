@@ -4,8 +4,8 @@ dist
 bin
 *.pem
 coverage
-build/*
 .DS_STORE
 lib
 __tests__
-!build/.gitkeep
+demos/build/*
+!demos/build/.gitkeep
