@@ -23,7 +23,6 @@
     "publish:major": "npm publish --access public",
     "test": "karma start karma.conf.js --browsers ChromeHeadless --single-run",
     "test:debug": "karma start karma.conf.js --browsers Chrome",
-    "travis": "npm run build:test"
   },
   "main": "./dist/main.js",
   "module": "./index.js",
