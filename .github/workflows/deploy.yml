@@ -5,6 +5,10 @@ on:
   push:
     branches: [project-demo-v1]
 
+defaults:
+  run:
+    working-directory: demos
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -13,11 +17,11 @@ jobs:
         uses: actions/checkout@v3
       - name: Install and build 🔧
         run: npm run predeploy
-        working-directory: demos
+      - name: Run tests ✅
+        run: npm run test
       - name: Deploy  🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: build
           branch: gh-pages
           clean-exclude: pr-preview
-        working-directory: demos

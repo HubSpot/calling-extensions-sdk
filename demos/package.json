@@ -9,6 +9,6 @@
     "ci": "npm run ci:js && npm run ci:react",
     "build": "npm run build:js && npm run build:react",
     "test": "npm run test:react",
-    "predeploy": "npm run build && cp ./src/index.html build/index.html && cp -a demo-minimal-js/bin/. build && cp -a demo-react-ts/dist/. build"
+    "predeploy": "npm run ci && npm run build && cp ./src/index.html build/index.html && cp -a demo-minimal-js/bin/. build && cp -a demo-react-ts/dist/. build"
   }
 }

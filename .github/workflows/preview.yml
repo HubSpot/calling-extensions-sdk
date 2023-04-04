@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: ['*demo*']
 
+defaults:
+  run:
+    working-directory: demos
+
 jobs:
   deploy-preview:
     runs-on: ubuntu-latest
@@ -14,10 +18,8 @@ jobs:
         uses: actions/checkout@v3
       - name: Install and build 🔧
         run: npm run predeploy
-        working-directory: demos
       - name: Run tests ✅
         run: npm run test
-        working-directory: demos
       - name: Deploy preview 🚀
         uses: rossjrw/pr-preview-action@v1.3.0
         with:
@@ -25,4 +27,3 @@ jobs:
           preview-branch: gh-pages
           umbrella-dir: pr-preview
           action: auto
-        working-directory: demos
