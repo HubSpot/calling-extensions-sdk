@@ -1,0 +1,15 @@
+{
+  "srcDir": "src",
+  "srcFiles": [],
+  "specDir": "dist-test",
+  "specFiles": [
+    "test.js"
+  ],
+  "helpers": [],
+  "env": {
+    "random": true
+  },
+  "browser": {
+    "name": "chrome"
+  }
+}
