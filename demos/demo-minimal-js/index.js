@@ -1,5 +1,6 @@
-import CallingExtensions from "@hubspot/calling-extensions-sdk";
-import { errorType } from "../../src/Constants";
+// import CallingExtensions from "../../src/CallingExtensions";
+// import { errorType } from "../../src/Constants";
+import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 
 const callback = () => {
   let rowId = 0;
@@ -100,7 +101,7 @@ const callback = () => {
         break;
       case "send error":
         cti.sendError({
-          type: errorType.GENERIC,
+          type: Constants.errorType.GENERIC,
           message: "This is a message shown in Hubspot UI"
         });
         break;
