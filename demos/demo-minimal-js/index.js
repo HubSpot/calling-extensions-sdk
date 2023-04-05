@@ -1,6 +1,4 @@
-// import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
-
-import CallingExtensions from "../../src/CallingExtensions";
+import CallingExtensions from "@hubspot/calling-extensions-sdk";
 import { errorType } from "../../src/Constants";
 
 const callback = () => {
