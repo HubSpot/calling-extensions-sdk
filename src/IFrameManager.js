@@ -123,6 +123,7 @@ class IFrameManager {
       type: messageType.READY
     });
   }
+
   /*
    * Unload the iFrame
    */
