@@ -1,14 +1,11 @@
 {
+  "name": "calling-extensions-sdk-demos",
   "homepage": "https://github.hubspot.com/calling-extensions-sdk",
   "scripts": {
-    "ci:js": "cd demo-minimal-js && npm ci",
-    "ci:react": "cd demo-react-ts && npm ci",
-    "build:js": "cd demo-minimal-js && npm run build",
-    "build:react": "cd demo-react-ts && npm run build",
+    "build:js": "cd demo-minimal-js && npm run build:gh",
+    "build:react": "cd demo-react-ts && npm run build:gh",
+    "build": "npm run build:js && npm run build:react && cp ./src/index.html build/index.html && cp -a demo-minimal-js/bin/. build && cp -a demo-react-ts/dist/. build",
     "test:react": "cd demo-react-ts && npm run test",
-    "ci": "npm run ci:js && npm run ci:react",
-    "build": "npm run build:js && npm run build:react",
-    "test": "npm run test:react",
-    "predeploy": "npm run ci && npm run build && cp ./src/index.html build/index.html && cp -a demo-minimal-js/bin/. build && cp -a demo-react-ts/dist/. build"
+    "test": "npm run test:react"
   }
 }
