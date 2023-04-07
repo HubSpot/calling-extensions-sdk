@@ -6,7 +6,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "node scripts/support_node_17+.js webpack",
+    "build": "webpack",
     "build:test": "npm run build && npm run test",
     "cover": "open coverage/lcov-report/index.html",
     "eslint": "eslint src --ext .js",
@@ -21,8 +21,8 @@
     "publish:patch": "npm publish --access public",
     "publish:minor": "npm publish --access public",
     "publish:major": "npm publish --access public",
-    "test:build": "node scripts/support_node_17+.js npx webpack --config webpack-test.config.js --mode development",
-    "test:watch": "node scripts/support_node_17+.js npx webpack --config webpack-test.config.js --mode development --watch",
+    "test:build": "npx webpack --config webpack-test.config.js --mode development",
+    "test:watch": "npx webpack --config webpack-test.config.js --mode development --watch",
     "test:serve": "cross-env NODE_ENV=test npm run test:watch & jasmine-browser-runner serve --config=test/support/jasmine-browser.json",
     "test": "cross-env NODE_ENV=test npm run test:build && jasmine-browser-runner runSpecs --config=test/support/jasmine-browser.json --browser=headlessChrome"
   },
