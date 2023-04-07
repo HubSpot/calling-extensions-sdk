@@ -6,20 +6,24 @@ on:
   pull_request:
     branches: ['*demo*']
 
+defaults:
+  run:
+    working-directory: demos
+
 jobs:
   deploy-preview:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
+      - name: Checkout repository 🛎️
         uses: actions/checkout@v3
       - name: Install and build 🔧
-        run: npm run build:demos
+        run: npm run build
       - name: Run tests ✅
-        run: npm run test:demo-react-ts
+        run: npm run test
       - name: Deploy preview 🚀
         uses: rossjrw/pr-preview-action@v1.3.0
         with:
-          source-dir: ./build
+          source-dir: demos/build
           preview-branch: gh-pages
           umbrella-dir: pr-preview
           action: auto

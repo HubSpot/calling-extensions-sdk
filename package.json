@@ -1,7 +1,6 @@
 {
   "name": "@hubspot/calling-extensions-sdk",
   "version": "0.0.12",
-  "homepage": "https://github.hubspot.com/calling-extensions-sdk",
   "description": "HubSpot calling extensions sdk for call widget integration.",
   "publishConfig": {
     "access": "public"
@@ -24,13 +23,7 @@
     "publish:major": "npm publish --access public",
     "test": "karma start karma.conf.js --browsers ChromeHeadless --single-run",
     "test:debug": "karma start karma.conf.js --browsers Chrome",
-    "travis": "npm run build:test",
-    "build:demo-minimal-js": "cd demos/demo-minimal-js && npm ci && npm run build",
-    "build:demo-react-ts": "cd demos/demo-react-ts && npm ci && npm run build",
-    "build:demos": "npm run build:demo-react-ts && npm run build:demo-minimal-js && cp ./src/index.html build/index.html && cp -a demos/demo-minimal-js/bin/. build && cp -a demos/demo-react-ts/dist/. build",
-    "test:demo-react-ts": "cd demos/demo-react-ts && npm run test",
-    "predeploy": "npm run build:demos",
-    "deploy": "gh-pages -d build"
+    "travis": "npm run build:test"
   },
   "main": "./dist/main.js",
   "module": "./index.js",
@@ -52,7 +45,6 @@
     "eslint-plugin-jsx-a11y": "^3.0.2",
     "eslint-plugin-mocha": "^4.7.0",
     "eslint-plugin-react": "^6.9.0",
-    "gh-pages": "^5.0.0",
     "jasmine-core": "^3.3.0",
     "karma": "^6.3.17",
     "karma-babel-preprocessor": "^8.0.2",
