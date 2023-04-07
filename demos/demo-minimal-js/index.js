@@ -1,7 +1,7 @@
-// import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
-
-import CallingExtensions from "../../src/CallingExtensions";
-import { errorType } from "../../src/Constants";
+// import CallingExtensions from "../../src/CallingExtensions";
+// import { errorType } from "../../src/Constants";
+import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
+const { errorType } = Constants;
 
 const callback = () => {
   let rowId = 0;
