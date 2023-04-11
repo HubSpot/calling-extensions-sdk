@@ -2,6 +2,7 @@
 
 import IFrameManager from "./IFrameManager";
 import { messageType, errorType } from "./Constants";
+import { version } from "../package.json";
 
 /**
  * @typedef {Object} EventHandlers
@@ -35,81 +36,81 @@ class CallingExtensions {
 
     this.iFrameManager = new IFrameManager({
       debugMode: options.debugMode,
-      onMessageHandler: event => this.onMessageHandler(event)
+      onMessageHandler: event => this.onMessageHandler(event),
     });
   }
 
   initialized(userData) {
     this.sendMessage({
       type: messageType.INITIALIZED,
-      data: userData
+      data: { ...userData, version },
     });
   }
 
   userLoggedIn() {
     this.sendMessage({
-      type: messageType.LOGGED_IN
+      type: messageType.LOGGED_IN,
     });
   }
 
   userLoggedOut() {
     this.sendMessage({
-      type: messageType.LOGGED_OUT
+      type: messageType.LOGGED_OUT,
     });
   }
 
   incomingCall(callDetails) {
     this.sendMessage({
       type: messageType.INCOMING_CALL,
-      data: callDetails
+      data: callDetails,
     });
   }
 
   outgoingCall(callDetails) {
     this.sendMessage({
       type: messageType.OUTGOING_CALL_STARTED,
-      data: callDetails
+      data: callDetails,
     });
   }
 
   callAnswered() {
     this.sendMessage({
-      type: messageType.CALL_ANSWERED
+      type: messageType.CALL_ANSWERED,
     });
   }
 
   callData(data) {
     this.sendMessage({
       type: messageType.CALL_DATA,
-      data
+      data,
     });
   }
 
   callEnded(engagementData) {
     this.sendMessage({
       type: messageType.CALL_ENDED,
-      data: engagementData
+      data: engagementData,
     });
   }
 
   callCompleted(callCompletedData) {
     this.sendMessage({
       type: messageType.CALL_COMPLETED,
-      data: callCompletedData
+      data: callCompletedData,
     });
   }
 
   sendError(errorData) {
     this.sendMessage({
       type: messageType.ERROR,
-      data: errorData
+      data: errorData,
     });
   }
 
   resizeWidget(sizeInfo) {
     this.sendMessage({
       type: messageType.RESIZE_WIDGET,
-      data: sizeInfo
+      data: sizeInfo,
     });
   }
 
@@ -159,9 +160,9 @@ class CallingExtensions {
           data: {
             type: errorType.UNKNOWN_MESSAGE_TYPE,
             data: {
-              originalMessage: event
-            }
-          }
+              originalMessage: event,
+            },
+          },
         });
         break;
       }
@@ -171,7 +172,7 @@ class CallingExtensions {
       handler(data, event);
     } else {
       console.error(
-        `No event handler is available to handle message of type: ${type}`
+        `No event handler is available to handle message of type: ${type}`,
       );
     }
   }
