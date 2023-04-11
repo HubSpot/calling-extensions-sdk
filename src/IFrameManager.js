@@ -58,7 +58,7 @@ class IFrameManager {
     const hostElement = document.querySelector(hostElementSelector);
     if (!hostElement) {
       throw new Error(
-        `hostElement not found. Selector - ${hostElementSelector}`
+        `hostElement not found. Selector - ${hostElementSelector}`,
       );
     }
     return hostElement;
@@ -76,11 +76,13 @@ class IFrameManager {
   }
 
   static createIFrame(iFrameOptions, onLoadCallback) {
-    const { src, width, height, hostElementSelector } = iFrameOptions;
+    const {
+      src, width, height, hostElementSelector,
+    } = iFrameOptions;
 
     if (!src || !width || !height || !hostElementSelector) {
       throw new Error(
-        "iFrameOptions is missing one of the required properties - {src, width, height, hostElementSelector}."
+        "iFrameOptions is missing one of the required properties - {src, width, height, hostElementSelector}.",
       );
     }
 
@@ -102,7 +104,7 @@ class IFrameManager {
 
   handleLoadError() {
     this.onMessageHandler({
-      type: messageType.SYNC_ACK_FAILED
+      type: messageType.SYNC_ACK_FAILED,
     });
   }
 
@@ -120,9 +122,10 @@ class IFrameManager {
   onReady() {
     this.isReady = true;
     this.onMessageHandler({
-      type: messageType.READY
+      type: messageType.READY,
     });
   }
+
   /*
    * Unload the iFrame
    */
@@ -131,7 +134,7 @@ class IFrameManager {
 
     if (this.iFrame) {
       const element = IFrameManager.getHostElement(
-        this.options.iFrameOptions.hostElementSelector
+        this.options.iFrameOptions.hostElementSelector,
       );
       element.innerHTML = "";
 
@@ -163,7 +166,7 @@ class IFrameManager {
     }
 
     const newMessage = Object.assign({}, message, {
-      messageId
+      messageId,
     });
 
     this.logDebugMessage("postMessage", type, message);
@@ -182,7 +185,7 @@ class IFrameManager {
           type: messageType.SYNC_ACK,
           debugMode: this.debugMode,
           version: VERSION,
-          iFrameUrl: IFrameManager.extractHostFromUrl(window.location.href)
+          iFrameUrl: IFrameManager.extractHostFromUrl(window.location.href),
         });
 
         const { hostUrl } = event.data;
@@ -229,7 +232,7 @@ class IFrameManager {
     // No SYNC_ACK message after 30sec results in a failure
     if (Date.now() - this.firstSyncSent > 30000) {
       this.onMessageHandler({
-        type: messageType.SYNC_ACK_FAILED
+        type: messageType.SYNC_ACK_FAILED,
       });
       return;
     }
@@ -237,14 +240,14 @@ class IFrameManager {
     this.sendMessage(
       {
         type: messageType.SYNC,
-        hostUrl: IFrameManager.extractHostFromUrl(window.location.href)
+        hostUrl: IFrameManager.extractHostFromUrl(window.location.href),
       },
       eventData => {
         const { iFrameUrl } = eventData;
         this.destinationHost = iFrameUrl || this.destinationHost;
         this.onReady();
         this.debugMode = eventData && eventData.debugMode;
-      }
+      },
     );
 
     // In cases where the call widget loads the calling extensions asynchronously, message
