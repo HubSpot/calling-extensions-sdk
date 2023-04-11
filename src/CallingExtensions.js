@@ -43,7 +43,7 @@ class CallingExtensions {
   initialized(userData) {
     this.sendMessage({
       type: messageType.INITIALIZED,
-      data: { ...userData, version },
+      data: { ...userData, sdkVersion: version },
     });
   }
 
