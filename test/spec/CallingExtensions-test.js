@@ -2,12 +2,13 @@
 
 import CallingExtensions from "../../src/CallingExtensions";
 import { messageType } from "../../src/Constants";
+import packageInfo from "../../package.json";
 
 describe("CallingExtensions", () => {
   let instance;
   beforeEach(() => {
     instance = new CallingExtensions({
-      eventHandlers: {}
+      eventHandlers: {},
     });
   });
   it("should instantiate", () => {
@@ -22,60 +23,82 @@ describe("CallingExtensions", () => {
     it("should handle user logged in.", () => {
       instance.userLoggedIn();
       expect(instance.sendMessage).toHaveBeenCalledWith({
-        type: messageType.LOGGED_IN
+        type: messageType.LOGGED_IN,
       });
     });
 
     it("should handle user logged out.", () => {
       instance.userLoggedOut();
       expect(instance.sendMessage).toHaveBeenCalledWith({
-        type: messageType.LOGGED_OUT
+        type: messageType.LOGGED_OUT,
       });
     });
 
     it("should handle incoming call.", () => {
       const callData = {
-        phoneNumber: 1234
+        phoneNumber: 1234,
       };
       instance.incomingCall(callData);
       expect(instance.sendMessage).toHaveBeenCalledWith({
         type: messageType.INCOMING_CALL,
-        data: callData
+        data: callData,
       });
     });
 
     it("should handle initialize.", () => {
       const data = {
-        phoneNumber: 1234
+        phoneNumber: 1234,
       };
       instance.initialized(data);
       expect(instance.sendMessage).toHaveBeenCalledWith({
         type: messageType.INITIALIZED,
-        data
+        data: { ...data, sdkVersion: packageInfo.version },
+      });
+    });
+
+    it("should handle outgoing call.", () => {
+      const data = {
+        createEngagement: true,
+      };
+      instance.outgoingCall(data);
+      expect(instance.sendMessage).toHaveBeenCalledWith({
+        type: messageType.OUTGOING_CALL_STARTED,
+        data,
+      });
+    });
+
+    it("should handle call completed.", () => {
+      const data = {
+        engagementId: 123,
+      };
+      instance.callCompleted(data);
+      expect(instance.sendMessage).toHaveBeenCalledWith({
+        type: messageType.CALL_COMPLETED,
+        data,
       });
     });
 
     it("should resize widget.", () => {
       const data = {
         width: 1234,
-        height: 1234
+        height: 1234,
       };
       instance.resizeWidget(data);
       expect(instance.sendMessage).toHaveBeenCalledWith({
         type: messageType.RESIZE_WIDGET,
-        data
+        data,
       });
     });
 
     it("should send data.", () => {
       const data = {
         width: 1234,
-        height: 1234
+        height: 1234,
       };
       instance.callData(data);
       expect(instance.sendMessage).toHaveBeenCalledWith({
         type: messageType.CALL_DATA,
-        data
+        data,
       });
     });
   });
