@@ -1,7 +1,7 @@
 {
   "srcDir": "src",
   "srcFiles": [],
-  "specDir": "__tests__",
+  "specDir": "dist-test",
   "specFiles": ["test.js"],
   "helpers": [],
   "browser": {

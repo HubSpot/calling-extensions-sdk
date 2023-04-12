@@ -7,7 +7,7 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
   },
   output: {
-    path: path.resolve(__dirname, "__tests__"),
+    path: path.resolve(__dirname, "dist-test"),
     filename: "test.js",
   },
   module: {
