@@ -1,5 +1,4 @@
 const path = require("path");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
 
 const babelLoader = {
   test: /\.js$/,
@@ -7,23 +6,24 @@ const babelLoader = {
   use: {
     loader: "babel-loader",
     options: {
-      presets: ["@babel/preset-env"]
-    }
-  }
+      presets: ["@babel/preset-env"],
+    },
+  },
 };
 
 module.exports = {
   entry: "./index.js",
-  plugins: [new CleanWebpackPlugin("build")],
+  mode: "development",
   output: {
     filename: "main.js",
     libraryTarget: "umd",
-    path: path.resolve(__dirname, "dist")
+    path: path.resolve(__dirname, "dist"),
+    clean: true,
   },
   module: {
-    rules: [babelLoader]
+    rules: [babelLoader],
   },
   optimization: {
-    minimize: false
-  }
+    minimize: false,
+  },
 };
