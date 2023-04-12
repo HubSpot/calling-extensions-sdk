@@ -1,5 +1,8 @@
-import CallingExtensions, { Constants } from "../dist/main";
-const { messageType } = Constants;
+"use es6";
+
+import CallingExtensions from "../../src/CallingExtensions";
+import { messageType } from "../../src/Constants";
+
 describe("CallingExtensions", () => {
   let instance;
   beforeEach(() => {

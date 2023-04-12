@@ -12,7 +12,7 @@
     "no-param-reassign": 0,
     "func-names": 0,
     "space-before-function-paren": [2, "never"],
-    "comma-dangle": [2, "never"],
+    "comma-dangle": 1,
     "no-shadow": 0,
     "guard-for-in": 0,
     "no-restricted-syntax": [2, "WithStatement"],
@@ -27,7 +27,10 @@
     "import/no-extraneous-dependencies": 0,
     "import/newline-after-import": 0,
     "no-mixed-operators": 0,
-    "quotes": ["error", "double"],
-    "arrow-parens": ["error", "as-needed"]
+    "quotes": ["warn", "double"],
+    "arrow-parens": ["error", "as-needed"],
+    "import/prefer-default-export": 0,
+    "arrow-body-style": 0,
+    "prefer-object-spread": 0
   }
 }

@@ -6,6 +6,6 @@ bin
 coverage
 .DS_STORE
 lib
-__tests__
 demos/build/*
 !demos/build/.gitkeep
+dist-test
