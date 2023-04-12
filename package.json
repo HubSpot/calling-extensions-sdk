@@ -27,6 +27,9 @@
     "test": "cross-env NODE_ENV=test npm run test:build && jasmine-browser-runner runSpecs --config=test/support/jasmine-browser.json --browser=headlessChrome"
   },
   "main": "./dist/main.js",
+  "files": [
+    "dist/"
+  ],
   "module": "./index.js",
   "author": "",
   "license": "ISC",
