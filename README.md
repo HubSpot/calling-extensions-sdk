@@ -32,30 +32,55 @@ yarn add @hubspot/calling-extensions-sdk
 We have installed the SDK on a demo call widget as an example.
 
 ### Installation
-1. Download the demo call widget by cloning/forking this repo or by [downloading the ZIP](https://github.com/HubSpot/calling-extensions-sdk/archive/refs/heads/master.zip).
-2. In your terminal, locate the root directory of the project, then navigate to the demo directory by running:
+1. Clone or fork this repository to download the Demo Call Widget.
+2. Open your terminal, navigate to the root directory of the project, and then switch to the "demos" directory by running the following command:
 ```shell
-cd demo
+cd demos
 ```
-3. Install the project's [Node.js](https://nodejs.org/en/) dependencies using the [npm CLI](https://docs.npmjs.com/cli/v9) by running:
-```shell
-npm i
-```
-4. Start the demo app on your browser by running:
-```shell
-npm start
-```
-This command will open a new tab at https://localhost:9025/. Note that you may need bypass a "Your connection is not secure" warning in order to access the application.
+3. Install the [Node.js](https://nodejs.org/en/) dependencies required for the project using the [npm CLI](https://docs.npmjs.com/cli/v9) by running one of the following commands based on your needs:
+- For demo-minimal-js:
+  ```shell
+  npm run build:js
+  ```
+- For demo-react-ts:
+  ```shell
+  npm run build:react
+  ```
+
+4. Start the demo widget on your browser by running:
+- For demo-minimal-js:
+  ```shell
+  npm run start:js
+  ```
+- For demo-react-ts:
+  ```shell
+  npm run start:react
+  ```
+This command will launch a new tab at https://localhost:9025/ in your default browser. Note that depending on your browser's security settings, you may need bypass a "Your connection is not secure" warning in order to access the application.
 
 ### Launch the demo call widget from HubSpot
-1. In HubSpot, navigate to a contact or company page.
-2. Open the browser's developer console and paste the following:
-```js
-localStorage.setItem(
-  "LocalSettings:Calling:CallingExtensions",
-  '{"name": "Demo widget", "url": "https://localhost:9025/"}'
-);
-```
+1. Navigate to a contact or company page within your HubSpot account.
+2. Open the browser's developer console
+3. Paste the following code into the console based on which demo widget you want to launch, and press Enter to run it:
+- For demo-minimal-js or demo-react-ts:
+  ```js
+  localStorage.setItem(
+    "LocalSettings:Calling:CallingExtensions",
+    '{"name": "Demo widget", "url": "https://localhost:9025/"}'
+  );
+  ```
+- For demo-minimal-js:
+  ```js
+  localStorage.setItem(
+    "LocalSettings:Calling:installDemoWidget", "local:js"
+  );
+  ```
+- For demo-react-ts:
+  ```js
+  localStorage.setItem(
+    "LocalSettings:Calling:installDemoWidget", "local"
+  );
+  ```
 3. Refresh the page and click the "Make a phone call" button on the left toolbar to open the calling settings popover.
 4. In the calling settings popover, click on "Open call options" then select the "Demo widget" under the Calling Provider options.
 5. You can now click on the "Call" button to see how the demo widget integrates with HubSpot via the Calling Extensions SDK. You can also see the events logged to your browser's developer console!
