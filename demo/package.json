@@ -5,8 +5,7 @@
   "private": true,
   "scripts": {
     "build": "node scripts/support_node_17+.js webpack",
-    "serve": "node scripts/support_node_17+.js webpack-dev-server --open",
-    "start": "npm run build && npm run serve"
+    "start": "node scripts/support_node_17+.js webpack-dev-server --open"
   },
   "license": "ISC",
   "devDependencies": {
