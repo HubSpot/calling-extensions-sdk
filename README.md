@@ -37,7 +37,7 @@ We have installed the SDK on a demo call widget as an example.
 ```shell
 cd demos
 ```
-3. Install the [Node.js](https://nodejs.org/en/) dependencies required for the project using the [npm CLI](https://docs.npmjs.com/cli/v9) by running one of the following commands based on your needs:
+3. Install the [Node.js](https://nodejs.org/en/) dependencies required for the project using the [npm CLI](https://docs.npmjs.com/cli/v9) by running one of the following commands for either [demo-minimal-js](https://github.com/HubSpot/calling-extensions-sdk/tree/project-demo-v1/demos/demo-minimal-js) or [demo-react-ts](https://github.com/HubSpot/calling-extensions-sdk/tree/project-demo-v1/demos/demo-react-ts) call widget based on your needs:
 - For demo-minimal-js:
   ```shell
   npm run build:js
