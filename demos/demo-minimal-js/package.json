@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node scripts/support_node_17+.js webpack",
     "build:gh": "npm ci && npm run build",
-    "start": "node scripts/support_node_17+.js webpack-dev-server --open"
+    "start": "npm run build && node scripts/support_node_17+.js webpack-dev-server --open"
   },
   "license": "ISC",
   "devDependencies": {
