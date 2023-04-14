@@ -60,8 +60,7 @@ This command will launch a new tab at https://localhost:9025/ in your default br
 
 ### Launch the demo call widget from HubSpot
 1. Navigate to a contact or company page within your HubSpot account.
-2. Open the browser's developer console
-3. Paste the following code into the console based on which demo widget you want to launch, and press Enter to run it:
+2. Open the browser's developer console, paste the following code into the console based on which demo widget you want to launch, and press Enter to run it:
 - For demo-minimal-js or demo-react-ts:
   ```js
   localStorage.setItem(
