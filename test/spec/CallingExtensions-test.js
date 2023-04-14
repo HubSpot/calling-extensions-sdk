@@ -2,7 +2,7 @@
 
 import CallingExtensions from "../../src/CallingExtensions";
 import { messageType } from "../../src/Constants";
-import packageInfo from "../../package.json";
+import { getVersion } from '../../src/packageInfo';
 
 describe("CallingExtensions", () => {
   let instance;
@@ -52,7 +52,7 @@ describe("CallingExtensions", () => {
       instance.initialized(data);
       expect(instance.sendMessage).toHaveBeenCalledWith({
         type: messageType.INITIALIZED,
-        data: { ...data, sdkVersion: packageInfo.version },
+        data: { ...data, sdkVersion: getVersion() },
       });
     });
 

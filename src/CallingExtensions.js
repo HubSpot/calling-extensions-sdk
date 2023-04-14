@@ -2,7 +2,7 @@
 
 import IFrameManager from "./IFrameManager";
 import { messageType, errorType } from "./Constants";
-import packageInfo from '../package.json';
+import { getVersion } from './packageInfo';
 
 /**
  * @typedef {Object} EventHandlers
@@ -43,7 +43,7 @@ class CallingExtensions {
   initialized(userData) {
     this.sendMessage({
       type: messageType.INITIALIZED,
-      data: { ...userData, sdkVersion: packageInfo.version },
+      data: { ...userData, sdkVersion: getVersion() },
     });
   }
 
