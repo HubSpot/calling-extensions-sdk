@@ -1,6 +1,6 @@
 {
   "name": "@hubspot/calling-extensions-sdk",
-  "version": "0.0.13",
+  "version": "0.0.15-alpha.1",
   "description": "HubSpot calling extensions sdk for call widget integration.",
   "publishConfig": {
     "access": "public"
@@ -27,6 +27,9 @@
     "test": "cross-env NODE_ENV=test npm run test:build && jasmine-browser-runner runSpecs --config=test/support/jasmine-browser.json --browser=headlessChrome"
   },
   "main": "./dist/main.js",
+  "files": [
+    "dist/"
+  ],
   "module": "./index.js",
   "author": "",
   "license": "ISC",
