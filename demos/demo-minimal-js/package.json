@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "node scripts/support_node_17+.js webpack",
-    "build:gh": "npm ci && npm run build",
+    "build:gh": "npm ci && cross-env NODE_ENV=production npm run build",
     "serve": "node scripts/support_node_17+.js webpack serve",
     "start": "npm run build && npm run serve -- --open"
   },

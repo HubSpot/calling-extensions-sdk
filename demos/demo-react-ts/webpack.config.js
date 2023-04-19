@@ -1,10 +1,11 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const isProduction = process.env.NODE_ENV === "production";
 
 module.exports = {
   entry: "./src/index.tsx",
-  mode: "development",
-  devtool: "source-map",
+  mode: isProduction ? "production" : "development",
+  devtool: isProduction ? "source-map" : "eval-source-map",
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",

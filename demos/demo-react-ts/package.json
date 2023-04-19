@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "webpack",
-    "build:gh": "npm ci && npm run build",
+    "build:gh": "npm ci && cross-env NODE_ENV=production npm run build",
     "serve": "webpack serve",
     "start": "npm run build && npm run serve -- --open",
     "test:build": "cross-env NODE_ENV=test npx webpack --config webpack-test.config.js --mode development",
