@@ -33,43 +33,31 @@ We have installed the SDK on a demo call widget as an example.
 
 ### Installation
 1. Clone or fork this repository to download the Demo Call Widget.
-2. Open your terminal, navigate to the root directory of the project, and then switch to the "demos" directory by running the following command:
+2. Open your terminal, navigate to the root directory of the project, and then switch to the demo widget directory by running the following commands:
 ```shell
 cd demos
 ```
-3. Install the [Node.js](https://nodejs.org/en/) dependencies required for the project using the [npm CLI](https://docs.npmjs.com/cli/v9) by running one of the following commands for either [demo-minimal-js](https://github.com/HubSpot/calling-extensions-sdk/tree/project-demo-v1/demos/demo-minimal-js) or [demo-react-ts](https://github.com/HubSpot/calling-extensions-sdk/tree/project-demo-v1/demos/demo-react-ts) call widget based on your needs:
 - For demo-minimal-js:
   ```shell
-  npm run build:js
+  cd demo-minimal-js
   ```
 - For demo-react-ts:
   ```shell
-  npm run build:react
+  cd demo-minimal-js
   ```
-
-4. Start the demo widget on your browser by running:
-- For demo-minimal-js:
-  ```shell
-  npm run start:js
-  ```
-- For demo-react-ts:
-  ```shell
-  npm run start:react
-  ```
-This command will launch a new tab at https://localhost:9025/ in your default browser. Note that depending on your browser's security settings, you may need bypass a "Your connection is not secure" warning in order to access the application.
+3. Follow the instructions in the [demo-minimal-js](https://github.com/HubSpot/calling-extensions-sdk/tree/project-demo-v1/demos/demo-minimal-js) or [demo-react-ts](https://github.com/HubSpot/calling-extensions-sdk/tree/project-demo-v1/demos/demo-react-ts) folder. Install the [Node.js](https://nodejs.org/en/) dependencies required for the project using the [npm CLI](https://docs.npmjs.com/cli/v9) and run the app.
 
 ### Launch the demo call widget from HubSpot
 1. Navigate to a contact or company page within your HubSpot account.
 2. Open the browser's developer console, paste the following code into the console based on which demo widget you want to launch, and press Enter to run it:
-- For demo-minimal-js or demo-react-ts:
+- For demo-minimal-js:
   ```js
   localStorage.setItem(
     "LocalSettings:Calling:CallingExtensions",
-    '{"name": "Demo widget", "url": "https://localhost:9025/"}'
+    '{"name": "Demo Widget JS", "url": "https://localhost:9025/"}'
   );
-  ```
-- For demo-minimal-js:
-  ```js
+
+  // OR
   localStorage.setItem(
     "LocalSettings:Calling:installDemoWidget", "local:js"
   );
@@ -77,11 +65,17 @@ This command will launch a new tab at https://localhost:9025/ in your default br
 - For demo-react-ts:
   ```js
   localStorage.setItem(
+    "LocalSettings:Calling:CallingExtensions",
+    '{"name": "Demo Widget React", "url": "https://localhost:9025/"}'
+  );
+
+  // OR
+  localStorage.setItem(
     "LocalSettings:Calling:installDemoWidget", "local"
   );
   ```
 3. Refresh the page and click the "Make a phone call" button on the left toolbar to open the calling settings popover.
-4. In the calling settings popover, click on "Open call options" then select the "Demo widget" under the Calling Provider options.
+4. In the calling settings popover, click on "Open call options" then select "Demo Widget JS" or "Demo Widget React" under the Calling Provider options.
 5. You can now click on the "Call" button to see how the demo widget integrates with HubSpot via the Calling Extensions SDK. You can also see the events logged to your browser's developer console!
 
 ## Typical message flow between the call widget and HubSpot
@@ -386,11 +380,11 @@ The isReady flag indicate whether the widget is ready for production. This flag 
 
 ```js
 /**
- * Override the isReady flag for the "Demo widget"
+ * Override the isReady flag for the call widget
  */
 localStorage.setItem(
   "LocalSettings:Calling:CallingExtensions",
-  '{"name": "Demo widget", "isReady": true}'
+  '{"name": "<your intended widget name>", "isReady": true}'
 );
 ```
 
