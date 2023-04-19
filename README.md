@@ -33,19 +33,16 @@ We have installed the SDK on a demo call widget as an example.
 
 ### Installation
 1. Clone or fork this repository to download the Demo Call Widget.
-2. Open your terminal, navigate to the root directory of the project, and then switch to the demo widget directory by running the following commands:
-```shell
-cd demos
-```
+2. Open your terminal, navigate to the root directory of the project, and then switch to the demo widget directory by running one of the following commands.
 - For demo-minimal-js:
   ```shell
-  cd demo-minimal-js
+  cd demos/demo-minimal-js
   ```
 - For demo-react-ts:
   ```shell
-  cd demo-minimal-js
+  cd demos/demo-minimal-js
   ```
-3. Follow the instructions in the [demo-minimal-js](https://github.com/HubSpot/calling-extensions-sdk/tree/project-demo-v1/demos/demo-minimal-js) or [demo-react-ts](https://github.com/HubSpot/calling-extensions-sdk/tree/project-demo-v1/demos/demo-react-ts) folder. Install the [Node.js](https://nodejs.org/en/) dependencies required for the project using the [npm CLI](https://docs.npmjs.com/cli/v9) and run the app.
+3. Follow the instructions in the [demo-minimal-js](https://github.com/HubSpot/calling-extensions-sdk/tree/project-demo-v1/demos/demo-minimal-js) or [demo-react-ts](https://github.com/HubSpot/calling-extensions-sdk/tree/project-demo-v1/demos/demo-react-ts) folder to install the [Node.js](https://nodejs.org/en/) dependencies required for the project using the [npm CLI](https://docs.npmjs.com/cli/v9) and run the app.
 
 ### Launch the demo call widget from HubSpot
 1. Navigate to a contact or company page within your HubSpot account.
