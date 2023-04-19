@@ -46,13 +46,14 @@ export const KeypadInput = styled(Input).attrs({
   },
 })``;
 
-export const RoundedInput = styled(VizExInput).attrs({
+export const RoundedInput = styled(VizExInput).attrs((props) => ({
+  autoComplete: props.autoComplete,
   containerStyles: {
     backgroundColor: "white",
     borderRadius: "25px",
     marginBottom: "10px",
   },
-})``;
+}))``;
 
 export const Button = styled(VizExButton).attrs((props) => ({
   disabled: props.disabled,

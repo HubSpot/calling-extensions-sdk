@@ -153,7 +153,7 @@ class IFrameManager {
     const { type } = message;
     if (type !== messageType.SYNC && !this.isReady) {
       // Do not send a message unless the iFrame is ready to receive.
-      console.warn(prefix, "iFrame not initialized to send a message", message);
+      console.warn(prefix, "iFrame not initialized to send a message within HubSpot", message);
       return;
     }
 
