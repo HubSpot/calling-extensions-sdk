@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, useCallback } from "react";
+import { useState, ChangeEvent } from "react";
 import { useAutoFocus } from "../../hooks/useAutoFocus";
 import {
   Wrapper,
