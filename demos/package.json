@@ -3,6 +3,8 @@
   "homepage": "https://github.hubspot.com/calling-extensions-sdk",
   "description": "Build files for deployment to GitHub Pages",
   "scripts": {
+    "start:js": "cd demo-minimal-js && npm run start",
+    "start:react": "cd demo-react-ts && npm run start",
     "build:js": "cd demo-minimal-js && npm run build:gh",
     "build:react": "cd demo-react-ts && npm run build:gh",
     "build": "npm run build:js && npm run build:react && cp ./src/index.html build/index.html && cp -a demo-minimal-js/bin/. build && cp -a demo-react-ts/dist/. build",
