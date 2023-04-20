@@ -142,7 +142,7 @@ VizExInput.propTypes = {
   prefix: PropTypes.node,
   suffix: PropTypes.node,
   theme: themePropType,
-  use: PropTypes.oneOfType([DEFAULT, ON_DARK]),
+  use: PropTypes.oneOf([DEFAULT, ON_DARK]),
   value: PropTypes.string,
 };
 export default VizExInput;

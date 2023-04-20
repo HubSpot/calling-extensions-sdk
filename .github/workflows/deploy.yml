@@ -16,7 +16,7 @@ jobs:
       - name: Checkout repository 🛎️
         uses: actions/checkout@v3
       - name: Install and build 🔧
-        run: npm run build
+        run: npm run build:gh
       - name: Run tests ✅
         run: npm run test
       - name: Deploy  🚀

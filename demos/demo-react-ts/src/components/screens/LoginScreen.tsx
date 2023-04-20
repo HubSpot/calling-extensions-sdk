@@ -29,31 +29,39 @@ function LoginScreen({ cti, handleNextScreen }: ScreenProps) {
 
   return (
     <Wrapper style={{ color: PANTERA }}>
-      <h4 style={{ textAlign: "center" }}>Log into your calling account</h4>
-      <div style={{ marginBottom: "5px", fontSize: "14px" }}>User Name</div>
-      <RoundedInput
-        value={username}
-        onChange={handleUsername}
-        ref={usernameInput}
-      />
-      <div style={{ marginBottom: "5px", fontSize: "14px" }}>Password</div>
-      <RoundedInput
-        type="password"
-        value={password}
-        onChange={handlePassword}
-      />
-      <br />
-      <Row>
-        <RoundedButton use="primary" onClick={handleLogin}>
-          Log in
-        </RoundedButton>
-      </Row>
-      <br />
-      <Row>
-        <LinkButton use="transparent-on-primary" onClick={handleLogin}>
-          Sign in with SSO
-        </LinkButton>
-      </Row>
+      <form>
+        <h4 style={{ textAlign: "center" }}>Log into your calling account</h4>
+        <div style={{ marginBottom: "5px", fontSize: "14px" }}>User Name</div>
+        <RoundedInput
+          value={username}
+          onChange={handleUsername}
+          ref={usernameInput}
+          autoComplete="username"
+        />
+        <div style={{ marginBottom: "5px", fontSize: "14px" }}>Password</div>
+        <RoundedInput
+          type="password"
+          value={password}
+          onChange={handlePassword}
+          autoComplete="current-password"
+        />
+        <br />
+        <Row>
+          <RoundedButton use="primary" onClick={handleLogin} type="button">
+            Log in
+          </RoundedButton>
+        </Row>
+        <br />
+        <Row>
+          <LinkButton
+            use="transparent-on-primary"
+            onClick={handleLogin}
+            type="button"
+          >
+            Sign in with SSO
+          </LinkButton>
+        </Row>
+      </form>
     </Wrapper>
   );
 }
