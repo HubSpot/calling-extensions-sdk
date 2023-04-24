@@ -13,7 +13,10 @@
     "test": "npm run test:build && jasmine-browser-runner runSpecs --config=test/support/jasmine-browser.json --browser=headlessChrome",
     "test:serve": "npm run test:watch & jasmine-browser-runner serve --config=test/support/jasmine-browser.json"
   },
-  "license": "ISC",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14"
+  },
   "dependencies": {
     "@hubspot/calling-extensions-sdk": "^0.0.15-alpha.1",
     "react": "^18.2.0",

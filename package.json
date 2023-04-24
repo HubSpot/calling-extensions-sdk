@@ -32,7 +32,10 @@
   ],
   "module": "./index.js",
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14"
+  },
   "devDependencies": {
     "@babel/cli": "^7.21.0",
     "@babel/core": "^7.4.5",
