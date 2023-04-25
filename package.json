@@ -6,7 +6,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack",
+    "build": "webpack",
     "build:test": "npm run build && npm run test",
     "cover": "open coverage/lcov-report/index.html",
     "eslint": "eslint src --ext .js",
