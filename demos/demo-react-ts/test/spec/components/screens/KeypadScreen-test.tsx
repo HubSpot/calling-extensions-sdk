@@ -84,7 +84,7 @@ describe("KeypadScreen", () => {
 
     it("Handles start call button click", () => {
       const { getByRole, getByTestId } = renderWithContext(
-        <KeypadScreen {...props} />
+        <KeypadScreen {...props} dialNumber="+1617" />
       );
 
       const input = getByTestId("VizExInput-Input");
@@ -96,7 +96,12 @@ describe("KeypadScreen", () => {
         name: /start-call/i,
       });
       button.click();
-      expect(cti.outgoingCall).toHaveBeenCalled();
+
+      expect(cti.outgoingCall).toHaveBeenCalledWith({
+        createEngagement: true,
+        phoneNumber: "+1617",
+        callStartTime: jasmine.anything(),
+      });
       expect(props.handleNextScreen).toHaveBeenCalled();
     });
   });

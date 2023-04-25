@@ -86,11 +86,13 @@ function KeypadScreen({
   };
 
   const handleStartCall = useCallback(() => {
+    const callStartTime = Date.now();
     cti.outgoingCall({
       createEngagement: true,
       phoneNumber: dialNumber,
+      callStartTime,
     });
-    startTimer(Date.now());
+    startTimer(callStartTime);
     handleNextScreen();
   }, [cti]);
 
