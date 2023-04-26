@@ -11,43 +11,42 @@ const state = {
 
 function disableButtons(ids) {
   ids.forEach(id => {
-    document.querySelector(id).setAttribute("disabled", true);
+    document.querySelector(`#${id}`).setAttribute("disabled", true);
   });
 }
 
 function enableButtons(ids) {
   ids.forEach(id => {
-    document.querySelector(id).removeAttribute("disabled");
+    document.querySelector(`#${id}`).removeAttribute("disabled");
   });
 }
 
 function toggleLogin(clickedButtonId) {
   if (!state.isLoggedIn && (clickedButtonId === "login" || clickedButtonId === "initialize")) {
-    disableButtons(["#login", "#initialize"]);
-    enableButtons(["#logout", "#startcall"]);
+    disableButtons(["login", "initialize"]);
+    enableButtons(["logout", "startcall"]);
     state.isLoggedIn = true;
-  } else if (state.isLoggedIn && clickedButtonId === "logout") {
-    enableButtons(["#login"]);
-    disableButtons(["#logout", "#startcall", "#answercall", "#endcall", "#savecall"]);
+  }
+  if (state.isLoggedIn && clickedButtonId === "logout") {
+    enableButtons(["login"]);
+    disableButtons(["logout", "startcall", "answercall", "endcall", "savecall"]);
     state.isLoggedIn = false;
   }
 }
 
 function startCall() {
-  disableButtons(["#startcall"]);
-  enableButtons(["#answercall", "#endcall"]);
+  disableButtons(["startcall"]);
+  enableButtons(["answercall", "endcall"]);
 }
 
 function endCall() {
-  document.querySelector("#answercall").setAttribute("disabled", true);
-  document.querySelector("#endcall").setAttribute("disabled", true);
-  document.querySelector("#savecall").removeAttribute("disabled");
-  document.querySelector("#startCall").removeAttribute("disabled");
+  disableButtons(["answercall", "endcall"]);
+  enableButtons(["savecall", "startcall"]);
 }
 
 function saveCall() {
-  document.querySelector("#savecall").setAttribute("disabled", true);
-  document.querySelector("#startcall").removeAttribute("disabled");
+  disableButtons(["savecall"]);
+  enableButtons(["startcall"]);
 }
 
 const millisecondsToFormattedDuration = milliseconds => {
@@ -186,6 +185,7 @@ const callback = () => {
         saveCall();
         cti.callCompleted({
           engagementId: state.engagementId,
+          hideWidget: false,
         });
         break;
       case "send error":
