@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      .controls {
+        width: 300px;
+        height: 600px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <span class="controls">
+      <div>Initialization/Login</div>
+      <input type="button" value="initialized" id="initialize" />
+      <input type="button" value="log in" id="login" />
+      <input type="button" value="log out" id="logout" disabled />
+      <hr />
+      <div>Calling related methods</div>
+      <input type="button" value="outgoing call started" id="startcall" disabled />
+      <input type="button" value="call answered" id="answercall" disabled />
+      <br />
+      <input type="button" value="call ended" id="endcall" disabled />
+      <input type="button" value="call completed" id="savecall" disabled />
+      <hr />
+      <div>Misc. events</div>
+      <input type="button" value="send error" id="senderror" />
+      <input type="button" value="change size" id="resize" />
+    </span>
+    <hr />
+    <div>Timer</div>
+    <span id="timer">00:00</span>
+    <hr />
+    <div>Incoming messages</div>
+    <div>Open your console to see the incoming and outgoing messages with HubSpot.</div>
+
+    <script src="demo-minimal-js.bundle.js" async></script>
+  </body>
+</html>
