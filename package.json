@@ -6,7 +6,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack",
+    "build": "webpack",
     "build:test": "npm run build && npm run test",
     "cover": "open coverage/lcov-report/index.html",
     "eslint": "eslint src --ext .js",
@@ -32,7 +32,10 @@
   ],
   "module": "./index.js",
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14"
+  },
   "devDependencies": {
     "@babel/cli": "^7.21.0",
     "@babel/core": "^7.4.5",
