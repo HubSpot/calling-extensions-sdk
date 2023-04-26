@@ -33,24 +33,27 @@
   <body>
     <span class="controls">
       <div>Initialization/Login</div>
-      <input type="button" value="initialized" />
-      <input type="button" value="log in" />
-      <input type="button" value="log out" />
+      <input type="button" value="initialized" id="initialize" />
+      <input type="button" value="log in" id="login" />
+      <input type="button" value="log out" id="logout" disabled />
       <hr />
       <div>Calling related methods</div>
-      <input type="button" value="outgoing call started" />
-      <input type="button" value="call answered" />
+      <input type="button" value="outgoing call started" id="startcall" disabled />
+      <input type="button" value="call answered" id="answercall" disabled />
       <br />
-      <input type="button" value="call ended" />
-      <input type="button" value="call completed" />
+      <input type="button" value="call ended" id="endcall" disabled />
+      <input type="button" value="call completed" id="savecall" disabled />
       <hr />
       <div>Misc. events</div>
-      <input type="button" value="send error" />
-      <input type="button" value="change size" />
+      <input type="button" value="send error" id="senderror" />
+      <input type="button" value="change size" id="resize" />
     </span>
     <hr />
-    <div>Incoming Messages</div>
-    <div id="incomingMsgs"></div>
+    <div>Timer</div>
+    <span id="timer">00:00</span>
+    <hr />
+    <div>Incoming messages</div>
+    <div>Open your console to see the incoming and outgoing messages with HubSpot.</div>
 
     <script src="demo-minimal-js.bundle.js" async></script>
   </body>
