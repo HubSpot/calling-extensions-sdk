@@ -4,7 +4,6 @@ import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 const { errorType } = Constants;
 
 const state = {
-  isLoggedIn: false,
   timer: null,
   callDuration: 0,
 };
@@ -22,21 +21,23 @@ function enableButtons(ids) {
 }
 
 function toggleLogin(clickedButtonId) {
-  if (!state.isLoggedIn && (clickedButtonId === "login" || clickedButtonId === "initialize")) {
+  if (clickedButtonId === "login" || clickedButtonId === "initialize") {
     disableButtons(["login", "initialize"]);
     enableButtons(["logout", "startcall"]);
-    state.isLoggedIn = true;
   }
-  if (state.isLoggedIn && clickedButtonId === "logout") {
+  if (clickedButtonId === "logout") {
     enableButtons(["login"]);
     disableButtons(["logout", "startcall", "answercall", "endcall", "savecall"]);
-    state.isLoggedIn = false;
   }
 }
 
 function startCall() {
   disableButtons(["startcall"]);
   enableButtons(["answercall", "endcall"]);
+}
+
+function answerCall() {
+  disableButtons(["answercall"]);
 }
 
 function endCall() {
@@ -174,6 +175,7 @@ const callback = () => {
         break;
       }
       case "call answered":
+        answerCall();
         cti.callAnswered();
         break;
       case "call ended":
