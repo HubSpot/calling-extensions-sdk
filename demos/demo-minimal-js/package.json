@@ -7,7 +7,7 @@
     "build": "webpack",
     "build:gh": "npm ci && cross-env NODE_ENV=production npm run build",
     "serve": "webpack serve",
-    "start": "npm run build && npm run serve -- --open"
+    "start": "webpack serve --open"
   },
   "license": "MIT",
   "engines": {
