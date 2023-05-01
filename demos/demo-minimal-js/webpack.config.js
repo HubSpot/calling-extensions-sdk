@@ -6,22 +6,22 @@ module.exports = {
   plugins: [new HtmlWebpackPlugin({
     template: "./index.html",
     inject: false,
-    filename: "demo-minimal-js.html"
+    filename: "demo-minimal-js.html",
   })],
   output: {
     libraryTarget: "umd",
     path: path.resolve(__dirname, "bin"),
     filename: "demo-minimal-js.bundle.js",
-    clean: true
+    clean: true,
   },
   devServer: {
     https: true,
     port: 9025,
     static: {
-      directory: path.resolve(__dirname, "bin")
+      directory: path.resolve(__dirname),
     },
     historyApiFallback: {
-      index: "demo-minimal-js.html"
-    }
-  }
+      index: "index.html",
+    },
+  },
 };

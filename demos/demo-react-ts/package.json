@@ -7,7 +7,7 @@
     "build": "webpack",
     "build:gh": "npm ci && cross-env NODE_ENV=production npm run build",
     "serve": "webpack serve",
-    "start": "npm run build && npm run serve -- --open",
+    "start": "webpack serve --open",
     "test:build": "cross-env NODE_ENV=test npx webpack --config webpack-test.config.js --mode development",
     "test:watch": "cross-env NODE_ENV=test npx webpack --config webpack-test.config.js --mode development --watch",
     "test": "npm run test:build && jasmine-browser-runner runSpecs --config=test/support/jasmine-browser.json --browser=headlessChrome",

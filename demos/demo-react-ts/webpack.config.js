@@ -44,10 +44,10 @@ module.exports = {
     https: true,
     port: 9025,
     static: {
-      directory: path.resolve(__dirname, "dist"),
+      directory: path.resolve(__dirname, "src"),
     },
     historyApiFallback: {
-      index: "demo-react-ts.html",
+      index: "index.html",
     },
   },
 };
