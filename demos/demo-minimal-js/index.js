@@ -88,17 +88,6 @@ export function clearTimer() {
 }
 
 const callback = () => {
-  let rowId = 0;
-  const incomingMsgContainer = document.querySelector("#incomingMsgs");
-  function appendMsg(data, event) {
-    const div = document.createElement("div");
-    rowId += 1;
-    div.innerHTML = `<span>${rowId}: </span><span>${
-      event.type
-    }, ${JSON.stringify(data)}</span>`;
-    incomingMsgContainer.append(div);
-  }
-
   const defaultSize = {
     width: 400,
     height: 600,
@@ -114,14 +103,12 @@ const callback = () => {
         });
       },
       onDialNumber: (data, rawEvent) => {
-        appendMsg(data, rawEvent);
         const { phoneNumber } = data;
         state.phoneNumber = phoneNumber;
       },
       onEngagementCreated: (data, rawEvent) => {
         const { engagementId } = data;
         state.engagementId = engagementId;
-        appendMsg(data, rawEvent);
       },
       onEndCall: () => {
         window.setTimeout(() => {
@@ -129,7 +116,6 @@ const callback = () => {
         }, 500);
       },
       onVisibilityChanged: (data, rawEvent) => {
-        appendMsg(data, rawEvent);
       },
     },
   });
