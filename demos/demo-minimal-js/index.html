@@ -70,7 +70,7 @@
         margin-top: 15px;
         font-weight: 300;
       }
-      .step, .timer {
+      .step {
         margin-top: 15px;
         margin-bottom: 5px;
       }
@@ -84,12 +84,10 @@
     <div id="app">
       <span class="controls">
         <div class="instructions">Click the buttons to send messages to HubSpot via the Calling Extensions SDK. Open your console to see the incoming and outgoing messages with HubSpot.</div>
-        <div class="timer">Timer</div>
-        <span id="timer">0:00</span>
         <div class="step">1. Initialize the calling app</div>
         <input type="button" value="initialized" id="initialize" />
         <div class="step">2. Log in to the app</div>
-        <input type="button" value="log in" id="login" />
+        <input type="button" value="log in" id="login" disabled />
         <input type="button" value="log out" id="logout" disabled />
         <div class="step">3. Start a call</div>
         <input type="button" value="outgoing call started" id="startcall" disabled />
@@ -99,8 +97,8 @@
         <input type="button" value="call completed" id="savecall" disabled />
         <hr />
         <div id="events">Other events</div>
-        <input type="button" value="send error" id="senderror" />
-        <input type="button" value="change size" id="resize" />
+        <input type="button" value="send error" id="senderror" disabled />
+        <input type="button" value="change size" id="resize" disabled />
       </span>
     </div>
     <script src="demo-minimal-js.bundle.js" async></script>
