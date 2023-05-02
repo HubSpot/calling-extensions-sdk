@@ -115,13 +115,11 @@ const callback = () => {
         }, 500);
         break;
       case "outgoing call started": {
-        const callStartTime = Date.now();
         startCall();
         window.setTimeout(() => {
           cti.outgoingCall({
             createEngagement: "true",
             phoneNumber: state.phoneNumber,
-            callStartTime,
           });
         }, 500);
         break;
