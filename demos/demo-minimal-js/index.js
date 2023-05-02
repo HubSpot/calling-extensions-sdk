@@ -4,8 +4,8 @@ import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 const { errorType } = Constants;
 
 const state = {
-  timer: null,
-  callDuration: 0,
+  phoneNumber: "",
+  engagementId: 0,
 };
 
 function disableButtons(ids) {
@@ -52,19 +52,6 @@ function endCall() {
 function saveCall() {
   disableButtons(["savecall"]);
   enableButtons(["startcall"]);
-}
-
-function countTimer() {
-  state.callDuration += 1000;
-}
-
-export function startTimer(callStartTime) {
-  state.callDuration = Date.now() - callStartTime;
-  state.timer = setInterval(countTimer, 1000);
-}
-
-export function clearTimer() {
-  clearInterval(state.timer);
 }
 
 const callback = () => {
@@ -130,7 +117,6 @@ const callback = () => {
       case "outgoing call started": {
         const callStartTime = Date.now();
         startCall();
-        startTimer(callStartTime);
         window.setTimeout(() => {
           cti.outgoingCall({
             createEngagement: "true",
@@ -146,7 +132,6 @@ const callback = () => {
         break;
       case "call ended":
         endCall();
-        clearTimer();
         cti.callEnded();
         break;
       case "call completed":
