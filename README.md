@@ -253,7 +253,53 @@ extensions.callCompleted(data);
 </p>
 </details>
 
+<details>
+ <summary>sendError</summary>
+ <p>
+
+```js
+// Sends a message to notify HubSpot that the call widget has encountered an error.
+// After receiving the sendError event, HubSpot will display an alert popup to the user with the error message provided.
+const data = {
+  message: string // error message to be displayed in the alert popup
+};
+extensions.sendError(data);
+```
+
+</p>
+</details>
+
+<details>
+ <summary>resizeWidget</summary>
+ <p>
+
+```js
+// Sends a message to notify HubSpot that the call widget needs to be resized.
+// After receiving the resizeWidget event, HubSpot will use the provided height and width to resize the call widget.
+const data = {
+  height: boolean // desired height of the call widget
+  width: number, // desired width of the call widget
+};
+extensions.resizeWidget(data);
+```
+
+</p>
+</details>
+
 ### Receiving messages from HubSpot
+
+<details>
+ <summary>onReady</summary>
+ <p>
+
+```js
+// Message indicating that HubSpot is ready to receive messages
+onReady() {
+    // Send initialized message to HubSpot to indicate that the call widget is also ready
+    extensions.initialized(payload);
+    ...
+}
+```
 
 </p>
 </details>
