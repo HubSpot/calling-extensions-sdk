@@ -20,19 +20,18 @@ function enableButtons(ids) {
   });
 }
 
-function initializeButtons() {
+function initialize() {
   enableButtons(["login", "senderror", "resize"]);
 }
 
-function toggleLogin(clickedButtonId) {
-  if (clickedButtonId === "login" || clickedButtonId === "initialize") {
-    disableButtons(["login", "initialize"]);
-    enableButtons(["logout", "startcall"]);
-  }
-  if (clickedButtonId === "logout") {
-    enableButtons(["login"]);
-    disableButtons(["logout", "startcall", "answercall", "endcall", "savecall"]);
-  }
+function toggleLogin() {
+  enableButtons(["login"]);
+  disableButtons(["logout", "startcall", "answercall", "endcall", "savecall"]);
+}
+
+function toggleLogout() {
+  disableButtons(["login", "initialize"]);
+  enableButtons(["logout", "startcall"]);
 }
 
 function startCall() {
@@ -91,22 +90,20 @@ const callback = () => {
   element.addEventListener("click", event => {
     event.preventDefault();
     const clickedButtonValue = event.target.value;
-    const clickedButtonId = event.target.id;
-
     switch (clickedButtonValue) {
       case "initialized":
         cti.initialized({
           isLoggedIn: false,
         });
-        initializeButtons();
+        initialize();
         break;
       case "log in":
         cti.userLoggedIn();
-        toggleLogin(clickedButtonId);
+        toggleLogout();
         break;
       case "log out":
         cti.userLoggedOut();
-        toggleLogin(clickedButtonId);
+        toggleLogin();
         break;
       // Calls
       case "incoming call":
