@@ -495,6 +495,7 @@ outgoingCall({ createEngagement: true })
 const callInfo = {
   phoneNumber: string, // optional unless call is initiated by the widget
   createEngagement: true // whether HubSpot should create an engagement for this call
+  callStartTime: number // optional unless call is initiated by the widget
 };
 extensions.outgoingCall(callInfo);
 ```
