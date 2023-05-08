@@ -26,7 +26,7 @@ function initialize() {
 
 function toggleLogin() {
   enableButtons(["login"]);
-  disableButtons(["logout", "startcall", "answercall", "endcall", "savecall"]);
+  disableButtons(["logout", "startcall", "answercall", "endcall", "completecall"]);
 }
 
 function toggleLogout() {
@@ -45,11 +45,11 @@ function answerCall() {
 
 function endCall() {
   disableButtons(["answercall", "endcall"]);
-  enableButtons(["savecall", "startcall"]);
+  enableButtons(["completecall", "startcall"]);
 }
 
-function saveCall() {
-  disableButtons(["savecall"]);
+function completeCall() {
+  disableButtons(["completecall"]);
   enableButtons(["startcall"]);
 }
 
@@ -130,7 +130,7 @@ const callback = () => {
         cti.callEnded();
         break;
       case "call completed":
-        saveCall();
+        completeCall();
         cti.callCompleted({
           engagementId: state.engagementId,
           hideWidget: false,
