@@ -16,6 +16,9 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500&display=swap" rel="stylesheet">
     <script
       src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
@@ -23,35 +26,81 @@
     ></script>
 
     <style>
+      body {
+        font-family: 'Lexend', Helvetica, Arial, sans-serif;
+        margin: 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: #33475b;
+      }
+      #app {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        vertical-align: initial;
+      }
+      input[type=button] {
+        background-color: #eaf0f6;
+        border-color: #cbd6e2;
+        color: #506e91;
+        font-size: 13px;
+        line-height: 14px;
+        padding: 8px 16px;
+        border-radius: 3px;
+        border-style: solid;
+        border-width: 1px;
+        font-weight: 500;
+      }
+      input[type=button]:active {
+        background-color: #cbd6e2;
+        border-color: #7c98b6;
+        color: #506e91;
+      }
+      input[type=button]:disabled {
+        background-color: #eaf0f6;
+        border-color: #eaf0f6;
+        color: #b0c1d4;
+      }
       .controls {
         width: 300px;
         height: 600px;
+      }
+      .instructions {
+        margin-top: 15px;
+        font-weight: 300;
+      }
+      .step {
+        margin-top: 15px;
+        margin-bottom: 5px;
+      }
+      #events {
+        margin-bottom: 5px;
       }
     </style>
   </head>
 
   <body>
-    <span class="controls">
-      <div>Initialization/Login</div>
-      <input type="button" value="initialized" />
-      <input type="button" value="log in" />
-      <input type="button" value="log out" />
-      <hr />
-      <div>Calling related methods</div>
-      <input type="button" value="outgoing call started" />
-      <input type="button" value="call answered" />
-      <br />
-      <input type="button" value="call ended" />
-      <input type="button" value="call completed" />
-      <hr />
-      <div>Misc. events</div>
-      <input type="button" value="send error" />
-      <input type="button" value="change size" />
-    </span>
-    <hr />
-    <div>Incoming Messages</div>
-    <div id="incomingMsgs"></div>
-
+    <div id="app">
+      <span class="controls">
+        <div class="instructions">Click the buttons to send messages to HubSpot via the Calling Extensions SDK. Open your console to see the incoming and outgoing messages with HubSpot.</div>
+        <div class="step">1. Initialize the calling app</div>
+        <input type="button" value="initialized" id="initialize" />
+        <div class="step">2. Log in to the app</div>
+        <input type="button" value="log in" id="login" disabled />
+        <input type="button" value="log out" id="logout" disabled />
+        <div class="step">3. Start a call</div>
+        <input type="button" value="outgoing call started" id="startcall" disabled />
+        <input type="button" value="call answered" id="answercall" disabled />
+        <div class="step">4. End a call</div>
+        <input type="button" value="call ended" id="endcall" disabled />
+        <input type="button" value="call completed" id="completecall" disabled />
+        <hr />
+        <div id="events">Other events</div>
+        <input type="button" value="send error" id="senderror" disabled />
+        <input type="button" value="change size" id="resize" disabled />
+      </span>
+    </div>
     <script src="demo-minimal-js.bundle.js" async></script>
   </body>
 </html>
