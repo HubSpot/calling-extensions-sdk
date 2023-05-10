@@ -1,13 +1,5 @@
 # Demo Widget - Minimal JS
 
-## Installation
-Use npm or yarn to install the app:
-```shell
-npm i
-```
-```shell
-npm run start
-```
+A minimal implementation of the Calling Extensions SDK using JavaScript, HTML, and CSS.
 
-## Running the app
-View the app in https://localhost:9025/. Note that you may need bypass a "Your connection is not secure" warning in order to access the application.
+Note that this demo isn't a fully functional calling app and uses fake data to provide a more realistic experience.
