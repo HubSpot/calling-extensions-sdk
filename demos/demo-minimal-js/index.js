@@ -3,24 +3,61 @@
 import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 const { errorType } = Constants;
 
-const callback = () => {
-  let rowId = 0;
-  const incomingMsgContainer = document.querySelector("#incomingMsgs");
-  function appendMsg(data, event) {
-    const div = document.createElement("div");
-    rowId += 1;
-    div.innerHTML = `<span>${rowId}: </span><span>${
-      event.type
-    }, ${JSON.stringify(data)}</span>`;
-    incomingMsgContainer.append(div);
-  }
+const state = {
+  phoneNumber: "",
+  engagementId: 0,
+};
 
+function disableButtons(ids) {
+  ids.forEach(id => {
+    document.querySelector(`#${id}`).setAttribute("disabled", true);
+  });
+}
+
+function enableButtons(ids) {
+  ids.forEach(id => {
+    document.querySelector(`#${id}`).removeAttribute("disabled");
+  });
+}
+
+function initialize() {
+  enableButtons(["login", "senderror", "resize"]);
+}
+
+function toggleLogin() {
+  enableButtons(["login"]);
+  disableButtons(["logout", "startcall", "answercall", "endcall", "completecall"]);
+}
+
+function toggleLogout() {
+  disableButtons(["login", "initialize"]);
+  enableButtons(["logout", "startcall"]);
+}
+
+function startCall() {
+  disableButtons(["startcall"]);
+  enableButtons(["answercall", "endcall"]);
+}
+
+function answerCall() {
+  disableButtons(["answercall"]);
+}
+
+function endCall() {
+  disableButtons(["answercall", "endcall"]);
+  enableButtons(["completecall", "startcall"]);
+}
+
+function completeCall() {
+  disableButtons(["completecall"]);
+  enableButtons(["startcall"]);
+}
+
+const callback = () => {
   const defaultSize = {
     width: 400,
-    height: 600
+    height: 600,
   };
-
-  const state = {};
 
   const cti = new CallingExtensions({
     debugMode: true,
@@ -28,26 +65,16 @@ const callback = () => {
       onReady: () => {
         cti.initialized({
           isLoggedIn: true,
-          sizeInfo: defaultSize
+          sizeInfo: defaultSize,
         });
       },
       onDialNumber: (data, rawEvent) => {
-        appendMsg(data, rawEvent);
         const { phoneNumber } = data;
         state.phoneNumber = phoneNumber;
-        window.setTimeout(
-          () =>
-            cti.outgoingCall({
-              createEngagement: true,
-              phoneNumber
-            }),
-          500
-        );
       },
       onEngagementCreated: (data, rawEvent) => {
         const { engagementId } = data;
         state.engagementId = engagementId;
-        appendMsg(data, rawEvent);
       },
       onEndCall: () => {
         window.setTimeout(() => {
@@ -55,25 +82,28 @@ const callback = () => {
         }, 500);
       },
       onVisibilityChanged: (data, rawEvent) => {
-        appendMsg(data, rawEvent);
-      }
-    }
+      },
+    },
   });
 
   const element = document.querySelector(".controls");
   element.addEventListener("click", event => {
+    event.preventDefault();
     const clickedButtonValue = event.target.value;
     switch (clickedButtonValue) {
       case "initialized":
         cti.initialized({
-          isLoggedIn: true
+          isLoggedIn: false,
         });
+        initialize();
         break;
       case "log in":
         cti.userLoggedIn();
+        toggleLogout();
         break;
       case "log out":
         cti.userLoggedOut();
+        toggleLogin();
         break;
       // Calls
       case "incoming call":
@@ -81,29 +111,35 @@ const callback = () => {
           cti.incomingCall();
         }, 500);
         break;
-      case "outgoing call started":
+      case "outgoing call started": {
+        startCall();
         window.setTimeout(() => {
           cti.outgoingCall({
             createEngagement: "true",
-            phoneNumber: state.phoneNumber
+            phoneNumber: state.phoneNumber,
           });
         }, 500);
         break;
+      }
       case "call answered":
+        answerCall();
         cti.callAnswered();
         break;
       case "call ended":
+        endCall();
         cti.callEnded();
         break;
       case "call completed":
+        completeCall();
         cti.callCompleted({
-          engagementId: state.engagementId
+          engagementId: state.engagementId,
+          hideWidget: false,
         });
         break;
       case "send error":
         cti.sendError({
           type: errorType.GENERIC,
-          message: "This is a message shown in Hubspot UI"
+          message: "This is a message shown in Hubspot UI",
         });
         break;
       case "change size":
@@ -111,7 +147,7 @@ const callback = () => {
         defaultSize.height += 20;
         cti.resizeWidget({
           width: defaultSize.width,
-          height: defaultSize.height
+          height: defaultSize.height,
         });
         break;
       default:
@@ -121,8 +157,8 @@ const callback = () => {
 };
 
 if (
-  document.readyState === "interactive" ||
-  document.readyState === "complete"
+  document.readyState === "interactive"
+  || document.readyState === "complete"
 ) {
   window.setTimeout(() => callback(), 1000);
 } else {
