@@ -1,13 +1,5 @@
 # Demo Widget - React TypeScript
 
-## Installation
-Use npm or yarn to install the app:
-```shell
-npm i
-```
-```shell
-npm run start
-```
+A real-life implementation of the Calling Extensions SDK using React, TypeScript, and Styled Components. Use it as a blueprint for your app!
 
-## Running the app
-View the app in https://localhost:9025/. Note that you may need bypass a "Your connection is not secure" warning in order to access the application.
+Note that this demo isn't a fully functional calling app and uses mock data to provide a more realistic experience.
