@@ -2,4 +2,4 @@
 
 A real-life implementation of the Calling Extensions SDK using React, TypeScript, and Styled Components. Use it as a blueprint for your app!
 
-Note that this demo isn't a fully functional calling app and uses fake data to provide a more realistic experience.
+Note that this demo isn't a fully functional calling app and uses mock data to provide a more realistic experience.
