@@ -57,8 +57,8 @@ Install these demos on your local environment using the following steps, or skip
 2. Open your browser's developer console, and run one of the following:
 - If you've installed the `demo-minimal-js` or the `demo-react-ts`:
   ```js
-    localStorage.setItem("LocalSettings:Calling:installDemoWidget", "local");
-    ```
+  localStorage.setItem("LocalSettings:Calling:installDemoWidget", "local");
+  ```
 - If you've skipped the installation steps, run one of the following:
   - For the `demo-minimal-js`:
     ```js
