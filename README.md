@@ -32,6 +32,7 @@ yarn add @hubspot/calling-extensions-sdk
 We have installed the SDK on two demo apps to serve as examples:
 - The [demo-minimal-js](https://github.com/HubSpot/calling-extensions-sdk/tree/project-demo-v1/demos/demo-minimal-js) features a minimal implementation of the SDK using JavaScript, HTML, and CSS. View how the SDK is instantiated in [index.js](https://github.com/HubSpot/calling-extensions-sdk/blob/project-demo-v1/demos/demo-minimal-js/index.js).
 - The [demo-react-ts](https://github.com/HubSpot/calling-extensions-sdk/tree/project-demo-v1/demos/demo-react-ts) features a real-life implementation of the SDK using React, TypeScript, and Styled Components. Use it as a blueprint for your app! View how the SDK is instantiated in [useCti.ts](https://github.com/HubSpot/calling-extensions-sdk/blob/project-demo-v1/demos/demo-react-ts/src/hooks/useCti.ts).
+
 Note that these demos aren't fully functional calling apps and use mock data to provide a more realistic experience.
 
 ### Installation
