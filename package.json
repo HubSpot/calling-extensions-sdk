@@ -18,7 +18,6 @@
     "publish:patch": "npm version patch && npm publish --access public",
     "publish:minor": "npm version minor && npm publish --access public",
     "publish:major": "npm version major && npm publish --access public",
-    "publish:prepatch": "npm version prepatch && npm run publish:alpha",
     "publish:preminor": "npm version preminor && npm run publish:alpha",
     "publish:premajor": "npm version premajor && npm run publish:alpha",
     "test:build": "npx webpack --config webpack-test.config.js --mode development",
