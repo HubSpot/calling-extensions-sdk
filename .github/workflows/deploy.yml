@@ -1,0 +1,29 @@
+name: Deploy demo apps to GH Pages
+concurrency: ci-${{ github.ref }}
+on:
+  push:
+    branches:
+      - 'master'
+    paths:
+      - 'demos/**'
+
+defaults:
+  run:
+    working-directory: demos
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository 🛎️
+        uses: actions/checkout@v3
+      - name: Install and build 🔧
+        run: npm run build:gh
+      - name: Run tests ✅
+        run: npm run test
+      - name: Deploy  🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: demos/build
+          branch: gh-pages
+          clean-exclude: pr-preview

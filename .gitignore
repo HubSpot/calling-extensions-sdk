@@ -1,9 +1,11 @@
 node_modules
 npm-debug.log
 dist
+bin
 *.pem
 coverage
-build
 .DS_STORE
 lib
+demos/build/*
+!demos/build/.gitkeep
 dist-test

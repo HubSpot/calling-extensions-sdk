@@ -1,0 +1,10 @@
+{
+  "srcDir": "src",
+  "srcFiles": [],
+  "specDir": "dist-test",
+  "specFiles": ["test.js"],
+  "helpers": [],
+  "browser": {
+    "name": "chrome"
+  }
+}
