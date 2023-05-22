@@ -3,8 +3,8 @@ run-name: ${{ github.actor }} is deploying a PR
 concurrency: preview-${{ github.ref }}
 on:
   push:
-    branches:
-      - '!master'
+    branches-ignore:
+      - 'master'
     paths:
       - 'demos/**'
 
