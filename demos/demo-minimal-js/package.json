@@ -1,6 +1,6 @@
 {
   "name": "calling-extensions-sdk-demo-minimal-js",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "HubSpot calling extension sdk demo minimal js",
   "private": true,
   "scripts": {
@@ -21,6 +21,6 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "@hubspot/calling-extensions-sdk": "^0.0.15-alpha.1"
+    "@hubspot/calling-extensions-sdk": "^0.1.0"
   }
 }

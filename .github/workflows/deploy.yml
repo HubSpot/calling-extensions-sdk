@@ -1,9 +1,11 @@
 name: Deploy demo apps to GH Pages
 concurrency: ci-${{ github.ref }}
 on:
-  workflow_dispatch:
   push:
-    branches: [project-demo-v1]
+    branches:
+      - 'master'
+    paths:
+      - 'demos/**'
 
 defaults:
   run:

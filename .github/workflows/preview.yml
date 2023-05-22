@@ -2,9 +2,11 @@ name: Deploy PR previews for demo apps
 run-name: ${{ github.actor }} is deploying a PR
 concurrency: preview-${{ github.ref }}
 on:
-  workflow_dispatch:
-  pull_request:
-    branches: ['*demo*']
+  push:
+    branches:
+      - '!master'
+    paths:
+      - 'demos/**'
 
 defaults:
   run:
