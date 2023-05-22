@@ -1,6 +1,6 @@
 {
   "name": "calling-integration-sdk-demo-react-ts",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "HubSpot calling integration sdk demo react ts",
   "private": true,
   "scripts": {

@@ -1,6 +1,6 @@
 {
   "name": "calling-extensions-sdk-demo-minimal-js",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "HubSpot calling extension sdk demo minimal js",
   "private": true,
   "scripts": {
