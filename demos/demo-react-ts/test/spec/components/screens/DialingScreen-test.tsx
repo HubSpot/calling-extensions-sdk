@@ -1,6 +1,5 @@
-import { fireEvent, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import DialingScreen from "../../../../src/components/screens/DialingScreen";
-import { ScreenNames } from "../../../../src/types/ScreenTypes";
 import { renderWithContext } from "../../../render";
 
 const noop = (..._args: any[]) => {};

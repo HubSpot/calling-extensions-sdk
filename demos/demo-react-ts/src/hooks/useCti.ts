@@ -14,15 +14,15 @@ export const useCti = () => {
         onReady: () => {
           cti.initialized({ isLoggedIn: true, sizeInfo: defaultSize });
         },
-        onDialNumber: (data: any, rawEvent: any) => {
+        onDialNumber: (data: any, _rawEvent: any) => {
           const { phoneNumber } = data;
           setPhoneNumber(phoneNumber);
         },
-        onEngagementCreated: (data: any, rawEvent: any) => {
+        onEngagementCreated: (data: any, _rawEvent: any) => {
           const { engagementId } = data;
           setEngagementId(engagementId);
         },
-        onVisibilityChanged: (data: any, rawEvent: any) => {
+        onVisibilityChanged: (data: any, _rawEvent: any) => {
           // nothing to do here
         },
       },
