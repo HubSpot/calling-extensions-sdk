@@ -145,7 +145,7 @@ function CallingScreen({
           value={notes}
           onChange={handleNotes}
           placeholder="Enter notes from your call ..."
-        ></TextArea>
+        />
       </Row>
     </Wrapper>
   );

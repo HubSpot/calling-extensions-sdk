@@ -4,10 +4,10 @@ import CallingExtensions from "@hubspot/calling-extensions-sdk";
 import { useMemo, useState } from "react";
 
 export const useCti = () => {
-  const defaultSize = { width: 400, height: 600 };
   const [phoneNumber, setPhoneNumber] = useState("");
   const [engagementId, setEngagementId] = useState<number | null>(null);
   const cti = useMemo(() => {
+    const defaultSize = { width: 400, height: 600 };
     return new CallingExtensions({
       debugMode: true,
       eventHandlers: {
@@ -22,7 +22,9 @@ export const useCti = () => {
           const { engagementId } = data;
           setEngagementId(engagementId);
         },
-        onVisibilityChanged: (data: any, rawEvent: any) => {},
+        onVisibilityChanged: (data: any, rawEvent: any) => {
+          // nothing to do here
+        },
       },
     });
   }, []);
