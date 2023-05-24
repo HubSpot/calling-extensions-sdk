@@ -16,7 +16,8 @@ import {
 } from "../utils/colors";
 
 /**
- * This file has a dependency on visitor-ui-component-library. Do not directly edit files in the library!
+ * This file has a dependency on visitor-ui-component-library.
+ * Do not directly edit files in the library!
  */
 
 export const TextArea = styled.textarea`

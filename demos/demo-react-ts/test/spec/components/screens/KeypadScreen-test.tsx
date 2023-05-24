@@ -47,13 +47,13 @@ describe("KeypadScreen", () => {
   });
 
   it("Shows initial dial number", () => {
-    renderWithContext(<KeypadScreen {...props} dialNumber={"617000000"} />);
+    renderWithContext(<KeypadScreen {...props} dialNumber="617000000" />);
     const input = screen.getByTestId("VizExInput-Input");
     expect((input as HTMLInputElement).value).toEqual("617000000");
   });
 
   it("Sets initial dial number to be HubSpot phone number", () => {
-    renderWithContext(<KeypadScreen {...props} phoneNumber={"+1617000000"} />);
+    renderWithContext(<KeypadScreen {...props} phoneNumber="+1617000000" />);
     expect(props.setDialNumber).toHaveBeenCalledWith("+1617000000");
   });
 
@@ -139,7 +139,7 @@ describe("KeypadScreen", () => {
 
     it("Handles backspace", () => {
       const { getByRole } = renderWithContext(
-        <KeypadScreen {...props} dialNumber={"617"} />
+        <KeypadScreen {...props} dialNumber="617" />
       );
       const button = getByRole("button", {
         name: /backspace/i,

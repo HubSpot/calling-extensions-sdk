@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, useCallback, useEffect, useMemo } from "react";
+import { useState, ChangeEvent, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import { useAutoFocus } from "../../hooks/useAutoFocus";
 import { ScreenNames, ScreenProps } from "../../types/ScreenTypes";
@@ -12,7 +12,7 @@ import {
   FromNumberRow,
 } from "../Components";
 import { Keypad } from "../Keypad";
-import { StartCallSvg, DeleteLeftSvg, CaretDownSvg } from "../Icons";
+import { StartCallSvg, DeleteLeftSvg } from "../Icons";
 import { GREAT_WHITE } from "../../utils/colors";
 import FromNumbersDropdown from "../FromNumbersDropdown";
 
@@ -50,15 +50,17 @@ function KeypadScreen({
       setDialNumber(value);
       setIsDialNumberValid(validatePhoneNumber(value));
     },
-    [validatePhoneNumber]
+    [setDialNumber]
   );
 
   useEffect(() => {
     if (phoneNumber) {
       handleSetDialNumber(phoneNumber);
-      dialNumberInput.current!.focus();
+      if (dialNumberInput.current) {
+        dialNumberInput.current.focus();
+      }
     }
-  }, [phoneNumber, handleSetDialNumber]);
+  }, [phoneNumber, handleSetDialNumber, dialNumberInput]);
 
   const handleLogout = () => {
     cti.userLoggedOut();
@@ -94,7 +96,7 @@ function KeypadScreen({
     });
     startTimer(callStartTime);
     handleNextScreen();
-  }, [cti]);
+  }, [cti, dialNumber, handleNextScreen, startTimer]);
 
   const handleBackspace = useCallback(() => {
     let updatedDialNumber =
@@ -106,10 +108,18 @@ function KeypadScreen({
     }
 
     handleSetDialNumber(updatedDialNumber);
-    dialNumberInput.current!.value = updatedDialNumber;
-    dialNumberInput.current!.setSelectionRange(cursorStart, cursorStart);
-    dialNumberInput.current!.focus();
-  }, [cursorEnd, cursorStart, dialNumber]);
+    if (dialNumberInput.current) {
+      dialNumberInput.current.value = updatedDialNumber;
+      dialNumberInput.current.setSelectionRange(cursorStart, cursorStart);
+      dialNumberInput.current.focus();
+    }
+  }, [
+    cursorEnd,
+    cursorStart,
+    dialNumber,
+    dialNumberInput,
+    handleSetDialNumber,
+  ]);
 
   return (
     <Wrapper>

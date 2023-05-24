@@ -31,6 +31,7 @@
     "arrow-parens": ["error", "as-needed"],
     "import/prefer-default-export": 0,
     "arrow-body-style": 0,
-    "prefer-object-spread": 0
+    "prefer-object-spread": 0,
+    "operator-linebreak": 0
   }
 }

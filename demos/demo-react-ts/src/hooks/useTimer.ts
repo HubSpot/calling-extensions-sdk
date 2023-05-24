@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { millisecondsToFormattedDuration } from "../utils/millisecondsToFormattedDuration";
 
 export const useCallDurationTimer = () => {
-  let timerId = useRef<NodeJS.Timer>();
+  const timerId = useRef<NodeJS.Timer>();
   const [callDuration, setCallDuration] = useState(0);
 
   const startTimer = (callStartTime: number) => {

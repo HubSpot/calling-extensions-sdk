@@ -27,8 +27,9 @@ export const screens = [
 ];
 
 export const formatTime = (totalSeconds: number) => {
-  const getTimeStr = (time: number) =>
-    time < 10 ? `0${time}` : time.toString();
+  const getTimeStr = (time: number) => {
+    return time < 10 ? `0${time}` : time.toString();
+  };
   const hour = Math.floor(totalSeconds / 3600);
   const minute = Math.floor((totalSeconds - hour * 3600) / 60);
   const second = totalSeconds - (hour * 3600 + minute * 60);
@@ -45,22 +46,8 @@ function App() {
   const [showAlert, setShowAlert] = useState(true);
   const [fromNumber, setFromNumber] = useState("+1 617-948-3986");
 
-  const handleNextScreen = () => {
-    if (screenIndex === screens.length - 1) {
-      setScreenIndex(1);
-      return;
-    }
-    setScreenIndex(screenIndex + 1);
-  };
-
   const handleNavigateToScreen = (screenIndex: ScreenNames) => {
     setScreenIndex(screenIndex);
-  };
-
-  const handlePreviousScreen = () => {
-    if (screenIndex !== 0) {
-      setScreenIndex(screenIndex + 1);
-    }
   };
 
   const resetInputs = () => {
@@ -68,24 +55,38 @@ function App() {
     setNotes("");
   };
 
-  const handleEndCall = () => {
-    stopTimer();
-    handleNavigateToScreen(ScreenNames.CallEnded);
-  };
-
-  const handleSaveCall = () => {
-    resetInputs();
-    handleNavigateToScreen(ScreenNames.Keypad);
-  };
-
   const hideAlert = () => {
     setShowAlert(false);
   };
 
   const screenComponent = useMemo(() => {
+    const handleNextScreen = () => {
+      if (screenIndex === screens.length - 1) {
+        setScreenIndex(1);
+        return;
+      }
+      setScreenIndex(screenIndex + 1);
+    };
+
+    const handlePreviousScreen = () => {
+      if (screenIndex !== 0) {
+        setScreenIndex(screenIndex + 1);
+      }
+    };
+
+    const handleEndCall = () => {
+      stopTimer();
+      handleNavigateToScreen(ScreenNames.CallEnded);
+    };
+
+    const handleSaveCall = () => {
+      resetInputs();
+      handleNavigateToScreen(ScreenNames.Keypad);
+    };
+
     const Component = screens[screenIndex];
     if (!Component) {
-      return <></>;
+      return null;
     }
     return (
       <Component
@@ -109,7 +110,19 @@ function App() {
         setFromNumber={setFromNumber}
       />
     );
-  }, [screenIndex, dialNumber, notes, callDurationString, fromNumber]);
+  }, [
+    screenIndex,
+    cti,
+    phoneNumber,
+    engagementId,
+    dialNumber,
+    notes,
+    callDuration,
+    callDurationString,
+    startTimer,
+    stopTimer,
+    fromNumber,
+  ]);
 
   return (
     <ThemeProvider

@@ -46,7 +46,7 @@ function CallEndedScreen({
           rows={10}
           value={notes}
           onChange={handleNotes}
-        ></TextArea>
+        />
       </StyledRow>
       <br />
       <Row>

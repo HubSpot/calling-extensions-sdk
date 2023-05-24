@@ -1,7 +1,6 @@
 import { screen, waitForElementToBeRemoved } from "@testing-library/react";
 import App from "../../../src/components/App";
 import { renderWithContext } from "../../render";
-import * as useCti from "../../../src/hooks/useCti";
 
 describe("App", () => {
   it("Shows login screen", () => {
