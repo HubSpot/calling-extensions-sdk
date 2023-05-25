@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { ThemeProvider } from "styled-components";
 import { createTheme } from "../visitor-ui-component-library/theme/createTheme";
 import {
@@ -59,21 +59,21 @@ function App() {
     setShowAlert(false);
   };
 
-  const screenComponent = useMemo(() => {
-    const handleNextScreen = () => {
-      if (screenIndex === screens.length - 1) {
-        setScreenIndex(1);
-        return;
-      }
+  const handleNextScreen = useCallback(() => {
+    if (screenIndex === screens.length - 1) {
+      setScreenIndex(1);
+      return;
+    }
+    setScreenIndex(screenIndex + 1);
+  }, [screenIndex]);
+
+  const handlePreviousScreen = useCallback(() => {
+    if (screenIndex !== 0) {
       setScreenIndex(screenIndex + 1);
-    };
+    }
+  }, [screenIndex]);
 
-    const handlePreviousScreen = () => {
-      if (screenIndex !== 0) {
-        setScreenIndex(screenIndex + 1);
-      }
-    };
-
+  const screenComponent = useMemo(() => {
     const handleEndCall = () => {
       stopTimer();
       handleNavigateToScreen(ScreenNames.CallEnded);
@@ -112,6 +112,8 @@ function App() {
     );
   }, [
     screenIndex,
+    handleNextScreen,
+    handlePreviousScreen,
     cti,
     phoneNumber,
     engagementId,
