@@ -1,0 +1,45 @@
+{
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:react-hooks/recommended",
+    "eslint:recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "env": { "browser": true, "jasmine": true },
+  "globals": {
+    "NodeJS": true
+  },
+  "rules": {
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }],
+    "react/react-in-jsx-scope": 0,
+    "react/jsx-one-expression-per-line": 0,
+    "object-curly-newline": 0,
+    "@typescript-eslint/ban-types": 1,
+    "arrow-parens": 0,
+    "react/jsx-props-no-spreading": 0,
+    "space-before-function-paren": 0,
+    "@typescript-eslint/no-empty-function": 0,
+    "implicit-arrow-linebreak": 0,
+    "function-paren-newline": 0,
+    "@typescript-eslint/no-unused-vars": [
+      1,
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ]
+  }
+}

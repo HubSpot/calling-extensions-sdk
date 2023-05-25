@@ -7,7 +7,7 @@ Calling Extensions SDK enables 3rd party VOIP providers or enterprise calling sy
 ## Getting Started
 
 1. [Create a HubSpot app](https://developers.hubspot.com/docs/faq/how-do-i-create-an-app-in-hubspot) and [create a test account](https://developers.hubspot.com/docs/faq/how-do-i-create-a-test-account).
-2. [Install](https://github.com/HubSpot/calling-extensions-sdk#install-the-calling-extensions-sdk-on-your-call-widget) the Calling Extensions SDK on your call widget. Alternatively, you can [run the demo call widget](https://github.com/hubspot/calling-extensions-sdk#run-the-demo-call-widget) if you'd like to see the SDK in action first.
+2. [Install](https://github.com/HubSpot/calling-extensions-sdk#install-the-calling-extensions-sdk-on-your-call-widget) the Calling Extensions SDK on your call widget. Alternatively, you can [run the demos](https://github.com/hubspot/calling-extensions-sdk#run-the-demos) if you'd like to see the SDK in action first.
 3. Understand the [typical message flow between the call widget and HubSpot](https://github.com/HubSpot/calling-extensions-sdk#typical-message-flow-between-the-call-widget-and-hubspot).
 4. Learn how to [use the Calling Extensions SDK](https://github.com/hubspot/calling-extensions-sdk#using-the-calling-extensions-sdk).
 5. [Test](https://github.com/HubSpot/calling-extensions-sdk#test-your-app-from-a-local-environment) your app from a local environment.
@@ -27,37 +27,50 @@ npm i --save @hubspot/calling-extensions-sdk
 ```shell
 yarn add @hubspot/calling-extensions-sdk
 ```
-## Run the Demo Call Widget
+## Run the Demos
 
-We have installed the SDK on a demo call widget as an example.
+We have installed the SDK on two demo apps to serve as examples:
+- The [demo-minimal-js](https://github.com/HubSpot/calling-extensions-sdk/tree/project-demo-v1/demos/demo-minimal-js) features a minimal implementation of the SDK using JavaScript, HTML, and CSS. View how the SDK is instantiated in [index.js](https://github.com/HubSpot/calling-extensions-sdk/blob/project-demo-v1/demos/demo-minimal-js/index.js).
+- The [demo-react-ts](https://github.com/HubSpot/calling-extensions-sdk/tree/project-demo-v1/demos/demo-react-ts) features a real-life implementation of the SDK using React, TypeScript, and Styled Components. Use it as a blueprint for your app! View how the SDK is instantiated in [useCti.ts](https://github.com/HubSpot/calling-extensions-sdk/blob/project-demo-v1/demos/demo-react-ts/src/hooks/useCti.ts).
+
+Note that these demos aren't fully functional calling apps and use mock data to provide a more realistic experience.
 
 ### Installation
-1. Download the demo call widget by cloning/forking this repo or by [downloading the ZIP](https://github.com/HubSpot/calling-extensions-sdk/archive/refs/heads/master.zip).
-2. In your terminal, locate the root directory of the project, then navigate to the demo directory by running:
-```shell
-cd demo
-```
-3. Install the project's [Node.js](https://nodejs.org/en/) dependencies using the [npm CLI](https://docs.npmjs.com/cli/v9) by running:
-```shell
-npm i
-```
-4. Start the demo app on your browser by running:
-```shell
-npm start
-```
-This command will open a new tab at https://localhost:9025/. Note that you may need bypass a "Your connection is not secure" warning in order to access the application.
+
+Install these demos on your local environment using the following steps, or skip to the next section to run the demos without installation.
+1. Ensure that you have installed [Node.js](https://nodejs.org/en/) on your environment.
+2. Clone, fork, or download the ZIP of this repository.
+3. Open your terminal, navigate to the root directory of the project, and run one of the following commands:
+- For the `demo-minimal-js`:
+  ```shell
+  cd demos/demo-minimal-js && npm i && npm start
+  ```
+- For the `demo-react-ts`:
+  ```shell
+  cd demos/demo-react-ts && npm i && npm start
+  ```
+  These will switch to the desired demo directory, install the [Node.js](https://nodejs.org/en/) dependencies required for the project using the [npm CLI](https://docs.npmjs.com/cli/v9), and start the app. Note that the `npm start` command will automatically open a new tab in your browser at https://localhost:9025/, and you may need bypass a "Your connection is not secure" warning in order to access the application.
+
 
 ### Launch the demo call widget from HubSpot
-1. In HubSpot, navigate to a contact or company page.
-2. Open the browser's developer console and paste the following:
-```js
-localStorage.setItem(
-  "LocalSettings:Calling:CallingExtensions",
-  '{"name": "Demo widget", "url": "https://localhost:9025/"}'
-);
-```
+
+1. Navigate to a contact or company page within your HubSpot account.
+2. Open your browser's developer console, and run one of the following:
+- If you've installed the `demo-minimal-js` or the `demo-react-ts`:
+  ```js
+  localStorage.setItem("LocalSettings:Calling:installDemoWidget", "local");
+  ```
+- If you've skipped the installation steps, run one of the following:
+  - For the `demo-minimal-js`:
+    ```js
+    localStorage.setItem("LocalSettings:Calling:installDemoWidget", "app:js");
+    ```
+  - For the `demo-react-ts`:
+    ```js
+    localStorage.setItem("LocalSettings:Calling:installDemoWidget", "app");
+    ```
 3. Refresh the page and click the "Make a phone call" button on the left toolbar to open the calling settings popover.
-4. In the calling settings popover, click on "Open call options" then select the "Demo widget" under the Calling Provider options.
+4. In the calling settings popover, click on "Open call options", locate the Calling Provider options, and select the name of the widget from step #2 ("Demo Widget Local", "Demo Widget JS", or "Demo Widget React").
 5. You can now click on the "Call" button to see how the demo widget integrates with HubSpot via the Calling Extensions SDK. You can also see the events logged to your browser's developer console!
 
 ## Typical message flow between the call widget and HubSpot
@@ -183,7 +196,8 @@ extensions.userLoggedOut();
 
 const callInfo = {
   phoneNumber: string, // optional unless call is initiated by the widget
-  createEngagement: true // whether HubSpot should create an engagement for this call
+  createEngagement: true, // whether HubSpot should create an engagement for this call
+  callStartTime: number // optional unless call is initiated by the widget
 };
 extensions.outgoingCall(callInfo);
 ```
@@ -237,7 +251,53 @@ extensions.callCompleted(data);
 </p>
 </details>
 
+<details>
+ <summary>sendError</summary>
+ <p>
+
+```js
+// Sends a message to notify HubSpot that the call widget has encountered an error.
+// After receiving the sendError event, HubSpot will display an alert popup to the user with the error message provided.
+const data = {
+  message: string // error message to be displayed in the alert popup
+};
+extensions.sendError(data);
+```
+
+</p>
+</details>
+
+<details>
+ <summary>resizeWidget</summary>
+ <p>
+
+```js
+// Sends a message to notify HubSpot that the call widget needs to be resized.
+// After receiving the resizeWidget event, HubSpot will use the provided height and width to resize the call widget.
+const data = {
+  height: boolean // desired height of the call widget
+  width: number, // desired width of the call widget
+};
+extensions.resizeWidget(data);
+```
+
+</p>
+</details>
+
 ### Receiving messages from HubSpot
+
+<details>
+ <summary>onReady</summary>
+ <p>
+
+```js
+// Message indicating that HubSpot is ready to receive messages
+onReady() {
+    // Send initialized message to HubSpot to indicate that the call widget is also ready
+    extensions.initialized(payload);
+    ...
+}
+```
 
 </p>
 </details>
@@ -362,11 +422,11 @@ The isReady flag indicate whether the widget is ready for production. This flag 
 
 ```js
 /**
- * Override the isReady flag for the "Demo widget"
+ * Override the isReady flag for the call widget
  */
 localStorage.setItem(
   "LocalSettings:Calling:CallingExtensions",
-  '{"name": "Demo widget", "isReady": true}'
+  '{"name": "<your intended widget name>", "isReady": true}'
 );
 ```
 
@@ -479,6 +539,7 @@ outgoingCall({ createEngagement: true })
 const callInfo = {
   phoneNumber: string, // optional unless call is initiated by the widget
   createEngagement: true // whether HubSpot should create an engagement for this call
+  callStartTime: number // optional unless call is initiated by the widget
 };
 extensions.outgoingCall(callInfo);
 ```

@@ -1,0 +1,33 @@
+name: Deploy PR previews for demo apps
+run-name: ${{ github.actor }} is deploying a PR
+concurrency: preview-${{ github.ref }}
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+    paths:
+      - 'demos/**'
+
+defaults:
+  run:
+    working-directory: demos
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository 🛎️
+        uses: actions/checkout@v3
+      - name: Install and build 🔧
+        run: npm run build:gh
+      - name: Run tests ✅
+        run: npm run test
+      - name: Deploy preview 🚀
+        uses: rossjrw/pr-preview-action@v1.4.4
+        with:
+          source-dir: demos/build
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          action: auto
