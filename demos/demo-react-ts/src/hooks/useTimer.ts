@@ -16,10 +16,15 @@ export const useCallDurationTimer = () => {
     clearInterval(timerId.current);
   };
 
+  const resetCallDuration = () => {
+    setCallDuration(0);
+  };
+
   return {
     callDuration,
     callDurationString: millisecondsToFormattedDuration(callDuration),
     startTimer,
     stopTimer,
+    resetCallDuration,
   };
 };

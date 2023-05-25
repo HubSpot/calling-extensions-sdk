@@ -41,8 +41,13 @@ function App() {
   const [screenIndex, setScreenIndex] = useState(0);
   const [dialNumber, setDialNumber] = useState("+1");
   const [notes, setNotes] = useState("");
-  const { callDuration, callDurationString, startTimer, stopTimer } =
-    useCallDurationTimer();
+  const {
+    callDuration,
+    callDurationString,
+    startTimer,
+    stopTimer,
+    resetCallDuration,
+  } = useCallDurationTimer();
   const [showAlert, setShowAlert] = useState(true);
   const [fromNumber, setFromNumber] = useState("+1 617-948-3986");
 
@@ -53,6 +58,7 @@ function App() {
   const resetInputs = () => {
     setDialNumber("+1");
     setNotes("");
+    resetCallDuration();
   };
 
   const hideAlert = () => {
