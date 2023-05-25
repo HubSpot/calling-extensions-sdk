@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { ThemeProvider } from "styled-components";
 import { createTheme } from "../visitor-ui-component-library/theme/createTheme";
 import {
@@ -41,8 +41,13 @@ function App() {
   const [screenIndex, setScreenIndex] = useState(0);
   const [dialNumber, setDialNumber] = useState("+1");
   const [notes, setNotes] = useState("");
-  const { callDuration, callDurationString, startTimer, stopTimer } =
-    useCallDurationTimer();
+  const {
+    callDuration,
+    callDurationString,
+    startTimer,
+    stopTimer,
+    resetCallDuration,
+  } = useCallDurationTimer();
   const [showAlert, setShowAlert] = useState(true);
   const [fromNumber, setFromNumber] = useState("+1 617-948-3986");
 
@@ -53,27 +58,28 @@ function App() {
   const resetInputs = () => {
     setDialNumber("+1");
     setNotes("");
+    resetCallDuration();
   };
 
   const hideAlert = () => {
     setShowAlert(false);
   };
 
-  const screenComponent = useMemo(() => {
-    const handleNextScreen = () => {
-      if (screenIndex === screens.length - 1) {
-        setScreenIndex(1);
-        return;
-      }
+  const handleNextScreen = useCallback(() => {
+    if (screenIndex === screens.length - 1) {
+      setScreenIndex(1);
+      return;
+    }
+    setScreenIndex(screenIndex + 1);
+  }, [screenIndex]);
+
+  const handlePreviousScreen = useCallback(() => {
+    if (screenIndex !== 0) {
       setScreenIndex(screenIndex + 1);
-    };
+    }
+  }, [screenIndex]);
 
-    const handlePreviousScreen = () => {
-      if (screenIndex !== 0) {
-        setScreenIndex(screenIndex + 1);
-      }
-    };
-
+  const screenComponent = useMemo(() => {
     const handleEndCall = () => {
       stopTimer();
       handleNavigateToScreen(ScreenNames.CallEnded);
@@ -112,6 +118,8 @@ function App() {
     );
   }, [
     screenIndex,
+    handleNextScreen,
+    handlePreviousScreen,
     cti,
     phoneNumber,
     engagementId,

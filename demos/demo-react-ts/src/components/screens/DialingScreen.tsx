@@ -17,7 +17,7 @@ function DialingScreen({
       handleNextScreen();
     }, 2500);
     return () => clearTimeout(timer);
-  }, [cti]);
+  }, [cti, handleNextScreen]);
 
   const onEndCall = () => {
     cti.callEnded({
