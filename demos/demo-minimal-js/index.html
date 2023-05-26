@@ -74,9 +74,6 @@
         margin-top: 15px;
         margin-bottom: 5px;
       }
-      #events {
-        margin-bottom: 5px;
-      }
     </style>
   </head>
 
@@ -96,7 +93,9 @@
         <input type="button" value="call ended" id="endcall" disabled />
         <input type="button" value="call completed" id="completecall" disabled />
         <hr />
-        <div id="events">Other events</div>
+        <div class="step">Inbound calling events</div>
+        <input type="button" value="call ringing" id="callringing" />
+        <div class="step">Other events</div>
         <input type="button" value="send error" id="senderror" disabled />
         <input type="button" value="change size" id="resize" disabled />
       </span>

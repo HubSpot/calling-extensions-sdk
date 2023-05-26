@@ -136,6 +136,12 @@ const callback = () => {
           hideWidget: false,
         });
         break;
+      case "call ringing":
+        cti.incomingCall({
+          fromNumber: '+123',
+          toNumber: '+456'
+        });
+        break;
       case "send error":
         cti.sendError({
           type: errorType.GENERIC,
