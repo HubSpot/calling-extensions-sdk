@@ -24,18 +24,23 @@ function initialize() {
   enableButtons(["login", "senderror", "resize"]);
 }
 
-function toggleLogin() {
-  enableButtons(["login"]);
-  disableButtons(["logout", "startcall", "answercall", "endcall", "completecall"]);
+function toggleLogIn() {
+  disableButtons(["login", "initialize"]);
+  enableButtons(["logout", "startcall", "incomingCall"]);
 }
 
-function toggleLogout() {
-  disableButtons(["login", "initialize"]);
-  enableButtons(["logout", "startcall"]);
+function toggleLogOut() {
+  enableButtons(["login"]);
+  disableButtons(["logout", "startcall", "incomingcall", "answercall", "endcall", "completecall"]);
 }
 
 function startCall() {
   disableButtons(["startcall"]);
+  enableButtons(["answercall", "endcall"]);
+}
+
+function incomingCall() {
+  disableButtons(["incomingCall", "startcall"]);
   enableButtons(["answercall", "endcall"]);
 }
 
@@ -99,14 +104,15 @@ const callback = () => {
         break;
       case "log in":
         cti.userLoggedIn();
-        toggleLogout();
+        toggleLogIn();
         break;
       case "log out":
         cti.userLoggedOut();
-        toggleLogin();
+        toggleLogOut();
         break;
       // Calls
-      case "incoming call":
+      case "incoming call started":
+        incomingCall();
         window.setTimeout(() => {
           cti.incomingCall();
         }, 500);
