@@ -50,12 +50,12 @@ function answerCall() {
 
 function endCall() {
   disableButtons(["answercall", "endcall"]);
-  enableButtons(["completecall", "startcall"]);
+  enableButtons(["completecall", "startcall", "incomingcall"]);
 }
 
 function completeCall() {
   disableButtons(["completecall"]);
-  enableButtons(["startcall"]);
+  enableButtons(["startcall", "incomingcall"]);
 }
 
 const callback = () => {
