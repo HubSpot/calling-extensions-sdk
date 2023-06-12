@@ -27,7 +27,9 @@
   },
   "main": "./dist/main.js",
   "files": [
-    "dist/"
+    "dist/",
+    "src/",
+    "index.js"
   ],
   "module": "./index.js",
   "author": "",
