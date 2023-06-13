@@ -134,6 +134,13 @@ const callback = () => {
         cti.callCompleted({
           engagementId: state.engagementId,
           hideWidget: false,
+          /**
+           * @TODO We will be releasing a feature to update engagements without this API call
+           * https://developers.hubspot.com/docs/api/crm/calls#update-calls
+           */
+          engagementProperties: {
+            hs_call_direction: "OUTBOUND",
+          },
         });
         break;
       case "send error":

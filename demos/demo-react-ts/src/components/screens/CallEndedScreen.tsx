@@ -25,7 +25,12 @@ function CallEndedScreen({
     cti.callCompleted({
       engagementId,
       hideWidget: false,
+      /**
+       * @TODO We will be releasing a feature to update engagements without this API call
+       * https://developers.hubspot.com/docs/api/crm/calls#update-calls
+       */
       engagementProperties: {
+        hs_call_direction: "OUTBOUND",
         hs_call_body: notes,
         hs_call_duration: callDuration.toString(),
       },
