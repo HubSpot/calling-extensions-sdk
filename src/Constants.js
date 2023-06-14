@@ -1,5 +1,8 @@
 "use es6";
 
+const { version } = require("../package.json");
+export const VERSION = version;
+
 export const messageType = {
   CALL_ANSWERED: "CALL_ANSWERED",
   CALL_COMPLETED: "CALL_COMPLETED",
