@@ -66,6 +66,7 @@ describe("CallEndedScreen", () => {
       engagementProperties: {
         hs_call_body: "calling notes",
         hs_call_duration: "3000",
+        hs_call_direction: "OUTBOUND",
       },
     });
   });
