@@ -26,8 +26,8 @@ function CallEndedScreen({
       engagementId,
       hideWidget: false,
       /**
-       * @param engagementProperties (not in use)
-       * @TODO We will be releasing a feature to update engagements without this API call
+       * @param engagementProperties (currently not in use)
+       * @TODO We will be releasing a feature to update engagements in the SDK without this API call
        * https://developers.hubspot.com/docs/api/crm/calls#update-calls
        */
       engagementProperties: {
