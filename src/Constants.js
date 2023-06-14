@@ -1,42 +1,31 @@
 "use es6";
 
-export const VERSION = "0.0.1";
+export const messageType = {
+  CALL_ANSWERED: "CALL_ANSWERED",
+  CALL_COMPLETED: "CALL_COMPLETED",
+  CALL_DATA: "CALL_DATA",
+  CALL_ENDED: "CALL_ENDED",
+  DIAL_NUMBER: "DIAL_NUMBER",
+  END_CALL: "END_CALL",
+  ENGAGEMENT_CREATED: "ENGAGEMENT_CREATED",
+  ERROR: "ERROR",
+  INCOMING_CALL: "INCOMING_CALL",
+  INITIALIZED: "INITIALIZED",
+  LOGGED_IN: "LOGGED_IN",
+  LOGGED_OUT: "LOGGED_OUT",
+  OUTGOING_CALL_STARTED: "OUTGOING_CALL_STARTED",
+  READY: "READY",
+  RESIZE_WIDGET: "RESIZE_WIDGET",
+  SET_CALL_STATE: "SET_CALL_STATE",
+  SET_WIDGET_URL: "SET_WIDGET_URL",
+  SYNC_ACK_FAILED: "SYNC_ACK_FAILED",
+  SYNC_ACK: "SYNC_ACK",
+  SYNC: "SYNC",
+  UNLOADING: "UNLOADING",
+  VISIBILITY_CHANGED: "VISIBILITY_CHANGED",
+};
 
-const messageTypeList = [
-  "CALL_ANSWERED",
-  "CALL_COMPLETED",
-  "CALL_DATA",
-  "CALL_ENDED",
-  "DIAL_NUMBER",
-  "ENGAGEMENT_CREATED",
-
-  "END_CALL",
-  "ERROR",
-  "INCOMING_CALL",
-  "INITIALIZED",
-  "LOGGED_IN",
-  "LOGGED_OUT",
-  "OUTGOING_CALL_STARTED",
-  "READY",
-  "RESIZE_WIDGET",
-  "SET_CALL_STATE",
-  "SET_WIDGET_URL",
-  "SYNC",
-  "SYNC_ACK",
-  "SYNC_ACK_FAILED",
-  "UNLOADING",
-  "VISIBILITY_CHANGED"
-];
-
-const errorTypeList = ["UNKNOWN_MESSAGE_TYPE", "GENERIC"];
-
-function mirrorKeys(keyList) {
-  const keyObject = {};
-  keyList.forEach(keyName => {
-    keyObject[keyName] = keyName;
-  });
-  return keyObject;
-}
-
-export const messageType = mirrorKeys(messageTypeList);
-export const errorType = mirrorKeys(errorTypeList);
+export const errorType = {
+  UNKNOWN_MESSAGE_TYPE: "UNKNOWN_MESSAGE_TYPE",
+  GENERIC: "GENERIC",
+};
