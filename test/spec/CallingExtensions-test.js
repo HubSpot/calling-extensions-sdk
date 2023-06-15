@@ -1,7 +1,7 @@
 "use es6";
 
 import CallingExtensions from "../../src/CallingExtensions";
-import { VERSION, messageType } from "../../src/Constants";
+import { messageType } from "../../src/Constants";
 
 describe("CallingExtensions", () => {
   let instance;
@@ -30,6 +30,20 @@ describe("CallingExtensions", () => {
       instance.userLoggedOut();
       expect(instance.sendMessage).toHaveBeenCalledWith({
         type: messageType.LOGGED_OUT,
+      });
+    });
+
+    it("should handle user available.", () => {
+      instance.userAvailable();
+      expect(instance.sendMessage).toHaveBeenCalledWith({
+        type: messageType.USER_AVAILABLE,
+      });
+    });
+
+    it("should handle user unavailable.", () => {
+      instance.userUnavailable();
+      expect(instance.sendMessage).toHaveBeenCalledWith({
+        type: messageType.USER_UNAVAILABLE,
       });
     });
 
