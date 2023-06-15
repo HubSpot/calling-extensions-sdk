@@ -1,7 +1,7 @@
 "use es6";
 
 import IFrameManager from "./IFrameManager";
-import { messageType, errorType, VERSION } from "./Constants";
+import { messageType, errorType } from "./Constants";
 
 /**
  * @typedef {Object} EventHandlers
@@ -42,7 +42,7 @@ class CallingExtensions {
   initialized(userData) {
     this.sendMessage({
       type: messageType.INITIALIZED,
-      data: { ...userData, sdkVersion: VERSION },
+      data: { ...userData },
     });
   }
 

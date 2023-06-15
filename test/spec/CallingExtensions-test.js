@@ -51,7 +51,7 @@ describe("CallingExtensions", () => {
       instance.initialized(data);
       expect(instance.sendMessage).toHaveBeenCalledWith({
         type: messageType.INITIALIZED,
-        data: { ...data, sdkVersion: VERSION },
+        data: { ...data },
       });
     });
 
