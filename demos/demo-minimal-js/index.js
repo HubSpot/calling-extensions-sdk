@@ -26,21 +26,21 @@ function initialize() {
 
 function toggleLogIn() {
   disableButtons(["login", "initialize"]);
-  enableButtons(["logout", "startcall", "incomingCall"]);
+  enableButtons(["logout", "outgoingcall", "incomingcall"]);
 }
 
 function toggleLogOut() {
   enableButtons(["login"]);
-  disableButtons(["logout", "startcall", "incomingcall", "answercall", "endcall", "completecall"]);
+  disableButtons(["logout", "outgoingcall", "incomingcall", "answercall", "endcall", "completecall"]);
 }
 
-function startCall() {
-  disableButtons(["startcall"]);
+function outgoingCall() {
+  disableButtons(["outgoingcall"]);
   enableButtons(["answercall", "endcall"]);
 }
 
 function incomingCall() {
-  disableButtons(["incomingcall", "startcall"]);
+  disableButtons(["incomingcall", "outgoingcall"]);
   enableButtons(["answercall", "endcall"]);
 }
 
@@ -50,12 +50,12 @@ function answerCall() {
 
 function endCall() {
   disableButtons(["answercall", "endcall"]);
-  enableButtons(["completecall", "startcall", "incomingcall"]);
+  enableButtons(["completecall", "outgoingcall", "incomingcall"]);
 }
 
 function completeCall() {
   disableButtons(["completecall"]);
-  enableButtons(["startcall", "incomingcall"]);
+  enableButtons(["outgoingcall", "incomingcall"]);
 }
 
 const callback = () => {
@@ -118,7 +118,7 @@ const callback = () => {
         }, 500);
         break;
       case "outgoing call started": {
-        startCall();
+        outgoingCall();
         window.setTimeout(() => {
           cti.outgoingCall({
             createEngagement: "true",
@@ -140,12 +140,6 @@ const callback = () => {
         cti.callCompleted({
           engagementId: state.engagementId,
           hideWidget: false,
-        });
-        break;
-      case "call ringing":
-        cti.incomingCall({
-          fromNumber: '+123',
-          toNumber: '+456'
         });
         break;
       case "send error":
