@@ -1,14 +1,13 @@
 "use es6";
 
 import { messageType, VERSION } from "./Constants";
-import { getVersion } from './packageInfo';
 
+const prefix = `[calling-extensions-sdk@${VERSION}]`;
 /*
  * IFrameManager abstracts the iFrame communication between the IFrameHost and an IFrame
  * An IFrameManager instance can act as part of the IFrameHost and an IFrame depending on
  * the options.
  */
-const prefix = `[calling-extensions-sdk@${getVersion()}]`;
 class IFrameManager {
   constructor(options) {
     this.options = options;

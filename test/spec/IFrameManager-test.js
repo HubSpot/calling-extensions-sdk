@@ -1,7 +1,7 @@
 "use es6";
 
 import IFrameManager from "../../src/IFrameManager";
-import { messageType } from "../../src/Constants";
+import { VERSION, messageType } from "../../src/Constants";
 
 describe("iFrameManager", () => {
   const defaultOptions = {
@@ -42,7 +42,7 @@ describe("iFrameManager", () => {
       expect(instance.sendMessage).toHaveBeenCalledWith({
         type: messageType.SYNC_ACK,
         debugMode: undefined,
-        version: "0.0.1",
+        version: VERSION,
         iFrameUrl: IFrameManager.extractHostFromUrl(window.location.href),
       });
     });

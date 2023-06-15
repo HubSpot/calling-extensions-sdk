@@ -1,8 +1,7 @@
 "use es6";
 
 import CallingExtensions from "../../src/CallingExtensions";
-import { messageType } from "../../src/Constants";
-import { getVersion } from '../../src/packageInfo';
+import { VERSION, messageType } from "../../src/Constants";
 
 describe("CallingExtensions", () => {
   let instance;
@@ -52,7 +51,7 @@ describe("CallingExtensions", () => {
       instance.initialized(data);
       expect(instance.sendMessage).toHaveBeenCalledWith({
         type: messageType.INITIALIZED,
-        data: { ...data, sdkVersion: getVersion() },
+        data: { ...data },
       });
     });
 
