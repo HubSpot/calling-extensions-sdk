@@ -40,7 +40,7 @@ function startCall() {
 }
 
 function incomingCall() {
-  disableButtons(["incomingCall", "startcall"]);
+  disableButtons(["incomingcall", "startcall"]);
   enableButtons(["answercall", "endcall"]);
 }
 
