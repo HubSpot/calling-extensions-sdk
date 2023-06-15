@@ -35,7 +35,7 @@ function toggleLogOut() {
 }
 
 function outgoingCall() {
-  disableButtons(["outgoingcall"]);
+  disableButtons(["outgoingcall", "incomingcall"]);
   enableButtons(["answercall", "endcall"]);
 }
 
