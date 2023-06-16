@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -16,18 +17,27 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
     <script
       src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
+    <title>Demo Widget JS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="This app features a minimal implementation of the Calling Extensions SDK using JavaScript, HTML, and CSS."
+    />
 
     <style>
       body {
-        font-family: 'Lexend', Helvetica, Arial, sans-serif;
+        font-family: "Lexend", Helvetica, Arial, sans-serif;
         margin: 0;
         font-size: 14px;
         font-weight: 600;
@@ -40,7 +50,7 @@
         justify-content: center;
         vertical-align: initial;
       }
-      input[type=button] {
+      input[type="button"] {
         background-color: #eaf0f6;
         border-color: #cbd6e2;
         color: #506e91;
@@ -52,12 +62,12 @@
         border-width: 1px;
         font-weight: 500;
       }
-      input[type=button]:active {
+      input[type="button"]:active {
         background-color: #cbd6e2;
         border-color: #7c98b6;
         color: #506e91;
       }
-      input[type=button]:disabled {
+      input[type="button"]:disabled {
         background-color: #eaf0f6;
         border-color: #eaf0f6;
         color: #b0c1d4;
@@ -83,18 +93,32 @@
   <body>
     <div id="app">
       <span class="controls">
-        <div class="instructions">Click the buttons to send messages to HubSpot via the Calling Extensions SDK. Open your console to see the incoming and outgoing messages with HubSpot.</div>
+        <div class="instructions">
+          Click the buttons to send messages to HubSpot via the Calling
+          Extensions SDK. Open your console to see the incoming and outgoing
+          messages with HubSpot.
+        </div>
         <div class="step">1. Initialize the calling app</div>
         <input type="button" value="initialized" id="initialize" />
         <div class="step">2. Log in to the app</div>
         <input type="button" value="log in" id="login" disabled />
         <input type="button" value="log out" id="logout" disabled />
         <div class="step">3. Start a call</div>
-        <input type="button" value="outgoing call started" id="startcall" disabled />
+        <input
+          type="button"
+          value="outgoing call started"
+          id="startcall"
+          disabled
+        />
         <input type="button" value="call answered" id="answercall" disabled />
         <div class="step">4. End a call</div>
         <input type="button" value="call ended" id="endcall" disabled />
-        <input type="button" value="call completed" id="completecall" disabled />
+        <input
+          type="button"
+          value="call completed"
+          id="completecall"
+          disabled
+        />
         <hr />
         <div id="events">Other events</div>
         <input type="button" value="send error" id="senderror" disabled />
