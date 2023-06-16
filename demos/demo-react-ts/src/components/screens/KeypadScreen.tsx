@@ -87,7 +87,7 @@ function KeypadScreen({
     dialNumberInput.current?.focus();
   };
 
-  const handleStartCall = useCallback(() => {
+  const handleOutgoingCall = useCallback(() => {
     const callStartTime = Date.now();
     cti.outgoingCall({
       createEngagement: true,
@@ -153,8 +153,8 @@ function KeypadScreen({
         <CallButton
           use="primary"
           disabled={!isDialNumberValid}
-          onClick={handleStartCall}
-          aria-label="start-call"
+          onClick={handleOutgoingCall}
+          aria-label="outgoing-call"
         >
           {StartCallSvg}
         </CallButton>

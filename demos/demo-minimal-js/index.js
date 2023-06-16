@@ -24,18 +24,23 @@ function initialize() {
   enableButtons(["login", "senderror", "resize"]);
 }
 
-function toggleLogin() {
-  enableButtons(["login"]);
-  disableButtons(["logout", "startcall", "answercall", "endcall", "completecall"]);
-}
-
-function toggleLogout() {
+function toggleLogIn() {
   disableButtons(["login", "initialize"]);
-  enableButtons(["logout", "startcall"]);
+  enableButtons(["logout", "outgoingcall", "incomingcall"]);
 }
 
-function startCall() {
-  disableButtons(["startcall"]);
+function toggleLogOut() {
+  enableButtons(["login"]);
+  disableButtons(["logout", "outgoingcall", "incomingcall", "answercall", "endcall", "completecall"]);
+}
+
+function outgoingCall() {
+  disableButtons(["outgoingcall", "incomingcall"]);
+  enableButtons(["answercall", "endcall"]);
+}
+
+function incomingCall() {
+  disableButtons(["incomingcall", "outgoingcall"]);
   enableButtons(["answercall", "endcall"]);
 }
 
@@ -45,12 +50,12 @@ function answerCall() {
 
 function endCall() {
   disableButtons(["answercall", "endcall"]);
-  enableButtons(["completecall", "startcall"]);
+  enableButtons(["completecall", "outgoingcall", "incomingcall"]);
 }
 
 function completeCall() {
   disableButtons(["completecall"]);
-  enableButtons(["startcall"]);
+  enableButtons(["outgoingcall", "incomingcall"]);
 }
 
 const callback = () => {
@@ -99,20 +104,21 @@ const callback = () => {
         break;
       case "log in":
         cti.userLoggedIn();
-        toggleLogout();
+        toggleLogIn();
         break;
       case "log out":
         cti.userLoggedOut();
-        toggleLogin();
+        toggleLogOut();
         break;
       // Calls
-      case "incoming call":
+      case "incoming call started":
+        incomingCall();
         window.setTimeout(() => {
           cti.incomingCall();
         }, 500);
         break;
       case "outgoing call started": {
-        startCall();
+        outgoingCall();
         window.setTimeout(() => {
           cti.outgoingCall({
             createEngagement: "true",

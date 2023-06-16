@@ -77,7 +77,7 @@ describe("KeypadScreen", () => {
     it("Button is disabled initially", () => {
       const { getByRole } = renderWithContext(<KeypadScreen {...props} />);
       const button = getByRole("button", {
-        name: /start-call/i,
+        name: /outgoing-call/i,
       });
       expect(button).toHaveAttribute("disabled");
     });
@@ -93,7 +93,7 @@ describe("KeypadScreen", () => {
       });
 
       const button = getByRole("button", {
-        name: /start-call/i,
+        name: /outgoing-call/i,
       });
       button.click();
 
