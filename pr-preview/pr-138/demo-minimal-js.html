@@ -28,6 +28,7 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
+    <script defer src="demo-minimal-js.bundle.js"></script>
     <title>Demo Widget JS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
@@ -37,30 +38,33 @@
 
     <style>
       body {
-        font-family: "Lexend", Helvetica, Arial, sans-serif;
-        margin: 0;
-        font-size: 14px;
-        font-weight: 600;
-        color: #33475b;
-      }
-      #app {
         align-items: center;
+        color: #33475b;
         display: flex;
         flex-direction: column;
+        font-family: "Lexend", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
         justify-content: center;
+        margin: 0;
         vertical-align: initial;
+      }
+      main {
+        height: 600px;
+        width: 300px;
       }
       input[type="button"] {
         background-color: #eaf0f6;
         border-color: #cbd6e2;
-        color: #506e91;
-        font-size: 13px;
-        line-height: 14px;
-        padding: 8px 16px;
         border-radius: 3px;
         border-style: solid;
         border-width: 1px;
+        color: #506e91;
+        font-size: 13px;
         font-weight: 500;
+        line-height: 14px;
+        margin-top: 5px;
+        padding: 8px 16px;
       }
       input[type="button"]:active {
         background-color: #cbd6e2;
@@ -72,38 +76,33 @@
         border-color: #eaf0f6;
         color: #b0c1d4;
       }
-      .controls {
-        width: 300px;
-        height: 600px;
+      p {
+        margin-bottom: 0;
+        margin-top: 1rem;
       }
-      .instructions {
-        margin-top: 15px;
+      p.instructions {
         font-weight: 300;
-      }
-      .step {
-        margin-top: 15px;
-        margin-bottom: 5px;
-      }
-      #events {
-        margin-bottom: 5px;
+        margin-bottom: 1rem;
       }
     </style>
   </head>
 
   <body>
-    <div id="app">
-      <span class="controls">
-        <div class="instructions">
+    <main>
+      <header>
+        <p class="instructions">
           Click the buttons to send messages to HubSpot via the Calling
           Extensions SDK. Open your console to see the incoming and outgoing
           messages with HubSpot.
-        </div>
-        <div class="step">1. Initialize the calling app</div>
+        </p>
+      </header>
+      <section id="events">
+        <p>1. Initialize the calling app</p>
         <input type="button" value="initialized" id="initialize" />
-        <div class="step">2. Log in to the app</div>
+        <p>2. Log in to the app</p>
         <input type="button" value="log in" id="login" disabled />
         <input type="button" value="log out" id="logout" disabled />
-        <div class="step">3. Start a call</div>
+        <p>3. Start a call</p>
         <input
           type="button"
           value="incoming call started"
@@ -117,7 +116,7 @@
           disabled
         />
         <input type="button" value="call answered" id="answercall" disabled />
-        <div class="step">4. End a call</div>
+        <p>4. End a call</p>
         <input type="button" value="call ended" id="endcall" disabled />
         <input
           type="button"
@@ -126,11 +125,10 @@
           disabled
         />
         <hr />
-        <div id="events">Other events</div>
+        <p>Other events</p>
         <input type="button" value="send error" id="senderror" disabled />
         <input type="button" value="change size" id="resize" disabled />
-      </span>
-    </div>
-    <script src="demo-minimal-js.bundle.js" async></script>
+      </section>
+    </main>
   </body>
 </html>
