@@ -26,7 +26,13 @@ function initialize() {
 
 function toggleLogin() {
   enableButtons(["login"]);
-  disableButtons(["logout", "startcall", "answercall", "endcall", "completecall"]);
+  disableButtons([
+    "logout",
+    "startcall",
+    "answercall",
+    "endcall",
+    "completecall",
+  ]);
 }
 
 function toggleLogout() {
@@ -81,12 +87,11 @@ const callback = () => {
           cti.callEnded();
         }, 500);
       },
-      onVisibilityChanged: (data, rawEvent) => {
-      },
+      onVisibilityChanged: (data, rawEvent) => {},
     },
   });
 
-  const element = document.querySelector(".controls");
+  const element = document.querySelector("#events");
   element.addEventListener("click", event => {
     event.preventDefault();
     const clickedButtonValue = event.target.value;
@@ -157,8 +162,8 @@ const callback = () => {
 };
 
 if (
-  document.readyState === "interactive"
-  || document.readyState === "complete"
+  document.readyState === "interactive" ||
+  document.readyState === "complete"
 ) {
   window.setTimeout(() => callback(), 1000);
 } else {
