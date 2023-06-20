@@ -98,30 +98,73 @@
       </header>
       <section id="events">
         <p>1. Initialize the calling app</p>
-        <input type="button" value="initialized" id="initialize" />
+        <input
+          id="initialize"
+          onclick="initialize()"
+          type="button"
+          value="initialized"
+        />
         <p>2. Log in to the app</p>
-        <input type="button" value="log in" id="login" disabled />
-        <input type="button" value="log out" id="logout" disabled />
+        <input
+          disabled
+          id="login"
+          onclick="logIn()"
+          type="button"
+          value="log in"
+        />
+        <input
+          disabled
+          id="logout"
+          onclick="logOut()"
+          type="button"
+          value="log out"
+        />
         <p>3. Start a call</p>
         <input
+          disabled
+          id="startcall"
+          onclick="outgoingCall()"
           type="button"
           value="outgoing call started"
-          id="startcall"
-          disabled
         />
-        <input type="button" value="call answered" id="answercall" disabled />
+        <input
+          disabled
+          id="answercall"
+          onclick="answerCall()"
+          type="button"
+          value="call answered"
+        />
         <p>4. End a call</p>
-        <input type="button" value="call ended" id="endcall" disabled />
         <input
           type="button"
-          value="call completed"
-          id="completecall"
+          value="call ended"
+          id="endcall"
           disabled
+          onclick="endCall()"
+        />
+        <input
+          disabled
+          id="completecall"
+          onclick="completeCall()"
+          type="button"
+          value="call completed"
         />
         <hr />
         <p>Other events</p>
-        <input type="button" value="send error" id="senderror" disabled />
-        <input type="button" value="change size" id="resize" disabled />
+        <input
+          disabled
+          id="senderror"
+          onclick="sendError()"
+          type="button"
+          value="send error"
+        />
+        <input
+          disabled
+          id="resize"
+          onclick="resize()"
+          type="button"
+          value="change size"
+        />
       </section>
     </main>
   </body>
