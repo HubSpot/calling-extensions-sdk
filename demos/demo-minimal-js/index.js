@@ -46,9 +46,9 @@ const END_CALL = "endcall";
 const INITIALIZE = "initialize";
 const LOG_IN = "login";
 const LOG_OUT = "logout";
-const RESIZE = "resize";
-const SEND_ERROR = "senderror";
 const OUTGOING_CALL = "outgoingcall";
+const RESIZE_WIDGET = "resizewidget";
+const SEND_ERROR = "senderror";
 
 function disableButtons(ids) {
   ids.forEach(id => {
@@ -67,7 +67,7 @@ export function initialize() {
     isLoggedIn: false,
   });
   disableButtons([INITIALIZE]);
-  enableButtons([LOG_IN, SEND_ERROR, RESIZE]);
+  enableButtons([LOG_IN, SEND_ERROR, RESIZE_WIDGET]);
 }
 
 export function logIn() {
@@ -128,11 +128,11 @@ export function completeCall() {
 export function sendError() {
   cti.sendError({
     type: errorType.GENERIC,
-    message: "This is a message shown in Hubspot UI",
+    message: "This is an error alert shown in the Hubspot UI",
   });
 }
 
-export function resize() {
+export function resizeWidget() {
   sizeInfo.width += 20;
   sizeInfo.height += 20;
   cti.resizeWidget({
