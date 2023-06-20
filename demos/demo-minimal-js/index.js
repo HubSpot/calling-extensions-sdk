@@ -48,7 +48,7 @@ const LOG_IN = "login";
 const LOG_OUT = "logout";
 const RESIZE = "resize";
 const SEND_ERROR = "senderror";
-const START_CALL = "startcall";
+const OUTGOING_CALL = "outgoingcall";
 
 function disableButtons(ids) {
   ids.forEach(id => {
@@ -73,12 +73,18 @@ export function initialize() {
 export function logIn() {
   cti.userLoggedIn();
   disableButtons([LOG_IN, INITIALIZE]);
-  enableButtons([LOG_OUT, START_CALL]);
+  enableButtons([LOG_OUT, OUTGOING_CALL]);
 }
 
 export function logOut() {
   cti.userLoggedOut();
-  disableButtons([LOG_OUT, START_CALL, ANSWER_CALL, END_CALL, COMPLETE_CALL]);
+  disableButtons([
+    LOG_OUT,
+    OUTGOING_CALL,
+    ANSWER_CALL,
+    END_CALL,
+    COMPLETE_CALL,
+  ]);
   enableButtons([LOG_IN]);
 }
 
@@ -95,7 +101,7 @@ export function outgoingCall() {
       phoneNumber: state.phoneNumber,
     });
   }, 500);
-  disableButtons([START_CALL]);
+  disableButtons([OUTGOING_CALL]);
   enableButtons([ANSWER_CALL, END_CALL]);
 }
 
@@ -107,7 +113,7 @@ export function answerCall() {
 export function endCall() {
   cti.callEnded();
   disableButtons([ANSWER_CALL, END_CALL]);
-  enableButtons([COMPLETE_CALL, START_CALL]);
+  enableButtons([COMPLETE_CALL, OUTGOING_CALL]);
 }
 
 export function completeCall() {
@@ -116,7 +122,7 @@ export function completeCall() {
     hideWidget: false,
   });
   disableButtons([COMPLETE_CALL]);
-  enableButtons([START_CALL]);
+  enableButtons([OUTGOING_CALL]);
 }
 
 export function sendError() {
