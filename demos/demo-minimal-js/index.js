@@ -18,7 +18,7 @@ const cti = new CallingExtensions({
   eventHandlers: {
     onReady: () => {
       cti.initialized({
-        isLoggedIn: true,
+        isLoggedIn: false,
         sizeInfo,
       });
     },
