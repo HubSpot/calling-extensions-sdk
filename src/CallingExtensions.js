@@ -152,6 +152,16 @@ class CallingExtensions {
         handler = onSetCallState;
         break;
       }
+      case messageType.CREATE_ENGAGEMENT_SUCCEEDED: {
+        const { onCreateEngagementSucceeded } = eventHandlers;
+        handler = onCreateEngagementSucceeded;
+        break;
+      }
+      case messageType.CREATE_ENGAGEMENT_FAILED: {
+        const { onCreateEngagementFailed } = eventHandlers;
+        handler = onCreateEngagementFailed;
+        break;
+      }
       default: {
         // Send back a message indicating an unknown event is received
         this.sendMessage({
