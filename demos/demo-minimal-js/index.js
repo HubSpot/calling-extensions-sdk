@@ -4,8 +4,8 @@ import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 const { errorType } = Constants;
 
 const state = {
-  phoneNumber: "",
   engagementId: 0,
+  phoneNumber: "",
 };
 
 const sizeInfo = {
@@ -110,7 +110,7 @@ export function incomingCall() {
   window.setTimeout(() => {
     cti.incomingCall();
   }, 500);
-  disableButtons([OUTGOING_CALL, INCOMING_CALL]);
+  disableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
   enableButtons([ANSWER_CALL, END_CALL]);
 }
 
@@ -121,7 +121,7 @@ export function outgoingCall() {
       phoneNumber: state.phoneNumber,
     });
   }, 500);
-  disableButtons([OUTGOING_CALL, INCOMING_CALL]);
+  disableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
   enableButtons([ANSWER_CALL, END_CALL]);
 }
 
@@ -142,12 +142,7 @@ export function completeCall() {
     hideWidget: false,
   });
   disableButtons([COMPLETE_CALL]);
-  const buttonIds = [OUTGOING_CALL];
-  const userAvailableButton = document.querySelector(`#${USER_AVAILABLE}`);
-  if (userAvailableButton.getAttribute("disabled") === "true") {
-    buttonIds.push(INCOMING_CALL);
-  }
-  enableButtons(buttonIds);
+  enableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
 }
 
 export function sendError() {
