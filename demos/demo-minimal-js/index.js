@@ -142,7 +142,12 @@ export function completeCall() {
     hideWidget: false,
   });
   disableButtons([COMPLETE_CALL]);
-  enableButtons([OUTGOING_CALL, INCOMING_CALL]);
+  const buttonIds = [OUTGOING_CALL];
+  const userAvailableButton = document.querySelector(`#${USER_AVAILABLE}`);
+  if (userAvailableButton.getAttribute("disabled") === "true") {
+    buttonIds.push(INCOMING_CALL);
+  }
+  enableButtons(buttonIds);
 }
 
 export function sendError() {
