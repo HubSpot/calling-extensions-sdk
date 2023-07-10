@@ -36,6 +36,12 @@ const cti = new CallingExtensions({
       }, 500);
     },
     onVisibilityChanged: (data, rawEvent) => {},
+    onCreateEngagementSucceeded: (data, rawEvent) => {
+      const { engagementId } = data;
+      state.engagementId = engagementId;
+    },
+    onCreateEngagementFailed: (data, rawEvent) => {
+    },
   },
 });
 
@@ -108,7 +114,11 @@ export function userUnavailable() {
 
 export function incomingCall() {
   window.setTimeout(() => {
-    cti.incomingCall();
+    cti.incomingCall({
+      createEngagement: "true",
+      fromNumber: "+123",
+      toNumber: state.phoneNumber,
+    });
   }, 500);
   disableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
   enableButtons([ANSWER_CALL, END_CALL]);
@@ -131,7 +141,9 @@ export function answerCall() {
 }
 
 export function endCall() {
-  cti.callEnded();
+  cti.callEnded({
+    callEndStatus: "COMPLETED",
+  });
   disableButtons([ANSWER_CALL, END_CALL]);
   enableButtons([COMPLETE_CALL]);
 }
