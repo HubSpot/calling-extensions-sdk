@@ -21,6 +21,6 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "@hubspot/calling-extensions-sdk": "latest"
+    "@hubspot/calling-extensions-sdk": "0.1.7-alpha.2"
   }
 }

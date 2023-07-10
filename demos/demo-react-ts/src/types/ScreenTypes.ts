@@ -1,5 +1,3 @@
-import { MouseEventHandler } from "react";
-
 export enum ScreenNames {
   Login,
   Keypad,
@@ -27,4 +25,5 @@ export interface ScreenProps {
   handleSaveCall: Function;
   fromNumber: string;
   setFromNumber: Function;
+  callStatus: any;
 }

@@ -1,7 +1,7 @@
 // import CallingExtensions from "../../src/CallingExtensions";
-// import { errorType } from "../../src/Constants";
+// import { errorType, callEndStatus } from "../../src/Constants";
 import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
-const { errorType } = Constants;
+const { errorType, callEndStatus } = Constants;
 
 const state = {
   phoneNumber: "",
@@ -111,7 +111,9 @@ export function answerCall() {
 }
 
 export function endCall() {
-  cti.callEnded();
+  cti.callEnded({
+    callEndStatus: callEndStatus.INTERNAL_COMPLETED,
+  });
   disableButtons([ANSWER_CALL, END_CALL]);
   enableButtons([COMPLETE_CALL, OUTGOING_CALL]);
 }

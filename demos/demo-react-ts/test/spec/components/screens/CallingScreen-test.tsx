@@ -26,6 +26,9 @@ const props = {
   handleSaveCall: noop,
   fromNumber: "",
   setFromNumber: noop,
+  callStatus: {
+    INTERNAL_COMPLETED: "COMPLETED",
+  },
 };
 
 describe("CallingScreen", () => {

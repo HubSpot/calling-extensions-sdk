@@ -37,7 +37,7 @@ export const formatTime = (totalSeconds: number) => {
 };
 
 function App() {
-  const { cti, phoneNumber, engagementId } = useCti();
+  const { cti, phoneNumber, engagementId, callStatus } = useCti();
   const [screenIndex, setScreenIndex] = useState(0);
   const [dialNumber, setDialNumber] = useState("+1");
   const [notes, setNotes] = useState("");
@@ -55,11 +55,11 @@ function App() {
     setScreenIndex(screenIndex);
   };
 
-  const resetInputs = () => {
+  const resetInputs = useCallback(() => {
     setDialNumber("+1");
     setNotes("");
     resetCallDuration();
-  };
+  }, [resetCallDuration]);
 
   const hideAlert = () => {
     setShowAlert(false);
@@ -114,6 +114,7 @@ function App() {
         handleSaveCall={handleSaveCall}
         fromNumber={fromNumber}
         setFromNumber={setFromNumber}
+        callStatus={callStatus}
       />
     );
   }, [
@@ -130,6 +131,8 @@ function App() {
     startTimer,
     stopTimer,
     fromNumber,
+    callStatus,
+    resetInputs,
   ]);
 
   return (
