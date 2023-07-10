@@ -46,6 +46,18 @@ class CallingExtensions {
     });
   }
 
+  userAvailable() {
+    this.sendMessage({
+      type: messageType.USER_AVAILABLE,
+    });
+  }
+
+  userUnavailable() {
+    this.sendMessage({
+      type: messageType.USER_UNAVAILABLE,
+    });
+  }
+
   userLoggedIn() {
     this.sendMessage({
       type: messageType.LOGGED_IN,

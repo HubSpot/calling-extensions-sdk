@@ -4,8 +4,8 @@ import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 const { errorType } = Constants;
 
 const state = {
-  phoneNumber: "",
   engagementId: 0,
+  phoneNumber: "",
 };
 
 const sizeInfo = {
@@ -50,6 +50,8 @@ const LOG_OUT = "logout";
 const OUTGOING_CALL = "outgoingcall";
 const RESIZE_WIDGET = "resizewidget";
 const SEND_ERROR = "senderror";
+const USER_AVAILABLE = "useravailable";
+const USER_UNAVAILABLE = "userunavailable";
 
 function disableButtons(ids) {
   ids.forEach(id => {
@@ -74,7 +76,7 @@ export function initialize() {
 export function logIn() {
   cti.userLoggedIn();
   disableButtons([LOG_IN, INITIALIZE]);
-  enableButtons([LOG_OUT, OUTGOING_CALL, INCOMING_CALL]);
+  enableButtons([LOG_OUT, OUTGOING_CALL, USER_AVAILABLE]);
 }
 
 export function logOut() {
@@ -86,15 +88,29 @@ export function logOut() {
     ANSWER_CALL,
     END_CALL,
     COMPLETE_CALL,
+    USER_AVAILABLE,
+    USER_UNAVAILABLE,
   ]);
   enableButtons([LOG_IN]);
+}
+
+export function userAvailable() {
+  cti.userAvailable();
+  disableButtons([USER_AVAILABLE]);
+  enableButtons([INCOMING_CALL, USER_UNAVAILABLE]);
+}
+
+export function userUnavailable() {
+  cti.userUnavailable();
+  disableButtons([INCOMING_CALL, USER_UNAVAILABLE]);
+  enableButtons([USER_AVAILABLE]);
 }
 
 export function incomingCall() {
   window.setTimeout(() => {
     cti.incomingCall();
   }, 500);
-  disableButtons([OUTGOING_CALL, INCOMING_CALL]);
+  disableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
   enableButtons([ANSWER_CALL, END_CALL]);
 }
 
@@ -105,7 +121,7 @@ export function outgoingCall() {
       phoneNumber: state.phoneNumber,
     });
   }, 500);
-  disableButtons([OUTGOING_CALL, INCOMING_CALL]);
+  disableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
   enableButtons([ANSWER_CALL, END_CALL]);
 }
 
@@ -126,7 +142,7 @@ export function completeCall() {
     hideWidget: false,
   });
   disableButtons([COMPLETE_CALL]);
-  enableButtons([OUTGOING_CALL, INCOMING_CALL]);
+  enableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
 }
 
 export function sendError() {
