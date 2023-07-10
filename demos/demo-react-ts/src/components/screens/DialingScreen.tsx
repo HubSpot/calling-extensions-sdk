@@ -9,7 +9,7 @@ function DialingScreen({
   callDurationString,
   handleEndCall,
   cti,
-  callEndStatus,
+  callStatus,
 }: ScreenProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -21,7 +21,7 @@ function DialingScreen({
 
   const onEndCall = () => {
     cti.callEnded({
-      callEndStatus: callEndStatus.INTERNAL_COMPLETED,
+      callEndStatus: callStatus.INTERNAL_COMPLETED,
     });
     handleEndCall();
   };
