@@ -36,3 +36,51 @@ export const errorType = {
   UNKNOWN_MESSAGE_TYPE: "UNKNOWN_MESSAGE_TYPE",
   GENERIC: "GENERIC",
 };
+
+/** These are potential statuses from the BE client when calling from phone
+ * or detecting that a call has ended in the linked engagement */
+
+const INTERNAL_CONNECTING = "CONNECTING";
+const INTERNAL_CALLING_CRM_USER = "CALLING_CRM_USER";
+const INTERNAL_IN_PROGRESS = "IN_PROGRESS";
+const INTERNAL_CANCELED = "CANCELED";
+const INTERNAL_FAILED = "FAILED";
+const INTERNAL_BUSY = "BUSY";
+const INTERNAL_NO_ANSWER = "NO_ANSWER";
+const INTERNAL_COMPLETED = "COMPLETED";
+const INTERNAL_ENDING = "ENDING";
+const INTERNAL_QUEUED = "QUEUED";
+const INTERNAL_RINGING = "RINGING";
+
+export const callStatus = {
+  INTERNAL_CONNECTING,
+  INTERNAL_CALLING_CRM_USER,
+  INTERNAL_IN_PROGRESS,
+  INTERNAL_CANCELED,
+  INTERNAL_FAILED,
+  INTERNAL_BUSY,
+  INTERNAL_NO_ANSWER,
+  INTERNAL_COMPLETED,
+  INTERNAL_ENDING,
+  INTERNAL_QUEUED,
+  INTERNAL_RINGING,
+};
+
+export const callRingingStatus = {
+  INTERNAL_QUEUED,
+  INTERNAL_RINGING,
+  INTERNAL_CONNECTING,
+  INTERNAL_CALLING_CRM_USER,
+};
+
+export const callInProgressStatus = { INTERNAL_IN_PROGRESS };
+
+export const callEndingStatus = { INTERNAL_ENDING };
+
+export const callEndStatus = {
+  INTERNAL_COMPLETED,
+  INTERNAL_FAILED,
+  INTERNAL_CANCELED,
+  INTERNAL_BUSY,
+  INTERNAL_NO_ANSWER,
+};

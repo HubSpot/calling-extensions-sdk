@@ -20,7 +20,6 @@ import {
   ShowKeypadSvg,
   HideKeypadSvg,
 } from "../Icons";
-import * as EngagementStatuses from "../../types/EngagementStatuses";
 import { BATTLESHIP, SLINKY } from "../../utils/colors";
 
 function CallingScreen({
@@ -30,6 +29,7 @@ function CallingScreen({
   setNotes,
   callDurationString,
   handleEndCall,
+  callStatus,
 }: ScreenProps) {
   const [toggleRecord, setToggleRecord] = useState(false);
   const [toggleMute, setToggleMute] = useState(false);
@@ -50,7 +50,7 @@ function CallingScreen({
   };
   const onEndCall = () => {
     cti.callEnded({
-      callEndStatus: EngagementStatuses.INTERNAL_COMPLETED,
+      callEndStatus: callStatus.INTERNAL_COMPLETED,
     });
     handleEndCall();
   };
