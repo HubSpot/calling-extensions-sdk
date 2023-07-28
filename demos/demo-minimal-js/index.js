@@ -1,11 +1,11 @@
-// import CallingExtensions from "../../src/CallingExtensions";
-// import { errorType, callEndStatus } from "../../src/Constants";
-import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
-const { errorType, callEndStatus } = Constants;
+import CallingExtensions from "../../src/CallingExtensions";
+import { errorType, callEndStatus } from "../../src/Constants";
+// import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
+// const { errorType, callEndStatus } = Constants;
 
 const state = {
   engagementId: 0,
-  phoneNumber: "",
+  phoneNumber: "+1234",
 };
 
 const sizeInfo = {
@@ -40,8 +40,7 @@ const cti = new CallingExtensions({
       const { engagementId } = data;
       state.engagementId = engagementId;
     },
-    onCreateEngagementFailed: (data, rawEvent) => {
-    },
+    onCreateEngagementFailed: (data, rawEvent) => {},
   },
 });
 
