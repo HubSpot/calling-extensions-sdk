@@ -6,6 +6,7 @@ import { errorType, callEndStatus } from "../../src/Constants";
 const state = {
   engagementId: 0,
   phoneNumber: "+1234",
+  userAvailable: false,
 };
 
 const sizeInfo = {
@@ -83,7 +84,14 @@ export function initialize() {
 export function logIn() {
   cti.userLoggedIn();
   disableButtons([LOG_IN, INITIALIZE]);
-  enableButtons([LOG_OUT, OUTGOING_CALL, USER_AVAILABLE]);
+  enableButtons([LOG_OUT, OUTGOING_CALL]);
+  if (state.userAvailable) {
+    disableButtons([USER_AVAILABLE]);
+    enableButtons([INCOMING_CALL, USER_UNAVAILABLE]);
+  } else {
+    disableButtons([INCOMING_CALL, USER_UNAVAILABLE]);
+    enableButtons([USER_AVAILABLE]);
+  }
 }
 
 export function logOut() {
@@ -103,12 +111,14 @@ export function logOut() {
 
 export function userAvailable() {
   cti.userAvailable();
+  state.userAvailable = true;
   disableButtons([USER_AVAILABLE]);
   enableButtons([INCOMING_CALL, USER_UNAVAILABLE]);
 }
 
 export function userUnavailable() {
   cti.userUnavailable();
+  state.userAvailable = false;
   disableButtons([INCOMING_CALL, USER_UNAVAILABLE]);
   enableButtons([USER_AVAILABLE]);
 }
