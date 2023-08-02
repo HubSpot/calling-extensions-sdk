@@ -13,37 +13,6 @@ const sizeInfo = {
   height: 600,
 };
 
-const cti = new CallingExtensions({
-  debugMode: true,
-  eventHandlers: {
-    onReady: () => {
-      cti.initialized({
-        isLoggedIn: false,
-        sizeInfo,
-      });
-    },
-    onDialNumber: (data, rawEvent) => {
-      const { phoneNumber } = data;
-      state.phoneNumber = phoneNumber;
-    },
-    onEngagementCreated: (data, rawEvent) => {
-      const { engagementId } = data;
-      state.engagementId = engagementId;
-    },
-    onEndCall: () => {
-      window.setTimeout(() => {
-        cti.callEnded();
-      }, 500);
-    },
-    onVisibilityChanged: (data, rawEvent) => {},
-    onCreateEngagementSucceeded: (data, rawEvent) => {
-      const { engagementId } = data;
-      state.engagementId = engagementId;
-    },
-    onCreateEngagementFailed: (data, rawEvent) => {},
-  },
-});
-
 /** Button IDs */
 const ANSWER_CALL = "answercall";
 const COMPLETE_CALL = "completecall";
@@ -69,6 +38,39 @@ function enableButtons(ids) {
     document.querySelector(`#${id}`).removeAttribute("disabled");
   });
 }
+
+const cti = new CallingExtensions({
+  debugMode: true,
+  eventHandlers: {
+    onReady: () => {
+      cti.initialized({
+        isLoggedIn: false,
+        sizeInfo,
+      });
+      disableButtons([INITIALIZE]);
+      enableButtons([LOG_IN, SEND_ERROR, RESIZE_WIDGET]);
+    },
+    onDialNumber: (data, rawEvent) => {
+      const { phoneNumber } = data;
+      state.phoneNumber = phoneNumber;
+    },
+    onEngagementCreated: (data, rawEvent) => {
+      const { engagementId } = data;
+      state.engagementId = engagementId;
+    },
+    onEndCall: () => {
+      window.setTimeout(() => {
+        cti.callEnded();
+      }, 500);
+    },
+    onVisibilityChanged: (data, rawEvent) => {},
+    onCreateEngagementSucceeded: (data, rawEvent) => {
+      const { engagementId } = data;
+      state.engagementId = engagementId;
+    },
+    onCreateEngagementFailed: (data, rawEvent) => {},
+  },
+});
 
 export function initialize() {
   cti.initialized({
