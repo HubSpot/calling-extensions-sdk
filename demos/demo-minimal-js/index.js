@@ -6,12 +6,40 @@ import { errorType, callEndStatus } from "../../src/Constants";
 const state = {
   engagementId: 0,
   phoneNumber: "+1234",
+  userAvailable: false,
 };
 
 const sizeInfo = {
   width: 400,
   height: 600,
 };
+
+/** Button IDs */
+const ANSWER_CALL = "answercall";
+const COMPLETE_CALL = "completecall";
+const END_CALL = "endcall";
+const INCOMING_CALL = "incomingcall";
+const INCOMING_CALL_ASYNC = "incomingcallasync";
+const INITIALIZE = "initialize";
+const LOG_IN = "login";
+const LOG_OUT = "logout";
+const OUTGOING_CALL = "outgoingcall";
+const RESIZE_WIDGET = "resizewidget";
+const SEND_ERROR = "senderror";
+const USER_AVAILABLE = "useravailable";
+const USER_UNAVAILABLE = "userunavailable";
+
+function disableButtons(ids) {
+  ids.forEach(id => {
+    document.querySelector(`#${id}`).setAttribute("disabled", true);
+  });
+}
+
+function enableButtons(ids) {
+  ids.forEach(id => {
+    document.querySelector(`#${id}`).removeAttribute("disabled");
+  });
+}
 
 const cti = new CallingExtensions({
   debugMode: true,
@@ -21,6 +49,8 @@ const cti = new CallingExtensions({
         isLoggedIn: false,
         sizeInfo,
       });
+      disableButtons([INITIALIZE]);
+      enableButtons([LOG_IN, SEND_ERROR, RESIZE_WIDGET]);
     },
     onDialNumber: (data, rawEvent) => {
       const { phoneNumber } = data;
@@ -44,32 +74,6 @@ const cti = new CallingExtensions({
   },
 });
 
-/** Button IDs */
-const ANSWER_CALL = "answercall";
-const COMPLETE_CALL = "completecall";
-const END_CALL = "endcall";
-const INCOMING_CALL = "incomingcall";
-const INITIALIZE = "initialize";
-const LOG_IN = "login";
-const LOG_OUT = "logout";
-const OUTGOING_CALL = "outgoingcall";
-const RESIZE_WIDGET = "resizewidget";
-const SEND_ERROR = "senderror";
-const USER_AVAILABLE = "useravailable";
-const USER_UNAVAILABLE = "userunavailable";
-
-function disableButtons(ids) {
-  ids.forEach(id => {
-    document.querySelector(`#${id}`).setAttribute("disabled", true);
-  });
-}
-
-function enableButtons(ids) {
-  ids.forEach(id => {
-    document.querySelector(`#${id}`).removeAttribute("disabled");
-  });
-}
-
 export function initialize() {
   cti.initialized({
     isLoggedIn: false,
@@ -81,7 +85,14 @@ export function initialize() {
 export function logIn() {
   cti.userLoggedIn();
   disableButtons([LOG_IN, INITIALIZE]);
-  enableButtons([LOG_OUT, OUTGOING_CALL, USER_AVAILABLE]);
+  enableButtons([LOG_OUT, OUTGOING_CALL]);
+  if (state.userAvailable) {
+    disableButtons([USER_AVAILABLE]);
+    enableButtons([INCOMING_CALL, INCOMING_CALL_ASYNC, USER_UNAVAILABLE]);
+  } else {
+    disableButtons([INCOMING_CALL, INCOMING_CALL_ASYNC, USER_UNAVAILABLE]);
+    enableButtons([USER_AVAILABLE]);
+  }
 }
 
 export function logOut() {
@@ -101,13 +112,15 @@ export function logOut() {
 
 export function userAvailable() {
   cti.userAvailable();
+  state.userAvailable = true;
   disableButtons([USER_AVAILABLE]);
-  enableButtons([INCOMING_CALL, USER_UNAVAILABLE]);
+  enableButtons([INCOMING_CALL, INCOMING_CALL_ASYNC, USER_UNAVAILABLE]);
 }
 
 export function userUnavailable() {
   cti.userUnavailable();
-  disableButtons([INCOMING_CALL, USER_UNAVAILABLE]);
+  state.userAvailable = false;
+  disableButtons([INCOMING_CALL, INCOMING_CALL_ASYNC, USER_UNAVAILABLE]);
   enableButtons([USER_AVAILABLE]);
 }
 
@@ -118,9 +131,21 @@ export function incomingCall() {
       fromNumber: "+123",
       toNumber: state.phoneNumber,
     });
+    enableButtons([ANSWER_CALL, END_CALL]);
   }, 500);
-  disableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
-  enableButtons([ANSWER_CALL, END_CALL]);
+  disableButtons([OUTGOING_CALL, INCOMING_CALL, INCOMING_CALL_ASYNC, USER_UNAVAILABLE]);
+}
+
+export function incomingCallAsync(time) {
+  window.setTimeout(() => {
+    cti.incomingCall({
+      createEngagement: "true",
+      fromNumber: "+123",
+      toNumber: state.phoneNumber,
+    });
+    enableButtons([ANSWER_CALL, END_CALL]);
+  }, time);
+  disableButtons([OUTGOING_CALL, INCOMING_CALL, INCOMING_CALL_ASYNC, USER_UNAVAILABLE]);
 }
 
 export function outgoingCall() {
@@ -129,9 +154,11 @@ export function outgoingCall() {
       createEngagement: "true",
       phoneNumber: state.phoneNumber,
     });
+    enableButtons([ANSWER_CALL, END_CALL]);
   }, 500);
-  disableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
-  enableButtons([ANSWER_CALL, END_CALL]);
+  disableButtons([
+    OUTGOING_CALL, INCOMING_CALL, INCOMING_CALL_ASYNC, USER_UNAVAILABLE, USER_UNAVAILABLE,
+  ]);
 }
 
 export function answerCall() {
@@ -153,7 +180,7 @@ export function completeCall() {
     hideWidget: false,
   });
   disableButtons([COMPLETE_CALL]);
-  enableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
+  enableButtons([OUTGOING_CALL, INCOMING_CALL,INCOMING_CALL_ASYNC, USER_UNAVAILABLE]);
 }
 
 export function sendError() {
