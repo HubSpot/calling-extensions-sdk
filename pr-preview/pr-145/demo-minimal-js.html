@@ -142,6 +142,13 @@
         <p>4. Start a call</p>
         <input
           disabled
+          id="outgoingcall"
+          onclick="outgoingCall()"
+          type="button"
+          value="outgoing call started"
+        />
+        <input
+          disabled
           id="incomingcall"
           onclick="incomingCall()"
           type="button"
@@ -149,10 +156,10 @@
         />
         <input
           disabled
-          id="outgoingcall"
-          onclick="outgoingCall()"
+          id="incomingcallasync"
+          onclick="incomingCallAsync(3000)"
           type="button"
-          value="outgoing call started"
+          value="incoming call started in 3s"
         />
         <input
           disabled
