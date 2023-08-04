@@ -6,43 +6,13 @@ import { errorType, callEndStatus } from "../../src/Constants";
 const state = {
   engagementId: 0,
   phoneNumber: "+1234",
+  userAvailable: false,
 };
 
 const sizeInfo = {
   width: 400,
   height: 600,
 };
-
-const cti = new CallingExtensions({
-  debugMode: true,
-  eventHandlers: {
-    onReady: () => {
-      cti.initialized({
-        isLoggedIn: false,
-        sizeInfo,
-      });
-    },
-    onDialNumber: (data, rawEvent) => {
-      const { phoneNumber } = data;
-      state.phoneNumber = phoneNumber;
-    },
-    onEngagementCreated: (data, rawEvent) => {
-      const { engagementId } = data;
-      state.engagementId = engagementId;
-    },
-    onEndCall: () => {
-      window.setTimeout(() => {
-        cti.callEnded();
-      }, 500);
-    },
-    onVisibilityChanged: (data, rawEvent) => {},
-    onCreateEngagementSucceeded: (data, rawEvent) => {
-      const { engagementId } = data;
-      state.engagementId = engagementId;
-    },
-    onCreateEngagementFailed: (data, rawEvent) => {},
-  },
-});
 
 /** Button IDs */
 const ANSWER_CALL = "answercall";
@@ -70,6 +40,39 @@ function enableButtons(ids) {
   });
 }
 
+const cti = new CallingExtensions({
+  debugMode: true,
+  eventHandlers: {
+    onReady: () => {
+      cti.initialized({
+        isLoggedIn: false,
+        sizeInfo,
+      });
+      disableButtons([INITIALIZE]);
+      enableButtons([LOG_IN, SEND_ERROR, RESIZE_WIDGET]);
+    },
+    onDialNumber: (data, rawEvent) => {
+      const { phoneNumber } = data;
+      state.phoneNumber = phoneNumber;
+    },
+    onEngagementCreated: (data, rawEvent) => {
+      const { engagementId } = data;
+      state.engagementId = engagementId;
+    },
+    onEndCall: () => {
+      window.setTimeout(() => {
+        cti.callEnded();
+      }, 500);
+    },
+    onVisibilityChanged: (data, rawEvent) => {},
+    onCreateEngagementSucceeded: (data, rawEvent) => {
+      const { engagementId } = data;
+      state.engagementId = engagementId;
+    },
+    onCreateEngagementFailed: (data, rawEvent) => {},
+  },
+});
+
 export function initialize() {
   cti.initialized({
     isLoggedIn: false,
@@ -81,7 +84,14 @@ export function initialize() {
 export function logIn() {
   cti.userLoggedIn();
   disableButtons([LOG_IN, INITIALIZE]);
-  enableButtons([LOG_OUT, OUTGOING_CALL, USER_AVAILABLE]);
+  enableButtons([LOG_OUT, OUTGOING_CALL]);
+  if (state.userAvailable) {
+    disableButtons([USER_AVAILABLE]);
+    enableButtons([INCOMING_CALL, USER_UNAVAILABLE]);
+  } else {
+    disableButtons([INCOMING_CALL, USER_UNAVAILABLE]);
+    enableButtons([USER_AVAILABLE]);
+  }
 }
 
 export function logOut() {
@@ -101,12 +111,14 @@ export function logOut() {
 
 export function userAvailable() {
   cti.userAvailable();
+  state.userAvailable = true;
   disableButtons([USER_AVAILABLE]);
   enableButtons([INCOMING_CALL, USER_UNAVAILABLE]);
 }
 
 export function userUnavailable() {
   cti.userUnavailable();
+  state.userAvailable = false;
   disableButtons([INCOMING_CALL, USER_UNAVAILABLE]);
   enableButtons([USER_AVAILABLE]);
 }
