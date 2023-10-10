@@ -36,6 +36,16 @@ const cti = new CallingExtensions({
       }, 500);
     },
     onVisibilityChanged: (data, rawEvent) => {},
+    onCreateEngagementSucceeded: (data, rawEvent) => {
+      const { engagementId } = data;
+      state.engagementId = engagementId;
+    },
+    onCreateEngagementFailed: (data, rawEvent) => {},
+    onUpdateEngagementSucceeded: (data, rawEvent) => {
+      const { engagementId } = data;
+      state.engagementId = engagementId;
+    },
+    onUpdateEngagementFailed: (data, rawEvent) => {},
   },
 });
 
