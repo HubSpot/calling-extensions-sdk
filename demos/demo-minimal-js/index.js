@@ -122,6 +122,10 @@ export function completeCall() {
   cti.callCompleted({
     engagementId: state.engagementId,
     hideWidget: false,
+    engagementProperties: {
+      hs_call_title: "Demo call",
+      hs_call_body: "Resolved issue",
+    },
   });
   disableButtons([COMPLETE_CALL]);
   enableButtons([OUTGOING_CALL]);
