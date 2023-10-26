@@ -395,7 +395,7 @@ onDialNumber(data) {
  <p>
 
 ```js
-  // Message indicating that HubSpot has created an engagement
+  // Message indicating that HubSpot has failed to update an engagement
   onUpdateEngagementFailed(data) {
     const {
       error: Error
