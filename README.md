@@ -113,7 +113,7 @@ import CallingExtensions from "@hubspot/calling-extensions-sdk";
 
 const options = {
   /** @property {boolean} debugMode - Whether to log various inbound/outbound debug messages to the console. If false, console.debug will be used instead of console.log */
-  debugMode: true | false,
+  debugMode: boolean,
   // eventHandlers handle inbound messages
   eventHandlers: {
     onReady: () => {
@@ -122,9 +122,20 @@ const options = {
     onDialNumber: event => {
       /* HubSpot sends a dial number from the contact */
     },
-    onEngagementCreated: event => {
+    /** onEngagementCreated is @deprecated
+     * Use onCreateEngagementSucceeded and onEngagementCreatedFailed instead */
+    onCreateEngagementSucceeded: event => {
       /* HubSpot has created an engagement for this call. */
+    }
+    onEngagementCreatedFailed: event => {
+      /* HubSpot has failed to create an engagement for this call. */
+    }
+    onUpdateEngagementSucceeded: event => {
+      /* HubSpot has updated an engagement for this call. */
     },
+    onUpdateEngagementFailed: event => {
+      /* HubSpot has failed to updat an engagement for this call. */
+    }
     onVisibilityChanged: event => {
       /* Call widget's visibility is changed. */
     }
@@ -147,7 +158,7 @@ const extensions = new CallingExtensions(options);
 const payload
 {
   // Whether a user is logged-in
-  isLoggedIn: true|false,
+  isLoggedIn: boolean,
   // Optionally send the desired widget size
   sizeInfo: {
     height: number,
@@ -196,7 +207,7 @@ extensions.userLoggedOut();
 
 const callInfo = {
   phoneNumber: string, // optional unless call is initiated by the widget
-  createEngagement: true, // whether HubSpot should create an engagement for this call
+  createEngagement: boolean, // whether HubSpot should create an engagement for this call
   callStartTime: number // optional unless call is initiated by the widget
 };
 extensions.outgoingCall(callInfo);
@@ -329,12 +340,12 @@ onDialNumber(data) {
 </details>
 
 <details>
- <summary>onEngagementCreated</summary>
+ <summary>onCreateEngagementSucceeded</summary>
  <p>
 
 ```js
-  // Message indicating that HubSpot has created
-  onEngagementCreated(data) {
+  // Message indicating that HubSpot has created an engagement
+  onCreateEngagementSucceeded(data) {
     const {
       /* A HubSpot created engagement id. */
       engagementId: number,
@@ -342,7 +353,55 @@ onDialNumber(data) {
       ...
   }
 ```
+</p>
+</details>
 
+<details>
+ <summary>onCreateEngagementFailed</summary>
+ <p>
+
+```js
+  // Message indicating that HubSpot has failed to create an engagement
+  onCreateEngagementFailed(data) {
+    const {
+      error: Error
+    } = data;
+      ...
+  }
+```
+</p>
+</details>
+
+<details>
+ <summary>onUpdateEngagementSucceeded</summary>
+ <p>
+
+```js
+  // Message indicating that HubSpot has updated an engagement
+  onUpdateEngagementSucceeded(data) {
+    const {
+       /* updated engagement id. */
+      engagementId: number,
+    } = data;
+      ...
+  }
+```
+</p>
+</details>
+
+<details>
+ <summary>onUpdateEngagementFailed</summary>
+ <p>
+
+```js
+  // Message indicating that HubSpot has created an engagement
+  onUpdateEngagementFailed(data) {
+    const {
+      error: Error
+    } = data;
+      ...
+  }
+```
 </p>
 </details>
 
