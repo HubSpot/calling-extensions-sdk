@@ -153,10 +153,9 @@ const extensions = new CallingExtensions(options);
  <summary>initialized </summary>
  <p>
 
-```js
+```ts
 // Sends a message indicating that the soft phone is ready for interaction.
-const payload
-{
+const payload = {
   // Whether a user is logged-in
   isLoggedIn: boolean,
   // Optionally send the desired widget size
@@ -202,7 +201,7 @@ extensions.userLoggedOut();
  <summary>outgoingCall</summary>
  <p>
 
-```js
+```ts
 // Sends a message to notify HubSpot that an outgoing call has started.
 
 const callInfo = {
@@ -246,15 +245,17 @@ extensions.callEnded();
  <summary>callCompleted</summary>
  <p>
 
-```js
+```ts
 // Sends a message to notify HubSpot that the call has completed.
 // After receiving the call completed event, HubSpot will
 //   1) insert the engagement into the timeline
 //   2) set the default associations on the engagement
 //   3) closes the the widget unless `hideWidget` is set to false.
+//   4) update the engagement with any engagement properties
 const data = {
   engagementId: number,
-  hideWidget: boolean // (optional) defaults to true
+  hideWidget?: boolean, // defaults to true
+  engagementProperties?: { [key: string]: string } // https://developers.hubspot.com/docs/api/crm/calls#properties
 };
 extensions.callCompleted(data);
 ```
@@ -266,7 +267,7 @@ extensions.callCompleted(data);
  <summary>sendError</summary>
  <p>
 
-```js
+```ts
 // Sends a message to notify HubSpot that the call widget has encountered an error.
 // After receiving the sendError event, HubSpot will display an alert popup to the user with the error message provided.
 const data = {
@@ -282,7 +283,7 @@ extensions.sendError(data);
  <summary>resizeWidget</summary>
  <p>
 
-```js
+```ts
 // Sends a message to notify HubSpot that the call widget needs to be resized.
 // After receiving the resizeWidget event, HubSpot will use the provided height and width to resize the call widget.
 const data = {
@@ -597,7 +598,7 @@ outgoingCall({ createEngagement: true })
 ```js
 const callInfo = {
   phoneNumber: string, // optional unless call is initiated by the widget
-  createEngagement: true // whether HubSpot should create an engagement for this call
+  createEngagement: boolean // whether HubSpot should create an engagement for this call
   callStartTime: number // optional unless call is initiated by the widget
 };
 extensions.outgoingCall(callInfo);
