@@ -134,7 +134,7 @@ const options = {
       /* HubSpot has updated an engagement for this call. */
     },
     onUpdateEngagementFailed: event => {
-      /* HubSpot has failed to updat an engagement for this call. */
+      /* HubSpot has failed to update an engagement for this call. */
     }
     onVisibilityChanged: event => {
       /* Call widget's visibility is changed. */
