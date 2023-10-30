@@ -365,7 +365,7 @@ onDialNumber(data) {
   // Message indicating that HubSpot has failed to create an engagement
   onCreateEngagementFailed(data) {
     const {
-      error: Error
+      error: { message: string }
     } = data;
       ...
   }
@@ -398,7 +398,7 @@ onDialNumber(data) {
   // Message indicating that HubSpot has failed to update an engagement
   onUpdateEngagementFailed(data) {
     const {
-      error: Error
+      error: { message: string }
     } = data;
       ...
   }
