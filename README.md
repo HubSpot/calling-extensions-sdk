@@ -122,8 +122,10 @@ const options = {
     onDialNumber: event => {
       /* HubSpot sends a dial number from the contact */
     },
-    /** onEngagementCreated is @deprecated
-     * Use onCreateEngagementSucceeded and onEngagementCreatedFailed instead */
+    /** onEngagementCreated will be @deprecated in 2024 */
+    onEngagementCreated: event => {
+      /* HubSpot has created an engagement for this call. */
+    },
     onCreateEngagementSucceeded: event => {
       /* HubSpot has created an engagement for this call. */
     }
@@ -254,7 +256,7 @@ extensions.callEnded();
 //   4) update the engagement with any engagement properties
 const data = {
   engagementId: number,
-  hideWidget?: boolean, // defaults to true
+  hideWidget: boolean, // (optional) defaults to true
   engagementProperties?: { [key: string]: string } // https://developers.hubspot.com/docs/api/crm/calls#properties
 };
 extensions.callCompleted(data);
