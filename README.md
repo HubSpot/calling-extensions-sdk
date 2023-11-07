@@ -137,6 +137,12 @@ const options = {
     },
     onUpdateEngagementFailed: event => {
       /* HubSpot has failed to update an engagement for this call. */
+    },
+    onCallerIdMatchSucceeded: event => {
+      /* HubSpot has fetched caller id matches for this call. */
+    },
+    onCallerIdMatchFailed: event => {
+      /* HubSpot has failed to fetch caller id matches for this call. */
     }
     onVisibilityChanged: event => {
       /* Call widget's visibility is changed. */
