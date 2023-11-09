@@ -422,7 +422,6 @@ onDialNumber(data) {
   // Message indicating that HubSpot has updated an engagement
   onCallerIdMatchSucceeded(data) {
     const {
-      callId: number,
       callerIdMatches: (ContactIdMatch | CompanyIdMatch)[];
     } = data;
       ...
