@@ -415,6 +415,59 @@ onDialNumber(data) {
 </details>
 
 <details>
+ <summary>onCallerIdMatchSucceeded</summary>
+ <p>
+
+```js
+  // Message indicating that HubSpot has updated an engagement
+  onCallerIdMatchSucceeded(data) {
+    const {
+      callId: number,
+      callerIdMatches: (ContactIdMatch | CompanyIdMatch)[];
+    } = data;
+      ...
+  }
+
+  type ObjectCoordinate = {
+    portalId: number;
+    objectTypeId: string;
+    objectId: number;
+  }
+
+  type ContactIdMatch = {
+    callerIdType: 'CONTACT';
+    objectCoordinates: ObjectCoordinate;
+    firstName: string;
+    lastName: string;
+    email: string;
+  }
+
+  type CompanyIdMatch = {
+    callerIdType: 'COMPANY';
+    objectCoordinates: ObjectCoordinate;
+    name: string;
+  }
+```
+</p>
+</details>
+
+<details>
+ <summary>onCallerIdMatchFailed</summary>
+ <p>
+
+```js
+  // Message indicating that HubSpot has failed to update an engagement
+  onCallerIdMatchFailed(data) {
+    const {
+      error: { message: string }
+    } = data;
+      ...
+  }
+```
+</p>
+</details>
+
+<details>
  <summary>onVisibilityChanged</summary>
  <p>
 
