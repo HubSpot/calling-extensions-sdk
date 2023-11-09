@@ -86,12 +86,23 @@ const cti = new CallingExtensions({
         } else if (firstCallerIdMatch.callerIdType === "COMPANY") {
           state.incomingContactName = firstCallerIdMatch.name;
         }
+        cti.logDebugMessage({
+          message: `Incoming call from ${state.incomingContactName} ${state.fromNumber}`,
+          type: `${callerIdMatches.length} Caller ID Matches`,
+        });
+        return;
       }
-      cti.logDebugMessage(
-        `Incoming call from ${state.incomingContactName} ${state.fromNumber}`,
-      );
+      cti.logDebugMessage({
+        message: `Incoming call from ${state.fromNumber}`,
+        type: "No Caller ID Matches",
+      });
     },
-    onCallerIdMatchFailed: (data, rawEvent) => {},
+    onCallerIdMatchFailed: (data, rawEvent) => {
+      cti.logDebugMessage({
+        message: `Incoming call from ${state.fromNumber}`,
+        type: "Caller ID Match Failed",
+      });
+    },
   },
 });
 

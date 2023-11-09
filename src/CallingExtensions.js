@@ -1,7 +1,7 @@
 "use es6";
 
 import IFrameManager from "./IFrameManager";
-import { messageType, errorType, VERSION } from "./Constants";
+import { messageType, debugMessageType, errorType, VERSION } from "./Constants";
 
 const prefix = `[calling-extensions-sdk@${VERSION}]`;
 
@@ -131,8 +131,8 @@ class CallingExtensions {
     this.iFrameManager.sendMessage(message);
   }
 
-  logDebugMessage(message) {
-    this.iFrameManager.logDebugMessage(prefix, "Console Debug", message);
+  logDebugMessage({ message, type = debugMessageType }) {
+    this.iFrameManager.logDebugMessage(prefix, type, message);
   }
 
   onMessageHandler(event) {

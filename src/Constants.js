@@ -3,6 +3,12 @@
 const { version } = require("../package.json");
 export const VERSION = version;
 
+export const debugMessageType = {
+  FROM_HUBSPOT: "From HubSpot",
+  TO_HUBSPOT: "To HubSpot",
+  GENERIC_MESSAGE: "Generic Message",
+};
+
 export const messageType = {
   CALL_ANSWERED: "CALL_ANSWERED",
   CALL_COMPLETED: "CALL_COMPLETED",
