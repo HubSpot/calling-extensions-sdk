@@ -224,6 +224,24 @@ extensions.outgoingCall(callInfo);
 </details>
 
 <details>
+ <summary>incomingCall</summary>
+ <p>
+
+```ts
+// Sends a message to notify HubSpot that an outgoing call has started.
+
+const callInfo = {
+  fromNumber: string, // Required: The caller's number
+  toNumber: string, // Required: The recipient's number
+  createEngagement: boolean, // Whether HubSpot should create an engagement for this call
+};
+extensions.incomingCall(callInfo);
+```
+
+</p>
+</details>
+
+<details>
  <summary>callAnswered</summary>
  <p>
 
