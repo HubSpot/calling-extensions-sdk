@@ -193,6 +193,7 @@ class IFrameManager {
 
         const { hostUrl } = event.data;
         this.destinationHost = hostUrl || this.destinationHost;
+        this.logDebugMessage(prefix, debugMessageType.FROM_HUBSPOT, type, data);
         this.sendMessage(message);
         this.onReady();
       }
