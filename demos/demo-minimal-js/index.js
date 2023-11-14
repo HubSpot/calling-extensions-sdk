@@ -3,10 +3,12 @@ import { errorType, callEndStatus } from "../../src/Constants";
 // import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 // const { errorType, callEndStatus } = Constants;
 
-const state = {
+export const state = {
   engagementId: 0,
-  phoneNumber: "+1234",
+  toNumber: "+1234",
+  fromNumber: "+123456",
   userAvailable: false,
+  incomingContactName: "",
 };
 
 const sizeInfo = {
@@ -53,7 +55,7 @@ const cti = new CallingExtensions({
     },
     onDialNumber: (data, rawEvent) => {
       const { phoneNumber } = data;
-      state.phoneNumber = phoneNumber;
+      state.toNumber = phoneNumber;
     },
     onEngagementCreated: (data, rawEvent) => {
       const { engagementId } = data;
@@ -75,6 +77,32 @@ const cti = new CallingExtensions({
       state.engagementId = engagementId;
     },
     onUpdateEngagementFailed: (data, rawEvent) => {},
+    onCallerIdMatchSucceeded: (data, rawEvent) => {
+      const { callerIdMatches } = data;
+      if (callerIdMatches.length) {
+        const firstCallerIdMatch = callerIdMatches[0];
+        if (firstCallerIdMatch.callerIdType === "CONTACT") {
+          state.incomingContactName = `${firstCallerIdMatch.firstName} ${firstCallerIdMatch.lastName}`;
+        } else if (firstCallerIdMatch.callerIdType === "COMPANY") {
+          state.incomingContactName = firstCallerIdMatch.name;
+        }
+        cti.logDebugMessage({
+          message: `Incoming call from ${state.incomingContactName} ${state.fromNumber}`,
+          type: `${callerIdMatches.length} Caller ID Matches`,
+        });
+        return;
+      }
+      cti.logDebugMessage({
+        message: `Incoming call from ${state.fromNumber}`,
+        type: "No Caller ID Matches",
+      });
+    },
+    onCallerIdMatchFailed: (data, rawEvent) => {
+      cti.logDebugMessage({
+        message: `Incoming call from ${state.fromNumber}`,
+        type: "Caller ID Match Failed",
+      });
+    },
   },
 });
 
@@ -131,9 +159,9 @@ export function userUnavailable() {
 export function incomingCall() {
   window.setTimeout(() => {
     cti.incomingCall({
-      createEngagement: "true",
-      fromNumber: "+123",
-      toNumber: state.phoneNumber,
+      createEngagement: true,
+      fromNumber: state.fromNumber,
+      toNumber: state.toNumber,
     });
   }, 500);
   disableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
@@ -143,8 +171,8 @@ export function incomingCall() {
 export function outgoingCall() {
   window.setTimeout(() => {
     cti.outgoingCall({
-      createEngagement: "true",
-      phoneNumber: state.phoneNumber,
+      createEngagement: true,
+      phoneNumber: state.toNumber,
     });
   }, 500);
   disableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);

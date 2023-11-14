@@ -1,7 +1,9 @@
 "use es6";
 
 import IFrameManager from "./IFrameManager";
-import { messageType, errorType } from "./Constants";
+import { messageType, debugMessageType, errorType, VERSION } from "./Constants";
+
+const prefix = `[calling-extensions-sdk@${VERSION}]`;
 
 /**
  * @typedef {Object} EventHandlers
@@ -129,6 +131,10 @@ class CallingExtensions {
     this.iFrameManager.sendMessage(message);
   }
 
+  logDebugMessage({ message, type = debugMessageType }) {
+    this.iFrameManager.logDebugMessage(prefix, type, message);
+  }
+
   onMessageHandler(event) {
     const { type, data } = event;
     const { eventHandlers } = this.options;
@@ -174,14 +180,24 @@ class CallingExtensions {
         handler = onCreateEngagementFailed;
         break;
       }
+      case messageType.UPDATE_ENGAGEMENT_SUCCEEDED: {
+        const { onUpdateEngagementSucceeded } = eventHandlers;
+        handler = onUpdateEngagementSucceeded;
+        break;
+      }
       case messageType.UPDATE_ENGAGEMENT_FAILED: {
         const { onUpdateEngagementFailed } = eventHandlers;
         handler = onUpdateEngagementFailed;
         break;
       }
-      case messageType.UPDATE_ENGAGEMENT_SUCCEEDED: {
-        const { onUpdateEngagementSucceeded } = eventHandlers;
-        handler = onUpdateEngagementSucceeded;
+      case messageType.CALLER_ID_MATCH_SUCCEEDED: {
+        const { onCallerIdMatchSucceeded } = eventHandlers;
+        handler = onCallerIdMatchSucceeded;
+        break;
+      }
+      case messageType.CALLER_ID_MATCH_FAILED: {
+        const { onCallerIdMatchFailed } = eventHandlers;
+        handler = onCallerIdMatchFailed;
         break;
       }
       default: {

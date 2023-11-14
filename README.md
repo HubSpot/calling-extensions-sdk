@@ -137,6 +137,12 @@ const options = {
     },
     onUpdateEngagementFailed: event => {
       /* HubSpot has failed to update an engagement for this call. */
+    },
+    onCallerIdMatchSucceeded: event => {
+      /* HubSpot has fetched caller id matches for this call. */
+    },
+    onCallerIdMatchFailed: event => {
+      /* HubSpot has failed to fetch caller id matches for this call. */
     }
     onVisibilityChanged: event => {
       /* Call widget's visibility is changed. */
@@ -212,6 +218,24 @@ const callInfo = {
   callStartTime: number // optional unless call is initiated by the widget
 };
 extensions.outgoingCall(callInfo);
+```
+
+</p>
+</details>
+
+<details>
+ <summary>incomingCall</summary>
+ <p>
+
+```ts
+// Sends a message to notify HubSpot that an outgoing call has started.
+
+const callInfo = {
+  fromNumber: string, // Required: The caller's number
+  toNumber: string, // Required: The recipient's number
+  createEngagement: boolean, // Whether HubSpot should create an engagement for this call
+};
+extensions.incomingCall(callInfo);
 ```
 
 </p>
@@ -399,6 +423,58 @@ onDialNumber(data) {
 ```js
   // Message indicating that HubSpot has failed to update an engagement
   onUpdateEngagementFailed(data) {
+    const {
+      error: { message: string }
+    } = data;
+      ...
+  }
+```
+</p>
+</details>
+
+<details>
+ <summary>onCallerIdMatchSucceeded</summary>
+ <p>
+
+```js
+  // Message indicating that HubSpot has updated an engagement
+  onCallerIdMatchSucceeded(data) {
+    const {
+      callerIdMatches: (ContactIdMatch | CompanyIdMatch)[];
+    } = data;
+      ...
+  }
+
+  type ObjectCoordinate = {
+    portalId: number;
+    objectTypeId: string;
+    objectId: number;
+  }
+
+  type ContactIdMatch = {
+    callerIdType: 'CONTACT';
+    objectCoordinates: ObjectCoordinate;
+    firstName: string;
+    lastName: string;
+    email: string;
+  }
+
+  type CompanyIdMatch = {
+    callerIdType: 'COMPANY';
+    objectCoordinates: ObjectCoordinate;
+    name: string;
+  }
+```
+</p>
+</details>
+
+<details>
+ <summary>onCallerIdMatchFailed</summary>
+ <p>
+
+```js
+  // Message indicating that HubSpot has failed to update an engagement
+  onCallerIdMatchFailed(data) {
     const {
       error: { message: string }
     } = data;

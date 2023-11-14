@@ -3,6 +3,12 @@
 const { version } = require("../package.json");
 export const VERSION = version;
 
+export const debugMessageType = {
+  FROM_HUBSPOT: "From HubSpot",
+  TO_HUBSPOT: "To HubSpot",
+  GENERIC_MESSAGE: "Generic Message",
+};
+
 export const messageType = {
   CALL_ANSWERED: "CALL_ANSWERED",
   CALL_COMPLETED: "CALL_COMPLETED",
@@ -34,6 +40,8 @@ export const messageType = {
   USER_UNAVAILABLE: "USER_UNAVAILABLE",
   UPDATE_ENGAGEMENT_FAILED: "UPDATE_ENGAGEMENT_FAILED",
   UPDATE_ENGAGEMENT_SUCCEEDED: "UPDATE_ENGAGEMENT_SUCCEEDED",
+  CALLER_ID_MATCH_SUCCEEDED: "CALLER_ID_MATCH_SUCCEEDED",
+  CALLER_ID_MATCH_FAILED: "CALLER_ID_MATCH_FAILED",
   VISIBILITY_CHANGED: "VISIBILITY_CHANGED",
 };
 
@@ -88,4 +96,12 @@ export const callEndStatus = {
   INTERNAL_CANCELED,
   INTERNAL_BUSY,
   INTERNAL_NO_ANSWER,
+};
+
+export const CONTACT = "CONTACT";
+export const COMPANY = "COMPANY";
+
+export const callerIdTypes = {
+  CONTACT,
+  COMPANY,
 };
