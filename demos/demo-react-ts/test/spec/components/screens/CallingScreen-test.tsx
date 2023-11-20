@@ -1,4 +1,5 @@
 import CallingScreen from "../../../../src/components/screens/CallingScreen";
+import { ScreenProps } from "../../../../src/types/ScreenTypes";
 import { renderWithContext } from "../../../render";
 
 const noop = (..._args: any[]) => {};
@@ -7,15 +8,15 @@ const cti = {
   callEnded: noop,
 };
 
-const props = {
+const props: Partial<ScreenProps> = {
   handleNextScreen: noop,
   handlePreviousScreen: noop,
   handleNavigateToScreen: noop,
   cti,
   phoneNumber: "",
   engagementId: null,
-  dialNumber: "",
-  setDialNumber: noop,
+  toNumber: "",
+  setToNumber: noop,
   notes: "",
   setNotes: noop,
   callDuration: 0,

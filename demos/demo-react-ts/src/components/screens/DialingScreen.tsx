@@ -5,7 +5,7 @@ import { EndCallSvg } from "../Icons";
 
 function DialingScreen({
   handleNextScreen,
-  dialNumber,
+  toNumber,
   callDurationString,
   handleEndCall,
   cti,
@@ -29,7 +29,7 @@ function DialingScreen({
   return (
     <Wrapper>
       <div style={{ textAlign: "center" }}>
-        <h2>Dialing {dialNumber} ...</h2>
+        <h2>Dialing {toNumber} ...</h2>
         <Timer>{callDurationString}</Timer>
       </div>
       <Row>

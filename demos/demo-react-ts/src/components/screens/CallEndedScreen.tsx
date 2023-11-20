@@ -11,7 +11,9 @@ function CallEndedScreen({
   cti,
   engagementId,
   handleSaveCall,
-  dialNumber,
+  toNumber,
+  incomingNumber,
+  direction,
   notes,
   setNotes,
   callDuration,
@@ -41,7 +43,9 @@ function CallEndedScreen({
   return (
     <Wrapper>
       <div style={{ textAlign: "center" }}>
-        <h2>Call with {dialNumber} ended</h2>
+        <h2>
+          Call with {direction === "OUTBOUND" ? toNumber : incomingNumber} ended
+        </h2>
         <Timer>{callDurationString}</Timer>
       </div>
       <StyledRow>Notes</StyledRow>

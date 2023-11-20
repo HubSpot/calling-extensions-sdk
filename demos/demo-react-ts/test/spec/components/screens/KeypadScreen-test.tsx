@@ -1,13 +1,13 @@
 import {
   fireEvent,
+  getByText,
   screen,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
-import KeypadScreen, {
-  validateKeypadInput,
-} from "../../../../src/components/screens/KeypadScreen";
-import { ScreenNames } from "../../../../src/types/ScreenTypes";
+import KeypadScreen from "../../../../src/components/screens/KeypadScreen";
+import { ScreenNames, ScreenProps } from "../../../../src/types/ScreenTypes";
 import { renderWithContext } from "../../../render";
+import { validateKeypadInput } from "../../../../src/utils/phoneNumberUtils";
 
 const noop = (..._args: any[]) => {};
 
@@ -16,15 +16,15 @@ const cti = {
   outgoingCall: noop,
 };
 
-const props = {
+const props: Partial<ScreenProps> = {
   handleNextScreen: noop,
   handlePreviousScreen: noop,
   handleNavigateToScreen: noop,
   cti,
   phoneNumber: "",
   engagementId: null,
-  dialNumber: "",
-  setDialNumber: noop,
+  toNumber: "",
+  setToNumber: noop,
   notes: "",
   setNotes: noop,
   callDuration: 0,
@@ -35,6 +35,7 @@ const props = {
   handleSaveCall: noop,
   fromNumber: "",
   setFromNumber: noop,
+  setDirection: noop,
 };
 
 describe("KeypadScreen", () => {
@@ -43,18 +44,19 @@ describe("KeypadScreen", () => {
     cti.outgoingCall = jasmine.createSpy("outgoingCall");
     props.handleNextScreen = jasmine.createSpy("handleNextScreen");
     props.handleNavigateToScreen = jasmine.createSpy("handleNavigateToScreen");
-    props.setDialNumber = jasmine.createSpy("setDialNumber");
+    props.setToNumber = jasmine.createSpy("setToNumber");
+    props.setDirection = jasmine.createSpy("setDirection");
   });
 
   it("Shows initial dial number", () => {
-    renderWithContext(<KeypadScreen {...props} dialNumber="617000000" />);
-    const input = screen.getByTestId("VizExInput-Input");
+    renderWithContext(<KeypadScreen {...props} toNumber="617000000" />);
+    const input = screen.getByTestId("dial-number-input");
     expect((input as HTMLInputElement).value).toEqual("617000000");
   });
 
   it("Sets initial dial number to be HubSpot phone number", () => {
     renderWithContext(<KeypadScreen {...props} phoneNumber="+1617000000" />);
-    expect(props.setDialNumber).toHaveBeenCalledWith("+1617000000");
+    expect(props.setToNumber).toHaveBeenCalledWith("+1617000000");
   });
 
   describe("Log out", () => {
@@ -73,6 +75,16 @@ describe("KeypadScreen", () => {
     });
   });
 
+  describe("Availability Status", () => {
+    it("Shows initial availability status", () => {
+      const { getByLabelText } = renderWithContext(<KeypadScreen {...props} />);
+      expect(getByLabelText("availability-toggle-button")).toHaveTextContent(
+        "Unavailable"
+      );
+    });
+    it("Shows status options when clicked", () => {});
+  });
+
   describe("Start call", () => {
     it("Button is disabled initially", () => {
       const { getByRole } = renderWithContext(<KeypadScreen {...props} />);
@@ -84,10 +96,10 @@ describe("KeypadScreen", () => {
 
     it("Handles start call button click", () => {
       const { getByRole, getByTestId } = renderWithContext(
-        <KeypadScreen {...props} dialNumber="+1617" />
+        <KeypadScreen {...props} toNumber="+1617" />
       );
 
-      const input = getByTestId("VizExInput-Input");
+      const input = getByTestId("dial-number-input");
       fireEvent.change(input, {
         target: { value: "+16179341958" },
       });
@@ -117,35 +129,35 @@ describe("KeypadScreen", () => {
     it("Allows keypad characters in input field", async () => {
       const { getByTestId } = renderWithContext(<KeypadScreen {...props} />);
 
-      const input = await getByTestId("VizExInput-Input");
+      const input = await getByTestId("dial-number-input");
 
       fireEvent.change(input, {
         target: { value: "617" },
       });
 
-      expect(props.setDialNumber).toHaveBeenCalledWith("617");
+      expect(props.setToNumber).toHaveBeenCalledWith("617");
     });
 
     it("Does not allow non keypad characters in input field", async () => {
       const { getByTestId } = renderWithContext(<KeypadScreen {...props} />);
 
-      const input = await getByTestId("VizExInput-Input");
+      const input = await getByTestId("dial-number-input");
       fireEvent.change(input, {
         target: { value: "-" },
       });
 
-      expect(props.setDialNumber).not.toHaveBeenCalled();
+      expect(props.setToNumber).not.toHaveBeenCalled();
     });
 
     it("Handles backspace", () => {
       const { getByRole } = renderWithContext(
-        <KeypadScreen {...props} dialNumber="617" />
+        <KeypadScreen {...props} toNumber="617" />
       );
       const button = getByRole("button", {
         name: /backspace/i,
       });
       button.click();
-      expect(props.setDialNumber).toHaveBeenCalledWith("61");
+      expect(props.setToNumber).toHaveBeenCalledWith("61");
     });
   });
 

@@ -1,6 +1,7 @@
 import { fireEvent } from "@testing-library/react";
 import LoginScreen from "../../../../src/components/screens/LoginScreen";
 import { renderWithContext } from "../../../render";
+import { ScreenProps } from "../../../../src/types/ScreenTypes";
 
 const noop = (..._args: any[]) => {};
 
@@ -8,15 +9,15 @@ const cti = {
   userLoggedIn: noop,
 };
 
-const props = {
+const props: Partial<ScreenProps> = {
   handleNextScreen: noop,
   handlePreviousScreen: noop,
   handleNavigateToScreen: noop,
   cti,
   phoneNumber: "",
   engagementId: null,
-  dialNumber: "",
-  setDialNumber: noop,
+  toNumber: "",
+  setToNumber: noop,
   notes: "",
   setNotes: noop,
   callDuration: 0,

@@ -24,12 +24,14 @@ import { BATTLESHIP, SLINKY } from "../../utils/colors";
 
 function CallingScreen({
   cti,
-  dialNumber,
+  toNumber,
+  incomingNumber,
   notes,
   setNotes,
   callDurationString,
   handleEndCall,
   callStatus,
+  direction,
 }: ScreenProps) {
   const [toggleRecord, setToggleRecord] = useState(false);
   const [toggleMute, setToggleMute] = useState(false);
@@ -62,7 +64,7 @@ function CallingScreen({
   return (
     <Wrapper>
       <div style={{ textAlign: "center" }}>
-        <h2>Call with {dialNumber}</h2>
+        <h2>Call with {direction === "INBOUND" ? incomingNumber : toNumber}</h2>
         <Timer>{callDurationString}</Timer>
       </div>
       <Row style={{ marginBottom: "20px" }}>

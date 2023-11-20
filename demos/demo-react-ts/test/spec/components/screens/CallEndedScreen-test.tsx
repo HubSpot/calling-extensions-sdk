@@ -1,4 +1,5 @@
 import CallEndedScreen from "../../../../src/components/screens/CallEndedScreen";
+import { ScreenProps } from "../../../../src/types/ScreenTypes";
 import { renderWithContext } from "../../../render";
 
 const noop = (..._args: any[]) => {};
@@ -7,15 +8,15 @@ const cti = {
   callCompleted: noop,
 };
 
-const props = {
+const props: Partial<ScreenProps> = {
   handleNextScreen: noop,
   handlePreviousScreen: noop,
   handleNavigateToScreen: noop,
   cti,
   phoneNumber: "",
   engagementId: null,
-  dialNumber: "",
-  setDialNumber: noop,
+  toNumber: "",
+  setToNumber: noop,
   notes: "",
   setNotes: noop,
   callDuration: 0,
@@ -26,6 +27,7 @@ const props = {
   handleSaveCall: noop,
   fromNumber: "",
   setFromNumber: noop,
+  direction: "OUTBOUND",
 };
 
 describe("CallEndedScreen", () => {
@@ -36,7 +38,7 @@ describe("CallEndedScreen", () => {
 
   it("Shows call ended text", () => {
     const { getByText } = renderWithContext(
-      <CallEndedScreen {...props} dialNumber="+123" />
+      <CallEndedScreen {...props} toNumber="+123" />
     );
     expect(getByText(/Call with \+123/)).toBeInTheDocument();
   });
