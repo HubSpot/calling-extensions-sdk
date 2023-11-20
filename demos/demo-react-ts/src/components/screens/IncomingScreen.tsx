@@ -70,10 +70,14 @@ function IncomingScreen({
         )} */}
       </div>
       <Row>
-        <CallButton use="primary" onClick={onAnswerCall}>
+        <CallButton
+          use="primary"
+          onClick={onAnswerCall}
+          aria-label="start-call"
+        >
           {StartCallSvg}
         </CallButton>
-        <EndCallButton use="primary" onClick={onEndCall}>
+        <EndCallButton use="primary" onClick={onEndCall} aria-label="end-call">
           {EndCallSvg}
         </EndCallButton>
       </Row>
