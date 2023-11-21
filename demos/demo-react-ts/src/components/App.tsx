@@ -46,15 +46,8 @@ export const formatTime = (totalSeconds: number) => {
 };
 
 function App() {
-  const {
-    cti,
-    phoneNumber,
-    engagementId,
-    callStatus,
-    incomingNumber,
-    setIncomingNumber,
-    incomingContactName,
-  } = useCti();
+  const { cti, phoneNumber, engagementId, callStatus, incomingContactName } =
+    useCti();
   const [screenIndex, setScreenIndex] = useState(0);
   const [direction, setDirection] = useState<Direction>("OUTBOUND");
   const [toNumber, setToNumber] = useState("+1");
@@ -68,6 +61,7 @@ function App() {
   } = useCallDurationTimer();
   const [showAlert, setShowAlert] = useState(true);
   const [fromNumber, setFromNumber] = useState("+1 617-948-3986");
+  const [incomingNumber, setIncomingNumber] = useState("+1");
 
   const [availability, setAvailability] = useState<Availability>("UNAVAILABLE");
 
@@ -79,6 +73,7 @@ function App() {
 
   const resetInputs = useCallback(() => {
     setToNumber("+1");
+    setIncomingNumber("+1");
     setNotes("");
     resetCallDuration();
   }, [resetCallDuration]);
