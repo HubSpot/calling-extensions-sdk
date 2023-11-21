@@ -46,14 +46,18 @@ describe("IncomingScreen", () => {
   });
 
   it("Shows call ended text - no contact match", () => {
+    // ACT
     const { getByText } = renderWithContext(
       <IncomingScreen {...props} incomingNumber="+123456789" />
     );
+
+    // ASSERT
     expect(getByText(/Incoming call.../)).toBeInTheDocument();
     expect(getByText(/\+123456789/)).toBeInTheDocument();
   });
 
   it("Shows call ended text - contact match", () => {
+    // ACT
     const { getByText } = renderWithContext(
       <IncomingScreen
         {...props}
@@ -61,12 +65,15 @@ describe("IncomingScreen", () => {
         incomingContactName="Michael Scott"
       />
     );
+
+    // ASSERT
     expect(getByText(/Incoming call.../)).toBeInTheDocument();
     expect(getByText(/Michael Scott/)).toBeInTheDocument();
     expect(getByText(/\+123456789/)).toBeInTheDocument();
   });
 
   it("Shows call ended text - contact match - company", () => {
+    // ACT
     const { getByText } = renderWithContext(
       <IncomingScreen
         {...props}
@@ -74,24 +81,36 @@ describe("IncomingScreen", () => {
         incomingContactName="ABC Ltd"
       />
     );
+
+    // ASSERT
     expect(getByText(/Incoming call.../)).toBeInTheDocument();
     expect(getByText(/ABC Ltd/)).toBeInTheDocument();
     expect(getByText(/\+123456789/)).toBeInTheDocument();
   });
 
   it("Receives call", () => {
+    // ARRANGE
     const { getByRole } = renderWithContext(<IncomingScreen {...props} />);
     const button = getByRole("button", { name: /start-call/ });
+
+    // ACT
     button.click();
+
+    // ASSERT
     expect(props.handleNextScreen).toHaveBeenCalled();
     expect(props.startTimer).toHaveBeenCalled();
     expect(cti.callAnswered).toHaveBeenCalled();
   });
 
   it("Ends call", () => {
+    // ARRANGE
     const { getByRole } = renderWithContext(<IncomingScreen {...props} />);
     const button = getByRole("button", { name: /end-call/ });
+
+    // ACT
     button.click();
+
+    // ASSERT
     expect(props.handleEndCall).toHaveBeenCalled();
     expect(cti.callEnded).toHaveBeenCalledWith({
       callEndStatus: "COMPLETED",

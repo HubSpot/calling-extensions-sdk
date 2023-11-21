@@ -1,6 +1,5 @@
 import {
   fireEvent,
-  getByText,
   screen,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
@@ -14,6 +13,9 @@ const noop = (..._args: any[]) => {};
 const cti = {
   userLoggedOut: noop,
   outgoingCall: noop,
+  userAvailable: noop,
+  userUnavailable: noop,
+  incomingCall: noop,
 };
 
 const props: Partial<ScreenProps> = {
@@ -36,6 +38,8 @@ const props: Partial<ScreenProps> = {
   fromNumber: "",
   setFromNumber: noop,
   setDirection: noop,
+  setIncomingNumber: noop,
+  setAvailability: noop,
 };
 
 describe("KeypadScreen", () => {
@@ -46,6 +50,12 @@ describe("KeypadScreen", () => {
     props.handleNavigateToScreen = jasmine.createSpy("handleNavigateToScreen");
     props.setToNumber = jasmine.createSpy("setToNumber");
     props.setDirection = jasmine.createSpy("setDirection");
+    cti.userAvailable = jasmine.createSpy("userAvailable");
+    cti.userUnavailable = jasmine.createSpy("userUnavailable");
+    props.setAvailability = jasmine.createSpy("setAvailability");
+    props.setDirection = jasmine.createSpy("setDirection");
+    cti.incomingCall = jasmine.createSpy("incomingCall");
+    props.setIncomingNumber = jasmine.createSpy("setIncomingNumber");
   });
 
   it("Shows initial dial number", () => {
@@ -82,7 +92,138 @@ describe("KeypadScreen", () => {
         "Unavailable"
       );
     });
-    it("Shows status options when clicked", () => {});
+    it("Shows status options when clicked", async () => {
+      const { getByLabelText } = renderWithContext(<KeypadScreen {...props} />);
+      expect(getByLabelText("available-option")).toBeInTheDocument();
+      expect(getByLabelText("unavailable-option")).toBeInTheDocument();
+      expect(
+        await getByLabelText("trigger-incoming-call-close")
+      ).toBeInTheDocument();
+    });
+    it("Changes status when status option clicked - unavailable to available", async () => {
+      // ARRANGE
+      const { getByRole, getByLabelText } = renderWithContext(
+        <KeypadScreen {...props} />
+      );
+      const button = getByRole("button", {
+        name: /availability-toggle-button/i,
+      });
+      button.click();
+      await waitForElementToBeRemoved(() =>
+        getByLabelText("availability-menu-close")
+      );
+      const availableBtn = getByRole("button", {
+        name: "available-option",
+      });
+
+      // ACT
+      availableBtn.click();
+
+      //ASSERT
+      expect(props.setAvailability).toHaveBeenCalledWith("AVAILABLE");
+      expect(cti.userAvailable).toHaveBeenCalled();
+    });
+
+    it("Changes status when status option clicked - available to unavailable", async () => {
+      // ARRANGE
+      const { getByRole, getByLabelText } = renderWithContext(
+        <KeypadScreen {...props} availability="AVAILABLE" />
+      );
+      const button = getByRole("button", {
+        name: /availability-toggle-button/i,
+      });
+      button.click();
+      await waitForElementToBeRemoved(() =>
+        getByLabelText("availability-menu-close")
+      );
+      const unavailableBtn = getByRole("button", {
+        name: "unavailable-option",
+      });
+
+      // ACT
+      unavailableBtn.click();
+
+      //ASSERT
+      expect(props.setAvailability).toHaveBeenCalledWith("UNAVAILABLE");
+      expect(cti.userUnavailable).toHaveBeenCalled();
+    });
+
+    it("set incoming number", async () => {
+      // ARRANGE
+      const { getByRole, getByLabelText, getByTestId } = renderWithContext(
+        <KeypadScreen
+          {...props}
+          availability="AVAILABLE"
+          fromNumber="123456789"
+        />
+      );
+      const button = getByRole("button", {
+        name: /availability-toggle-button/i,
+      });
+      button.click();
+      await waitForElementToBeRemoved(() =>
+        getByLabelText("availability-menu-close")
+      );
+      const triggerBtn = getByRole("button", {
+        name: "trigger-incoming-call-option",
+      });
+      triggerBtn.click();
+      await waitForElementToBeRemoved(() =>
+        getByLabelText("trigger-incoming-call-close")
+      );
+
+      const input = await getByTestId("incoming-number-input");
+
+      // ACT
+      fireEvent.change(input, {
+        target: { value: "6476251259" },
+      });
+
+      //ASSERT
+      expect(props.setIncomingNumber).toHaveBeenCalledWith("6476251259");
+    });
+
+    it("triggers incoming call", async () => {
+      // ARRANGE
+      const { getByRole, getByLabelText, getByTestId } = renderWithContext(
+        <KeypadScreen
+          {...props}
+          availability="AVAILABLE"
+          fromNumber="123456789"
+          incomingNumber="6476251259"
+        />
+      );
+
+      const button = getByRole("button", {
+        name: /availability-toggle-button/i,
+      });
+      button.click();
+      await waitForElementToBeRemoved(() =>
+        getByLabelText("availability-menu-close")
+      );
+      const triggerOptionBtn = getByRole("button", {
+        name: "trigger-incoming-call-option",
+      });
+      triggerOptionBtn.click();
+      await waitForElementToBeRemoved(() =>
+        getByLabelText("trigger-incoming-call-close")
+      );
+      const triggerCallBtn = getByRole("button", {
+        name: "trigger-incoming-call",
+      });
+
+      // ACT
+      triggerCallBtn.click();
+
+      // ASSERT
+      expect(props.setDirection).toHaveBeenCalledWith("INBOUND");
+      expect(cti.incomingCall).toHaveBeenCalledWith({
+        createEngagement: true,
+        fromNumber: "6476251259",
+        toNumber: "123456789",
+      });
+      expect(props.handleNextScreen).toHaveBeenCalled();
+    });
   });
 
   describe("Start call", () => {

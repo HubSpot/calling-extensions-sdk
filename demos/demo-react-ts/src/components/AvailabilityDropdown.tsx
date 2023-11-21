@@ -75,7 +75,11 @@ function AvailabilityDropdown({
           alignItems: "center",
         }}
       >
-        <Input onChange={handleInput} value={incomingNumber} />
+        <Input
+          onChange={handleInput}
+          value={incomingNumber}
+          data-testid="incoming-number-input"
+        />
         <DialIncomingCallButton
           use="primary"
           disabled={!isIncomingNumberValid}
@@ -93,7 +97,7 @@ function AvailabilityDropdown({
       <div>
         <AvailabilityOption>
           <AvailabilityButton
-            aria-label="available"
+            aria-label="available-option"
             onClick={() => handleAvailability("AVAILABLE")}
           >
             <AvailabilityButtonContent>
@@ -106,7 +110,7 @@ function AvailabilityDropdown({
         </AvailabilityOption>
         <AvailabilityOption>
           <AvailabilityButton
-            aria-label="unavailable"
+            aria-label="unavailable-option"
             onClick={() => handleAvailability("UNAVAILABLE")}
           >
             <AvailabilityButtonContent>
@@ -127,7 +131,7 @@ function AvailabilityDropdown({
             open={toggleTriggerIncomingCall}
           >
             <AvailabilityButton
-              aria-label="trigger-incoming-label"
+              aria-label="trigger-incoming-call-option"
               disabled={availability === "UNAVAILABLE"}
               style={{ textAlign: "start" }}
               onClick={() =>
