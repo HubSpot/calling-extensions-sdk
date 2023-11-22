@@ -1,3 +1,4 @@
+/* eslint-disable import/no-relative-packages */
 import CallingExtensions from "../../src/CallingExtensions";
 import { errorType, callEndStatus } from "../../src/Constants";
 // import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
@@ -45,12 +46,17 @@ function enableButtons(ids) {
 const cti = new CallingExtensions({
   debugMode: true,
   eventHandlers: {
-    onReady: () => {
+    onReady: data => {
       cti.initialized({
         isLoggedIn: false,
         sizeInfo,
+        engagementId: data.engagementId,
       });
       disableButtons([INITIALIZE]);
+      if (data.engagementId) {
+        enableButtons([ANSWER_CALL, END_CALL]);
+        return;
+      }
       enableButtons([LOG_IN, SEND_ERROR, RESIZE_WIDGET]);
     },
     onDialNumber: (data, rawEvent) => {
@@ -89,6 +95,9 @@ const cti = new CallingExtensions({
         cti.logDebugMessage({
           message: `Incoming call from ${state.incomingContactName} ${state.fromNumber}`,
           type: `${callerIdMatches.length} Caller ID Matches`,
+        });
+        cti.navigateToRecord({
+          objectCoordinates: firstCallerIdMatch.objectCoordinates,
         });
         return;
       }
@@ -207,7 +216,7 @@ export function completeCall() {
 
 export function sendError() {
   cti.sendError({
-    type: errorType.GENERIC,
+    type: errorType.ERROR,
     message: "This is an error alert shown in the Hubspot UI",
   });
 }
