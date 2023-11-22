@@ -24,7 +24,7 @@ import { BATTLESHIP, SLINKY } from "../../utils/colors";
 
 function CallingScreen({
   cti,
-  toNumber,
+  dialNumber,
   incomingNumber,
   notes,
   setNotes,
@@ -64,7 +64,9 @@ function CallingScreen({
   return (
     <Wrapper>
       <div style={{ textAlign: "center" }}>
-        <h2>Call with {direction === "INBOUND" ? incomingNumber : toNumber}</h2>
+        <h2>
+          Call with {direction === "INBOUND" ? incomingNumber : dialNumber}
+        </h2>
         <Timer>{callDurationString}</Timer>
       </div>
       <Row style={{ marginBottom: "20px" }}>

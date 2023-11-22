@@ -25,8 +25,8 @@ const props: Partial<ScreenProps> = {
   cti,
   phoneNumber: "",
   engagementId: null,
-  toNumber: "",
-  setToNumber: noop,
+  dialNumber: "",
+  setDialNumber: noop,
   notes: "",
   setNotes: noop,
   callDuration: 0,
@@ -48,7 +48,7 @@ describe("KeypadScreen", () => {
     cti.outgoingCall = jasmine.createSpy("outgoingCall");
     props.handleNextScreen = jasmine.createSpy("handleNextScreen");
     props.handleNavigateToScreen = jasmine.createSpy("handleNavigateToScreen");
-    props.setToNumber = jasmine.createSpy("setToNumber");
+    props.setDialNumber = jasmine.createSpy("setDialNumber");
     props.setDirection = jasmine.createSpy("setDirection");
     cti.userAvailable = jasmine.createSpy("userAvailable");
     cti.userUnavailable = jasmine.createSpy("userUnavailable");
@@ -59,14 +59,14 @@ describe("KeypadScreen", () => {
   });
 
   it("Shows initial dial number", () => {
-    renderWithContext(<KeypadScreen {...props} toNumber="617000000" />);
+    renderWithContext(<KeypadScreen {...props} dialNumber="617000000" />);
     const input = screen.getByTestId("dial-number-input");
     expect((input as HTMLInputElement).value).toEqual("617000000");
   });
 
   it("Sets initial dial number to be HubSpot phone number", () => {
     renderWithContext(<KeypadScreen {...props} phoneNumber="+1617000000" />);
-    expect(props.setToNumber).toHaveBeenCalledWith("+1617000000");
+    expect(props.setDialNumber).toHaveBeenCalledWith("+1617000000");
   });
 
   describe("Log out", () => {
@@ -237,7 +237,7 @@ describe("KeypadScreen", () => {
 
     it("Handles start call button click", () => {
       const { getByRole, getByTestId } = renderWithContext(
-        <KeypadScreen {...props} toNumber="+1617" />
+        <KeypadScreen {...props} dialNumber="+1617" />
       );
 
       const input = getByTestId("dial-number-input");
@@ -276,7 +276,7 @@ describe("KeypadScreen", () => {
         target: { value: "617" },
       });
 
-      expect(props.setToNumber).toHaveBeenCalledWith("617");
+      expect(props.setDialNumber).toHaveBeenCalledWith("617");
     });
 
     it("Does not allow non keypad characters in input field", async () => {
@@ -287,18 +287,18 @@ describe("KeypadScreen", () => {
         target: { value: "-" },
       });
 
-      expect(props.setToNumber).not.toHaveBeenCalled();
+      expect(props.setDialNumber).not.toHaveBeenCalled();
     });
 
     it("Handles backspace", () => {
       const { getByRole } = renderWithContext(
-        <KeypadScreen {...props} toNumber="617" />
+        <KeypadScreen {...props} dialNumber="617" />
       );
       const button = getByRole("button", {
         name: /backspace/i,
       });
       button.click();
-      expect(props.setToNumber).toHaveBeenCalledWith("61");
+      expect(props.setDialNumber).toHaveBeenCalledWith("61");
     });
   });
 

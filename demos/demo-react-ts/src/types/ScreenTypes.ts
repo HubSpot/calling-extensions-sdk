@@ -17,8 +17,8 @@ export interface ScreenProps {
   cti: any;
   phoneNumber: string;
   engagementId: number | null;
-  toNumber: string;
-  setToNumber: Function;
+  dialNumber: string;
+  setDialNumber: Function;
   notes: string;
   setNotes: Function;
   callDuration: number;

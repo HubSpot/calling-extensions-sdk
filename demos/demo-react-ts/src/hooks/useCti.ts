@@ -4,6 +4,8 @@ import { callStatus } from "../../../../src/Constants";
 // @ts-expect-error module not typed
 // import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 // const { callStatus } = Constants;
+
+// @TODO Move it to CallingExtensions and export it once migrated to typescript
 interface CallingExtensionsContract {
   initialized: (userData: unknown) => void;
   userAvailable: () => void;
@@ -22,10 +24,13 @@ interface CallingExtensionsContract {
   logDebugMessage: (messageData: unknown) => void;
 }
 
+// @TODO Move it to CallingExtensions and export it once migrated to typescript
 interface CallingExtensionsOptions {
   debugMode: boolean;
   eventHandlers: unknown;
 }
+
+// @TODO Move it to CallingExtensions and export it once migrated to typescript
 class CallingExtensionsWrapper implements CallingExtensionsContract {
   private _cti: CallingExtensions;
   private _incomingNumber: string = "";
@@ -122,7 +127,21 @@ export const useCti = () => {
         onVisibilityChanged: (data: any, _rawEvent: any) => {
           // nothing to do here
         },
-        onCallerIdMatchSucceeded: (data: any, rawEvent: any) => {
+        onCreateEngagementSucceeded: (data: any, _rawEvent: any) => {
+          const { engagementId } = data;
+          setEngagementId(engagementId);
+        },
+        onCreateEngagementFailed: (data: any, _rawEvent: any) => {
+          // nothing to do here
+        },
+        onUpdateEngagementSucceeded: (data: any, _rawEvent: any) => {
+          const { engagementId } = data;
+          setEngagementId(engagementId);
+        },
+        onUpdateEngagementFailed: (data: any, _rawEvent: any) => {
+          // nothing to do here
+        },
+        onCallerIdMatchSucceeded: (data: any, _rawEvent: any) => {
           const { callerIdMatches } = data;
           if (callerIdMatches.length) {
             const firstCallerIdMatch = callerIdMatches[0];
@@ -144,7 +163,7 @@ export const useCti = () => {
             type: "No Caller ID Matches",
           });
         },
-        onCallerIdMatchFailed: (data: any, rawEvent: any) => {
+        onCallerIdMatchFailed: (data: any, _rawEvent: any) => {
           cti.logDebugMessage({
             message: `Incoming call from ${cti.incomingNumber}`,
             type: "Caller ID Match Failed",

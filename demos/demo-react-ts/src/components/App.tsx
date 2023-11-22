@@ -50,7 +50,7 @@ function App() {
     useCti();
   const [screenIndex, setScreenIndex] = useState(0);
   const [direction, setDirection] = useState<Direction>("OUTBOUND");
-  const [toNumber, setToNumber] = useState("+1");
+  const [dialNumber, setDialNumber] = useState("+1");
   const [notes, setNotes] = useState("");
   const {
     callDuration,
@@ -72,7 +72,7 @@ function App() {
   };
 
   const resetInputs = useCallback(() => {
-    setToNumber("+1");
+    setDialNumber("+1");
     setIncomingNumber("+1");
     setNotes("");
     resetCallDuration();
@@ -119,8 +119,8 @@ function App() {
         cti={cti}
         phoneNumber={phoneNumber}
         engagementId={engagementId}
-        toNumber={toNumber}
-        setToNumber={setToNumber}
+        dialNumber={dialNumber}
+        setDialNumber={setDialNumber}
         notes={notes}
         setNotes={setNotes}
         callDuration={callDuration}
@@ -148,7 +148,7 @@ function App() {
     cti,
     phoneNumber,
     engagementId,
-    toNumber,
+    dialNumber,
     notes,
     callDuration,
     callDurationString,

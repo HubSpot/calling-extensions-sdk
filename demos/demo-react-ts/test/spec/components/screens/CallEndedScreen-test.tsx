@@ -15,8 +15,8 @@ const props: Partial<ScreenProps> = {
   cti,
   phoneNumber: "",
   engagementId: null,
-  toNumber: "",
-  setToNumber: noop,
+  dialNumber: "",
+  setDialNumber: noop,
   notes: "",
   setNotes: noop,
   callDuration: 0,
@@ -38,7 +38,7 @@ describe("CallEndedScreen", () => {
 
   it("Shows call ended text", () => {
     const { getByText } = renderWithContext(
-      <CallEndedScreen {...props} toNumber="+123" />
+      <CallEndedScreen {...props} dialNumber="+123" />
     );
     expect(getByText(/Call with \+123/)).toBeInTheDocument();
   });
