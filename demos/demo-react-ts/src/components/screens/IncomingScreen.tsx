@@ -59,6 +59,7 @@ function IncomingScreen({
             {incomingNumber}
           </IncomingCallContactDisplay>
         )}
+        {/* @TODO uncomment when redirect url generation is implemented */}
         {/* {incomingContactName && (
           <ContactLinkButton use="transparent-on-primary">
             <ContactLinkButtonContent>
