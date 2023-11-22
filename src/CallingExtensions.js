@@ -138,7 +138,7 @@ class CallingExtensions {
     this.iFrameManager.sendMessage(message);
   }
 
-  logDebugMessage({ message, type = debugMessageType.CONSOLE_DEBUG }) {
+  logDebugMessage({ message, type = debugMessageType.GENERIC_MESSAGE }) {
     this.iFrameManager.logDebugMessage(prefix, type, message);
   }
 

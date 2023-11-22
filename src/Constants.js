@@ -7,7 +7,7 @@ export const VERSION = packageJson.version;
 export const debugMessageType = {
   FROM_HUBSPOT: "From HubSpot",
   TO_HUBSPOT: "To HubSpot",
-  CONSOLE_DEBUG: "Console Debug",
+  GENERIC_MESSAGE: "Generic Message",
 };
 
 const thirdPartyToHostEvents = {
