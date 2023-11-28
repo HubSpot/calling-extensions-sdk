@@ -1,7 +1,8 @@
 "use es6";
 
-const { version } = require("../package.json");
-export const VERSION = version;
+import packageJson from "../package.json";
+
+export const VERSION = packageJson.version;
 
 export const debugMessageType = {
   FROM_HUBSPOT: "From HubSpot",
