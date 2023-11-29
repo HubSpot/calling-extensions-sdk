@@ -21,6 +21,7 @@ import {
   HideKeypadSvg,
 } from "../Icons";
 import { BATTLESHIP, SLINKY } from "../../utils/colors";
+import { formatPhoneNumber } from "../../utils/phoneNumberUtils";
 
 function CallingScreen({
   cti,
@@ -65,7 +66,10 @@ function CallingScreen({
     <Wrapper>
       <div style={{ textAlign: "center" }}>
         <h2>
-          Call with {direction === "INBOUND" ? incomingNumber : dialNumber}
+          Call with{" "}
+          {direction === "INBOUND"
+            ? formatPhoneNumber(incomingNumber)
+            : formatPhoneNumber(dialNumber)}
         </h2>
         <Timer>{callDurationString}</Timer>
       </div>

@@ -280,3 +280,11 @@ export const ContactLinkButtonContent = styled.div`
   alignitems: center;
   gap: 8px;
 `;
+
+export const TruncateContactNameString = styled.p`
+  width: 320px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+`;

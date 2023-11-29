@@ -117,7 +117,7 @@ function KeypadScreen({
       cti.incomingCall({
         createEngagement: true,
         fromNumber: incomingCallNumber,
-        toNumber: fromNumber, // dialNumber can be empty and passing empty number can make this fail
+        toNumber: fromNumber,
       });
       setDirection("INBOUND");
       handleNextScreen();

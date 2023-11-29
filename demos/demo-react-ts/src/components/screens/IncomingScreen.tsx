@@ -1,24 +1,16 @@
-import { useEffect } from "react";
 import {
   CallButton,
-  ContactLinkButton,
-  ContactLinkButtonContent,
   EndCallButton,
   IncomingCallContactDisplay,
   IncomingCallNumber,
   IncomingCallText,
   IncomingScreenWrapper,
   Row,
-  Timer,
-  Wrapper,
+  TruncateContactNameString,
 } from "../Components";
 import { ScreenProps } from "../../types/ScreenTypes";
-import {
-  EndCallSvg,
-  ExternalLinkSvg,
-  SprocketSvg,
-  StartCallSvg,
-} from "../Icons";
+import { EndCallSvg, StartCallSvg } from "../Icons";
+import { formatPhoneNumber } from "../../utils/phoneNumberUtils";
 
 function IncomingScreen({
   handleNextScreen,
@@ -50,13 +42,17 @@ function IncomingScreen({
         {incomingContactName ? (
           <>
             <IncomingCallContactDisplay>
-              {incomingContactName}
+              <TruncateContactNameString>
+                {incomingContactName}
+              </TruncateContactNameString>
             </IncomingCallContactDisplay>
-            <IncomingCallNumber>{incomingNumber}</IncomingCallNumber>
+            <IncomingCallNumber>
+              {formatPhoneNumber(incomingNumber)}
+            </IncomingCallNumber>
           </>
         ) : (
           <IncomingCallContactDisplay>
-            {incomingNumber}
+            {formatPhoneNumber(incomingNumber)}
           </IncomingCallContactDisplay>
         )}
         {/* @TODO uncomment when redirect url generation is implemented */}
