@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
-import { ReactNode, MouseEventHandler, ButtonHTMLAttributes } from 'react';
-import styled, { DefaultTheme } from 'styled-components';
-import { MEDIUM } from '../constants/sizes';
-import themePropType from '../utils/themePropType';
-import { interactionPropTypes, InteractionProps } from '../utils/types';
-import { BUTTON_SIZES } from './constants/ButtonSizes';
-import * as ButtonUses from './constants/ButtonUses';
+import PropTypes from "prop-types";
+import { ReactNode, MouseEventHandler, ButtonHTMLAttributes } from "react";
+import styled, { DefaultTheme } from "styled-components";
+import { MEDIUM } from "../constants/sizes";
+import themePropType from "../utils/themePropType";
+import { interactionPropTypes, InteractionProps } from "../utils/types";
+import { BUTTON_SIZES } from "./constants/ButtonSizes";
+import * as ButtonUses from "./constants/ButtonUses";
 
 const defaultProps = {
   use: ButtonUses.SECONDARY,
@@ -17,13 +17,14 @@ export type VizExButtonProps = {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   size: keyof typeof BUTTON_SIZES;
   theme?: DefaultTheme;
-  use: 'primary' | 'secondary' | 'transparent-on-primary';
+  use: "primary" | "secondary" | "transparent-on-primary";
 } & InteractionProps &
   typeof defaultProps &
   ButtonHTMLAttributes<HTMLButtonElement>;
 
 const AbstractVizExButton = styled.button<VizExButtonProps>`
   ${({ theme }) => theme.components.Button.style}
+  font-family: "Lexend";
 `;
 
 const NoSelect = styled.div`
@@ -40,7 +41,7 @@ const VizExButton = (props: VizExButtonProps) => {
   );
 };
 
-VizExButton.displayName = 'VizExButton';
+VizExButton.displayName = "VizExButton";
 
 VizExButton.propTypes = {
   children: PropTypes.node,

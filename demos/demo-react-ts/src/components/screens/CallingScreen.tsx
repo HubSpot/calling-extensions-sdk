@@ -21,15 +21,18 @@ import {
   HideKeypadSvg,
 } from "../Icons";
 import { BATTLESHIP, SLINKY } from "../../utils/colors";
+import { formatPhoneNumber } from "../../utils/phoneNumberUtils";
 
 function CallingScreen({
   cti,
   dialNumber,
+  incomingNumber,
   notes,
   setNotes,
   callDurationString,
   handleEndCall,
   callStatus,
+  direction,
 }: ScreenProps) {
   const [toggleRecord, setToggleRecord] = useState(false);
   const [toggleMute, setToggleMute] = useState(false);
@@ -62,7 +65,12 @@ function CallingScreen({
   return (
     <Wrapper>
       <div style={{ textAlign: "center" }}>
-        <h2>Call with {dialNumber}</h2>
+        <h2>
+          Call with{" "}
+          {direction === "INBOUND"
+            ? formatPhoneNumber(incomingNumber)
+            : formatPhoneNumber(dialNumber)}
+        </h2>
         <Timer>{callDurationString}</Timer>
       </div>
       <Row style={{ marginBottom: "20px" }}>

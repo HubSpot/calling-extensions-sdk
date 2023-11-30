@@ -12,16 +12,25 @@ import KeypadScreen from "./screens/KeypadScreen";
 import DialingScreen from "./screens/DialingScreen";
 import CallingScreen from "./screens/CallingScreen";
 import CallEndedScreen from "./screens/CallEndedScreen";
+import IncomingScreen from "./screens/IncomingScreen";
 import { useCti } from "../hooks/useCti";
 import { useCallDurationTimer } from "../hooks/useTimer";
-import { ScreenNames } from "../types/ScreenTypes";
+import { ScreenNames, Availability, Direction } from "../types/ScreenTypes";
 import Alert from "./Alert";
 import { CALYPSO, GYPSUM, KOALA, OLAF, SLINKY } from "../utils/colors";
 
-export const screens = [
+export const OUTBOUND_SCREENS = [
   LoginScreen,
   KeypadScreen,
   DialingScreen,
+  CallingScreen,
+  CallEndedScreen,
+];
+
+export const INBOUND_SCREENS = [
+  LoginScreen,
+  KeypadScreen,
+  IncomingScreen,
   CallingScreen,
   CallEndedScreen,
 ];
@@ -37,8 +46,10 @@ export const formatTime = (totalSeconds: number) => {
 };
 
 function App() {
-  const { cti, phoneNumber, engagementId, callStatus } = useCti();
+  const { cti, phoneNumber, engagementId, callStatus, incomingContactName } =
+    useCti();
   const [screenIndex, setScreenIndex] = useState(0);
+  const [direction, setDirection] = useState<Direction>("OUTBOUND");
   const [dialNumber, setDialNumber] = useState("+1");
   const [notes, setNotes] = useState("");
   const {
@@ -50,6 +61,11 @@ function App() {
   } = useCallDurationTimer();
   const [showAlert, setShowAlert] = useState(true);
   const [fromNumber, setFromNumber] = useState("+1 617-948-3986");
+  const [incomingNumber, setIncomingNumber] = useState("+1");
+
+  const [availability, setAvailability] = useState<Availability>("UNAVAILABLE");
+
+  const screens = direction === "OUTBOUND" ? OUTBOUND_SCREENS : INBOUND_SCREENS;
 
   const handleNavigateToScreen = (screenIndex: ScreenNames) => {
     setScreenIndex(screenIndex);
@@ -57,6 +73,7 @@ function App() {
 
   const resetInputs = useCallback(() => {
     setDialNumber("+1");
+    setIncomingNumber("+1");
     setNotes("");
     resetCallDuration();
   }, [resetCallDuration]);
@@ -71,7 +88,7 @@ function App() {
       return;
     }
     setScreenIndex(screenIndex + 1);
-  }, [screenIndex]);
+  }, [screenIndex, screens]);
 
   const handlePreviousScreen = useCallback(() => {
     if (screenIndex !== 0) {
@@ -114,7 +131,14 @@ function App() {
         handleSaveCall={handleSaveCall}
         fromNumber={fromNumber}
         setFromNumber={setFromNumber}
+        incomingNumber={incomingNumber}
+        setIncomingNumber={setIncomingNumber}
         callStatus={callStatus}
+        availability={availability}
+        setAvailability={setAvailability}
+        direction={direction}
+        setDirection={setDirection}
+        incomingContactName={incomingContactName}
       />
     );
   }, [
@@ -133,6 +157,9 @@ function App() {
     fromNumber,
     callStatus,
     resetInputs,
+    availability,
+    screens,
+    incomingContactName,
   ]);
 
   return (

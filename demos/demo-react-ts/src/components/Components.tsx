@@ -13,6 +13,9 @@ import {
   SLINKY,
   CANDY_APPLE_DARK,
   BATTLESHIP,
+  OBSIDIAN,
+  GREAT_WHITE,
+  OLAF,
 } from "../utils/colors";
 
 /**
@@ -163,3 +166,125 @@ export const Tooltip = styled(VizExTooltip).attrs({
 export const FromNumberTooltip = styled(VizExTooltip).attrs({
   placement: "top right",
 })``;
+
+export const AvailabilityButton = styled(VizExButton).attrs({
+  use: "transparent-on-primary",
+  theme: createTheme(setPrimaryColor(HEFFALUMP)),
+})`
+  border: none;
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 14px;
+  width: 100%;
+`;
+
+export const AvailabilityButtonContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const AvailabilityToggleButton = styled(VizExButton).attrs((props) => ({
+  disabled: props.disabled,
+}))`
+  border: none;
+  padding: 0;
+  font-weight: 600;
+`;
+
+export const AvailabilityToggleButtonContent = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+
+export const AvailabilityTooltip = styled(VizExTooltip).attrs({
+  placement: "bottom left",
+})`
+  min-width: 106px;
+`;
+
+export const TriggerIncomingCallTooltip = styled(VizExTooltip).attrs({
+  placement: "bottom right",
+})`
+  width: 100%;
+`;
+
+export const AvailabilityOption = styled.div`
+  min-width: 188px;
+`;
+
+export const Divider = styled.hr`
+  width: 100%;
+  background-color: ${BATTLESHIP};
+`;
+
+export const IncomingScreenWrapper = styled(Wrapper)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex-grow: 1;
+`;
+
+export const IncomingCallText = styled.p`
+  color: ${SLINKY};
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  margin: 0 0 8px 0;
+`;
+
+export const IncomingCallContactDisplay = styled.p`
+  color: ${OBSIDIAN};
+  text-align: center;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0 0 10px 0;
+`;
+
+export const IncomingCallNumber = styled.p`
+  color: ${SLINKY};
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin: 0;
+`;
+
+export const DialIncomingCallButton = styled(VizExButton).attrs((props) => ({
+  disabled: props.disabled,
+}))`
+  border-radius: 25px;
+  min-width: 100px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+`;
+
+export const ContactLinkButton = styled(VizExButton)`
+  border-radius: 8px;
+  border: 1px solid ${GREAT_WHITE};
+  background: ${OLAF};
+  margin-top: 56px;
+  color: ${OBSIDIAN};
+  padding: 8px;
+`;
+
+export const ContactLinkButtonContent = styled.div`
+  display: inline-flex;
+  padding: 8px;
+  alignitems: center;
+  gap: 8px;
+`;
+
+export const TruncateContactNameString = styled.p`
+  width: 320px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+`;
