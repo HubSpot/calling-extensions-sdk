@@ -242,6 +242,24 @@ extensions.incomingCall(callInfo);
 </details>
 
 <details>
+ <summary>navigateToRecord</summary>
+ <p>
+
+```ts
+// Sends a message to notify HubSpot that we need to navigate to a record page for a caller id match.
+type ObjectCoordinate = {
+  portalId: number;
+  objectTypeId: string;
+  objectId: number;
+}
+
+extensions.navigateToRecord({ objectCoordinates });
+```
+
+</p>
+</details>
+
+<details>
  <summary>callAnswered</summary>
  <p>
 
@@ -328,11 +346,20 @@ extensions.resizeWidget(data);
  <summary>onReady</summary>
  <p>
 
-```js
+```ts
+// Receive an engagementId for an existing inbound call
+type Payload = {
+  engagementId: number | undefined
+}
+
 // Message indicating that HubSpot is ready to receive messages
-onReady() {
+onReady(payload) {
     // Send initialized message to HubSpot to indicate that the call widget is also ready
     extensions.initialized(payload);
+    if (payload.engagementId) {
+      // Initialize calling state in the app for existing inbound call
+      ...
+    }
     ...
 }
 ```
