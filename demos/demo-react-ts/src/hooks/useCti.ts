@@ -1,9 +1,33 @@
+/* eslint-disable import/no-relative-packages */
 import { useMemo, useState } from "react";
-import CallingExtensions from "../../../../src/CallingExtensions";
-import { callStatus } from "../../../../src/Constants";
+// import CallingExtensions from "@hubspot/calling-extensions-sdk/src/CallingExtensions";
+// import { callStatus } from "@hubspot/calling-extensions-sdk/src/Constants";
+
 // @ts-expect-error module not typed
-// import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
-// const { callStatus } = Constants;
+import CallingExtensions from "../../../../src/CallingExtensions";
+// @ts-expect-error module not typed
+import { callStatus } from "../../../../src/Constants";
+
+// @TODO Move it to CallingExtensions and export it once migrated to typescript
+type ObjectCoordinates = {
+  portalId: number;
+  objectTypeId: string;
+  objectId: number;
+};
+
+export type ContactIdMatch = {
+  callerIdType: "CONTACT";
+  objectCoordinates: ObjectCoordinates;
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
+export type CompanyIdMatch = {
+  callerIdType: "COMPANY";
+  objectCoordinates: ObjectCoordinates;
+  name: string;
+};
 
 // @TODO Move it to CallingExtensions and export it once migrated to typescript
 interface CallingExtensionsContract {
@@ -33,7 +57,8 @@ interface CallingExtensionsOptions {
 // @TODO Move it to CallingExtensions and export it once migrated to typescript
 class CallingExtensionsWrapper implements CallingExtensionsContract {
   private _cti: CallingExtensions;
-  private _incomingNumber: string = "";
+
+  private _incomingNumber = "";
 
   constructor(options: CallingExtensionsOptions) {
     this._cti = new CallingExtensions(options);
@@ -50,6 +75,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   userAvailable() {
     return this._cti.userAvailable();
   }
+
   userUnavailable() {
     return this._cti.userUnavailable();
   }
@@ -69,6 +95,10 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   outgoingCall(callDetails: unknown) {
     return this._cti.outgoingCall(callDetails);
+  }
+
+  navigateToRecord(data: { objectCoordinates: ObjectCoordinates }) {
+    return this._cti.navigateToRecord(data);
   }
 
   callAnswered() {
@@ -104,7 +134,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 }
 
-export const useCti = () => {
+export const useCti = (initializeCallingStateForExistingCall: () => void) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [engagementId, setEngagementId] = useState<number | null>(null);
   const [incomingContactName, setIncomingContactName] = useState<string>("");
@@ -113,8 +143,15 @@ export const useCti = () => {
     return new CallingExtensionsWrapper({
       debugMode: true,
       eventHandlers: {
-        onReady: () => {
-          cti.initialized({ isLoggedIn: true, sizeInfo: defaultSize });
+        onReady: (data: { engagementId: number | undefined }) => {
+          cti.initialized({
+            isLoggedIn: true,
+            sizeInfo: defaultSize,
+            engagementId: data.engagementId,
+          });
+          if (data.engagementId) {
+            initializeCallingStateForExistingCall();
+          }
         },
         onDialNumber: (data: any, _rawEvent: any) => {
           const { phoneNumber } = data;
@@ -141,7 +178,9 @@ export const useCti = () => {
         onUpdateEngagementFailed: (data: any, _rawEvent: any) => {
           // nothing to do here
         },
-        onCallerIdMatchSucceeded: (data: any, _rawEvent: any) => {
+        onCallerIdMatchSucceeded: (data: {
+          callerIdMatches: (ContactIdMatch | CompanyIdMatch)[];
+        }) => {
           const { callerIdMatches } = data;
           if (callerIdMatches.length) {
             const firstCallerIdMatch = callerIdMatches[0];
@@ -155,6 +194,9 @@ export const useCti = () => {
             cti.logDebugMessage({
               message: `Incoming call from ${name} ${cti.incomingNumber}`,
               type: `${callerIdMatches.length} Caller ID Matches`,
+            });
+            cti.navigateToRecord({
+              objectCoordinates: firstCallerIdMatch.objectCoordinates,
             });
             return;
           }

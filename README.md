@@ -445,7 +445,7 @@ onDialNumber(data) {
       ...
   }
 
-  type ObjectCoordinate = {
+  type ObjectCoordinates = {
     portalId: number;
     objectTypeId: string;
     objectId: number;
@@ -453,7 +453,7 @@ onDialNumber(data) {
 
   type ContactIdMatch = {
     callerIdType: 'CONTACT';
-    objectCoordinates: ObjectCoordinate;
+    objectCoordinates: ObjectCoordinates;
     firstName: string;
     lastName: string;
     email: string;
@@ -461,7 +461,7 @@ onDialNumber(data) {
 
   type CompanyIdMatch = {
     callerIdType: 'COMPANY';
-    objectCoordinates: ObjectCoordinate;
+    objectCoordinates: ObjectCoordinates;
     name: string;
   }
 ```
