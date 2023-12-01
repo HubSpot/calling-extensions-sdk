@@ -46,12 +46,15 @@ export const formatTime = (totalSeconds: number) => {
 };
 
 function App() {
-  const { cti, phoneNumber, engagementId, callStatus, incomingContactName } =
-    useCti();
   const [screenIndex, setScreenIndex] = useState(0);
   const [direction, setDirection] = useState<Direction>("OUTBOUND");
   const [dialNumber, setDialNumber] = useState("+1");
   const [notes, setNotes] = useState("");
+  const [showAlert, setShowAlert] = useState(true);
+  const [fromNumber, setFromNumber] = useState("+1 617-948-3986");
+  const [incomingNumber, setIncomingNumber] = useState("+1");
+  const [availability, setAvailability] = useState<Availability>("UNAVAILABLE");
+
   const {
     callDuration,
     callDurationString,
@@ -59,11 +62,16 @@ function App() {
     stopTimer,
     resetCallDuration,
   } = useCallDurationTimer();
-  const [showAlert, setShowAlert] = useState(true);
-  const [fromNumber, setFromNumber] = useState("+1 617-948-3986");
-  const [incomingNumber, setIncomingNumber] = useState("+1");
 
-  const [availability, setAvailability] = useState<Availability>("UNAVAILABLE");
+  const initializeCallingStateForExistingCall = () => {
+    setDirection("INBOUND");
+    setScreenIndex(2);
+    setAvailability("AVAILABLE");
+    setIncomingNumber("+1"); // TODO: Get incoming number from engagements endpoint
+  };
+
+  const { cti, phoneNumber, engagementId, callStatus, incomingContactName } =
+    useCti(initializeCallingStateForExistingCall);
 
   const screens = direction === "OUTBOUND" ? OUTBOUND_SCREENS : INBOUND_SCREENS;
 
@@ -142,6 +150,7 @@ function App() {
       />
     );
   }, [
+    screens,
     screenIndex,
     handleNextScreen,
     handlePreviousScreen,
@@ -155,11 +164,12 @@ function App() {
     startTimer,
     stopTimer,
     fromNumber,
+    incomingNumber,
     callStatus,
-    resetInputs,
     availability,
-    screens,
+    direction,
     incomingContactName,
+    resetInputs,
   ]);
 
   return (

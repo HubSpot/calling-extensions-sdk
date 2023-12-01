@@ -92,6 +92,13 @@ class CallingExtensions {
     });
   }
 
+  navigateToRecord(data) {
+    this.sendMessage({
+      type: messageType.NAVIGATE_TO_RECORD,
+      data,
+    });
+  }
+
   callData(data) {
     this.sendMessage({
       type: messageType.CALL_DATA,
@@ -131,7 +138,7 @@ class CallingExtensions {
     this.iFrameManager.sendMessage(message);
   }
 
-  logDebugMessage({ message, type = debugMessageType }) {
+  logDebugMessage({ message, type = debugMessageType.GENERIC_MESSAGE }) {
     this.iFrameManager.logDebugMessage(prefix, type, message);
   }
 
