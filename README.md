@@ -247,7 +247,7 @@ extensions.incomingCall(callInfo);
 
 ```ts
 // Sends a message to notify HubSpot that we need to navigate to a record page for a caller id match.
-type ObjectCoordinate = {
+type ObjectCoordinates = {
   portalId: number;
   objectTypeId: string;
   objectId: number;
