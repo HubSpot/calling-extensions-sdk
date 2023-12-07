@@ -29,8 +29,9 @@ export type CompanyIdMatch = {
   name: string;
 };
 
-const INCOMING_NUMBER_KEY = "__react_demo_app_incoming_number";
-const INCOMING_CONTACT_NAME_KEY = "__react_demo_app_incoming_contact_name";
+const INCOMING_NUMBER_KEY = "LocalSettings:Calling:DemoReact:incomingNumber";
+const INCOMING_CONTACT_NAME_KEY =
+  "LocalSettings:Calling:DemoReact:incomingContactName";
 
 // @TODO Move it to CallingExtensions and export it once migrated to typescript
 interface CallingExtensionsContract {
@@ -167,6 +168,9 @@ export const useCti = (
             cti.incomingNumber = incomingNumber;
             setIncomingContactName(incomingContactName);
             initializeCallingStateForExistingCall(incomingNumber);
+            // clear out localstorage
+            window.localStorage.removeItem(INCOMING_NUMBER_KEY);
+            window.localStorage.removeItem(INCOMING_CONTACT_NAME_KEY);
           }
         },
         onDialNumber: (data: any, _rawEvent: any) => {
