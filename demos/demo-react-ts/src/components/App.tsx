@@ -63,11 +63,11 @@ function App() {
     resetCallDuration,
   } = useCallDurationTimer();
 
-  const initializeCallingStateForExistingCall = () => {
+  const initializeCallingStateForExistingCall = (incomingNumber: string) => {
     setDirection("INBOUND");
     setScreenIndex(2);
     setAvailability("AVAILABLE");
-    setIncomingNumber("+1"); // TODO: Get incoming number from engagements endpoint
+    setIncomingNumber(incomingNumber);
   };
 
   const { cti, phoneNumber, engagementId, callStatus, incomingContactName } =

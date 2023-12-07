@@ -29,6 +29,9 @@ export type CompanyIdMatch = {
   name: string;
 };
 
+const INCOMING_NUMBER_KEY = "__react_demo_app_incoming_number";
+const INCOMING_CONTACT_NAME_KEY = "__react_demo_app_incoming_contact_name";
+
 // @TODO Move it to CallingExtensions and export it once migrated to typescript
 interface CallingExtensionsContract {
   initialized: (userData: unknown) => void;
@@ -66,6 +69,10 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   get incomingNumber() {
     return this._incomingNumber;
+  }
+
+  set incomingNumber(number: string) {
+    this._incomingNumber = number;
   }
 
   initialized(userData: unknown) {
@@ -134,7 +141,9 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 }
 
-export const useCti = (initializeCallingStateForExistingCall: () => void) => {
+export const useCti = (
+  initializeCallingStateForExistingCall: (incomingNumber: string) => void
+) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [engagementId, setEngagementId] = useState<number | null>(null);
   const [incomingContactName, setIncomingContactName] = useState<string>("");
@@ -149,8 +158,15 @@ export const useCti = (initializeCallingStateForExistingCall: () => void) => {
             sizeInfo: defaultSize,
             engagementId: data.engagementId,
           });
-          if (data.engagementId) {
-            initializeCallingStateForExistingCall();
+          const incomingNumber =
+            window.localStorage.getItem(INCOMING_NUMBER_KEY);
+          const incomingContactName = window.localStorage.getItem(
+            INCOMING_CONTACT_NAME_KEY
+          );
+          if (data.engagementId && incomingNumber && incomingContactName) {
+            cti.incomingNumber = incomingNumber;
+            setIncomingContactName(incomingContactName);
+            initializeCallingStateForExistingCall(incomingNumber);
           }
         },
         onDialNumber: (data: any, _rawEvent: any) => {
@@ -195,6 +211,12 @@ export const useCti = (initializeCallingStateForExistingCall: () => void) => {
               message: `Incoming call from ${name} ${cti.incomingNumber}`,
               type: `${callerIdMatches.length} Caller ID Matches`,
             });
+            // save info in localstorage so that it can retrieved on redirect
+            window.localStorage.setItem(
+              INCOMING_NUMBER_KEY,
+              cti.incomingNumber
+            );
+            window.localStorage.setItem(INCOMING_CONTACT_NAME_KEY, name);
             cti.navigateToRecord({
               objectCoordinates: firstCallerIdMatch.objectCoordinates,
             });
