@@ -1,7 +1,7 @@
 "use es6";
 
 import CallingExtensions from "../../src/CallingExtensions";
-import { VERSION, messageType } from "../../src/Constants";
+import { messageType } from "../../src/Constants";
 
 describe("CallingExtensions", () => {
   let instance;
