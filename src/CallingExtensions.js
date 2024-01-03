@@ -13,7 +13,16 @@ import { messageType, errorType } from "./Constants";
  */
 
 /**
+ * @typedef {Object} IframeOptions
+ * @property {string} src - iframe URL
+ * @property {string} height - Height of iframe
+ * @property {string} width - Width of iframe
+ * @property {string} hostElementSelector - Selector for host element where iframe will be bound
+ */
+
+/**
  * @typedef {Object} Options
+ * @property {IframeOptions} iFrameOptions - iFrame configuration options
  * @property {boolean} debugMode - Whether to log various inbound/outbound debug messages
  * to the console.
  * @property {EventHandlers} eventHandlers - Event handlers handle inbound messages.
@@ -34,6 +43,7 @@ class CallingExtensions {
     this.options = options;
 
     this.iFrameManager = new IFrameManager({
+      iFrameOptions: options.iFrameOptions,
       debugMode: options.debugMode,
       onMessageHandler: event => this.onMessageHandler(event),
     });
