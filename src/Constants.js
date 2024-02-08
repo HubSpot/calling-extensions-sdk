@@ -61,7 +61,6 @@ export const messageHandlerNames = {
   [messageType.DIAL_NUMBER]: "onDialNumber",
   [messageType.END_CALL]: "onEndCall",
   [messageType.ENGAGEMENT_CREATED]: "onEngagementCreated",
-  [messageType.INCOMING_CALL]: "onIncomingCall",
   [messageType.NAVIGATE_TO_RECORD_FAILED]: "onNavigateToRecordFailed",
   [messageType.READY]: "onReady",
   [messageType.SET_CALL_STATE]: "onSetCallState",
