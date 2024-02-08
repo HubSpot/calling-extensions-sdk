@@ -182,21 +182,21 @@ export const useCti = (
           setEngagementId(engagementId);
         },
         onVisibilityChanged: (data: any, _rawEvent: any) => {
-          // nothing to do here
+          /** The cti's visibility has changed. */
         },
         onCreateEngagementSucceeded: (data: any, _rawEvent: any) => {
           const { engagementId } = data;
           setEngagementId(engagementId);
         },
         onCreateEngagementFailed: (data: any, _rawEvent: any) => {
-          // nothing to do here
+          /** HubSpot was unable to create an engagement for this call. */
         },
         onUpdateEngagementSucceeded: (data: any, _rawEvent: any) => {
           const { engagementId } = data;
           setEngagementId(engagementId);
         },
         onUpdateEngagementFailed: (data: any, _rawEvent: any) => {
-          // nothing to do here
+          /** HubSpot was unable to update the engagement for this call. */
         },
         onCallerIdMatchSucceeded: (data: {
           callerIdMatches: (ContactIdMatch | CompanyIdMatch)[];
@@ -236,6 +236,9 @@ export const useCti = (
             message: `Incoming call from ${cti.incomingNumber}`,
             type: "Caller ID Match Failed",
           });
+        },
+        onNavigateToRecordFailed: (data: any, _rawEvent: any) => {
+          /** HubSpot was unable to navigate to the desired record page. */
         },
       },
     });

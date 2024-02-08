@@ -72,17 +72,23 @@ const cti = new CallingExtensions({
         cti.callEnded();
       }, 500);
     },
-    onVisibilityChanged: (data, rawEvent) => {},
+    onVisibilityChanged: (data, rawEvent) => {
+      /** The cti's visibility has changed. */
+    },
     onCreateEngagementSucceeded: (data, rawEvent) => {
       const { engagementId } = data;
       state.engagementId = engagementId;
     },
-    onCreateEngagementFailed: (data, rawEvent) => {},
+    onCreateEngagementFailed: (data, rawEvent) => {
+      /** HubSpot was unable to create an engagement for this call. */
+    },
     onUpdateEngagementSucceeded: (data, rawEvent) => {
       const { engagementId } = data;
       state.engagementId = engagementId;
     },
-    onUpdateEngagementFailed: (data, rawEvent) => {},
+    onUpdateEngagementFailed: (data, rawEvent) => {
+      /** HubSpot was unable to update the engagement for this call. */
+    },
     onCallerIdMatchSucceeded: (data, rawEvent) => {
       const { callerIdMatches } = data;
       if (callerIdMatches.length) {
@@ -111,6 +117,9 @@ const cti = new CallingExtensions({
         message: `Incoming call from ${state.fromNumber}`,
         type: "Caller ID Match Failed",
       });
+    },
+    onNavigateToRecordFailed: (data, rawEvent) => {
+      /** HubSpot was unable to navigate to the desired record page. */
     },
   },
 });
