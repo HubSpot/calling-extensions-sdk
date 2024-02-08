@@ -1,7 +1,13 @@
 "use es6";
 
 import IFrameManager from "./IFrameManager";
-import { messageType, debugMessageType, errorType, VERSION } from "./Constants";
+import {
+  messageType,
+  debugMessageType,
+  errorType,
+  VERSION,
+  messageHandlerNames,
+} from "./Constants";
 
 const prefix = `[calling-extensions-sdk@${VERSION}]`;
 
@@ -155,87 +161,24 @@ class CallingExtensions {
   onMessageHandler(event) {
     const { type, data } = event;
     const { eventHandlers } = this.options;
+
     let handler;
-    switch (type) {
-      case messageType.READY: {
-        const { onReady } = eventHandlers;
-        handler = onReady;
-        break;
-      }
-      case messageType.DIAL_NUMBER: {
-        const { onDialNumber } = eventHandlers;
-        handler = onDialNumber;
-        break;
-      }
-      case messageType.INCOMING_CALL: {
-        const { onIncomingCall } = eventHandlers;
-        handler = onIncomingCall;
-        break;
-      }
-      case messageType.ENGAGEMENT_CREATED: {
-        const { onEngagementCreated } = eventHandlers;
-        handler = onEngagementCreated;
-        break;
-      }
-      case messageType.END_CALL: {
-        const { onEndCall } = eventHandlers;
-        handler = onEndCall;
-        break;
-      }
-      case messageType.VISIBILITY_CHANGED: {
-        const { onVisibilityChanged } = eventHandlers;
-        handler = onVisibilityChanged;
-        break;
-      }
-      case messageType.SET_CALL_STATE: {
-        const { onSetCallState } = eventHandlers;
-        handler = onSetCallState;
-        break;
-      }
-      case messageType.CREATE_ENGAGEMENT_SUCCEEDED: {
-        const { onCreateEngagementSucceeded } = eventHandlers;
-        handler = onCreateEngagementSucceeded;
-        break;
-      }
-      case messageType.CREATE_ENGAGEMENT_FAILED: {
-        const { onCreateEngagementFailed } = eventHandlers;
-        handler = onCreateEngagementFailed;
-        break;
-      }
-      case messageType.UPDATE_ENGAGEMENT_SUCCEEDED: {
-        const { onUpdateEngagementSucceeded } = eventHandlers;
-        handler = onUpdateEngagementSucceeded;
-        break;
-      }
-      case messageType.UPDATE_ENGAGEMENT_FAILED: {
-        const { onUpdateEngagementFailed } = eventHandlers;
-        handler = onUpdateEngagementFailed;
-        break;
-      }
-      case messageType.CALLER_ID_MATCH_SUCCEEDED: {
-        const { onCallerIdMatchSucceeded } = eventHandlers;
-        handler = onCallerIdMatchSucceeded;
-        break;
-      }
-      case messageType.CALLER_ID_MATCH_FAILED: {
-        const { onCallerIdMatchFailed } = eventHandlers;
-        handler = onCallerIdMatchFailed;
-        break;
-      }
-      default: {
-        // Send back a message indicating an unknown event is received
-        this.sendMessage({
-          type: messageType.ERROR,
+    if (type in messageHandlerNames) {
+      const name = messageHandlerNames[type];
+      handler = eventHandlers[name];
+    } else {
+      // Send back a message indicating an unknown event is received
+      this.sendMessage({
+        type: messageType.ERROR,
+        data: {
+          type: errorType.UNKNOWN_MESSAGE_TYPE,
           data: {
-            type: errorType.UNKNOWN_MESSAGE_TYPE,
-            data: {
-              originalMessage: event,
-            },
+            originalMessage: event,
           },
-        });
-        break;
-      }
+        },
+      });
     }
+
     handler = handler || eventHandlers.defaultEventHandler;
     if (handler) {
       handler(data, event);
