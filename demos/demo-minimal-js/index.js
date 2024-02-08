@@ -1,7 +1,7 @@
 // import CallingExtensions from "../../src/CallingExtensions";
 // import { errorType, callEndStatus } from "../../src/Constants";
-import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
-const { errorType, callEndStatus } = Constants;
+const CallingExtensions = require("@hubspot/calling-extensions-sdk");
+const { errorType, callEndStatus } = CallingExtensions.Constants;
 
 const state = {
   phoneNumber: "",

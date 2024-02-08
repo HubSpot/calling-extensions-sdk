@@ -1,5 +1,3 @@
-"use es6";
-
 import packageJson from "../package.json";
 
 export const VERSION = packageJson.version;

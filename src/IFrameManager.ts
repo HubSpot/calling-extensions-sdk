@@ -1,15 +1,36 @@
-"use es6";
-
 import { messageType, VERSION } from "./Constants";
+import { IframeOptions, SizeInfo } from "./types";
 
 const prefix = `[calling-extensions-sdk@${VERSION}]`;
+
+interface IFrameManagerOptions {
+  iFrameOptions?: IframeOptions;
+  debugMode?: boolean;
+  onMessageHandler: (event: any) => void;
+}
+
 /*
  * IFrameManager abstracts the iFrame communication between the IFrameHost and an IFrame
  * An IFrameManager instance can act as part of the IFrameHost and an IFrame depending on
  * the options.
  */
 class IFrameManager {
-  constructor(options) {
+  options: any;
+  onMessageHandler: any;
+  isIFrameHost: boolean;
+  debugMode: any;
+  callbacks: Record<string, Function>;
+  instanceId: number;
+  instanceRegexp: RegExp;
+  isReady: boolean;
+  messageHandler: (event: any) => void;
+  iFrame: any;
+  firstSyncSent: number = 0;
+  destinationWindow: any;
+  destinationHost: string;
+  static handleLoadError: OnErrorEventHandler;
+
+  constructor(options: IFrameManagerOptions) {
     this.options = options;
     const { iFrameOptions, onMessageHandler, debugMode } = options;
 
@@ -48,14 +69,14 @@ class IFrameManager {
   /*
    * Creates a new message id
    */
-  static createMessageId(instanceId) {
+  static createMessageId(instanceId: number) {
     return `${instanceId}_${Date.now()}`;
   }
 
   /*
    * Gets the html element that hosts the iFrame
    */
-  static getHostElement(hostElementSelector) {
+  static getHostElement(hostElementSelector: string) {
     const hostElement = document.querySelector(hostElementSelector);
     if (!hostElement) {
       throw new Error(
@@ -65,21 +86,19 @@ class IFrameManager {
     return hostElement;
   }
 
-  static extractHostFromUrl(url) {
+  static extractHostFromUrl(url: string) {
     const a = document.createElement("a");
     a.href = url;
     return `${a.protocol}//${a.host}`;
   }
 
-  static getDestinationHost(iFrameOptions) {
+  static getDestinationHost(iFrameOptions?: IframeOptions) {
     const url = iFrameOptions ? iFrameOptions.src : document.referrer;
     return IFrameManager.extractHostFromUrl(url);
   }
 
-  static createIFrame(iFrameOptions, onLoadCallback) {
-    const {
-      src, width, height, hostElementSelector,
-    } = iFrameOptions;
+  static createIFrame(iFrameOptions: IframeOptions, onLoadCallback: any) {
+    const { src, width, height, hostElementSelector } = iFrameOptions;
 
     if (!src || !width || !height || !hostElementSelector) {
       throw new Error(
@@ -87,7 +106,7 @@ class IFrameManager {
       );
     }
 
-    const iFrame = document.createElement("iFrame");
+    const iFrame = document.createElement("iFrame") as HTMLIFrameElement;
     iFrame.onload = onLoadCallback;
     iFrame.onerror = this.handleLoadError;
     iFrame.src = src;
@@ -109,9 +128,10 @@ class IFrameManager {
     });
   }
 
-  updateIFrameSize(sizeInfo) {
+  updateIFrameSize(sizeInfo: SizeInfo) {
     const { width, height } = sizeInfo;
-    const formatSize = size => (typeof size === "number" ? `${size}px` : size);
+    const formatSize = (size: number | string) =>
+      typeof size === "number" ? `${size}px` : size;
     if (width) {
       this.iFrame.setAttribute("width", formatSize(width));
     }
@@ -148,11 +168,15 @@ class IFrameManager {
   /*
    * Send a message to the destination window.
    */
-  sendMessage(message, callback) {
+  sendMessage(message: any, callback?: Function) {
     const { type } = message;
     if (type !== messageType.SYNC && !this.isReady) {
       // Do not send a message unless the iFrame is ready to receive.
-      console.warn(prefix, "iFrame not initialized to send a message within HubSpot", message);
+      console.warn(
+        prefix,
+        "iFrame not initialized to send a message within HubSpot",
+        message,
+      );
       return;
     }
 
@@ -174,7 +198,7 @@ class IFrameManager {
     this.destinationWindow.postMessage(newMessage, this.destinationHost);
   }
 
-  onMessage(event) {
+  onMessage(event: any) {
     const { data, origin } = event;
     const { type } = event.data;
     if (type === messageType.SYNC) {
@@ -243,7 +267,7 @@ class IFrameManager {
         type: messageType.SYNC,
         hostUrl: IFrameManager.extractHostFromUrl(window.location.href),
       },
-      eventData => {
+      (eventData: any) => {
         const { iFrameUrl } = eventData;
         this.destinationHost = iFrameUrl || this.destinationHost;
         this.onReady();
@@ -260,7 +284,7 @@ class IFrameManager {
     }, 100);
   }
 
-  logDebugMessage(...args) {
+  logDebugMessage(...args: any[]) {
     if (this.debugMode) {
       console.log.call(null, args);
       return;

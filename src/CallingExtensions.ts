@@ -1,7 +1,6 @@
-"use es6";
-
 import IFrameManager from "./IFrameManager";
 import { messageType, errorType } from "./Constants";
+import { IframeOptions, SizeInfo } from "./types";
 
 /**
  * @typedef {Object} EventHandlers
@@ -28,14 +27,42 @@ import { messageType, errorType } from "./Constants";
  * @property {EventHandlers} eventHandlers - Event handlers handle inbound messages.
  */
 
+type EventHandler = (data: unknown, event: unknown) => void;
+
+type EventHandlers = Record<string, EventHandler> & {
+  defaultEventHandler?: EventHandler;
+};
+
+interface CallingExtensionsOptions {
+  iFrameOptions?: IframeOptions;
+  debugMode?: boolean;
+  eventHandlers: EventHandlers;
+}
+
+interface CallingExtensionsContract {
+  initialized: (userData: { isLoggedIn: boolean; sizeInfo: SizeInfo }) => void;
+  userLoggedIn: () => void;
+  userLoggedOut: () => void;
+  incomingCall: (callDetails: unknown) => void;
+  outgoingCall: (callDetails: unknown) => void;
+  callAnswered: () => void;
+  callData: (data: unknown) => void;
+  callEnded: (engagementData: unknown) => void;
+  callCompleted: (engagementData: unknown) => void;
+  sendError: (errorData: unknown) => void;
+  resizeWidget: (sizeInfo: SizeInfo) => void;
+}
+
 /*
  * CallingExtensions allows call providers to communicate with HubSpot.
  */
-class CallingExtensions {
+class CallingExtensions implements CallingExtensionsContract {
+  options: any;
+  iFrameManager: IFrameManager;
   /**
    * @param {Options} options
    */
-  constructor(options) {
+  constructor(options: CallingExtensionsOptions) {
     if (!options || !options.eventHandlers) {
       throw new Error("Invalid options or missing eventHandlers.");
     }
@@ -45,11 +72,11 @@ class CallingExtensions {
     this.iFrameManager = new IFrameManager({
       iFrameOptions: options.iFrameOptions,
       debugMode: options.debugMode,
-      onMessageHandler: event => this.onMessageHandler(event),
+      onMessageHandler: (event: any) => this.onMessageHandler(event),
     });
   }
 
-  initialized(userData) {
+  initialized(userData: { isLoggedIn: boolean; sizeInfo: SizeInfo }) {
     this.sendMessage({
       type: messageType.INITIALIZED,
       data: { ...userData },
@@ -68,14 +95,14 @@ class CallingExtensions {
     });
   }
 
-  incomingCall(callDetails) {
+  incomingCall(callDetails: any) {
     this.sendMessage({
       type: messageType.INCOMING_CALL,
       data: callDetails,
     });
   }
 
-  outgoingCall(callDetails) {
+  outgoingCall(callDetails: any) {
     this.sendMessage({
       type: messageType.OUTGOING_CALL_STARTED,
       data: callDetails,
@@ -88,46 +115,46 @@ class CallingExtensions {
     });
   }
 
-  callData(data) {
+  callData(data: any) {
     this.sendMessage({
       type: messageType.CALL_DATA,
       data,
     });
   }
 
-  callEnded(engagementData) {
+  callEnded(engagementData: any) {
     this.sendMessage({
       type: messageType.CALL_ENDED,
       data: engagementData,
     });
   }
 
-  callCompleted(callCompletedData) {
+  callCompleted(callCompletedData: any) {
     this.sendMessage({
       type: messageType.CALL_COMPLETED,
       data: callCompletedData,
     });
   }
 
-  sendError(errorData) {
+  sendError(errorData: any) {
     this.sendMessage({
       type: messageType.ERROR,
       data: errorData,
     });
   }
 
-  resizeWidget(sizeInfo) {
+  resizeWidget(sizeInfo: SizeInfo) {
     this.sendMessage({
       type: messageType.RESIZE_WIDGET,
       data: sizeInfo,
     });
   }
 
-  sendMessage(message) {
+  private sendMessage(message: { type: string; data?: unknown }) {
     this.iFrameManager.sendMessage(message);
   }
 
-  onMessageHandler(event) {
+  private onMessageHandler(event: any) {
     const { type, data } = event;
     const { eventHandlers } = this.options;
     let handler;

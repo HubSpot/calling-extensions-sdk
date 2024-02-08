@@ -9,3 +9,5 @@ lib
 demos/build/*
 !demos/build/.gitkeep
 dist-test
+.yalc
+yalc.lock

@@ -1,9 +1,8 @@
 import { useMemo, useState } from "react";
-import CallingExtensions from "../../../../src/CallingExtensions";
-import { callStatus } from "../../../../src/Constants";
-// @ts-expect-error module not typed
-// import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
-// const { callStatus } = Constants;
+// import CallingExtensions from "../../../../src/CallingExtensions";
+// import { callStatus } from "../../../../src/Constants";
+import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
+const { callStatus } = Constants;
 
 export const useCti = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
