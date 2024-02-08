@@ -2,7 +2,7 @@ const path = require("path");
 const glob = require("glob");
 
 module.exports = {
-  entry: glob.sync("./test/spec/**/*-test.js"),
+  entry: glob.sync("./test/spec/**/*-test.ts"),
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },
@@ -18,9 +18,7 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: [
-              "@babel/preset-env",
-            ],
+            presets: ["@babel/preset-env", "@babel/preset-typescript"],
           },
         },
       },

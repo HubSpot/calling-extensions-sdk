@@ -6,11 +6,15 @@
     "access": "public"
   },
   "scripts": {
-    "build": "webpack",
+    "build": "npm run clean && npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc -p ./tsconfig.esm.json && mv dist/esm/index.js dist/esm/index.mjs",
+    "build:cjs": "tsc -p ./tsconfig.cjs.json",
     "build:test": "npm run build && npm run test",
+    "clean": "rm -rf ./dist",
     "cover": "open coverage/lcov-report/index.html",
     "eslint": "eslint src --ext .js",
     "eslint:fix": "eslint src .js --fix",
+    "prepack": "npm run build",
     "preversion": "npm run build:test",
     "postversion": "git push --follow-tags",
     "publish:inbound": "npm version prerelease --preid alpha && npm publish --access public --tag next",
@@ -27,13 +31,23 @@
     "test:serve": "cross-env NODE_ENV=test npm run test:watch & jasmine-browser-runner serve --config=test/support/jasmine-browser.json",
     "test": "cross-env NODE_ENV=test npm run test:build && jasmine-browser-runner runSpecs --config=test/support/jasmine-browser.json --browser=headlessChrome"
   },
-  "main": "./dist/main.js",
+  "types": "./dist/cjs/types/index.d.ts",
+  "main": "./dist/cjs/index.js",
   "files": [
-    "dist/",
-    "src/",
-    "index.js"
+    "dist/**/*"
   ],
-  "module": "./index.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/types/index.d.ts",
+        "default": "./dist/esm/index.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/types/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    }
+  },
   "author": "",
   "license": "MIT",
   "engines": {
@@ -43,6 +57,8 @@
     "@babel/cli": "^7.21.0",
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.21.4",
+    "@babel/preset-typescript": "7.23.3",
+    "@types/jasmine": "^4.3.1",
     "@typescript-eslint/eslint-plugin": "^5.59.7",
     "@typescript-eslint/parser": "^5.59.7",
     "babel-loader": "^8.0.6",

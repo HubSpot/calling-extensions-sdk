@@ -1,72 +1,18 @@
-/* eslint-disable import/no-relative-packages */
 import { useMemo, useState } from "react";
-// import CallingExtensions from "@hubspot/calling-extensions-sdk/src/CallingExtensions";
-// import { callStatus } from "@hubspot/calling-extensions-sdk/src/Constants";
-
-// @ts-expect-error module not typed
-import CallingExtensions from "../../../../src/CallingExtensions";
-// @ts-expect-error module not typed
-import { callStatus } from "../../../../src/Constants";
-
-// @TODO Move it to CallingExtensions and export it once migrated to typescript
-type ObjectCoordinates = {
-  portalId: number;
-  objectTypeId: string;
-  objectId: number;
-};
-
-export type ContactIdMatch = {
-  callerIdType: "CONTACT";
-  objectCoordinates: ObjectCoordinates;
-  firstName: string;
-  lastName: string;
-  email: string;
-};
-
-export type CompanyIdMatch = {
-  callerIdType: "COMPANY";
-  objectCoordinates: ObjectCoordinates;
-  name: string;
-};
+import CallingExtensions, {
+  CompanyIdMatch,
+  Constants,
+  ContactIdMatch,
+  OnIncomingCallPayload,
+} from "@hubspot/calling-extensions-sdk";
+const { callStatus } = Constants;
 
 const INCOMING_NUMBER_KEY = "LocalSettings:Calling:DemoReact:incomingNumber";
 const INCOMING_CONTACT_NAME_KEY =
   "LocalSettings:Calling:DemoReact:incomingContactName";
 
-// @TODO Move it to CallingExtensions and export it once migrated to typescript
-interface CallingExtensionsContract {
-  initialized: (userData: unknown) => void;
-  userAvailable: () => void;
-  userUnavailable: () => void;
-  userLoggedIn: () => void;
-  userLoggedOut: () => void;
-  incomingCall: (callDetails: { fromNumber: string }) => void;
-  outgoingCall: (callDetails: unknown) => void;
-  callAnswered: () => void;
-  callData: (data: unknown) => void;
-  callEnded: (engagementData: unknown) => void;
-  callCompleted: (callCompletedData: unknown) => void;
-  sendError: (errorData: unknown) => void;
-  resizeWidget: (sizeInfo: unknown) => void;
-  sendMessage: (message: unknown) => void;
-  logDebugMessage: (messageData: unknown) => void;
-}
-
-// @TODO Move it to CallingExtensions and export it once migrated to typescript
-interface CallingExtensionsOptions {
-  debugMode: boolean;
-  eventHandlers: unknown;
-}
-
-// @TODO Move it to CallingExtensions and export it once migrated to typescript
-class CallingExtensionsWrapper implements CallingExtensionsContract {
-  private _cti: CallingExtensions;
-
+class CallingExtensionsWrapper extends CallingExtensions {
   private _incomingNumber = "";
-
-  constructor(options: CallingExtensionsOptions) {
-    this._cti = new CallingExtensions(options);
-  }
 
   get incomingNumber() {
     return this._incomingNumber;
@@ -76,69 +22,13 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
     this._incomingNumber = number;
   }
 
-  initialized(userData: unknown) {
-    return this._cti.initialized(userData);
-  }
-
-  userAvailable() {
-    return this._cti.userAvailable();
-  }
-
-  userUnavailable() {
-    return this._cti.userUnavailable();
-  }
-
-  userLoggedIn() {
-    return this._cti.userLoggedIn();
-  }
-
-  userLoggedOut() {
-    return this._cti.userLoggedOut();
-  }
-
-  incomingCall(callDetails: { fromNumber: string }) {
-    this._incomingNumber = callDetails.fromNumber;
-    return this._cti.incomingCall(callDetails);
-  }
-
-  outgoingCall(callDetails: unknown) {
-    return this._cti.outgoingCall(callDetails);
-  }
-
-  navigateToRecord(data: { objectCoordinates: ObjectCoordinates }) {
-    return this._cti.navigateToRecord(data);
-  }
-
-  callAnswered() {
-    return this._cti.callAnswered();
-  }
-
-  callData(data: unknown) {
-    return this._cti.callData(data);
-  }
-
-  callEnded(engagementData: unknown) {
-    return this._cti.callEnded(engagementData);
-  }
-
-  callCompleted(callCompletedData: unknown) {
-    return this._cti.callCompleted(callCompletedData);
-  }
-
-  sendError(errorData: unknown) {
-    return this._cti.sendError(errorData);
-  }
-
-  resizeWidget(sizeInfo: unknown) {
-    return this._cti.resizeWidget(sizeInfo);
-  }
-
-  sendMessage(message: unknown) {
-    return this._cti.sendMessage(message);
-  }
-
-  logDebugMessage(messageData: unknown) {
-    return this._cti.logDebugMessage(messageData);
+  incomingCall({
+    fromNumber,
+    toNumber,
+    createEngagement,
+  }: OnIncomingCallPayload) {
+    this._incomingNumber = fromNumber;
+    return super.incomingCall({ fromNumber, toNumber, createEngagement });
   }
 }
 

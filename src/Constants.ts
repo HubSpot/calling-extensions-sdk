@@ -1,5 +1,3 @@
-"use es6";
-
 import packageJson from "../package.json";
 
 export const VERSION = packageJson.version;
@@ -51,6 +49,7 @@ export const messageType = {
   SYNC_ACK: "SYNC_ACK",
   SYNC: "SYNC",
   UNLOADING: "UNLOADING",
+  ERROR: "ERROR",
 };
 
 export const messageHandlerNames = {
@@ -120,7 +119,7 @@ export const callEndStatus = {
   INTERNAL_CANCELED,
   INTERNAL_BUSY,
   INTERNAL_NO_ANSWER,
-};
+} as const;
 
 export const CONTACT = "CONTACT";
 export const COMPANY = "COMPANY";

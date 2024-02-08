@@ -1,15 +1,21 @@
-"use es6";
-
 import IFrameManager from "./IFrameManager";
 import {
   messageType,
-  debugMessageType,
-  errorType,
-  VERSION,
   messageHandlerNames,
+  errorType,
+  debugMessageType,
 } from "./Constants";
-
-const prefix = `[calling-extensions-sdk@${VERSION}]`;
+import {
+  CallingExtensionsContract,
+  CallingExtensionsOptions,
+  OnCallCompletedPayload,
+  OnCallEndedPayload,
+  OnIncomingCallPayload,
+  OnInitializedPayload,
+  OnNavigateToRecordPayload,
+  OnOutgoingCallPayload,
+  SizeInfo,
+} from "./types";
 
 /**
  * @typedef {Object} EventHandlers
@@ -39,11 +45,13 @@ const prefix = `[calling-extensions-sdk@${VERSION}]`;
 /*
  * CallingExtensions allows call providers to communicate with HubSpot.
  */
-class CallingExtensions {
+class CallingExtensions implements CallingExtensionsContract {
+  options: CallingExtensionsOptions;
+  iFrameManager: IFrameManager;
   /**
    * @param {Options} options
    */
-  constructor(options) {
+  constructor(options: CallingExtensionsOptions) {
     if (!options || !options.eventHandlers) {
       throw new Error("Invalid options or missing eventHandlers.");
     }
@@ -53,11 +61,11 @@ class CallingExtensions {
     this.iFrameManager = new IFrameManager({
       iFrameOptions: options.iFrameOptions,
       debugMode: options.debugMode,
-      onMessageHandler: event => this.onMessageHandler(event),
+      onMessageHandler: (event: any) => this.onMessageHandler(event),
     });
   }
 
-  initialized(userData) {
+  initialized(userData: OnInitializedPayload) {
     this.sendMessage({
       type: messageType.INITIALIZED,
       data: { ...userData },
@@ -88,14 +96,14 @@ class CallingExtensions {
     });
   }
 
-  incomingCall(callDetails) {
+  incomingCall(callDetails: OnIncomingCallPayload) {
     this.sendMessage({
       type: messageType.INCOMING_CALL,
       data: callDetails,
     });
   }
 
-  outgoingCall(callDetails) {
+  outgoingCall(callDetails: OnOutgoingCallPayload) {
     this.sendMessage({
       type: messageType.OUTGOING_CALL_STARTED,
       data: callDetails,
@@ -108,57 +116,63 @@ class CallingExtensions {
     });
   }
 
-  navigateToRecord(data) {
+  navigateToRecord(data: OnNavigateToRecordPayload) {
     this.sendMessage({
       type: messageType.NAVIGATE_TO_RECORD,
       data,
     });
   }
 
-  callData(data) {
+  callData(data: unknown) {
     this.sendMessage({
       type: messageType.CALL_DATA,
       data,
     });
   }
 
-  callEnded(engagementData) {
+  callEnded(engagementData: OnCallEndedPayload) {
     this.sendMessage({
       type: messageType.CALL_ENDED,
       data: engagementData,
     });
   }
 
-  callCompleted(callCompletedData) {
+  callCompleted(callCompletedData: OnCallCompletedPayload) {
     this.sendMessage({
       type: messageType.CALL_COMPLETED,
       data: callCompletedData,
     });
   }
 
-  sendError(errorData) {
+  sendError(errorData: any) {
     this.sendMessage({
       type: messageType.ERROR,
       data: errorData,
     });
   }
 
-  resizeWidget(sizeInfo) {
+  resizeWidget(sizeInfo: SizeInfo) {
     this.sendMessage({
       type: messageType.RESIZE_WIDGET,
       data: sizeInfo,
     });
   }
 
-  sendMessage(message) {
+  logDebugMessage({
+    message,
+    type = debugMessageType.GENERIC_MESSAGE,
+  }: {
+    message: unknown;
+    type: string;
+  }) {
+    this.iFrameManager.logDebugMessage(type, message);
+  }
+
+  sendMessage(message: { type: string; data?: unknown }) {
     this.iFrameManager.sendMessage(message);
   }
 
-  logDebugMessage({ message, type = debugMessageType.GENERIC_MESSAGE }) {
-    this.iFrameManager.logDebugMessage(prefix, type, message);
-  }
-
-  onMessageHandler(event) {
+  private onMessageHandler(event: any) {
     const { type, data } = event;
     const { eventHandlers } = this.options;
 
