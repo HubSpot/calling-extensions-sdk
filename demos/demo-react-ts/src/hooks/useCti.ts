@@ -1,11 +1,20 @@
 import { useMemo, useState } from "react";
-import CallingExtensions, {
+// import CallingExtensions, {
+//   CompanyIdMatch,
+//   Constants,
+//   ContactIdMatch,
+//   OnIncomingCallPayload,
+// } from "@hubspot/calling-extensions-sdk";
+// const { callStatus } = Constants;
+
+// @TODO: Use package instead of relative path referencing
+import CallingExtensions from "../../../../src/CallingExtensions";
+import { callStatus } from "../../../../src/Constants";
+import {
   CompanyIdMatch,
-  Constants,
   ContactIdMatch,
   OnIncomingCallPayload,
-} from "@hubspot/calling-extensions-sdk";
-const { callStatus } = Constants;
+} from "../../../../src/types";
 
 const INCOMING_NUMBER_KEY = "LocalSettings:Calling:DemoReact:incomingNumber";
 const INCOMING_CONTACT_NAME_KEY =
