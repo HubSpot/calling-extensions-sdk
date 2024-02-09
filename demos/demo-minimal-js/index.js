@@ -1,8 +1,8 @@
 /* eslint-disable import/no-relative-packages */
 import CallingExtensions from "../../src/CallingExtensions";
-import { errorType, callEndStatus } from "../../src/Constants";
+import { messageType, callEndStatus } from "../../src/Constants";
 // import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
-// const { errorType, callEndStatus } = Constants;
+// const { messageType, callEndStatus } = Constants;
 
 export const state = {
   engagementId: 0,
@@ -225,7 +225,7 @@ export function completeCall() {
 
 export function sendError() {
   cti.sendError({
-    type: errorType.ERROR,
+    type: messageType.ERROR,
     message: "This is an error alert shown in the Hubspot UI",
   });
 }
