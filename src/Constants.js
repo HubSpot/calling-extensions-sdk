@@ -4,41 +4,74 @@ import packageJson from "../package.json";
 
 export const VERSION = packageJson.version;
 
-export const messageType = {
+export const debugMessageType = {
+  FROM_HUBSPOT: "From HubSpot",
+  TO_HUBSPOT: "To HubSpot",
+  GENERIC_MESSAGE: "Generic Message",
+};
+
+const thirdPartyToHostEvents = {
   CALL_ANSWERED: "CALL_ANSWERED",
   CALL_COMPLETED: "CALL_COMPLETED",
   CALL_DATA: "CALL_DATA",
   CALL_ENDED: "CALL_ENDED",
-  CREATE_ENGAGEMENT_FAILED: "CREATE_ENGAGEMENT_FAILED",
-  CREATE_ENGAGEMENT_SUCCEEDED: "CREATE_ENGAGEMENT_SUCCEEDED",
-  DIAL_NUMBER: "DIAL_NUMBER",
-  END_CALL: "END_CALL",
-  /**
-   * @deprecated use CREATE_ENGAGEMENT_SUCCEEDED instead
-   */
-  ENGAGEMENT_CREATED: "ENGAGEMENT_CREATED",
-  ERROR: "ERROR",
+  CALLER_ID_MATCH_FAILED: "CALLER_ID_MATCH_FAILED",
+  CALLER_ID_MATCH_SUCCEEDED: "CALLER_ID_MATCH_SUCCEEDED",
   INCOMING_CALL: "INCOMING_CALL",
   INITIALIZED: "INITIALIZED",
   LOGGED_IN: "LOGGED_IN",
   LOGGED_OUT: "LOGGED_OUT",
+  NAVIGATE_TO_RECORD: "NAVIGATE_TO_RECORD",
   OUTGOING_CALL_STARTED: "OUTGOING_CALL_STARTED",
-  READY: "READY",
   RESIZE_WIDGET: "RESIZE_WIDGET",
+  USER_AVAILABLE: "USER_AVAILABLE",
+  USER_UNAVAILABLE: "USER_UNAVAILABLE",
+};
+
+const hostToThirdPartyEvents = {
+  CREATE_ENGAGEMENT_FAILED: "CREATE_ENGAGEMENT_FAILED",
+  CREATE_ENGAGEMENT_SUCCEEDED: "CREATE_ENGAGEMENT_SUCCEEDED",
+  DIAL_NUMBER: "DIAL_NUMBER",
+  /** @deprecated use CREATE_ENGAGEMENT_SUCCEEDED instead */
+  ENGAGEMENT_CREATED: "ENGAGEMENT_CREATED",
+  NAVIGATE_TO_RECORD_FAILED: "NAVIGATE_TO_RECORD_FAILED",
+  UPDATE_ENGAGEMENT_FAILED: "UPDATE_ENGAGEMENT_FAILED",
+  UPDATE_ENGAGEMENT_SUCCEEDED: "UPDATE_ENGAGEMENT_SUCCEEDED",
+  VISIBILITY_CHANGED: "VISIBILITY_CHANGED",
+};
+
+export const messageType = {
+  ...thirdPartyToHostEvents,
+  ...hostToThirdPartyEvents,
+  END_CALL: "END_CALL",
+  READY: "READY",
   SET_CALL_STATE: "SET_CALL_STATE",
   SET_WIDGET_URL: "SET_WIDGET_URL",
   SYNC_ACK_FAILED: "SYNC_ACK_FAILED",
   SYNC_ACK: "SYNC_ACK",
   SYNC: "SYNC",
   UNLOADING: "UNLOADING",
-  UPDATE_ENGAGEMENT_FAILED: "UPDATE_ENGAGEMENT_FAILED",
-  UPDATE_ENGAGEMENT_SUCCEEDED: "UPDATE_ENGAGEMENT_SUCCEEDED",
-  VISIBILITY_CHANGED: "VISIBILITY_CHANGED",
+};
+
+export const messageHandlerNames = {
+  [messageType.CALLER_ID_MATCH_FAILED]: "onCallerIdMatchFailed",
+  [messageType.CALLER_ID_MATCH_SUCCEEDED]: "onCallerIdMatchSucceeded",
+  [messageType.CREATE_ENGAGEMENT_FAILED]: "onCreateEngagementFailed",
+  [messageType.CREATE_ENGAGEMENT_SUCCEEDED]: "onCreateEngagementSucceeded",
+  [messageType.DIAL_NUMBER]: "onDialNumber",
+  [messageType.END_CALL]: "onEndCall",
+  [messageType.ENGAGEMENT_CREATED]: "onEngagementCreated",
+  [messageType.NAVIGATE_TO_RECORD_FAILED]: "onNavigateToRecordFailed",
+  [messageType.READY]: "onReady",
+  [messageType.SET_CALL_STATE]: "onSetCallState",
+  [messageType.UPDATE_ENGAGEMENT_FAILED]: "onUpdateEngagementFailed",
+  [messageType.UPDATE_ENGAGEMENT_SUCCEEDED]: "onUpdateEngagementSucceeded",
+  [messageType.VISIBILITY_CHANGED]: "onVisibilityChanged",
 };
 
 export const errorType = {
   UNKNOWN_MESSAGE_TYPE: "UNKNOWN_MESSAGE_TYPE",
-  GENERIC: "GENERIC",
+  ERROR: "ERROR",
 };
 
 /** These are potential statuses from the BE client when calling from phone
@@ -87,4 +120,12 @@ export const callEndStatus = {
   INTERNAL_CANCELED,
   INTERNAL_BUSY,
   INTERNAL_NO_ANSWER,
+};
+
+export const CONTACT = "CONTACT";
+export const COMPANY = "COMPANY";
+
+export const callerIdTypes = {
+  CONTACT,
+  COMPANY,
 };

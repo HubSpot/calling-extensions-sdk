@@ -8,7 +8,8 @@ on:
       - reopened
       - synchronize
     paths:
-      - 'demos/**'
+      - "demos/**"
+  workflow_dispatch:
 
 defaults:
   run:

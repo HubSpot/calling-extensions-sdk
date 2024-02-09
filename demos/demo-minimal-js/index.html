@@ -85,6 +85,10 @@
         font-weight: 300;
         margin-bottom: 1rem;
       }
+      p.other-events {
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        padding-top: 0.5rem;
+      }
     </style>
   </head>
 
@@ -120,7 +124,29 @@
           type="button"
           value="log out"
         />
-        <p>3. Start a call</p>
+        <p>3. Set inbound calling availability</p>
+        <input
+          disabled
+          id="useravailable"
+          onclick="userAvailable()"
+          type="button"
+          value="user available"
+        />
+        <input
+          disabled
+          id="userunavailable"
+          onclick="userUnavailable()"
+          type="button"
+          value="user unavailable"
+        />
+        <p>4. Start a call</p>
+        <input
+          disabled
+          id="incomingcall"
+          onclick="incomingCall()"
+          type="button"
+          value="incoming call started"
+        />
         <input
           disabled
           id="outgoingcall"
@@ -135,7 +161,7 @@
           type="button"
           value="call answered"
         />
-        <p>4. End a call</p>
+        <p>5. End a call</p>
         <input
           disabled
           id="endcall"
@@ -150,8 +176,7 @@
           type="button"
           value="call completed"
         />
-        <hr />
-        <p>Other events</p>
+        <p class="other-events">Other events</p>
         <input
           disabled
           id="senderror"

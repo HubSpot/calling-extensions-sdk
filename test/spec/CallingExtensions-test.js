@@ -33,6 +33,20 @@ describe("CallingExtensions", () => {
       });
     });
 
+    it("should handle user available.", () => {
+      instance.userAvailable();
+      expect(instance.sendMessage).toHaveBeenCalledWith({
+        type: messageType.USER_AVAILABLE,
+      });
+    });
+
+    it("should handle user unavailable.", () => {
+      instance.userUnavailable();
+      expect(instance.sendMessage).toHaveBeenCalledWith({
+        type: messageType.USER_UNAVAILABLE,
+      });
+    });
+
     it("should handle incoming call.", () => {
       const callData = {
         phoneNumber: 1234,
