@@ -1,6 +1,6 @@
 const CallingExtensions = require("@hubspot/calling-extensions-sdk").default;
 const { Constants } = require("@hubspot/calling-extensions-sdk");
-const { errorType, callEndStatus } = Constants;
+const { messageType, callEndStatus } = Constants;
 
 export const state = {
   engagementId: 0,
@@ -223,7 +223,7 @@ export function completeCall() {
 
 export function sendError() {
   cti.sendError({
-    type: errorType.ERROR,
+    type: messageType.ERROR,
     message: "This is an error alert shown in the Hubspot UI",
   });
 }

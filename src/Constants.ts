@@ -42,6 +42,7 @@ export const messageType = {
   ...thirdPartyToHostEvents,
   ...hostToThirdPartyEvents,
   END_CALL: "END_CALL",
+  ERROR: "ERROR",
   READY: "READY",
   SET_CALL_STATE: "SET_CALL_STATE",
   SET_WIDGET_URL: "SET_WIDGET_URL",
@@ -49,7 +50,6 @@ export const messageType = {
   SYNC_ACK: "SYNC_ACK",
   SYNC: "SYNC",
   UNLOADING: "UNLOADING",
-  ERROR: "ERROR",
 };
 
 export const messageHandlerNames = {
@@ -70,7 +70,6 @@ export const messageHandlerNames = {
 
 export const errorType = {
   UNKNOWN_MESSAGE_TYPE: "UNKNOWN_MESSAGE_TYPE",
-  ERROR: "ERROR",
 };
 
 /** These are potential statuses from the BE client when calling from phone
