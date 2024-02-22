@@ -13,7 +13,7 @@ const babelLoader = {
 
 module.exports = {
   entry: "./index.js",
-  mode: "development",
+  mode: "production",
   output: {
     filename: "main.js",
     libraryTarget: "umd",
@@ -22,8 +22,5 @@ module.exports = {
   },
   module: {
     rules: [babelLoader],
-  },
-  optimization: {
-    minimize: false,
   },
 };
