@@ -10,6 +10,7 @@ export const debugMessageType = {
   GENERIC_MESSAGE: "Generic Message",
 };
 
+// SDK -> HUBSPOT
 const thirdPartyToHostEvents = {
   CALL_ANSWERED: "CALL_ANSWERED",
   CALL_COMPLETED: "CALL_COMPLETED",
@@ -26,10 +27,10 @@ const thirdPartyToHostEvents = {
   RESIZE_WIDGET: "RESIZE_WIDGET",
   USER_AVAILABLE: "USER_AVAILABLE",
   USER_UNAVAILABLE: "USER_UNAVAILABLE",
-  READY: "READY",
   SYNC_ACK: "SYNC_ACK",
 };
 
+// HUBSPOT -> SDK
 const hostToThirdPartyEvents = {
   CREATE_ENGAGEMENT_FAILED: "CREATE_ENGAGEMENT_FAILED",
   CREATE_ENGAGEMENT_SUCCEEDED: "CREATE_ENGAGEMENT_SUCCEEDED",
@@ -43,9 +44,16 @@ const hostToThirdPartyEvents = {
   SYNC: "SYNC",
 };
 
+// IFRAME MANAGER -> CTI
+const internalThirdPartyEvents = {
+  READY: "READY",
+  SYNC_ACK_FAILED: "SYNC_ACK_FAILED",
+};
+
 export const messageType = {
   ...thirdPartyToHostEvents,
   ...hostToThirdPartyEvents,
+  ...internalThirdPartyEvents,
   END_CALL: "END_CALL",
   ERROR: "ERROR",
   SET_CALL_STATE: "SET_CALL_STATE",
