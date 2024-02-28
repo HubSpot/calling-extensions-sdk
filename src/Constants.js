@@ -26,6 +26,8 @@ const thirdPartyToHostEvents = {
   RESIZE_WIDGET: "RESIZE_WIDGET",
   USER_AVAILABLE: "USER_AVAILABLE",
   USER_UNAVAILABLE: "USER_UNAVAILABLE",
+  READY: "READY",
+  SYNC_ACK: "SYNC_ACK",
 };
 
 const hostToThirdPartyEvents = {
@@ -38,6 +40,7 @@ const hostToThirdPartyEvents = {
   UPDATE_ENGAGEMENT_FAILED: "UPDATE_ENGAGEMENT_FAILED",
   UPDATE_ENGAGEMENT_SUCCEEDED: "UPDATE_ENGAGEMENT_SUCCEEDED",
   VISIBILITY_CHANGED: "VISIBILITY_CHANGED",
+  SYNC: "SYNC",
 };
 
 export const messageType = {
@@ -45,12 +48,9 @@ export const messageType = {
   ...hostToThirdPartyEvents,
   END_CALL: "END_CALL",
   ERROR: "ERROR",
-  READY: "READY",
   SET_CALL_STATE: "SET_CALL_STATE",
   SET_WIDGET_URL: "SET_WIDGET_URL",
   SYNC_ACK_FAILED: "SYNC_ACK_FAILED",
-  SYNC_ACK: "SYNC_ACK",
-  SYNC: "SYNC",
   UNLOADING: "UNLOADING",
 };
 
@@ -68,6 +68,7 @@ export const messageHandlerNames = {
   [messageType.UPDATE_ENGAGEMENT_FAILED]: "onUpdateEngagementFailed",
   [messageType.UPDATE_ENGAGEMENT_SUCCEEDED]: "onUpdateEngagementSucceeded",
   [messageType.VISIBILITY_CHANGED]: "onVisibilityChanged",
+  [messageType.SYNC_ACK_FAILED]: "onSyncAckFailed",
 };
 
 export const errorType = {

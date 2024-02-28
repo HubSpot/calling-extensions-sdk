@@ -105,6 +105,9 @@ class IFrameManager {
     this.onMessageHandler({
       type: messageType.SYNC_ACK_FAILED,
     });
+    this.sendMessage({
+      type: messageType.SYNC_ACK_FAILED,
+    });
   }
 
   updateIFrameSize(sizeInfo) {

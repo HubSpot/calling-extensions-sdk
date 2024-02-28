@@ -147,6 +147,9 @@ const options = {
     onVisibilityChanged: event => {
       /* Call widget's visibility is changed. */
     }
+    onSyncAckFailed: () => {
+      /* iframe load error. */
+    },
   }
 };
 

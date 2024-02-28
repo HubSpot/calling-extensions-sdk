@@ -242,7 +242,7 @@ export const useCti = (
         },
       },
     });
-  }, []);
+  }, [initializeCallingStateForExistingCall]);
   return {
     phoneNumber,
     engagementId,

@@ -168,14 +168,10 @@ class CallingExtensions {
       handler = eventHandlers[name];
     } else {
       // Send back a message indicating an unknown event is received
-      this.sendMessage({
-        type: messageType.ERROR,
-        data: {
-          type: errorType.UNKNOWN_MESSAGE_TYPE,
-          data: {
-            originalMessage: event,
-          },
-        },
+      this.sendError({
+        type: errorType.UNKNOWN_MESSAGE_TYPE,
+        data: { originalMessage: event },
+        originalMessage: event,
       });
     }
 
