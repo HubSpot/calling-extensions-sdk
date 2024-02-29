@@ -9,7 +9,6 @@ on:
       - synchronize
     paths:
       - "demos/**"
-  workflow_dispatch:
 
 defaults:
   run:
