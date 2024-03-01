@@ -1,6 +1,23 @@
-import { screen, waitForElementToBeRemoved } from "@testing-library/react";
+import {
+  screen,
+  waitForElementToBeRemoved,
+  MatcherFunction,
+} from "@testing-library/react";
 import App from "../../../src/components/App";
 import { renderWithContext } from "../../render";
+
+type Query = (f: MatcherFunction) => HTMLElement;
+
+const withMarkup =
+  (query: Query) =>
+  (text: string): HTMLElement =>
+    query((content: string, node: HTMLElement) => {
+      const hasText = (node: HTMLElement) => node.textContent === text;
+      const childrenDontHaveText = Array.from(node.children).every(
+        (child) => !hasText(child as HTMLElement)
+      );
+      return hasText(node) && childrenDontHaveText;
+    });
 
 describe("App", () => {
   it("Shows login screen", () => {
@@ -11,28 +28,25 @@ describe("App", () => {
   });
 
   it("Shows alert", () => {
-    renderWithContext(<App />);
+    const { getByText } = renderWithContext(<App />);
+    const getByTextWithMarkup = withMarkup(getByText);
     expect(
-      screen.getByText(
-        /Open your console to see the incoming and outgoing messages with HubSpot./
+      getByTextWithMarkup(
+        "Open your console to see the incoming (beta) and outgoing messages with HubSpot."
       )
     ).toBeInTheDocument();
   });
 
   it("Hides alert when confirm button is clicked", async () => {
-    renderWithContext(<App />);
+    const { getByText } = renderWithContext(<App />);
+    const getByTextWithMarkup = withMarkup(getByText);
     const confirmAlertButton = screen.getByRole("button", { name: /×/i });
     confirmAlertButton.click();
 
     await waitForElementToBeRemoved(() =>
-      screen.getByText(
-        /Open your console to see the incoming and outgoing messages with HubSpot./
+      getByTextWithMarkup(
+        "Open your console to see the incoming (beta) and outgoing messages with HubSpot."
       )
     );
-    expect(
-      screen.queryByText(
-        /Open your console to see the incoming and outgoing messages with HubSpot./
-      )
-    ).not.toBeInTheDocument();
   });
 });

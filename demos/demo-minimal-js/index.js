@@ -14,7 +14,7 @@ export const state = {
 
 const sizeInfo = {
   width: 400,
-  height: 600,
+  height: 650,
 };
 
 /** Button IDs */
