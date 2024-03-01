@@ -90,7 +90,7 @@
         font-size: 13px;
         font-weight: 500;
         line-height: 14px;
-        padding: 8px 16px;
+        padding: 8px 12px;
       }
       button:active {
         background-color: #cbd6e2;
@@ -143,11 +143,9 @@
       <header>
         <p class="instructions">
           Click the buttons to send messages to HubSpot via the Calling
-          Extensions SDK. Open your console to see the incoming and outgoing
-          messages with HubSpot. Inbound call support is in beta. For more info, refer
-          <a href="https://developers.hubspot.com/docs/api/crm/extensions/receive-calls-in-hubspot-when-using-calling-apps" target="_blank"
-          rel="noreferrer">here</a>
-          .
+          Extensions SDK. Open your console to see the <a href="https://developers.hubspot.com/docs/api/crm/extensions/receive-calls-in-hubspot-when-using-calling-apps" target="_blank"
+          rel="noreferrer">incoming (beta)</a> and outgoing
+          messages with HubSpot.
         </p>
       </header>
       <section id="events">
@@ -179,13 +177,13 @@
           id="useravailable"
           onclick="userAvailable()"
           type="button"
-        ><span>user available</span><span class="beta-badge">BETA</span></button>
+        ><span>available</span><span class="beta-badge">BETA</span></button>
         <button
           disabled
           id="userunavailable"
           onclick="userUnavailable()"
           type="button"
-        ><span>user unavailable</span><span class="beta-badge">BETA</span></button>
+        ><span>unavailable</span><span class="beta-badge">BETA</span></button>
         <p>4. Start a call</p>
         <button
           disabled

@@ -36,18 +36,17 @@ export const INBOUND_SCREENS = [
 ];
 
 const ALERT_CONTENT = (
-  <p>
-    Open your console to see the incoming and outgoing messages with HubSpot.
-    Inbound call support is in beta. For more info, refer{" "}
+  <span>
+    Open your console to see the{" "}
     <a
       href="https://developers.hubspot.com/docs/api/crm/extensions/receive-calls-in-hubspot-when-using-calling-apps"
       target="_blank"
       rel="noreferrer"
     >
-      here
-    </a>
-    .
-  </p>
+      incoming (beta)
+    </a>{" "}
+    and outgoing messages with HubSpot.
+  </span>
 );
 
 export const formatTime = (totalSeconds: number) => {
