@@ -228,7 +228,7 @@ extensions.outgoingCall(callInfo);
  <p>
 
 ```ts
-// Sends a message to notify HubSpot that an outgoing call has started.
+// Sends a message to notify HubSpot that an incoming call has started.
 
 const callInfo = {
   fromNumber: string, // Required: The caller's number

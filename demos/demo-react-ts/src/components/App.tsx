@@ -35,6 +35,21 @@ export const INBOUND_SCREENS = [
   CallEndedScreen,
 ];
 
+const ALERT_CONTENT = (
+  <p>
+    Open your console to see the incoming and outgoing messages with HubSpot.
+    Inbound call support is in beta. For more info, refer{" "}
+    <a
+      href="https://developers.hubspot.com/docs/api/crm/extensions/receive-calls-in-hubspot-when-using-calling-apps"
+      target="_blank"
+      rel="noreferrer"
+    >
+      here
+    </a>
+    .
+  </p>
+);
+
 export const formatTime = (totalSeconds: number) => {
   const getTimeStr = (time: number) => {
     return time < 10 ? `0${time}` : time.toString();
@@ -193,12 +208,7 @@ function App() {
         }}
       >
         {screenComponent}
-        {showAlert && (
-          <Alert
-            title="Open your console to see the incoming and outgoing messages with HubSpot."
-            onConfirm={hideAlert}
-          />
-        )}
+        {showAlert && <Alert title={ALERT_CONTENT} onConfirm={hideAlert} />}
       </div>
     </ThemeProvider>
   );

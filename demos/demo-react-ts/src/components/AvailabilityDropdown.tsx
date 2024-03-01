@@ -11,6 +11,9 @@ import {
   TriggerIncomingCallTooltip,
   Input,
   DialIncomingCallButton,
+  BetaBadge,
+  TriggerIncomingCallButton,
+  Spacer,
 } from "./Components";
 import {
   AvailabilityCheckmarkSvg,
@@ -101,9 +104,10 @@ function AvailabilityDropdown({
             onClick={() => handleAvailability("AVAILABLE")}
           >
             <AvailabilityButtonContent>
-              <div>
+              <Spacer>
                 {AvailableStatusDotSvg} <span>Available</span>
-              </div>
+                <BetaBadge>BETA</BetaBadge>
+              </Spacer>
               {availability === "AVAILABLE" && AvailabilityCheckmarkSvg}
             </AvailabilityButtonContent>
           </AvailabilityButton>
@@ -114,9 +118,10 @@ function AvailabilityDropdown({
             onClick={() => handleAvailability("UNAVAILABLE")}
           >
             <AvailabilityButtonContent>
-              <div>
+              <Spacer>
                 {UnavailableStatusDotSvg} <span>Unavailable</span>
-              </div>
+                <BetaBadge>BETA</BetaBadge>
+              </Spacer>
               {availability === "UNAVAILABLE" && AvailabilityCheckmarkSvg}
             </AvailabilityButtonContent>
           </AvailabilityButton>
@@ -130,16 +135,19 @@ function AvailabilityDropdown({
             content={IncomingCallInput}
             open={toggleTriggerIncomingCall}
           >
-            <AvailabilityButton
-              aria-label="trigger-incoming-call-option"
-              disabled={availability === "UNAVAILABLE"}
-              style={{ textAlign: "start" }}
-              onClick={() =>
-                setToggleTriggerIncomingCall(!toggleTriggerIncomingCall)
-              }
-            >
-              Trigger Incoming Call
-            </AvailabilityButton>
+            <Spacer>
+              <TriggerIncomingCallButton
+                aria-label="trigger-incoming-call-option"
+                disabled={availability === "UNAVAILABLE"}
+                style={{ textAlign: "start" }}
+                onClick={() =>
+                  setToggleTriggerIncomingCall(!toggleTriggerIncomingCall)
+                }
+              >
+                Trigger Incoming Call
+              </TriggerIncomingCallButton>
+              <BetaBadge>BETA</BetaBadge>
+            </Spacer>
           </TriggerIncomingCallTooltip>
         </AvailabilityOption>
       </div>
