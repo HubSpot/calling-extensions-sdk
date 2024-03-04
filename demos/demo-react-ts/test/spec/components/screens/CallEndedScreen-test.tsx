@@ -1,4 +1,5 @@
 import CallEndedScreen from "../../../../src/components/screens/CallEndedScreen";
+import { ScreenProps } from "../../../../src/types/ScreenTypes";
 import { renderWithContext } from "../../../render";
 
 const noop = (..._args: any[]) => {};
@@ -7,7 +8,7 @@ const cti = {
   callCompleted: noop,
 };
 
-const props = {
+const props: Partial<ScreenProps> = {
   handleNextScreen: noop,
   handlePreviousScreen: noop,
   handleNavigateToScreen: noop,
@@ -26,6 +27,7 @@ const props = {
   handleSaveCall: noop,
   fromNumber: "",
   setFromNumber: noop,
+  direction: "OUTBOUND",
 };
 
 describe("CallEndedScreen", () => {

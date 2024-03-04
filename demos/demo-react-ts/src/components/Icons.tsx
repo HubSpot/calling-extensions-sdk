@@ -5,7 +5,18 @@ import Mute from "../icons/microphone.svg";
 import Unmute from "../icons/microphoneSlash.svg";
 import Keypad from "../icons/mobileRetro.svg";
 import CaretDown from "../icons/caretDown.svg";
-import { CALYPSO, SLINKY } from "../utils/colors";
+import StatusDot from "../icons/statusDot.svg";
+import Checkmark from "../icons/checkmark.svg";
+import ExternalLink from "../icons/externalLink.svg";
+import Sprocket from "../icons/sprocket.svg";
+import {
+  CALYPSO,
+  SLINKY,
+  OZ_DARK,
+  CANDY_APPLE,
+  EERIE,
+  LORAX,
+} from "../utils/colors";
 
 export const StartCallSvg = <Phone width="18" height="18" fill="white" />;
 
@@ -97,4 +108,35 @@ export const CaretDownSvg = (
     focusable="false"
     fill={SLINKY}
   />
+);
+
+export const UnavailableStatusDotSvg = (
+  <StatusDot aria-hidden="true" focusable="false" fill={CANDY_APPLE} />
+);
+
+export const AvailableStatusDotSvg = (
+  <StatusDot aria-hidden="true" focusable="false" fill={OZ_DARK} />
+);
+
+export const AvailabilityCheckmarkSvg = (
+  <Checkmark aria-hidden="true" focusable="false" fill={EERIE} />
+);
+
+export const ExternalLinkSvg = (
+  <ExternalLink aria-hidden="true" focusable="false" />
+);
+
+export const SprocketSvg = (
+  <div
+    style={{
+      display: "flex",
+      padding: "4px",
+      alignItems: "flex-start",
+      gap: "4px",
+      borderRadius: "8px",
+      backgroundColor: LORAX,
+    }}
+  >
+    <Sprocket aria-hidden="true" focusable="false" />
+  </div>
 );

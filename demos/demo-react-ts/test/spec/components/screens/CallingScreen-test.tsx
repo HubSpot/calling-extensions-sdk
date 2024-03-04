@@ -1,4 +1,5 @@
 import CallingScreen from "../../../../src/components/screens/CallingScreen";
+import { ScreenProps } from "../../../../src/types/ScreenTypes";
 import { renderWithContext } from "../../../render";
 
 const noop = (..._args: any[]) => {};
@@ -7,7 +8,7 @@ const cti = {
   callEnded: noop,
 };
 
-const props = {
+const props: Partial<ScreenProps> = {
   handleNextScreen: noop,
   handlePreviousScreen: noop,
   handleNavigateToScreen: noop,

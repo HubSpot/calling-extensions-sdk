@@ -77,6 +77,31 @@
         border-color: #eaf0f6;
         color: #b0c1d4;
       }
+      button {
+        display: inline-flex;
+        align-items: center;
+        column-gap: 5px;
+        background-color: #eaf0f6;
+        border-color: #cbd6e2;
+        border-radius: 3px;
+        border-style: solid;
+        border-width: 1px;
+        color: #506e91;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 14px;
+        padding: 8px 12px;
+      }
+      button:active {
+        background-color: #cbd6e2;
+        border-color: #7c98b6;
+        color: #506e91;
+      }
+      button:disabled {
+        background-color: #eaf0f6;
+        border-color: #eaf0f6;
+        color: #b0c1d4;
+      }
       p {
         margin-bottom: 0;
         margin-top: 1rem;
@@ -84,6 +109,31 @@
       p.instructions {
         font-weight: 300;
         margin-bottom: 1rem;
+      }
+      p.other-events {
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        padding-top: 0.5rem;
+      }
+      span.beta-badge {
+        display: inline-block;
+        font-family: var(--uicomponents-font-family, "Lexend Deca", Helvetica, Arial, sans-serif);
+        font-weight: 700;
+        font-size: 10.1px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        text-transform: uppercase;
+        vertical-align: inherit;
+        -webkit-hyphens: manual;
+        -moz-hyphens: manual;
+        -ms-hyphens: manual;
+        hyphens: manual;
+        border-radius: 3px;
+        line-height: 20px;
+        min-height: 20px;
+        background-color: #6a78d1;
+        color: #ffffff;
+        padding: 0 8px;
       }
     </style>
   </head>
@@ -93,7 +143,8 @@
       <header>
         <p class="instructions">
           Click the buttons to send messages to HubSpot via the Calling
-          Extensions SDK. Open your console to see the incoming and outgoing
+          Extensions SDK. Open your console to see the <a href="https://developers.hubspot.com/docs/api/crm/extensions/receive-calls-in-hubspot-when-using-calling-apps" target="_blank"
+          rel="noreferrer">incoming (beta)</a> and outgoing
           messages with HubSpot.
         </p>
       </header>
@@ -120,7 +171,26 @@
           type="button"
           value="log out"
         />
-        <p>3. Start a call</p>
+        <p>3. Set inbound calling availability</p>
+        <button
+          disabled
+          id="useravailable"
+          onclick="userAvailable()"
+          type="button"
+        ><span>available</span><span class="beta-badge">BETA</span></button>
+        <button
+          disabled
+          id="userunavailable"
+          onclick="userUnavailable()"
+          type="button"
+        ><span>unavailable</span><span class="beta-badge">BETA</span></button>
+        <p>4. Start a call</p>
+        <button
+          disabled
+          id="incomingcall"
+          onclick="incomingCall()"
+          type="button"
+        ><span>incoming call started</span><span class="beta-badge">BETA</span></button>
         <input
           disabled
           id="outgoingcall"
@@ -135,7 +205,7 @@
           type="button"
           value="call answered"
         />
-        <p>4. End a call</p>
+        <p>5. End a call</p>
         <input
           disabled
           id="endcall"
@@ -150,8 +220,7 @@
           type="button"
           value="call completed"
         />
-        <hr />
-        <p>Other events</p>
+        <p class="other-events">Other events</p>
         <input
           disabled
           id="senderror"
