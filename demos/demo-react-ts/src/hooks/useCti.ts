@@ -149,7 +149,7 @@ export const useCti = (
   const [engagementId, setEngagementId] = useState<number | null>(null);
   const [incomingContactName, setIncomingContactName] = useState<string>("");
   const cti = useMemo(() => {
-    const defaultSize = { width: 400, height: 650 };
+    const defaultSize = { width: 400, height: 600 };
     return new CallingExtensionsWrapper({
       debugMode: true,
       eventHandlers: {
