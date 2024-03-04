@@ -67,9 +67,9 @@ function CallingScreen({
       <div style={{ textAlign: "center" }}>
         <h2>
           Call with{" "}
-          {direction === "INBOUND"
-            ? formatPhoneNumber(incomingNumber)
-            : formatPhoneNumber(dialNumber)}
+          {formatPhoneNumber(
+            direction === "INBOUND" ? incomingNumber : dialNumber
+          )}
         </h2>
         <Timer>{callDurationString}</Timer>
       </div>
