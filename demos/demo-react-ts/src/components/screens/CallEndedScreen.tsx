@@ -46,9 +46,9 @@ function CallEndedScreen({
       <div style={{ textAlign: "center" }}>
         <h2>
           Call with{" "}
-          {direction === "OUTBOUND"
-            ? formatPhoneNumber(dialNumber)
-            : formatPhoneNumber(incomingNumber)}{" "}
+          {formatPhoneNumber(
+            direction === "OUTBOUND" ? dialNumber : incomingNumber
+          )}{" "}
           ended
         </h2>
         <Timer>{callDurationString}</Timer>
