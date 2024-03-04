@@ -1,7 +1,17 @@
-import { useState, ChangeEvent, useCallback, useEffect } from "react";
+import {
+  useState,
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  SyntheticEvent,
+} from "react";
 import styled from "styled-components";
 import { useAutoFocus } from "../../hooks/useAutoFocus";
-import { ScreenNames, ScreenProps } from "../../types/ScreenTypes";
+import {
+  Availability,
+  ScreenNames,
+  ScreenProps,
+} from "../../types/ScreenTypes";
 import {
   Wrapper,
   CallButton,
@@ -10,23 +20,21 @@ import {
   Row,
   Button,
   FromNumberRow,
+  Input,
 } from "../Components";
 import { Keypad } from "../Keypad";
 import { StartCallSvg, DeleteLeftSvg } from "../Icons";
 import { GREAT_WHITE } from "../../utils/colors";
 import FromNumbersDropdown from "../FromNumbersDropdown";
+import AvailabilityDropdown from "../AvailabilityDropdown";
+import {
+  validateKeypadInput,
+  validatePhoneNumber,
+} from "../../utils/phoneNumberUtils";
 
 const StyledRow = styled(Row)`
-  justify-content: flex-end;
+  justify-content: space-between;
 `;
-
-export const validateKeypadInput = (value: string) => {
-  return /^[0-9+*#]*$/.test(value);
-};
-
-const validatePhoneNumber = (value: string) => {
-  return value.length > 2;
-};
 
 function KeypadScreen({
   handleNextScreen,
@@ -38,6 +46,11 @@ function KeypadScreen({
   startTimer,
   fromNumber,
   setFromNumber,
+  availability,
+  setAvailability,
+  setDirection,
+  incomingNumber,
+  setIncomingNumber,
 }: ScreenProps) {
   const dialNumberInput = useAutoFocus();
   const [cursorStart, setCursorStart] = useState(dialNumber.length || 0);
@@ -87,7 +100,7 @@ function KeypadScreen({
     dialNumberInput.current?.focus();
   };
 
-  const handleStartCall = useCallback(() => {
+  const handleOutgoingCall = useCallback(() => {
     const callStartTime = Date.now();
     cti.outgoingCall({
       createEngagement: true,
@@ -95,21 +108,35 @@ function KeypadScreen({
       callStartTime,
     });
     startTimer(callStartTime);
+    setDirection("OUTBOUND");
     handleNextScreen();
-  }, [cti, dialNumber, handleNextScreen, startTimer]);
+  }, [cti, dialNumber, handleNextScreen, startTimer, setDirection]);
+
+  const handleTriggerIncomingCall = useCallback(
+    (incomingCallNumber: string) => {
+      cti.incomingCall({
+        createEngagement: true,
+        fromNumber: incomingCallNumber,
+        toNumber: fromNumber,
+      });
+      setDirection("INBOUND");
+      handleNextScreen();
+    },
+    [handleNextScreen, setDirection]
+  );
 
   const handleBackspace = useCallback(() => {
-    let updatedDialNumber =
+    let updatedToNumber =
       dialNumber.substring(0, cursorStart) + dialNumber.substring(cursorEnd);
     if (cursorStart === cursorEnd) {
-      updatedDialNumber =
+      updatedToNumber =
         dialNumber.substring(0, cursorStart - 1) +
         dialNumber.substring(cursorEnd);
     }
 
-    handleSetDialNumber(updatedDialNumber);
+    handleSetDialNumber(updatedToNumber);
     if (dialNumberInput.current) {
-      dialNumberInput.current.value = updatedDialNumber;
+      dialNumberInput.current.value = updatedToNumber;
       dialNumberInput.current.setSelectionRange(cursorStart, cursorStart);
       dialNumberInput.current.focus();
     }
@@ -121,9 +148,28 @@ function KeypadScreen({
     handleSetDialNumber,
   ]);
 
+  const handleSetAvailability = useCallback(
+    (availability: Availability) => {
+      if (availability === "AVAILABLE") {
+        cti.userAvailable();
+      } else {
+        cti.userUnavailable();
+      }
+      setAvailability(availability);
+    },
+    [setAvailability, cti]
+  );
+
   return (
     <Wrapper>
       <StyledRow>
+        <AvailabilityDropdown
+          availability={availability}
+          setAvailability={handleSetAvailability}
+          triggerIncomingCall={handleTriggerIncomingCall}
+          incomingNumber={incomingNumber}
+          setIncomingNumber={setIncomingNumber}
+        />
         <LinkButton onClick={handleLogout}>Log out</LinkButton>
       </StyledRow>
       <br />
@@ -138,6 +184,7 @@ function KeypadScreen({
         }}
       >
         <KeypadInput
+          data-testid="dial-number-input"
           value={dialNumber}
           onChange={handleDialNumber}
           onBlur={handleCursor}
@@ -153,8 +200,8 @@ function KeypadScreen({
         <CallButton
           use="primary"
           disabled={!isDialNumberValid}
-          onClick={handleStartCall}
-          aria-label="start-call"
+          onClick={handleOutgoingCall}
+          aria-label="outgoing-call"
         >
           {StartCallSvg}
         </CallButton>
