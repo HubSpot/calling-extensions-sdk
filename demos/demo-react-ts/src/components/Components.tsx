@@ -178,6 +178,16 @@ export const AvailabilityButton = styled(VizExButton).attrs({
   width: 100%;
 `;
 
+export const TriggerIncomingCallButton = styled(VizExButton).attrs({
+  use: "transparent-on-primary",
+  theme: createTheme(setPrimaryColor(HEFFALUMP)),
+})`
+  border: none;
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 14px;
+`;
+
 export const AvailabilityButtonContent = styled.div`
   display: flex;
   justify-content: space-between;
@@ -287,4 +297,39 @@ export const TruncateContactNameString = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 0;
+`;
+
+export const BetaBadge = styled.span`
+  display: inline-block;
+  font-family: var(
+    --uicomponents-font-family,
+    "Lexend Deca",
+    Helvetica,
+    Arial,
+    sans-serif
+  );
+  font-weight: 700;
+  font-size: 10.1px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: inherit;
+  -webkit-hyphens: manual;
+  -moz-hyphens: manual;
+  -ms-hyphens: manual;
+  hyphens: manual;
+  border-radius: 3px;
+  line-height: 20px;
+  min-height: 20px;
+  background-color: #6a78d1;
+  color: #ffffff;
+  padding: 0 8px;
+`;
+
+export const Spacer = styled.div`
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  align-items: center;
 `;
