@@ -115,7 +115,7 @@ function KeypadScreen({
   const handleTriggerIncomingCall = useCallback(
     (incomingCallNumber: string) => {
       cti.incomingCall({
-        createEngagement: true,
+        createEngagement: false,
         fromNumber: incomingCallNumber,
         toNumber: fromNumber,
       });
