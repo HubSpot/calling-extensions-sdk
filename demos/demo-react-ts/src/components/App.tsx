@@ -18,6 +18,7 @@ import { useCallDurationTimer } from "../hooks/useTimer";
 import { ScreenNames, Availability, Direction } from "../types/ScreenTypes";
 import Alert from "./Alert";
 import { CALYPSO, GYPSUM, KOALA, OLAF, SLINKY } from "../utils/colors";
+import { PHONE_NUMBER_ONE } from "../utils/phoneNumbers";
 
 export const OUTBOUND_SCREENS = [
   LoginScreen,
@@ -65,7 +66,7 @@ function App() {
   const [dialNumber, setDialNumber] = useState("+1");
   const [notes, setNotes] = useState("");
   const [showAlert, setShowAlert] = useState(true);
-  const [fromNumber, setFromNumber] = useState("+1 617-948-3986");
+  const [fromNumber, setFromNumber] = useState(PHONE_NUMBER_ONE);
   const [incomingNumber, setIncomingNumber] = useState("+1");
   const [availability, setAvailability] = useState<Availability>("UNAVAILABLE");
 

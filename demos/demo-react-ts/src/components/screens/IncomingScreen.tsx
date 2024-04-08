@@ -10,7 +10,7 @@ import {
 } from "../Components";
 import { ScreenProps } from "../../types/ScreenTypes";
 import { EndCallSvg, StartCallSvg } from "../Icons";
-import { formatPhoneNumber } from "../../utils/phoneNumberUtils";
+import { normalizePhoneNumber } from "../../utils/phoneNumberUtils";
 
 function IncomingScreen({
   handleNextScreen,
@@ -47,12 +47,12 @@ function IncomingScreen({
               </TruncateContactNameString>
             </IncomingCallContactDisplay>
             <IncomingCallNumber>
-              {formatPhoneNumber(incomingNumber)}
+              {normalizePhoneNumber(incomingNumber)}
             </IncomingCallNumber>
           </>
         ) : (
           <IncomingCallContactDisplay>
-            {formatPhoneNumber(incomingNumber)}
+            {normalizePhoneNumber(incomingNumber)}
           </IncomingCallContactDisplay>
         )}
         {/* @TODO uncomment when redirect url generation is implemented */}

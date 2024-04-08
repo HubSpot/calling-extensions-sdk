@@ -2,7 +2,7 @@ import { ChangeEvent } from "react";
 import styled from "styled-components";
 import { RoundedButton, Row, Timer, TextArea, Wrapper } from "../Components";
 import { ScreenProps } from "../../types/ScreenTypes";
-import { formatPhoneNumber } from "../../utils/phoneNumberUtils";
+import { normalizePhoneNumber } from "../../utils/phoneNumberUtils";
 
 const StyledRow = styled(Row)`
   justify-content: flex-start;
@@ -46,7 +46,7 @@ function CallEndedScreen({
       <div style={{ textAlign: "center" }}>
         <h2>
           Call with{" "}
-          {formatPhoneNumber(
+          {normalizePhoneNumber(
             direction === "OUTBOUND" ? dialNumber : incomingNumber
           )}{" "}
           ended

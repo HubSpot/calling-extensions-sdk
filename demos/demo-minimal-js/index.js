@@ -191,6 +191,7 @@ export function outgoingCall() {
     cti.outgoingCall({
       createEngagement: true,
       phoneNumber: state.toNumber,
+      fromNumber: state.fromNumber,
     });
   }, 500);
   disableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);

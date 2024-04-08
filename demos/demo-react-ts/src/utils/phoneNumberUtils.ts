@@ -6,7 +6,7 @@ export const validatePhoneNumber = (value: string) => {
   return value.length > 2;
 };
 
-export const formatPhoneNumber = (phoneNumberString: string): string => {
+export const normalizePhoneNumber = (phoneNumberString: string): string => {
   var cleaned = ("" + phoneNumberString).replace(/\D/g, "");
   var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
   if (match) {
