@@ -105,12 +105,13 @@ function KeypadScreen({
     cti.outgoingCall({
       createEngagement: true,
       phoneNumber: dialNumber,
+      fromNumber,
       callStartTime,
     });
     startTimer(callStartTime);
     setDirection("OUTBOUND");
     handleNextScreen();
-  }, [cti, dialNumber, handleNextScreen, startTimer, setDirection]);
+  }, [cti, dialNumber, handleNextScreen, startTimer, setDirection, fromNumber]);
 
   const handleTriggerIncomingCall = useCallback(
     (incomingCallNumber: string) => {
@@ -122,7 +123,7 @@ function KeypadScreen({
       setDirection("INBOUND");
       handleNextScreen();
     },
-    [handleNextScreen, setDirection]
+    [handleNextScreen, setDirection, cti, fromNumber]
   );
 
   const handleBackspace = useCallback(() => {
