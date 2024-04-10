@@ -9,7 +9,3 @@ export const PHONE_NUMBERS_MAP = {
 };
 
 export type PhoneNumber = typeof PHONE_NUMBER_ONE | typeof PHONE_NUMBER_TWO;
-
-export const formatPhoneNumber = (phoneNumber: string) => {
-  return PHONE_NUMBERS_MAP[phoneNumber as PhoneNumber] || phoneNumber;
-};

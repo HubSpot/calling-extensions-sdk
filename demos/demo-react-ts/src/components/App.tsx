@@ -18,7 +18,7 @@ import { useCallDurationTimer } from "../hooks/useTimer";
 import { ScreenNames, Availability, Direction } from "../types/ScreenTypes";
 import Alert from "./Alert";
 import { CALYPSO, GYPSUM, KOALA, OLAF, SLINKY } from "../utils/colors";
-import { PHONE_NUMBER_ONE } from "../utils/phoneNumbers";
+import { PHONE_NUMBER_ONE } from "../utils/phoneNumberUtils";
 
 export const OUTBOUND_SCREENS = [
   LoginScreen,

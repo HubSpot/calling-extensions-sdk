@@ -10,7 +10,7 @@ import {
   PHONE_NUMBER_ONE,
   PHONE_NUMBER_TWO,
   formatPhoneNumber,
-} from "../utils/phoneNumbers";
+} from "../utils/phoneNumberUtils";
 
 function FromNumbersDropdown({
   fromNumber,
