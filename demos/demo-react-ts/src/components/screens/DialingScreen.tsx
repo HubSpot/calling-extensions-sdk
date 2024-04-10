@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { EndCallButton, Row, Timer, Wrapper } from "../Components";
 import { ScreenProps } from "../../types/ScreenTypes";
 import { EndCallSvg } from "../Icons";
-import { normalizePhoneNumber } from "../../utils/phoneNumberUtils";
+import { formatPhoneNumber } from "../../utils/phoneNumberUtils";
 
 function DialingScreen({
   handleNextScreen,
@@ -30,7 +30,7 @@ function DialingScreen({
   return (
     <Wrapper>
       <div style={{ textAlign: "center" }}>
-        <h2>Dialing {normalizePhoneNumber(dialNumber)} ...</h2>
+        <h2>Dialing {formatPhoneNumber(dialNumber)} ...</h2>
         <Timer>{callDurationString}</Timer>
       </div>
       <Row>

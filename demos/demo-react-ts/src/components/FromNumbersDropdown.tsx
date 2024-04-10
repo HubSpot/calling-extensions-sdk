@@ -7,9 +7,9 @@ import {
 } from "./Components";
 import { CaretDownSvg } from "./Icons";
 import {
-  PHONE_NUMBER_ONE,
-  PHONE_NUMBER_TWO,
-  formatPhoneNumber,
+  FROM_NUMBER_ONE,
+  FROM_NUMBER_TWO,
+  getFormattedFromNumber,
 } from "../utils/phoneNumberUtils";
 
 function FromNumbersDropdown({
@@ -37,19 +37,19 @@ function FromNumbersDropdown({
         <div>
           <FromNumberButton
             aria-label="us-number"
-            onClick={() => handleFromNumber(PHONE_NUMBER_ONE)}
+            onClick={() => handleFromNumber(FROM_NUMBER_ONE)}
           >
             <span style={{ fontWeight: 600 }}>My US Number </span>
-            <span>{formatPhoneNumber(PHONE_NUMBER_ONE)}</span>
+            <span>{getFormattedFromNumber(FROM_NUMBER_ONE)}</span>
           </FromNumberButton>
         </div>
         <div>
           <FromNumberButton
             aria-label="uk-number"
-            onClick={() => handleFromNumber(PHONE_NUMBER_TWO)}
+            onClick={() => handleFromNumber(FROM_NUMBER_TWO)}
           >
             <span style={{ fontWeight: 600 }}>My UK Number </span>
-            <span>{formatPhoneNumber(PHONE_NUMBER_TWO)}</span>
+            <span>{getFormattedFromNumber(FROM_NUMBER_TWO)}</span>
           </FromNumberButton>
         </div>
       </div>
@@ -68,7 +68,7 @@ function FromNumbersDropdown({
           aria-label="from-number"
           onClick={() => setToggleFromNumbers(!toggleFromNumbers)}
         >
-          {formatPhoneNumber(fromNumber)} {CaretDownSvg}
+          {getFormattedFromNumber(fromNumber)} {CaretDownSvg}
         </FromNumberToggleButton>
       </FromNumberTooltip>
     </>

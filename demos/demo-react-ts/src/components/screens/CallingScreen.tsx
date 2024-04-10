@@ -21,7 +21,7 @@ import {
   HideKeypadSvg,
 } from "../Icons";
 import { BATTLESHIP, SLINKY } from "../../utils/colors";
-import { normalizePhoneNumber } from "../../utils/phoneNumberUtils";
+import { formatPhoneNumber } from "../../utils/phoneNumberUtils";
 
 function CallingScreen({
   cti,
@@ -67,7 +67,7 @@ function CallingScreen({
       <div style={{ textAlign: "center" }}>
         <h2>
           Call with{" "}
-          {normalizePhoneNumber(
+          {formatPhoneNumber(
             direction === "INBOUND" ? incomingNumber : dialNumber
           )}
         </h2>
