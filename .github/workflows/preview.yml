@@ -9,8 +9,6 @@ on:
       - synchronize
     paths:
       - "demos/**"
-permissions:
-  contents: write
 defaults:
   run:
     working-directory: demos
