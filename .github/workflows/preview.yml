@@ -9,11 +9,9 @@ on:
       - synchronize
     paths:
       - "demos/**"
-
 defaults:
   run:
     working-directory: demos
-
 jobs:
   deploy-preview:
     runs-on: ubuntu-latest
@@ -25,7 +23,7 @@ jobs:
       - name: Run tests ✅
         run: npm run test
       - name: Deploy preview 🚀
-        uses: rossjrw/pr-preview-action@v1.4.4
+        uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: demos/build
           preview-branch: gh-pages

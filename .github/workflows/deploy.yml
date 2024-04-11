@@ -6,11 +6,11 @@ on:
       - 'master'
     paths:
       - 'demos/**'
-
+permissions:
+  contents: write
 defaults:
   run:
     working-directory: demos
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
