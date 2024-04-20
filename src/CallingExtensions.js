@@ -188,6 +188,13 @@ class CallingExtensions {
       );
     }
   }
+
+  publishToChannel(data) {
+    this.sendMessage({
+      type: messageType.PUBLISH_TO_CHANNEL,
+      data,
+    });
+  }
 }
 
 export default CallingExtensions;
