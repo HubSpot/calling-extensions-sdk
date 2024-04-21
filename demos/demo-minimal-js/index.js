@@ -121,6 +121,12 @@ const cti = new CallingExtensions({
     onNavigateToRecordFailed: (data, rawEvent) => {
       /** HubSpot was unable to navigate to the desired record page. */
     },
+    onPublishToChannelFailed: (data, rawEvent) => {
+      /** HubSpot was unable to publish the call to the connected channel. */
+    },
+    onPublishToChannelSucceeded: (data, rawEvent) => {
+      /** HubSpot successfully published the call to the connected channel. */
+    },
   },
 });
 
