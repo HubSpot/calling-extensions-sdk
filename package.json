@@ -1,6 +1,6 @@
 {
   "name": "@hubspot/calling-extensions-sdk",
-  "version": "0.4.0-alpha.2",
+  "version": "0.4.0-beta.0",
   "description": "A JavaScript SDK for integrating calling apps into HubSpot.",
   "publishConfig": {
     "access": "public"
