@@ -240,6 +240,12 @@ export const useCti = (
         onNavigateToRecordFailed: (data: any, _rawEvent: any) => {
           /** HubSpot was unable to navigate to the desired record page. */
         },
+        onPublishToChannelFailed: (data: any, _rawEvent: any) => {
+          /** HubSpot was unable to publish the call to the connected channel. */
+        },
+        onPublishToChannelSucceeded: (data: any, _rawEvent: any) => {
+          /** HubSpot successfully published the call to the connected channel. */
+        },
       },
     });
   }, []);
