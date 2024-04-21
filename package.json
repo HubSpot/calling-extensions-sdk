@@ -13,7 +13,7 @@
     "eslint:fix": "eslint src .js --fix",
     "preversion": "npm run build:test",
     "postversion": "git push --follow-tags",
-    "publish:alpha:current": "npm publish --access public --tag alpha && npm publish --access public --tag next",
+    "publish:alpha:current": "npm publish --access public --tag alpha",
     "publish:alpha:patch": "npm version patch --preid alpha && npm run publish:alpha:current",
     "publish:alpha:minor": "npm version preminor --preid alpha && npm run publish:alpha:current",
     "publish:alpha:major": "npm version premajor --preid alpha && npm run publish:alpha:current",
