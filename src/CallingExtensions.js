@@ -194,7 +194,6 @@ class CallingExtensions {
    *
    * @param {Object} data - The data object to be published.
    * @param {number} data.engagementId - The HubSpot engagementId created by the calling app.
-   * @param {string} data.externalCallId - The externalCallId created by the calling app.
    */
   publishToChannel(data) {
     this.sendMessage({
