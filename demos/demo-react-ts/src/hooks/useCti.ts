@@ -154,17 +154,19 @@ export const useCti = (
       debugMode: true,
       eventHandlers: {
         onReady: (data: { engagementId: number | undefined }) => {
+          const { engagementId } = data || {};
           cti.initialized({
             isLoggedIn: true,
             sizeInfo: defaultSize,
-            engagementId: data.engagementId,
+            engagementId,
           });
           const incomingNumber =
             window.localStorage.getItem(INCOMING_NUMBER_KEY);
           const incomingContactName = window.localStorage.getItem(
             INCOMING_CONTACT_NAME_KEY
           );
-          if (data.engagementId && incomingNumber && incomingContactName) {
+          if (engagementId && incomingNumber && incomingContactName) {
+            setEngagementId(engagementId);
             cti.incomingNumber = incomingNumber;
             setIncomingContactName(incomingContactName);
             initializeCallingStateForExistingCall(incomingNumber);
@@ -248,7 +250,7 @@ export const useCti = (
         },
       },
     });
-  }, []);
+  }, [initializeCallingStateForExistingCall]);
   return {
     phoneNumber,
     engagementId,
