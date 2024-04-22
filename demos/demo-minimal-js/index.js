@@ -46,18 +46,21 @@ function enableButtons(ids) {
 const cti = new CallingExtensions({
   debugMode: true,
   eventHandlers: {
-    onReady: data => {
+    onReady: ({ engagementId, portalId } = {}) => {
       cti.initialized({
+        engagementId,
         isLoggedIn: false,
         sizeInfo,
-        engagementId: data.engagementId,
       });
       disableButtons([INITIALIZE]);
-      if (data.engagementId) {
+      if (engagementId) {
         enableButtons([ANSWER_CALL, END_CALL]);
-        return;
+        state.engagementId = engagementId;
       }
       enableButtons([LOG_IN, SEND_ERROR, RESIZE_WIDGET]);
+      if (portalId) {
+        state.portalId = portalId;
+      }
     },
     onDialNumber: (data, rawEvent) => {
       const { phoneNumber } = data;
