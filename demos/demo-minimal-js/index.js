@@ -245,3 +245,8 @@ export function resizeWidget() {
     height: sizeInfo.height,
   });
 }
+
+export function publishToChannel(data) {
+  state.engagementId = data && data.engagementId;
+  cti.publishToChannel(data);
+}
