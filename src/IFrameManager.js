@@ -118,11 +118,11 @@ class IFrameManager {
     }
   }
 
-  onReady(engagementId) {
+  onReady(data = {}) {
     this.isReady = true;
     this.onMessageHandler({
       type: messageType.READY,
-      data: { engagementId },
+      data,
     });
   }
 
@@ -179,7 +179,7 @@ class IFrameManager {
 
   onMessage(event) {
     const { data, origin } = event;
-    const { type, engagementId } = event.data;
+    const { type, engagementId, portalId } = event.data;
     if (type === messageType.SYNC) {
       // The iFrame host can send this message multiple times, don't respond more than once
       if (!this.isReady) {
@@ -196,7 +196,7 @@ class IFrameManager {
         this.destinationHost = hostUrl || this.destinationHost;
         this.logDebugMessage(prefix, debugMessageType.FROM_HUBSPOT, type, data);
         this.sendMessage(message);
-        this.onReady(engagementId);
+        this.onReady({ engagementId, portalId });
       }
       return;
     }
