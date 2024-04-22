@@ -56,6 +56,7 @@ const cti = new CallingExtensions({
       if (engagementId) {
         enableButtons([ANSWER_CALL, END_CALL]);
         state.engagementId = engagementId;
+        return;
       }
       enableButtons([LOG_IN, SEND_ERROR, RESIZE_WIDGET]);
       if (portalId) {
