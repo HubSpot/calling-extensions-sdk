@@ -6,10 +6,11 @@ import { messageType, callEndStatus } from "../../src/Constants";
 
 export const state = {
   engagementId: 0,
-  toNumber: "+1234",
   fromNumber: "+123456",
-  userAvailable: false,
   incomingContactName: "",
+  toNumber: "+1234",
+  userAvailable: false,
+  userId: 0,
 };
 
 const sizeInfo = {
@@ -46,18 +47,25 @@ function enableButtons(ids) {
 const cti = new CallingExtensions({
   debugMode: true,
   eventHandlers: {
-    onReady: data => {
+    onReady: ({ engagementId, portalId, userId } = {}) => {
       cti.initialized({
+        engagementId,
         isLoggedIn: false,
         sizeInfo,
-        engagementId: data.engagementId,
       });
       disableButtons([INITIALIZE]);
-      if (data.engagementId) {
+      if (engagementId) {
         enableButtons([ANSWER_CALL, END_CALL]);
+        state.engagementId = engagementId;
         return;
       }
       enableButtons([LOG_IN, SEND_ERROR, RESIZE_WIDGET]);
+      if (portalId) {
+        state.portalId = portalId;
+      }
+      if (userId) {
+        state.userId = userId;
+      }
     },
     onDialNumber: (data, rawEvent) => {
       const { phoneNumber } = data;

@@ -1,6 +1,6 @@
 {
   "name": "@hubspot/calling-extensions-sdk",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "A JavaScript SDK for integrating calling apps into HubSpot.",
   "publishConfig": {
     "access": "public"
@@ -10,7 +10,7 @@
     "build:test": "npm run build && npm run test",
     "cover": "open coverage/lcov-report/index.html",
     "eslint": "eslint src --ext .js",
-    "eslint:fix": "eslint src .js --fix",
+    "eslint:fix": "eslint src --ext .js --fix",
     "preversion": "npm run build:test",
     "postversion": "git push --follow-tags",
     "publish:alpha:current": "npm publish --access public --tag alpha",
