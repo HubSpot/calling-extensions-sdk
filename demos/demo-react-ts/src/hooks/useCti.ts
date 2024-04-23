@@ -153,8 +153,13 @@ export const useCti = (
     return new CallingExtensionsWrapper({
       debugMode: true,
       eventHandlers: {
-        onReady: (data: { engagementId: number | undefined }) => {
-          const { engagementId } = data || {};
+        onReady: (data: {
+          engagementId?: number;
+          portalId?: number;
+          userId?: number;
+        }) => {
+          const engagementId = (data && data.engagementId) || 0;
+
           cti.initialized({
             isLoggedIn: true,
             sizeInfo: defaultSize,
@@ -250,7 +255,7 @@ export const useCti = (
         },
       },
     });
-  }, [initializeCallingStateForExistingCall]);
+  }, []);
   return {
     phoneNumber,
     engagementId,
