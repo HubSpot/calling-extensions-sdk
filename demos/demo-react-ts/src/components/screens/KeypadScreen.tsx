@@ -104,7 +104,7 @@ function KeypadScreen({
     const callStartTime = Date.now();
     cti.outgoingCall({
       createEngagement: true,
-      phoneNumber: dialNumber,
+      toNumber: dialNumber,
       fromNumber,
       callStartTime,
     });

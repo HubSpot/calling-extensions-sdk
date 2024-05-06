@@ -252,7 +252,7 @@ describe("KeypadScreen", () => {
 
       expect(cti.outgoingCall).toHaveBeenCalledWith({
         createEngagement: true,
-        phoneNumber: "+1617",
+        toNumber: "+1617",
         fromNumber: "+161",
         callStartTime: jasmine.anything(),
       });

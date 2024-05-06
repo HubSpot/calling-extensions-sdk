@@ -204,7 +204,7 @@ export function outgoingCall() {
   window.setTimeout(() => {
     cti.outgoingCall({
       createEngagement: true,
-      phoneNumber: state.toNumber,
+      toNumber: state.toNumber,
       fromNumber: state.fromNumber,
     });
   }, 500);
