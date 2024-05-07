@@ -19,6 +19,7 @@ function CallEndedScreen({
   setNotes,
   callDuration,
   callDurationString,
+  callStatus,
 }: ScreenProps) {
   const handleNotes = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setNotes(event.target.value);
@@ -36,6 +37,7 @@ function CallEndedScreen({
       engagementProperties: {
         hs_call_body: notes,
         hs_call_duration: callDuration.toString(),
+        hs_call_status: callStatus || "COMPLETED",
       },
     });
     handleSaveCall();

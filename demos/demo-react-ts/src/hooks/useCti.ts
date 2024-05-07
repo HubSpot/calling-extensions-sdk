@@ -5,8 +5,6 @@ import { useMemo, useState } from "react";
 
 // @ts-expect-error module not typed
 import CallingExtensions from "../../../../src/CallingExtensions";
-// @ts-expect-error module not typed
-import { callStatus } from "../../../../src/Constants";
 
 // @TODO Move it to CallingExtensions and export it once migrated to typescript
 type ObjectCoordinates = {
@@ -260,7 +258,6 @@ export const useCti = (
     phoneNumber,
     engagementId,
     cti,
-    callStatus,
     incomingContactName,
   };
 };

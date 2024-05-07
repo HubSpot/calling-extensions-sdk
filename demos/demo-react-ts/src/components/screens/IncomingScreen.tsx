@@ -18,8 +18,8 @@ function IncomingScreen({
   handleEndCall,
   cti,
   startTimer,
-  callStatus,
   incomingContactName,
+  setCallStatus,
 }: ScreenProps) {
   const onAnswerCall = () => {
     const callStartTime = Date.now();
@@ -28,10 +28,9 @@ function IncomingScreen({
     handleNextScreen();
   };
 
-  const onEndCall = () => {
-    cti.callEnded({
-      callEndStatus: callStatus.INTERNAL_COMPLETED,
-    });
+  const onEndIncomingCall = () => {
+    setCallStatus("CANCELED");
+    cti.callEnded({ callEndStatus: "CANCELED" });
     handleEndCall();
   };
 
@@ -70,11 +69,15 @@ function IncomingScreen({
         <CallButton
           use="primary"
           onClick={onAnswerCall}
-          aria-label="start-call"
+          aria-label="answer-call"
         >
           {StartCallSvg}
         </CallButton>
-        <EndCallButton use="primary" onClick={onEndCall} aria-label="end-call">
+        <EndCallButton
+          use="primary"
+          onClick={onEndIncomingCall}
+          aria-label="end-call"
+        >
           {EndCallSvg}
         </EndCallButton>
       </Row>

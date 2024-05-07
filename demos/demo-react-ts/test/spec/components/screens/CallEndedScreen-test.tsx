@@ -68,7 +68,27 @@ describe("CallEndedScreen", () => {
       engagementProperties: {
         hs_call_body: "calling notes",
         hs_call_duration: "3000",
+        hs_call_status: "COMPLETED",
       },
     });
+  });
+
+  it("Saves canceled call", () => {
+    const { getByRole } = renderWithContext(
+      <CallEndedScreen
+        {...props}
+        engagementId={1}
+        notes="calling notes"
+        callDuration={3000}
+        callStatus="CANCELED"
+      />
+    );
+    const button = getByRole("button", { name: /save-call/ });
+    button.click();
+    expect(props.handleSaveCall).toHaveBeenCalled();
+    expect(
+      (cti.callCompleted as jasmine.Spy).calls.argsFor(0)[0]
+        .engagementProperties.hs_call_status
+    ).toEqual("CANCELED");
   });
 });

@@ -91,7 +91,7 @@ describe("IncomingScreen", () => {
   it("Receives call", () => {
     // ARRANGE
     const { getByRole } = renderWithContext(<IncomingScreen {...props} />);
-    const button = getByRole("button", { name: /start-call/ });
+    const button = getByRole("button", { name: /answer-call/ });
 
     // ACT
     button.click();
@@ -113,7 +113,7 @@ describe("IncomingScreen", () => {
     // ASSERT
     expect(props.handleEndCall).toHaveBeenCalled();
     expect(cti.callEnded).toHaveBeenCalledWith({
-      callEndStatus: "COMPLETED",
+      callEndStatus: "ENDING",
     });
   });
 });
