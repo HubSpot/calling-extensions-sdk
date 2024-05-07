@@ -76,7 +76,7 @@ function IncomingScreen({
         <EndCallButton
           use="primary"
           onClick={onEndIncomingCall}
-          aria-label="end-call"
+          aria-label="cancel-call"
         >
           {EndCallSvg}
         </EndCallButton>
