@@ -34,6 +34,7 @@ const props: Partial<ScreenProps> = {
   callStatus: {
     INTERNAL_COMPLETED: "COMPLETED",
   },
+  setCallStatus: noop,
 };
 
 describe("IncomingScreen", () => {
@@ -91,7 +92,7 @@ describe("IncomingScreen", () => {
   it("Receives call", () => {
     // ARRANGE
     const { getByRole } = renderWithContext(<IncomingScreen {...props} />);
-    const button = getByRole("button", { name: /start-call/ });
+    const button = getByRole("button", { name: /answer-call/ });
 
     // ACT
     button.click();
@@ -105,7 +106,7 @@ describe("IncomingScreen", () => {
   it("Ends call", () => {
     // ARRANGE
     const { getByRole } = renderWithContext(<IncomingScreen {...props} />);
-    const button = getByRole("button", { name: /end-call/ });
+    const button = getByRole("button", { name: /cancel-call/ });
 
     // ACT
     button.click();
@@ -113,7 +114,7 @@ describe("IncomingScreen", () => {
     // ASSERT
     expect(props.handleEndCall).toHaveBeenCalled();
     expect(cti.callEnded).toHaveBeenCalledWith({
-      callEndStatus: "COMPLETED",
+      callEndStatus: "CANCELED",
     });
   });
 });

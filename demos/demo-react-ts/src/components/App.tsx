@@ -15,7 +15,12 @@ import CallEndedScreen from "./screens/CallEndedScreen";
 import IncomingScreen from "./screens/IncomingScreen";
 import { useCti } from "../hooks/useCti";
 import { useCallDurationTimer } from "../hooks/useTimer";
-import { ScreenNames, Availability, Direction } from "../types/ScreenTypes";
+import {
+  ScreenNames,
+  Availability,
+  Direction,
+  CallStatus,
+} from "../types/ScreenTypes";
 import Alert from "./Alert";
 import { CALYPSO, GYPSUM, KOALA, OLAF, SLINKY } from "../utils/colors";
 import { FROM_NUMBER_ONE } from "../utils/phoneNumberUtils";
@@ -69,6 +74,7 @@ function App() {
   const [fromNumber, setFromNumber] = useState(FROM_NUMBER_ONE);
   const [incomingNumber, setIncomingNumber] = useState("+1");
   const [availability, setAvailability] = useState<Availability>("UNAVAILABLE");
+  const [callStatus, setCallStatus] = useState<CallStatus | null>(null);
 
   const {
     callDuration,
@@ -85,8 +91,9 @@ function App() {
     setIncomingNumber(incomingNumber);
   };
 
-  const { cti, phoneNumber, engagementId, callStatus, incomingContactName } =
-    useCti(initializeCallingStateForExistingCall);
+  const { cti, phoneNumber, engagementId, incomingContactName } = useCti(
+    initializeCallingStateForExistingCall
+  );
 
   const screens = direction === "OUTBOUND" ? OUTBOUND_SCREENS : INBOUND_SCREENS;
 
@@ -156,12 +163,13 @@ function App() {
         setFromNumber={setFromNumber}
         incomingNumber={incomingNumber}
         setIncomingNumber={setIncomingNumber}
-        callStatus={callStatus}
         availability={availability}
         setAvailability={setAvailability}
         direction={direction}
         setDirection={setDirection}
         incomingContactName={incomingContactName}
+        callStatus={callStatus}
+        setCallStatus={setCallStatus}
       />
     );
   }, [

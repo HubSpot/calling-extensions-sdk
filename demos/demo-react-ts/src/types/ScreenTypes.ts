@@ -1,3 +1,4 @@
+export type CallStatus = "NO_ANSWER" | "CANCELED" | "COMPLETED";
 export type Availability = "AVAILABLE" | "UNAVAILABLE";
 export type Direction = "INBOUND" | "OUTBOUND";
 
@@ -29,7 +30,6 @@ export interface ScreenProps {
   handleSaveCall: Function;
   fromNumber: string;
   setFromNumber: Function;
-  callStatus: any;
   availability: Availability;
   setAvailability: (availability: Availability) => void;
   direction: Direction;
@@ -37,4 +37,6 @@ export interface ScreenProps {
   incomingContactName: string;
   incomingNumber: string;
   setIncomingNumber: (number: string) => void;
+  callStatus: CallStatus | null;
+  setCallStatus: (callStatus: CallStatus) => void;
 }
