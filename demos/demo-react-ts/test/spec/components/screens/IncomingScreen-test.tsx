@@ -31,9 +31,7 @@ const props: Partial<ScreenProps> = {
   direction: "INBOUND",
   incomingContactName: "",
   incomingNumber: "+123456789",
-  callStatus: {
-    INTERNAL_COMPLETED: "COMPLETED",
-  },
+  callStatus: "COMPLETED",
   setCallStatus: noop,
 };
 

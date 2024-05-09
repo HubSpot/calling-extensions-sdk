@@ -52,7 +52,7 @@ function CallingScreen({
   };
   const onEndCall = () => {
     cti.callEnded({
-      callEndStatus: "INTERNAL_COMPLETED",
+      callEndStatus: "COMPLETED",
     });
     handleEndCall();
   };

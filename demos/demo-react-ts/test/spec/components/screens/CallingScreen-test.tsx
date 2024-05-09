@@ -27,9 +27,7 @@ const props: Partial<ScreenProps> = {
   handleSaveCall: noop,
   fromNumber: "",
   setFromNumber: noop,
-  callStatus: {
-    INTERNAL_COMPLETED: "COMPLETED",
-  },
+  callStatus: "COMPLETED",
 };
 
 describe("CallingScreen", () => {
