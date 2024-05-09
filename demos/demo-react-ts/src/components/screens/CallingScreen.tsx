@@ -31,7 +31,6 @@ function CallingScreen({
   setNotes,
   callDurationString,
   handleEndCall,
-  callStatus,
   direction,
 }: ScreenProps) {
   const [toggleRecord, setToggleRecord] = useState(false);
@@ -53,7 +52,7 @@ function CallingScreen({
   };
   const onEndCall = () => {
     cti.callEnded({
-      callEndStatus: callStatus.INTERNAL_COMPLETED,
+      callEndStatus: "COMPLETED",
     });
     handleEndCall();
   };
