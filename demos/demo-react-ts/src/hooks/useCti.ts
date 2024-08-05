@@ -155,6 +155,7 @@ export const useCti = (
           engagementId?: number;
           portalId?: number;
           userId?: number;
+          ownerId?: number;
         }) => {
           const engagementId = (data && data.engagementId) || 0;
 

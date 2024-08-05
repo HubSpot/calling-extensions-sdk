@@ -11,6 +11,7 @@ export const state = {
   toNumber: "+1234",
   userAvailable: false,
   userId: 0,
+  ownerId: 0,
 };
 
 const sizeInfo = {
@@ -47,7 +48,8 @@ function enableButtons(ids) {
 const cti = new CallingExtensions({
   debugMode: true,
   eventHandlers: {
-    onReady: ({ engagementId, portalId, userId } = {}) => {
+    onReady: ({ engagementId, portalId, userId, ownerId } = {}) => {
+      debugger;
       cti.initialized({
         engagementId,
         isLoggedIn: false,
@@ -65,6 +67,9 @@ const cti = new CallingExtensions({
       }
       if (userId) {
         state.userId = userId;
+      }
+      if (ownerId) {
+        state.ownerId = ownerId;
       }
     },
     onDialNumber: (data, rawEvent) => {
