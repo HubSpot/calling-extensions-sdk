@@ -11,6 +11,7 @@ export const state = {
   toNumber: "+1234",
   userAvailable: false,
   userId: 0,
+  enforceButtonsOrder: false,
   ownerId: 0,
 };
 
@@ -34,12 +35,18 @@ const USER_AVAILABLE = "useravailable";
 const USER_UNAVAILABLE = "userunavailable";
 
 function disableButtons(ids) {
+  if (!state.enforceButtonsOrder) {
+    return;
+  }
   ids.forEach(id => {
     document.querySelector(`#${id}`).setAttribute("disabled", true);
   });
 }
 
 function enableButtons(ids) {
+  if (!state.enforceButtonsOrder) {
+    return;
+  }
   ids.forEach(id => {
     document.querySelector(`#${id}`).removeAttribute("disabled");
   });
@@ -49,13 +56,22 @@ const cti = new CallingExtensions({
   debugMode: true,
   eventHandlers: {
     onReady: ({ engagementId, portalId, userId, ownerId } = {}) => {
-      debugger;
       cti.initialized({
         engagementId,
         isLoggedIn: false,
         sizeInfo,
       });
-      disableButtons([INITIALIZE]);
+      disableButtons([
+        INITIALIZE,
+        USER_AVAILABLE,
+        USER_UNAVAILABLE,
+        OUTGOING_CALL,
+        INCOMING_CALL,
+        ANSWER_CALL,
+        END_CALL,
+        COMPLETE_CALL,
+        LOG_OUT,
+      ]);
       if (engagementId) {
         enableButtons([ANSWER_CALL, END_CALL]);
         state.engagementId = engagementId;
@@ -147,7 +163,17 @@ export function initialize() {
   cti.initialized({
     isLoggedIn: false,
   });
-  disableButtons([INITIALIZE]);
+  disableButtons([
+    INITIALIZE,
+    USER_AVAILABLE,
+    USER_UNAVAILABLE,
+    OUTGOING_CALL,
+    INCOMING_CALL,
+    ANSWER_CALL,
+    END_CALL,
+    COMPLETE_CALL,
+    LOG_OUT,
+  ]);
   enableButtons([LOG_IN, SEND_ERROR, RESIZE_WIDGET]);
 }
 
