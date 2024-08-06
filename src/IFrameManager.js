@@ -77,7 +77,9 @@ class IFrameManager {
   }
 
   static createIFrame(iFrameOptions, onLoadCallback) {
-    const { src, width, height, hostElementSelector } = iFrameOptions;
+    const {
+      src, width, height, hostElementSelector,
+    } = iFrameOptions;
 
     if (!src || !width || !height || !hostElementSelector) {
       throw new Error(
