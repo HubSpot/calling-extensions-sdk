@@ -49,7 +49,6 @@ const cti = new CallingExtensions({
   debugMode: true,
   eventHandlers: {
     onReady: ({ engagementId, portalId, userId, ownerId } = {}) => {
-      debugger;
       cti.initialized({
         engagementId,
         isLoggedIn: false,
