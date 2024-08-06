@@ -102,9 +102,10 @@ class CallingExtensions {
     });
   }
 
-  callAnswered() {
+  callAnswered(data) {
     this.sendMessage({
       type: messageType.CALL_ANSWERED,
+      data,
     });
   }
 
