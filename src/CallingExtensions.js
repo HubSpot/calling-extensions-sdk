@@ -102,9 +102,16 @@ class CallingExtensions {
     });
   }
 
-  callAnswered() {
+  /**
+   * Event when an inbound call is answered.
+   *
+   * @param {Object} data - The data object to be published.
+   * @param {number} data.externalCallId - Call ID maintained by integrator
+   */
+  callAnswered(data) {
     this.sendMessage({
       type: messageType.CALL_ANSWERED,
+      data,
     });
   }
 
