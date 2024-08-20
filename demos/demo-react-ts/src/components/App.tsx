@@ -70,6 +70,8 @@ function App() {
   const [direction, setDirection] = useState<Direction>("OUTBOUND");
   const [dialNumber, setDialNumber] = useState("+1");
   const [notes, setNotes] = useState("");
+  const [isCallRecorded, setIsCallRecorded] = useState(false);
+
   const [showAlert, setShowAlert] = useState(true);
   const [fromNumber, setFromNumber] = useState(FROM_NUMBER_ONE);
   const [incomingNumber, setIncomingNumber] = useState("+1");
@@ -106,6 +108,7 @@ function App() {
     setIncomingNumber("+1");
     setNotes("");
     resetCallDuration();
+    setIsCallRecorded(false);
   }, [resetCallDuration]);
 
   const hideAlert = () => {
@@ -153,6 +156,8 @@ function App() {
         setDialNumber={setDialNumber}
         notes={notes}
         setNotes={setNotes}
+        isCallRecorded={isCallRecorded}
+        setIsCallRecorded={setIsCallRecorded}
         callDuration={callDuration}
         callDurationString={callDurationString}
         startTimer={startTimer}
