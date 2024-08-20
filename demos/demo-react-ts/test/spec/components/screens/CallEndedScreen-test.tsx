@@ -50,7 +50,7 @@ describe("CallEndedScreen", () => {
     expect(getByText(/calling notes/)).toBeInTheDocument();
   });
 
-  it("Saves call", () => {
+  it("Saves call - no recording", () => {
     const { getByRole } = renderWithContext(
       <CallEndedScreen
         {...props}
@@ -69,6 +69,33 @@ describe("CallEndedScreen", () => {
         hs_call_body: "calling notes",
         hs_call_duration: "3000",
         hs_call_status: "COMPLETED",
+        hs_call_recording_url: null,
+      },
+    });
+  });
+
+  it("Saves call - with recording", () => {
+    const { getByRole } = renderWithContext(
+      <CallEndedScreen
+        {...props}
+        engagementId={1}
+        notes="calling notes"
+        callDuration={3000}
+        isCallRecorded
+      />
+    );
+    const button = getByRole("button", { name: /save-call/ });
+    button.click();
+    expect(props.handleSaveCall).toHaveBeenCalled();
+    expect(cti.callCompleted).toHaveBeenCalledWith({
+      engagementId: 1,
+      hideWidget: false,
+      engagementProperties: {
+        hs_call_body: "calling notes",
+        hs_call_duration: "3000",
+        hs_call_status: "COMPLETED",
+        hs_call_recording_url:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
       },
     });
   });
