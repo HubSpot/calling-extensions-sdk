@@ -8,6 +8,9 @@ const StyledRow = styled(Row)`
   justify-content: flex-start;
 `;
 
+const RECORDING_URL =
+  "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+
 function CallEndedScreen({
   cti,
   engagementId,
@@ -17,6 +20,7 @@ function CallEndedScreen({
   direction,
   notes,
   setNotes,
+  isCallRecorded,
   callDuration,
   callDurationString,
   callStatus,
@@ -38,6 +42,7 @@ function CallEndedScreen({
         hs_call_body: notes,
         hs_call_duration: callDuration.toString(),
         hs_call_status: callStatus || "COMPLETED",
+        hs_call_recording_url: isCallRecorded ? RECORDING_URL : null,
       },
     });
     handleSaveCall();

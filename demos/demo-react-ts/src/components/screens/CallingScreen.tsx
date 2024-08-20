@@ -29,6 +29,7 @@ function CallingScreen({
   incomingNumber,
   notes,
   setNotes,
+  setIsCallRecorded,
   callDurationString,
   handleEndCall,
   direction,
@@ -38,6 +39,7 @@ function CallingScreen({
   const [toggleKeypad, setToggleKeypad] = useState(false);
 
   const handleToggleRecord = () => {
+    setIsCallRecorded(true);
     setToggleRecord(!toggleRecord);
   };
   const handleToggleMute = () => {

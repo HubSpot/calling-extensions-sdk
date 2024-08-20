@@ -22,6 +22,8 @@ export interface ScreenProps {
   setDialNumber: Function;
   notes: string;
   setNotes: Function;
+  isCallRecorded: boolean;
+  setIsCallRecorded: Function;
   callDuration: number;
   callDurationString: string;
   startTimer: Function;
