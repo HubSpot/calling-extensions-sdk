@@ -36,6 +36,7 @@ class CallingExtensions {
   }
 
   /**
+   * Send a message indicating that the soft phone is ready for interaction.
    *
    * @param {OnInitialized} payload
    */
@@ -65,7 +66,7 @@ class CallingExtensions {
   }
 
   /**
-   * Event when user is logged in
+   * Sends a message indicating that the user has logged in.
    */
   userLoggedIn() {
     this.sendMessage({
@@ -74,7 +75,7 @@ class CallingExtensions {
   }
 
   /**
-   * Event when user is logged out
+   * Sends a message indicating that the user has logged out.
    */
   userLoggedOut() {
     this.sendMessage({
@@ -85,98 +86,102 @@ class CallingExtensions {
   /**
    * Event when incoming call is received.
    *
-   * @param {OnIncomingCall} callDetails
+   * @param {OnIncomingCall} callInfo
    */
-  incomingCall(callDetails) {
+  incomingCall(callInfo) {
     this.sendMessage({
       type: messageType.INCOMING_CALL,
-      data: callDetails,
+      data: callInfo,
     });
   }
 
   /**
-   * Event when outgoing call has started.
+   * Sends a message to notify HubSpot that an outgoing call has started.
    *
-   * @param {OnOutgoingCall} callDetails
+   * @param {OnOutgoingCall} callInfo
    */
-  outgoingCall(callDetails) {
+  outgoingCall(callInfo) {
     this.sendMessage({
       type: messageType.OUTGOING_CALL_STARTED,
-      data: callDetails,
+      data: callInfo,
     });
   }
 
   /**
-   * Event when an inbound call is answered.
+   * Sends a message to notify HubSpot that a call is being answered.
    *
-   * @param {OnCallAnswered} data - The data object to be published.
+   * @param {OnCallAnswered} payload
    */
-  callAnswered(data) {
+  callAnswered(payload) {
     this.sendMessage({
       type: messageType.CALL_ANSWERED,
-      data,
+      payload,
     });
   }
 
   /**
    * Event to navigate to record page.
    *
-   * @param {OnNavigateToRecord} data
+   * @param {OnNavigateToRecord} payload
    */
-  navigateToRecord(data) {
+  navigateToRecord(payload) {
     this.sendMessage({
       type: messageType.NAVIGATE_TO_RECORD,
-      data,
+      payload,
     });
   }
 
-  callData(data) {
+  callData(payload) {
     this.sendMessage({
       type: messageType.CALL_DATA,
+      payload,
+    });
+  }
+
+  /**
+   * Sends a message to notify HubSpot that the call has ended.
+   *
+   * @param {OnCallEnded} data
+   */
+  callEnded(data) {
+    this.sendMessage({
+      type: messageType.CALL_ENDED,
       data,
     });
   }
 
   /**
-   * Event when call has ended.
+   * Sends a message to notify HubSpot that the call has completed.
    *
-   * @param {OnCallEnded} engagementData
+   * @param {OnCallCompleted} data
    */
-  callEnded(engagementData) {
-    this.sendMessage({
-      type: messageType.CALL_ENDED,
-      data: engagementData,
-    });
-  }
-
-  /**
-   * Event when call is completed/saved.
-   *
-   * @param {OnCallCompleted} callCompletedData
-   */
-  callCompleted(callCompletedData) {
+  callCompleted(data) {
     this.sendMessage({
       type: messageType.CALL_COMPLETED,
-      data: callCompletedData,
-    });
-  }
-
-  sendError(errorData) {
-    this.sendMessage({
-      type: messageType.ERROR,
-      data: errorData,
+      data,
     });
   }
 
   /**
-   * Event to resize the widget to new dimensions.
-   *
-   * @param {OnResize} sizeInfo
+   * Sends a message to notify HubSpot that the calling app has encountered an error.
+   * @param {OnError} data
    */
-  resizeWidget(sizeInfo) {
+  sendError(data) {
+    this.sendMessage({
+      type: messageType.ERROR,
+      data,
+    });
+  }
+
+  /**
+   * Sends a message to notify HubSpot that the calling app needs to be resized.
+   *
+   * @param {OnResize} data
+   */
+  resizeWidget(data) {
     this.sendMessage({
       type: messageType.RESIZE_WIDGET,
-      data: sizeInfo,
+      data,
     });
   }
 

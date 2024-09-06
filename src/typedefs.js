@@ -68,7 +68,6 @@
  * @typedef {Object} OnPublishToChannel
  * @property {number} externalCallId
  * @property {number} engagementId
- * @property {number} [callId] - @deprecated use externalCallId instead
  */
 
 /**
@@ -123,4 +122,9 @@
  * @typedef {Object} OnNavigateToRecord
  * @property {number} [engagementId]
  * @property {ObjectCoordinates} ObjectCoordinates
+ */
+
+/**
+ * @typedef {Object} OnError
+ * @property {string} message
  */
