@@ -165,7 +165,7 @@ describe("KeypadScreen", () => {
         getByLabelText("availability-menu-close")
       );
       const triggerBtn = getByRole("button", {
-        name: "trigger-incoming-call-option",
+        name: "toggle-incoming-call-option",
       });
       triggerBtn.click();
       await waitForElementToBeRemoved(() =>
@@ -202,7 +202,7 @@ describe("KeypadScreen", () => {
         getByLabelText("availability-menu-close")
       );
       const triggerOptionBtn = getByRole("button", {
-        name: "trigger-incoming-call-option",
+        name: "toggle-incoming-call-option",
       });
       triggerOptionBtn.click();
       await waitForElementToBeRemoved(() =>

@@ -27,6 +27,13 @@ import {
   validateKeypadInput,
   validatePhoneNumber,
 } from "../utils/phoneNumberUtils";
+import {
+  USER_AVAILABLE,
+  USER_UNAVAILABLE,
+  TOGGLE_AVAILABILITY,
+  INCOMING_CALL,
+  TOGGLE_INCOMING_CALL_OPTION,
+} from "../constants/buttonIds";
 
 function getAvailabilityString(availability: Availability): string {
   return availability === "AVAILABLE" ? "Available" : "Unavailable";
@@ -81,13 +88,14 @@ function AvailabilityDropdown({
         <Input
           onChange={handleInput}
           value={incomingNumber}
-          data-testid="incoming-number-input"
+          data-test-id="incoming-number-input"
         />
         <DialIncomingCallButton
           use="primary"
           disabled={!isIncomingNumberValid}
           onClick={() => triggerIncomingCall(incomingNumber)}
           aria-label="trigger-incoming-call"
+          data-test-id={INCOMING_CALL}
         >
           {StartCallSvg}
         </DialIncomingCallButton>
@@ -102,6 +110,7 @@ function AvailabilityDropdown({
           <AvailabilityButton
             aria-label="available-option"
             onClick={() => handleAvailability("AVAILABLE")}
+            data-test-id={USER_AVAILABLE}
           >
             <AvailabilityButtonContent>
               <Spacer>
@@ -116,6 +125,7 @@ function AvailabilityDropdown({
           <AvailabilityButton
             aria-label="unavailable-option"
             onClick={() => handleAvailability("UNAVAILABLE")}
+            data-test-id={USER_UNAVAILABLE}
           >
             <AvailabilityButtonContent>
               <Spacer>
@@ -137,12 +147,13 @@ function AvailabilityDropdown({
           >
             <Spacer>
               <TriggerIncomingCallButton
-                aria-label="trigger-incoming-call-option"
+                aria-label="toggle-incoming-call-option"
                 disabled={availability === "UNAVAILABLE"}
                 style={{ textAlign: "start" }}
                 onClick={() =>
                   setToggleTriggerIncomingCall(!toggleTriggerIncomingCall)
                 }
+                data-test-id={TOGGLE_INCOMING_CALL_OPTION}
               >
                 Trigger Incoming Call
               </TriggerIncomingCallButton>
@@ -173,6 +184,7 @@ function AvailabilityDropdown({
       <AvailabilityToggleButton
         aria-label="availability-toggle-button"
         onClick={() => setToggleAvailabilityOptions(!toggleAvailabilityOptions)}
+        data-test-id={TOGGLE_AVAILABILITY}
       >
         <AvailabilityToggleButtonContent>
           {getAvailabilityStatusDot(availability)}

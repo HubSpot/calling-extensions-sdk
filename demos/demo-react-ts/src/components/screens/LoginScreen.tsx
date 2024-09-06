@@ -9,6 +9,7 @@ import {
 } from "../Components";
 import { ScreenProps } from "../../types/ScreenTypes";
 import { PANTERA } from "../../utils/colors";
+import { LOG_IN } from "../../constants/buttonIds";
 
 function LoginScreen({ cti, handleNextScreen }: ScreenProps) {
   const usernameInput = useAutoFocus();
@@ -47,7 +48,12 @@ function LoginScreen({ cti, handleNextScreen }: ScreenProps) {
         />
         <br />
         <Row>
-          <RoundedButton use="primary" onClick={handleLogin} type="button">
+          <RoundedButton
+            use="primary"
+            onClick={handleLogin}
+            type="button"
+            data-test-id={LOG_IN}
+          >
             Log in
           </RoundedButton>
         </Row>

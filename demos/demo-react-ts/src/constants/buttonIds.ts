@@ -1,0 +1,12 @@
+export const ANSWER_CALL = "answer-call";
+export const COMPLETE_CALL = "complete-call";
+export const END_CALL = "end-call";
+export const TOGGLE_INCOMING_CALL_OPTION = "toggle-incoming-call-option";
+export const INCOMING_CALL = "incoming-call";
+export const LOG_IN = "log-in";
+export const LOG_OUT = "log-out";
+export const OUTGOING_CALL = "outgoing-call";
+export const RESIZE_WIDGET = "resize-widget";
+export const TOGGLE_AVAILABILITY = "toggle-availability";
+export const USER_AVAILABLE = "user-available";
+export const USER_UNAVAILABLE = "user-unavailable";

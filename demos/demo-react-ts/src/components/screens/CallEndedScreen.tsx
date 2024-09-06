@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { RoundedButton, Row, Timer, TextArea, Wrapper } from "../Components";
 import { ScreenProps } from "../../types/ScreenTypes";
 import { formatPhoneNumber } from "../../utils/phoneNumberUtils";
+import { COMPLETE_CALL } from "../../constants/buttonIds";
 
 const StyledRow = styled(Row)`
   justify-content: flex-start;
@@ -75,6 +76,7 @@ function CallEndedScreen({
           use="primary"
           onClick={onSaveCall}
           aria-label="save-call"
+          data-test-id={COMPLETE_CALL}
         >
           Save Call
         </RoundedButton>

@@ -11,6 +11,7 @@ import {
 import { ScreenProps } from "../../types/ScreenTypes";
 import { EndCallSvg, StartCallSvg } from "../Icons";
 import { formatPhoneNumber } from "../../utils/phoneNumberUtils";
+import { ANSWER_CALL, END_CALL } from "../../constants/buttonIds";
 
 function IncomingScreen({
   handleNextScreen,
@@ -70,6 +71,7 @@ function IncomingScreen({
           use="primary"
           onClick={onAnswerCall}
           aria-label="answer-call"
+          data-test-id={ANSWER_CALL}
         >
           {StartCallSvg}
         </CallButton>
@@ -77,6 +79,7 @@ function IncomingScreen({
           use="primary"
           onClick={onEndIncomingCall}
           aria-label="cancel-call"
+          data-test-id={END_CALL}
         >
           {EndCallSvg}
         </EndCallButton>
