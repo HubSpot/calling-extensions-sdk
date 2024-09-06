@@ -1,3 +1,5 @@
+// @ts-check
+
 "use es6";
 
 import IFrameManager from "./IFrameManager";
@@ -8,33 +10,9 @@ import {
   VERSION,
   messageHandlerNames,
 } from "./Constants";
+import "./typedefs";
 
 const prefix = `[calling-extensions-sdk@${VERSION}]`;
-
-/**
- * @typedef {Object} EventHandlers
- * @property {function} onReady - Called when HubSpot is ready to receive messages.
- * @property {function} onDialNumber - Called when the HubSpot sends a dial number from the contact.
- * @property {function} onEngagementCreated - Called when HubSpot creates an engagement
- * for the call.
- * @property {function} onVisibilityChanged - Called when the call widget's visibility changes.
- */
-
-/**
- * @typedef {Object} IframeOptions
- * @property {string} src - iframe URL
- * @property {string} height - Height of iframe
- * @property {string} width - Width of iframe
- * @property {string} hostElementSelector - Selector for host element where iframe will be bound
- */
-
-/**
- * @typedef {Object} Options
- * @property {IframeOptions} iFrameOptions - iFrame configuration options
- * @property {boolean} debugMode - Whether to log various inbound/outbound debug messages
- * to the console.
- * @property {EventHandlers} eventHandlers - Event handlers handle inbound messages.
- */
 
 /*
  * CallingExtensions allows call providers to communicate with HubSpot.
@@ -53,124 +31,191 @@ class CallingExtensions {
     this.iFrameManager = new IFrameManager({
       iFrameOptions: options.iFrameOptions,
       debugMode: options.debugMode,
-      onMessageHandler: event => this.onMessageHandler(event),
+      onMessageHandler: (/** @type {any} */ event) =>
+        // eslint-disable-next-line implicit-arrow-linebreak
+        this.onMessageHandler(event),
     });
   }
 
-  initialized(userData) {
+  /**
+   * Send a message indicating that the soft phone is ready for interaction.
+   *
+   * @param {OnInitialized} payload
+   */
+  initialized(payload) {
     this.sendMessage({
       type: messageType.INITIALIZED,
-      data: userData,
+      data: payload,
     });
   }
 
+  /**
+   * Event when user's availability is changed to available
+   */
   userAvailable() {
     this.sendMessage({
       type: messageType.USER_AVAILABLE,
     });
   }
 
+  /**
+   * Event when user's availability is changed to unavailable
+   */
   userUnavailable() {
     this.sendMessage({
       type: messageType.USER_UNAVAILABLE,
     });
   }
 
+  /**
+   * Sends a message indicating that the user has logged in.
+   */
   userLoggedIn() {
     this.sendMessage({
       type: messageType.LOGGED_IN,
     });
   }
 
+  /**
+   * Sends a message indicating that the user has logged out.
+   */
   userLoggedOut() {
     this.sendMessage({
       type: messageType.LOGGED_OUT,
     });
   }
 
-  incomingCall(callDetails) {
+  /**
+   * Event when incoming call is received.
+   *
+   * @param {OnIncomingCall} callInfo
+   */
+  incomingCall(callInfo) {
     this.sendMessage({
       type: messageType.INCOMING_CALL,
-      data: callDetails,
-    });
-  }
-
-  outgoingCall(callDetails) {
-    this.sendMessage({
-      type: messageType.OUTGOING_CALL_STARTED,
-      data: callDetails,
+      data: callInfo,
     });
   }
 
   /**
-   * Event when an inbound call is answered.
+   * Sends a message to notify HubSpot that an outgoing call has started.
    *
-   * @param {Object} data - The data object to be published.
-   * @param {number} data.externalCallId - Call ID maintained by integrator
+   * @param {OnOutgoingCall} callInfo
    */
-  callAnswered(data) {
+  outgoingCall(callInfo) {
+    this.sendMessage({
+      type: messageType.OUTGOING_CALL_STARTED,
+      data: callInfo,
+    });
+  }
+
+  /**
+   * Sends a message to notify HubSpot that a call is being answered.
+   *
+   * @param {OnCallAnswered} payload
+   */
+  callAnswered(payload) {
     this.sendMessage({
       type: messageType.CALL_ANSWERED,
-      data,
+      data: payload,
     });
   }
 
-  navigateToRecord(data) {
+  /**
+   * Event to navigate to record page.
+   *
+   * @param {OnNavigateToRecord} payload
+   */
+  navigateToRecord(payload) {
     this.sendMessage({
       type: messageType.NAVIGATE_TO_RECORD,
-      data,
+      data: payload,
     });
   }
 
-  callData(data) {
+  /**
+   * @param {any} payload
+   */
+  callData(payload) {
     this.sendMessage({
       type: messageType.CALL_DATA,
+      data: payload,
+    });
+  }
+
+  /**
+   * Sends a message to notify HubSpot that the call has ended.
+   *
+   * @param {OnCallEnded} data
+   */
+  callEnded(data) {
+    this.sendMessage({
+      type: messageType.CALL_ENDED,
       data,
     });
   }
 
-  callEnded(engagementData) {
-    this.sendMessage({
-      type: messageType.CALL_ENDED,
-      data: engagementData,
-    });
-  }
-
-  callCompleted(callCompletedData) {
+  /**
+   * Sends a message to notify HubSpot that the call has completed.
+   *
+   * @param {OnCallCompleted} data
+   */
+  callCompleted(data) {
     this.sendMessage({
       type: messageType.CALL_COMPLETED,
-      data: callCompletedData,
+      data,
     });
   }
 
-  sendError(errorData) {
+  /**
+   * Sends a message to notify HubSpot that the calling app has encountered an error.
+   * @param {OnError} data
+   */
+  sendError(data) {
     this.sendMessage({
       type: messageType.ERROR,
-      data: errorData,
+      data,
     });
   }
 
-  resizeWidget(sizeInfo) {
+  /**
+   * Sends a message to notify HubSpot that the calling app needs to be resized.
+   *
+   * @param {OnResize} data
+   */
+  resizeWidget(data) {
     this.sendMessage({
       type: messageType.RESIZE_WIDGET,
-      data: sizeInfo,
+      data,
     });
   }
 
+  /**
+   *
+   * @param {onMessage} message
+   */
   sendMessage(message) {
     this.iFrameManager.sendMessage(message);
   }
 
+  /**
+   *
+   * @param {{message: string, type: string}} param0
+   */
   logDebugMessage({ message, type = debugMessageType.GENERIC_MESSAGE }) {
     this.iFrameManager.logDebugMessage(prefix, type, message);
   }
 
+  /**
+   * @param {{ type: any; data: any; }} event
+   */
   onMessageHandler(event) {
     const { type, data } = event;
     const { eventHandlers } = this.options;
 
     let handler;
     if (type in messageHandlerNames) {
+      /** @type {keyof EventHandlers} */
       const name = messageHandlerNames[type];
       handler = eventHandlers[name];
     } else {
@@ -199,8 +244,7 @@ class CallingExtensions {
   /**
    * Publishes the call to a connected channel.
    *
-   * @param {Object} data - The data object to be published.
-   * @param {number} data.engagementId - The HubSpot engagementId created by the calling app.
+   * @param {OnPublishToChannel} data - The data object to be published.
    */
   publishToChannel(data) {
     this.sendMessage({
