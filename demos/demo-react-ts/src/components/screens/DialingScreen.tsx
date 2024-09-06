@@ -3,6 +3,7 @@ import { EndCallButton, Row, Timer, Wrapper } from "../Components";
 import { ScreenProps } from "../../types/ScreenTypes";
 import { EndCallSvg } from "../Icons";
 import { formatPhoneNumber } from "../../utils/phoneNumberUtils";
+import { END_CALL } from "../../constants/buttonIds";
 
 function DialingScreen({
   handleNextScreen,
@@ -33,7 +34,11 @@ function DialingScreen({
         <Timer>{callDurationString}</Timer>
       </div>
       <Row>
-        <EndCallButton use="primary" onClick={onEndCall}>
+        <EndCallButton
+          use="primary"
+          onClick={onEndCall}
+          data-test-id={END_CALL}
+        >
           {EndCallSvg}
         </EndCallButton>
       </Row>

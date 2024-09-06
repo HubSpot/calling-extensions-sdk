@@ -31,6 +31,7 @@ import {
   validateKeypadInput,
   validatePhoneNumber,
 } from "../../utils/phoneNumberUtils";
+import { LOG_OUT, OUTGOING_CALL } from "../../constants/buttonIds";
 
 const StyledRow = styled(Row)`
   justify-content: space-between;
@@ -171,7 +172,9 @@ function KeypadScreen({
           incomingNumber={incomingNumber}
           setIncomingNumber={setIncomingNumber}
         />
-        <LinkButton onClick={handleLogout}>Log out</LinkButton>
+        <LinkButton onClick={handleLogout} data-test-id={LOG_OUT}>
+          Log out
+        </LinkButton>
       </StyledRow>
       <br />
       <div
@@ -185,7 +188,7 @@ function KeypadScreen({
         }}
       >
         <KeypadInput
-          data-testid="dial-number-input"
+          data-test-id="dial-number-input"
           value={dialNumber}
           onChange={handleDialNumber}
           onBlur={handleCursor}
@@ -203,6 +206,7 @@ function KeypadScreen({
           disabled={!isDialNumberValid}
           onClick={handleOutgoingCall}
           aria-label="outgoing-call"
+          data-test-id={OUTGOING_CALL}
         >
           {StartCallSvg}
         </CallButton>

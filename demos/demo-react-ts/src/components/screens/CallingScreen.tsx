@@ -22,6 +22,7 @@ import {
 } from "../Icons";
 import { BATTLESHIP, SLINKY } from "../../utils/colors";
 import { formatPhoneNumber } from "../../utils/phoneNumberUtils";
+import { END_CALL } from "../../constants/buttonIds";
 
 function CallingScreen({
   cti,
@@ -139,7 +140,12 @@ function CallingScreen({
         </div>
       </Row>
       <Row>
-        <EndCallButton use="primary" onClick={onEndCall} aria-label="end-call">
+        <EndCallButton
+          use="primary"
+          onClick={onEndCall}
+          aria-label="end-call"
+          data-test-id={END_CALL}
+        >
           {EndCallSvg}
         </EndCallButton>
       </Row>
