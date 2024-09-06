@@ -8,33 +8,9 @@ import {
   VERSION,
   messageHandlerNames,
 } from "./Constants";
+import "./typedefs";
 
 const prefix = `[calling-extensions-sdk@${VERSION}]`;
-
-/**
- * @typedef {Object} EventHandlers
- * @property {function} onReady - Called when HubSpot is ready to receive messages.
- * @property {function} onDialNumber - Called when the HubSpot sends a dial number from the contact.
- * @property {function} onEngagementCreated - Called when HubSpot creates an engagement
- * for the call.
- * @property {function} onVisibilityChanged - Called when the call widget's visibility changes.
- */
-
-/**
- * @typedef {Object} IframeOptions
- * @property {string} src - iframe URL
- * @property {string} height - Height of iframe
- * @property {string} width - Width of iframe
- * @property {string} hostElementSelector - Selector for host element where iframe will be bound
- */
-
-/**
- * @typedef {Object} Options
- * @property {IframeOptions} iFrameOptions - iFrame configuration options
- * @property {boolean} debugMode - Whether to log various inbound/outbound debug messages
- * to the console.
- * @property {EventHandlers} eventHandlers - Event handlers handle inbound messages.
- */
 
 /*
  * CallingExtensions allows call providers to communicate with HubSpot.
@@ -57,37 +33,58 @@ class CallingExtensions {
     });
   }
 
-  initialized(userData) {
+  /**
+   *
+   * @param {OnInitialized} payload
+   */
+  initialized(payload) {
     this.sendMessage({
       type: messageType.INITIALIZED,
-      data: userData,
+      data: payload,
     });
   }
 
+  /**
+   * Event when user's availability is changed to available
+   */
   userAvailable() {
     this.sendMessage({
       type: messageType.USER_AVAILABLE,
     });
   }
 
+  /**
+   * Event when user's availability is changed to unavailable
+   */
   userUnavailable() {
     this.sendMessage({
       type: messageType.USER_UNAVAILABLE,
     });
   }
 
+  /**
+   * Event when user is logged in
+   */
   userLoggedIn() {
     this.sendMessage({
       type: messageType.LOGGED_IN,
     });
   }
 
+  /**
+   * Event when user is logged out
+   */
   userLoggedOut() {
     this.sendMessage({
       type: messageType.LOGGED_OUT,
     });
   }
 
+  /**
+   * Event when incoming call is received.
+   *
+   * @param {OnIncomingCall} callDetails
+   */
   incomingCall(callDetails) {
     this.sendMessage({
       type: messageType.INCOMING_CALL,
@@ -95,6 +92,11 @@ class CallingExtensions {
     });
   }
 
+  /**
+   * Event when outgoing call has started.
+   *
+   * @param {OnOutgoingCall} callDetails
+   */
   outgoingCall(callDetails) {
     this.sendMessage({
       type: messageType.OUTGOING_CALL_STARTED,
@@ -105,8 +107,7 @@ class CallingExtensions {
   /**
    * Event when an inbound call is answered.
    *
-   * @param {Object} data - The data object to be published.
-   * @param {number} data.externalCallId - Call ID maintained by integrator
+   * @param {OnCallAnswered} data - The data object to be published.
    */
   callAnswered(data) {
     this.sendMessage({
@@ -115,6 +116,11 @@ class CallingExtensions {
     });
   }
 
+  /**
+   * Event to navigate to record page.
+   *
+   * @param {OnNavigateToRecord} data
+   */
   navigateToRecord(data) {
     this.sendMessage({
       type: messageType.NAVIGATE_TO_RECORD,
@@ -129,6 +135,11 @@ class CallingExtensions {
     });
   }
 
+  /**
+   * Event when call has ended.
+   *
+   * @param {OnCallEnded} engagementData
+   */
   callEnded(engagementData) {
     this.sendMessage({
       type: messageType.CALL_ENDED,
@@ -136,6 +147,11 @@ class CallingExtensions {
     });
   }
 
+  /**
+   * Event when call is completed/saved.
+   *
+   * @param {OnCallCompleted} callCompletedData
+   */
   callCompleted(callCompletedData) {
     this.sendMessage({
       type: messageType.CALL_COMPLETED,
@@ -150,6 +166,11 @@ class CallingExtensions {
     });
   }
 
+  /**
+   * Event to resize the widget to new dimensions.
+   *
+   * @param {OnResize} sizeInfo
+   */
   resizeWidget(sizeInfo) {
     this.sendMessage({
       type: messageType.RESIZE_WIDGET,
@@ -199,8 +220,7 @@ class CallingExtensions {
   /**
    * Publishes the call to a connected channel.
    *
-   * @param {Object} data - The data object to be published.
-   * @param {number} data.engagementId - The HubSpot engagementId created by the calling app.
+   * @param {OnPublishToChannel} data - The data object to be published.
    */
   publishToChannel(data) {
     this.sendMessage({
