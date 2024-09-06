@@ -8,6 +8,7 @@
  * @property {function} onEngagementCreated - Called when HubSpot creates an engagement
  * for the call.
  * @property {function} onVisibilityChanged - Called when the call widget's visibility changes.
+ * @property {function} [defaultEventHandler] - Default event handler to handle unhandled events.
  */
 
 /**

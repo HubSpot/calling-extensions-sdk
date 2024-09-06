@@ -1,3 +1,5 @@
+// @ts-check
+
 "use es6";
 
 import IFrameManager from "./IFrameManager";
