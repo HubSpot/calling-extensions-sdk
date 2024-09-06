@@ -2,8 +2,16 @@
 import JasmineDOM from "@testing-library/jasmine-dom/dist";
 import { configure } from "@testing-library/react";
 
-beforeAll(() => {
+async function setupTestEnv() {
   configure({ testIdAttribute: "data-test-id" });
 
-  (jasmine.getEnv() as any).addMatchers(JasmineDOM);
-});
+  beforeAll(() => {
+    (jasmine.getEnv() as any).addMatchers(JasmineDOM);
+  });
+}
+
+setupTestEnv().catch((err) =>
+  setTimeout(() => {
+    throw err;
+  })
+);
