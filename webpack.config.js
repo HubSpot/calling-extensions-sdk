@@ -11,6 +11,17 @@ const babelLoader = {
   },
 };
 
+const tsLoader = {
+  test: /\.js$/,
+  exclude: /(node_modules)/,
+  use: {
+    loader: "ts-loader",
+    options: {
+      allowTsInNodeModules: true,
+    },
+  },
+};
+
 module.exports = {
   entry: "./index.js",
   mode: "production",
@@ -20,7 +31,10 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
+  resolve: {
+    extensions: [".ts", ".js"],
+  },
   module: {
-    rules: [babelLoader],
+    rules: [babelLoader, tsLoader],
   },
 };

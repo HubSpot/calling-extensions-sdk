@@ -1,6 +1,7 @@
 "use es6";
 
 import packageJson from "../package.json";
+import "./typedefs";
 
 export const VERSION = packageJson.version;
 
@@ -59,6 +60,9 @@ export const messageType = {
   UNLOADING: "UNLOADING",
 };
 
+/**
+ * @type {{ [key: string]: keyof EventHandlers }}
+ */
 export const messageHandlerNames = {
   [messageType.CALLER_ID_MATCH_FAILED]: "onCallerIdMatchFailed",
   [messageType.CALLER_ID_MATCH_SUCCEEDED]: "onCallerIdMatchSucceeded",
