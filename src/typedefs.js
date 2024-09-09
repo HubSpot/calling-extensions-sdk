@@ -37,7 +37,6 @@
  * @typedef {Object} OnInitialized
  * @property {boolean} [isLoggedIn]
  * @property {number} [engagementId]
- * @property {OnResize} [sizeInfo] - @deprecated
  */
 
 /**
@@ -56,7 +55,6 @@
  * @property {boolean} [createEngagement]
  * @property {string} [fromNumber]
  * @property {string} [toNumber]
- * @property {string} phoneNumber - @deprecated use toNumber instead
  */
 
 /**
@@ -79,7 +77,6 @@
  * @property {number} externalCallId
  * @property {number} engagementId
  * @property {EndStatus} [callEndStatus]
- * @property {number} [callId] - @deprecated use externalCallId instead
  */
 
 /**
@@ -108,7 +105,6 @@
  * @property {number|string} [engagementId]
  * @property {boolean} [hideWidget]
  * @property {RawEngagementProperties} [engagementProperties]
- * @property {number} [callId] - @deprecated use externalCallId instead
  */
 
 /**
