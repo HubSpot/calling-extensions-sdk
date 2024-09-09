@@ -3,7 +3,6 @@
 "use es6";
 
 import { messageType, debugMessageType, VERSION } from "./Constants";
-import "./typedefs";
 
 const prefix = `[calling-extensions-sdk@${VERSION}]`;
 /*
@@ -14,10 +13,10 @@ const prefix = `[calling-extensions-sdk@${VERSION}]`;
 class IFrameManager {
   /**
    *
-   * @param {IframeManagerOptions} options
+   * @param {import('./typedefs').IframeManagerOptions} options
    */
   constructor(options) {
-    /** @type {IframeManagerOptions | null} */
+    /** @type {import('./typedefs').IframeManagerOptions | null} */
     this.options = options;
     const { iFrameOptions, onMessageHandler, debugMode } = options;
 
@@ -95,7 +94,7 @@ class IFrameManager {
 
   /**
    *
-   * @param {IframeOptions} iFrameOptions
+   * @param {import('./typedefs').IframeOptions} iFrameOptions
    */
   static getDestinationHost(iFrameOptions) {
     const url = iFrameOptions ? iFrameOptions.src : document.referrer;
@@ -109,7 +108,7 @@ class IFrameManager {
   }
 
   /**
-   * @param {IframeOptions} iFrameOptions
+   * @param {import('./typedefs').IframeOptions} iFrameOptions
    * @param { (this: GlobalEventHandlers, ev: Event) => any } onLoadCallback
    * @param { OnErrorEventHandler } onLoadErrorCallback
    * @returns {HTMLIFrameElement | null}
@@ -142,7 +141,7 @@ class IFrameManager {
   }
 
   /**
-   * @param {SizeInfo} sizeInfo
+   * @param {import('./typedefs').SizeInfo} sizeInfo
    */
   updateIFrameSize(sizeInfo) {
     const { width, height } = sizeInfo;

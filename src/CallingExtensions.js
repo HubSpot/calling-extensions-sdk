@@ -10,7 +10,6 @@ import {
   VERSION,
   messageHandlerNames,
 } from "./Constants";
-import "./typedefs";
 
 const prefix = `[calling-extensions-sdk@${VERSION}]`;
 
@@ -19,7 +18,7 @@ const prefix = `[calling-extensions-sdk@${VERSION}]`;
  */
 class CallingExtensions {
   /**
-   * @param {Options} options
+   * @param {import('./typedefs').Options} options
    */
   constructor(options) {
     if (!options || !options.eventHandlers) {
@@ -40,7 +39,7 @@ class CallingExtensions {
   /**
    * Send a message indicating that the soft phone is ready for interaction.
    *
-   * @param {OnInitialized} payload
+   * @param {import('./typedefs').OnInitialized} payload
    */
   initialized(payload) {
     this.sendMessage({
@@ -88,7 +87,7 @@ class CallingExtensions {
   /**
    * Event when incoming call is received.
    *
-   * @param {OnIncomingCall} callInfo
+   * @param {import('./typedefs').OnIncomingCall} callInfo
    */
   incomingCall(callInfo) {
     this.sendMessage({
@@ -100,7 +99,7 @@ class CallingExtensions {
   /**
    * Sends a message to notify HubSpot that an outgoing call has started.
    *
-   * @param {OnOutgoingCall} callInfo
+   * @param {import('./typedefs').OnOutgoingCall} callInfo
    */
   outgoingCall(callInfo) {
     this.sendMessage({
@@ -112,7 +111,7 @@ class CallingExtensions {
   /**
    * Sends a message to notify HubSpot that a call is being answered.
    *
-   * @param {OnCallAnswered} payload
+   * @param {import('./typedefs').OnCallAnswered} payload
    */
   callAnswered(payload) {
     this.sendMessage({
@@ -124,7 +123,7 @@ class CallingExtensions {
   /**
    * Event to navigate to record page.
    *
-   * @param {OnNavigateToRecord} payload
+   * @param {import('./typedefs').OnNavigateToRecord} payload
    */
   navigateToRecord(payload) {
     this.sendMessage({
@@ -146,7 +145,7 @@ class CallingExtensions {
   /**
    * Sends a message to notify HubSpot that the call has ended.
    *
-   * @param {OnCallEnded} data
+   * @param {import('./typedefs').OnCallEnded} data
    */
   callEnded(data) {
     this.sendMessage({
@@ -158,7 +157,7 @@ class CallingExtensions {
   /**
    * Sends a message to notify HubSpot that the call has completed.
    *
-   * @param {OnCallCompleted} data
+   * @param {import('./typedefs').OnCallCompleted} data
    */
   callCompleted(data) {
     this.sendMessage({
@@ -169,7 +168,7 @@ class CallingExtensions {
 
   /**
    * Sends a message to notify HubSpot that the calling app has encountered an error.
-   * @param {OnError} data
+   * @param {import('./typedefs').OnError} data
    */
   sendError(data) {
     this.sendMessage({
@@ -181,7 +180,7 @@ class CallingExtensions {
   /**
    * Sends a message to notify HubSpot that the calling app needs to be resized.
    *
-   * @param {OnResize} data
+   * @param {import('./typedefs').OnResize} data
    */
   resizeWidget(data) {
     this.sendMessage({
@@ -192,7 +191,7 @@ class CallingExtensions {
 
   /**
    *
-   * @param {onMessage} message
+   * @param {import('./typedefs').onMessage} message
    */
   sendMessage(message) {
     this.iFrameManager.sendMessage(message);
@@ -207,7 +206,7 @@ class CallingExtensions {
   }
 
   /**
-   * @param {{ type: any; data: any; }} event
+   * @param {{ type: keyof import('./typedefs').EventHandlers; data: any; }} event
    */
   onMessageHandler(event) {
     const { type, data } = event;
@@ -215,7 +214,6 @@ class CallingExtensions {
 
     let handler;
     if (type in messageHandlerNames) {
-      /** @type {keyof EventHandlers} */
       const name = messageHandlerNames[type];
       handler = eventHandlers[name];
     } else {
@@ -244,7 +242,7 @@ class CallingExtensions {
   /**
    * Publishes the call to a connected channel.
    *
-   * @param {OnPublishToChannel} data - The data object to be published.
+   * @param {import('./typedefs').OnPublishToChannel} data - The data object to be published.
    */
   publishToChannel(data) {
     this.sendMessage({

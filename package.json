@@ -30,9 +30,10 @@
   },
   "main": "./dist/main.js",
   "files": [
-    "dist/",
+    "dist/**/*",
     "src/",
-    "index.js"
+    "index.js",
+    "src/typedefs.js"
   ],
   "types": "./dist/types/index.d.ts",
   "module": "./index.js",
