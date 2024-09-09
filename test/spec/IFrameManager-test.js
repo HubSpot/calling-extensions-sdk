@@ -68,8 +68,10 @@ describe("iFrameManager", () => {
       },
     };
 
-    it("should get origin",  done => {
-      spyOn(IFrameManager, "createIFrame").and.returnValue({ contentWindow: null });
+    it("should get origin", done => {
+      spyOn(IFrameManager, "createIFrame").and.returnValue({
+        contentWindow: null,
+      });
       const instance = createInstance(options);
       expect(instance).toBeDefined();
 
@@ -78,16 +80,23 @@ describe("iFrameManager", () => {
     });
 
     it("should create an iFrame with options", () => {
-      const createIFrameSpy = spyOn(IFrameManager, "createIFrame").and.returnValue({ contentWindow: null });
+      const createIFrameSpy = spyOn(
+        IFrameManager,
+        "createIFrame",
+      ).and.returnValue({ contentWindow: null });
       const instance = createInstance(options);
       expect(instance).toBeDefined();
 
-      expect(createIFrameSpy).toHaveBeenCalledWith(jasmine.objectContaining({
-        hostElementSelector: "body",
-        src: "https://a.b.c.d.e.f.c",
-        width: "100px",
-        height: "100px",
-      }), jasmine.any(Function));
+      expect(createIFrameSpy).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          hostElementSelector: "body",
+          src: "https://a.b.c.d.e.f.c",
+          width: "100px",
+          height: "100px",
+        }),
+        jasmine.any(Function),
+        jasmine.any(Function),
+      );
     });
   });
 });
