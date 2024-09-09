@@ -32,8 +32,7 @@
   "files": [
     "dist/",
     "src/",
-    "index.js",
-    "typedefs.js"
+    "index.js"
   ],
   "types": "./dist/types/index.d.ts",
   "module": "./index.js",
