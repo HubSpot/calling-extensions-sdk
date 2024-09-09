@@ -111,7 +111,7 @@ describe("CallingExtensions", () => {
       instance.callData(data);
       expect(instance.sendMessage).toHaveBeenCalledWith({
         type: messageType.CALL_DATA,
-        payload: data,
+        data,
       });
     });
   });
