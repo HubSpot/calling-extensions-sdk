@@ -69,7 +69,7 @@
 
 /**
  * @typedef {Object} OnIncomingCall
- * @property {number} externalCallId
+ * @property {string} externalCallId
  * @property {number} [callStartTime]
  * @property {boolean} [createEngagement]
  * @property {string} fromNumber
@@ -78,7 +78,7 @@
 
 /**
  * @typedef {Object} OnOutgoingCall
- * @property {number} externalCallId
+ * @property {string} externalCallId
  * @property {number} [callStartTime]
  * @property {boolean} [createEngagement]
  * @property {string} [fromNumber]
@@ -87,12 +87,12 @@
 
 /**
  * @typedef {Object} OnCallAnswered
- * @property {number} externalCallId
+ * @property {string} externalCallId
  */
 
 /**
  * @typedef {Object} OnPublishToChannel
- * @property {number} externalCallId
+ * @property {string} externalCallId
  * @property {number} engagementId
  */
 
@@ -102,7 +102,7 @@
 
 /**
  * @typedef {Object} OnCallEnded
- * @property {number} externalCallId
+ * @property {string} externalCallId
  * @property {number} engagementId
  * @property {EndStatus} [callEndStatus]
  */
@@ -129,7 +129,7 @@
 
 /**
  * @typedef {Object} OnCallCompleted
- * @property {number} externalCallId
+ * @property {string} externalCallId
  * @property {number|string} [engagementId]
  * @property {boolean} [hideWidget]
  * @property {RawEngagementProperties} [engagementProperties]
@@ -145,7 +145,7 @@
 /**
  * @typedef {Object} OnNavigateToRecord
  * @property {number} [engagementId]
- * @property {ObjectCoordinates} ObjectCoordinates
+ * @property {ObjectCoordinates} objectCoordinates
  */
 
 /**
@@ -157,6 +157,22 @@
  * @typedef {Object} OnMessage
  * @property {string} type
  * @property {Object} [data]
+ */
+
+/**
+ * @typedef {Object} ContactIdMatch
+ * @property {"CONTACT"} callerIdType
+ * @property {ObjectCoordinates} objectCoordinates
+ * @property {string} firstName
+ * @property {string} lastName
+ * @property {string} email
+ */
+
+/**
+ * @typedef {Object} CompanyIdMatch
+ * @property {"COMPANY"} callerIdType
+ * @property {ObjectCoordinates} objectCoordinates
+ * @property {string} name
  */
 
 export {};
