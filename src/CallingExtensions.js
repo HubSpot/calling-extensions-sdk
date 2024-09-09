@@ -31,7 +31,9 @@ class CallingExtensions {
     this.iFrameManager = new IFrameManager({
       iFrameOptions: options.iFrameOptions,
       debugMode: options.debugMode,
-      onMessageHandler: event => this.onMessageHandler(event),
+      onMessageHandler: (/** @type {any} */ event) =>
+        // eslint-disable-next-line implicit-arrow-linebreak
+        this.onMessageHandler(event),
     });
   }
 
@@ -115,7 +117,7 @@ class CallingExtensions {
   callAnswered(payload) {
     this.sendMessage({
       type: messageType.CALL_ANSWERED,
-      payload,
+      data: payload,
     });
   }
 
@@ -127,14 +129,17 @@ class CallingExtensions {
   navigateToRecord(payload) {
     this.sendMessage({
       type: messageType.NAVIGATE_TO_RECORD,
-      payload,
+      data: payload,
     });
   }
 
+  /**
+   * @param {any} payload
+   */
   callData(payload) {
     this.sendMessage({
       type: messageType.CALL_DATA,
-      payload,
+      data: payload,
     });
   }
 
@@ -185,20 +190,32 @@ class CallingExtensions {
     });
   }
 
+  /**
+   *
+   * @param {onMessage} message
+   */
   sendMessage(message) {
     this.iFrameManager.sendMessage(message);
   }
 
+  /**
+   *
+   * @param {{message: string, type: string}} param0
+   */
   logDebugMessage({ message, type = debugMessageType.GENERIC_MESSAGE }) {
     this.iFrameManager.logDebugMessage(prefix, type, message);
   }
 
+  /**
+   * @param {{ type: any; data: any; }} event
+   */
   onMessageHandler(event) {
     const { type, data } = event;
     const { eventHandlers } = this.options;
 
     let handler;
     if (type in messageHandlerNames) {
+      /** @type {keyof EventHandlers} */
       const name = messageHandlerNames[type];
       handler = eventHandlers[name];
     } else {
