@@ -1,5 +1,8 @@
 /* eslint-disable max-len */
 // typedefs.js
+/**
+ * @namespace typedefs
+ */
 
 /**
  * @typedef {Object} EventHandlers
@@ -155,3 +158,5 @@
  * @property {string} type
  * @property {Object} [data]
  */
+
+export {};

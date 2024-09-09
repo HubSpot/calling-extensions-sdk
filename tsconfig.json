@@ -11,6 +11,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "include": ["./src/**/*"],
+  "include": ["src/**/*", "src/typedefs.js"],
   "exclude": ["node_modules"]
 }

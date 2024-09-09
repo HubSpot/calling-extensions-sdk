@@ -1,7 +1,6 @@
 "use es6";
 
 import packageJson from "../package.json";
-import "./typedefs";
 
 export const VERSION = packageJson.version;
 
@@ -61,7 +60,7 @@ export const messageType = {
 };
 
 /**
- * @type {{ [key: string]: keyof EventHandlers }}
+ * @type {{ [key: string]: keyof import('./typedefs').EventHandlers }}
  */
 export const messageHandlerNames = {
   [messageType.CALLER_ID_MATCH_FAILED]: "onCallerIdMatchFailed",
