@@ -94,7 +94,7 @@ class IFrameManager {
 
   /**
    *
-   * @param {import('./typedefs').IframeOptions} iFrameOptions
+   * @param {import('./typedefs').IframeOptions} [iFrameOptions]
    */
   static getDestinationHost(iFrameOptions) {
     const url = iFrameOptions ? iFrameOptions.src : document.referrer;
@@ -170,7 +170,7 @@ class IFrameManager {
   remove() {
     window.removeEventListener("message", this.messageHandler);
 
-    if (this.iFrame && this.options) {
+    if (this.iFrame && this.options && this.options.iFrameOptions) {
       const element = IFrameManager.getHostElement(
         this.options.iFrameOptions.hostElementSelector,
       );

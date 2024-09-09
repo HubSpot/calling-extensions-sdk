@@ -37,7 +37,7 @@
 
 /**
  * @typedef {Object} Options
- * @property {IframeOptions} iFrameOptions - iFrame configuration options
+ * @property {IframeOptions} [iFrameOptions] - iFrame configuration options
  * @property {boolean} debugMode - Whether to log various inbound/outbound debug messages
  * to the console.
  * @property {EventHandlers} eventHandlers - Event handlers handle inbound messages.
@@ -45,7 +45,7 @@
 
 /**
  * @typedef {Object} IframeManagerOptions
- * @property {IframeOptions} iFrameOptions - iFrame configuration options
+ * @property {IframeOptions} [iFrameOptions] - iFrame configuration options
  * @property {boolean} debugMode - Whether to log various inbound/outbound debug messages
  * to the console.
  * @property {function} onMessageHandler - Callback function to handle inbound messages.
@@ -154,7 +154,7 @@
  */
 
 /**
- * @typedef {Object} onMessage
+ * @typedef {Object} OnMessage
  * @property {string} type
  * @property {Object} [data]
  */

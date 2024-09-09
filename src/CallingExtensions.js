@@ -191,7 +191,7 @@ class CallingExtensions {
 
   /**
    *
-   * @param {import('./typedefs').onMessage} message
+   * @param {import('./typedefs').OnMessage} message
    */
   sendMessage(message) {
     this.iFrameManager.sendMessage(message);
