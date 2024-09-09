@@ -4,3 +4,4 @@ import IFrameManager from "./src/IFrameManager";
 
 export default CallingExtensions;
 export { Constants, IFrameManager };
+export * from "./src/typedefs";
