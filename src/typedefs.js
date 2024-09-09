@@ -145,7 +145,7 @@
 /**
  * @typedef {Object} OnNavigateToRecord
  * @property {number} [engagementId]
- * @property {ObjectCoordinates} ObjectCoordinates
+ * @property {ObjectCoordinates} objectCoordinates
  */
 
 /**
@@ -157,6 +157,22 @@
  * @typedef {Object} OnMessage
  * @property {string} type
  * @property {Object} [data]
+ */
+
+/**
+ * @typedef {Object} ContactIdMatch
+ * @property {"CONTACT"} callerIdType
+ * @property {ObjectCoordinates} objectCoordinates
+ * @property {string} firstName
+ * @property {string} lastName
+ * @property {string} email
+ */
+
+/**
+ * @typedef {Object} CompanyIdMatch
+ * @property {"COMPANY"} callerIdType
+ * @property {ObjectCoordinates} objectCoordinates
+ * @property {string} name
  */
 
 export {};
