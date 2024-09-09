@@ -8,6 +8,19 @@
  * @property {function} onEngagementCreated - Called when HubSpot creates an engagement
  * for the call.
  * @property {function} onVisibilityChanged - Called when the call widget's visibility changes.
+ * @property {function} onCallerIdMatchFailed - Called when the caller ID match fails.
+ * @property {function} onCallerIdMatchSucceeded - Called when the caller ID match succeeds.
+ * @property {function} onCreateEngagementFailed - Called when creating an engagement fails.
+ * @property {function} onCreateEngagementSucceeded - Called when creating an engagement succeeds.
+ * @property {function} onNavigateToRecordFailed - Called when navigating to a record fails.
+ * @property {function} onPublishToChannelFailed - Called when publishing to a channel fails.
+ * @property {function} onPublishToChannelSucceeded - Called when publishing to a channel succeeds.
+ * @property {function} onSetCallState - Called when the call state changes.
+ * @property {function} onUpdateEngagementFailed - Called when updating an engagement fails.
+ * @property {function} onUpdateEngagementSucceeded - Called when updating an engagement succeeds.
+ * @property {function} onEndCall - Called when the call ends.
+ * @property {function} onInitiateCallIdSucceeded - Called when initiating a call ID succeeds.
+ * @property {function} onInitiateCallIdFailed - Called when initiating a call ID fails.
  * @property {function} [defaultEventHandler] - Default event handler to handle unhandled events.
  */
 
@@ -28,9 +41,21 @@
  */
 
 /**
+ * @typedef {Object} IframeManagerOptions
+ * @property {IframeOptions} iFrameOptions - iFrame configuration options
+ * @property {boolean} debugMode - Whether to log various inbound/outbound debug messages
+ * to the console.
+ * @property {function} onMessageHandler - Callback function to handle inbound messages.
+ */
+
+/**
  * @typedef {Object} OnResize
  * @property {number} width
  * @property {number} height
+ */
+
+/**
+ * @typedef {OnResize} SizeInfo
  */
 
 /**
@@ -123,4 +148,10 @@
 /**
  * @typedef {Object} OnError
  * @property {string} message
+ */
+
+/**
+ * @typedef {Object} onMessage
+ * @property {string} type
+ * @property {Object} [data]
  */
