@@ -1,31 +1,22 @@
 /* eslint-disable import/no-relative-packages */
 import { useMemo, useState } from "react";
-// import CallingExtensions from "@hubspot/calling-extensions-sdk/src/CallingExtensions";
-// import { callStatus } from "@hubspot/calling-extensions-sdk/src/Constants";
-
-// @ts-expect-error module not typed
-import CallingExtensions from "../../../../src/CallingExtensions";
-
-// @TODO Move it to CallingExtensions and export it once migrated to typescript
-type ObjectCoordinates = {
-  portalId: number;
-  objectTypeId: string;
-  objectId: number;
-};
-
-export type ContactIdMatch = {
-  callerIdType: "CONTACT";
-  objectCoordinates: ObjectCoordinates;
-  firstName: string;
-  lastName: string;
-  email: string;
-};
-
-export type CompanyIdMatch = {
-  callerIdType: "COMPANY";
-  objectCoordinates: ObjectCoordinates;
-  name: string;
-};
+import { v4 as uuidv4 } from "uuid";
+import CallingExtensions, {
+  CompanyIdMatch,
+  ContactIdMatch,
+  OnCallAnswered,
+  OnCallCompleted,
+  OnCallEnded,
+  OnError,
+  OnIncomingCall,
+  OnInitialized,
+  OnMessage,
+  OnNavigateToRecord,
+  OnOutgoingCall,
+  OnPublishToChannel,
+  OnResize,
+  Options,
+} from "@hubspot/calling-extensions-sdk";
 
 const INCOMING_NUMBER_KEY = "LocalSettings:Calling:DemoReact:incomingNumber";
 const INCOMING_CONTACT_NAME_KEY =
@@ -33,27 +24,22 @@ const INCOMING_CONTACT_NAME_KEY =
 
 // @TODO Move it to CallingExtensions and export it once migrated to typescript
 interface CallingExtensionsContract {
-  initialized: (userData: unknown) => void;
+  initialized: (userData: OnInitialized) => void;
   userAvailable: () => void;
   userUnavailable: () => void;
   userLoggedIn: () => void;
   userLoggedOut: () => void;
-  incomingCall: (callDetails: { fromNumber: string }) => void;
-  outgoingCall: (callDetails: unknown) => void;
-  callAnswered: () => void;
+  incomingCall: (callDetails: OnIncomingCall) => void;
+  outgoingCall: (callDetails: OnOutgoingCall) => void;
+  callAnswered: (payload: OnCallAnswered) => void;
   callData: (data: unknown) => void;
-  callEnded: (engagementData: unknown) => void;
-  callCompleted: (callCompletedData: unknown) => void;
-  sendError: (errorData: unknown) => void;
-  resizeWidget: (sizeInfo: unknown) => void;
-  sendMessage: (message: unknown) => void;
+  callEnded: (engagementData: OnCallEnded) => void;
+  callCompleted: (callCompletedData: OnCallCompleted) => void;
+  sendError: (errorData: OnError) => void;
+  resizeWidget: (sizeInfo: OnResize) => void;
+  sendMessage: (message: OnMessage) => void;
   logDebugMessage: (messageData: unknown) => void;
-}
-
-// @TODO Move it to CallingExtensions and export it once migrated to typescript
-interface CallingExtensionsOptions {
-  debugMode: boolean;
-  eventHandlers: unknown;
+  publishToChannel: (data: OnPublishToChannel) => void;
 }
 
 // @TODO Move it to CallingExtensions and export it once migrated to typescript
@@ -62,8 +48,18 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   private _incomingNumber = "";
 
-  constructor(options: CallingExtensionsOptions) {
+  private _externalCallId = "";
+
+  constructor(options: Options) {
     this._cti = new CallingExtensions(options);
+  }
+
+  get externalCallId() {
+    return this._externalCallId;
+  }
+
+  set externalCallId(id: string) {
+    this._externalCallId = id;
   }
 
   get incomingNumber() {
@@ -74,7 +70,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
     this._incomingNumber = number;
   }
 
-  initialized(userData: unknown) {
+  initialized(userData: OnInitialized) {
     return this._cti.initialized(userData);
   }
 
@@ -94,48 +90,70 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
     return this._cti.userLoggedOut();
   }
 
-  incomingCall(callDetails: { fromNumber: string }) {
-    this._incomingNumber = callDetails.fromNumber;
-    return this._cti.incomingCall(callDetails);
+  incomingCall(callDetails: OnIncomingCall) {
+    this.incomingNumber = callDetails.fromNumber;
+    this.externalCallId = uuidv4();
+    return this._cti.incomingCall({
+      ...callDetails,
+      externalCallId: this.externalCallId,
+    });
   }
 
-  outgoingCall(callDetails: unknown) {
-    return this._cti.outgoingCall(callDetails);
+  outgoingCall(callDetails: OnOutgoingCall) {
+    this.externalCallId = uuidv4();
+    return this._cti.outgoingCall({
+      ...callDetails,
+      externalCallId: this.externalCallId,
+    });
   }
 
-  navigateToRecord(data: { objectCoordinates: ObjectCoordinates }) {
+  navigateToRecord(data: OnNavigateToRecord) {
     return this._cti.navigateToRecord(data);
   }
 
-  callAnswered() {
-    return this._cti.callAnswered();
+  callAnswered(data: OnCallAnswered) {
+    return this._cti.callAnswered({
+      ...data,
+      externalCallId: this.externalCallId,
+    });
   }
 
   callData(data: unknown) {
     return this._cti.callData(data);
   }
 
-  callEnded(engagementData: unknown) {
-    return this._cti.callEnded(engagementData);
+  callEnded(engagementData: OnCallEnded) {
+    return this._cti.callEnded({
+      ...engagementData,
+      externalCallId: this.externalCallId,
+    });
   }
 
-  callCompleted(callCompletedData: unknown) {
-    return this._cti.callCompleted(callCompletedData);
+  callCompleted(callCompletedData: OnCallCompleted) {
+    this._cti.callCompleted({
+      ...callCompletedData,
+      externalCallId: this.externalCallId,
+    });
+    this.externalCallId = "";
   }
 
-  sendError(errorData: unknown) {
+  publishToChannel(data: OnPublishToChannel) {
+    return this._cti.publishToChannel(data);
+  }
+
+  sendError(errorData: OnError) {
     return this._cti.sendError(errorData);
   }
 
-  resizeWidget(sizeInfo: unknown) {
+  resizeWidget(sizeInfo: OnResize) {
     return this._cti.resizeWidget(sizeInfo);
   }
 
-  sendMessage(message: unknown) {
+  sendMessage(message: OnMessage) {
     return this._cti.sendMessage(message);
   }
 
-  logDebugMessage(messageData: unknown) {
+  logDebugMessage(messageData: any) {
     return this._cti.logDebugMessage(messageData);
   }
 }
@@ -147,7 +165,6 @@ export const useCti = (
   const [engagementId, setEngagementId] = useState<number | null>(null);
   const [incomingContactName, setIncomingContactName] = useState<string>("");
   const cti = useMemo(() => {
-    const defaultSize = { width: 400, height: 600 };
     return new CallingExtensionsWrapper({
       debugMode: true,
       eventHandlers: {
@@ -161,9 +178,12 @@ export const useCti = (
 
           cti.initialized({
             isLoggedIn: true,
-            sizeInfo: defaultSize,
             engagementId,
-          });
+            sizeInfo: {
+              width: 400,
+              height: 650,
+            },
+          } as OnInitialized);
           const incomingNumber =
             window.localStorage.getItem(INCOMING_NUMBER_KEY);
           const incomingContactName = window.localStorage.getItem(
@@ -251,6 +271,18 @@ export const useCti = (
         },
         onPublishToChannelSucceeded: (data: any, _rawEvent: any) => {
           /** HubSpot successfully published the call to the connected channel. */
+        },
+        onSetCallState: (data: any, _rawEvent: any) => {
+          /** HubSpot successfully published the call to the connected channel. */
+        },
+        onEndCall: (data: any, _rawEvent: any) => {
+          /** HubSpot successfully ended the call. */
+        },
+        onInitiateCallIdSucceeded: (data: any, _rawEvent: any) => {
+          /** HubSpot successfully initiated the call. */
+        },
+        onInitiateCallIdFailed: (data: any, _rawEvent: any) => {
+          /** HubSpot was unable to initiate call. */
         },
       },
     });

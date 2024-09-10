@@ -59,6 +59,9 @@ export const messageType = {
   UNLOADING: "UNLOADING",
 };
 
+/**
+ * @type {{ [key: string]: keyof import('./typedefs').EventHandlers }}
+ */
 export const messageHandlerNames = {
   [messageType.CALLER_ID_MATCH_FAILED]: "onCallerIdMatchFailed",
   [messageType.CALLER_ID_MATCH_SUCCEEDED]: "onCallerIdMatchSucceeded",
