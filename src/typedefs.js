@@ -5,11 +5,10 @@
  */
 
 /**
- * @typedef {Object} EventHandlers
+ * @typedef {Object.<string, function>} EventHandlers
  * @property {function} onReady - Called when HubSpot is ready to receive messages.
  * @property {function} onDialNumber - Called when the HubSpot sends a dial number from the contact.
- * @property {function} onEngagementCreated - Called when HubSpot creates an engagement
- * for the call.
+ * @property {function} onEngagementCreated - Called when HubSpot creates an engagement for the call.
  * @property {function} onVisibilityChanged - Called when the call widget's visibility changes.
  * @property {function} onCallerIdMatchFailed - Called when the caller ID match fails.
  * @property {function} onCallerIdMatchSucceeded - Called when the caller ID match succeeds.

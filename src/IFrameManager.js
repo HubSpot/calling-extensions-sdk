@@ -145,15 +145,23 @@ class IFrameManager {
    */
   updateIFrameSize(sizeInfo) {
     const { width, height } = sizeInfo;
-    const formatSize = (/** @type {number} */ size) => {
-      return typeof size === "number" ? `${size}px` : size;
-    };
-    if (width && this.iFrame) {
-      this.iFrame.setAttribute("width", formatSize(width));
+    if (this.iFrame) {
+      if (width) {
+        this.iFrame.setAttribute("width", IFrameManager.formatSize(width));
+      }
+      if (height) {
+        this.iFrame.setAttribute("height", IFrameManager.formatSize(height));
+      }
     }
-    if (height && this.iFrame) {
-      this.iFrame.setAttribute("height", formatSize(height));
-    }
+  }
+
+  /**
+   *
+   * @param {number | string} size
+   * @returns {string}
+   */
+  static formatSize(size) {
+    return typeof size === "number" ? `${size}px` : size;
   }
 
   onReady(data = {}) {

@@ -179,7 +179,11 @@ export const useCti = (
           cti.initialized({
             isLoggedIn: true,
             engagementId,
-          });
+            sizeInfo: {
+              width: 400,
+              height: 650,
+            },
+          } as OnInitialized);
           const incomingNumber =
             window.localStorage.getItem(INCOMING_NUMBER_KEY);
           const incomingContactName = window.localStorage.getItem(
@@ -243,9 +247,9 @@ export const useCti = (
               cti.incomingNumber
             );
             window.localStorage.setItem(INCOMING_CONTACT_NAME_KEY, name);
-            // cti.navigateToRecord({
-            //   objectCoordinates: firstCallerIdMatch.objectCoordinates,
-            // });
+            cti.navigateToRecord({
+              objectCoordinates: firstCallerIdMatch.objectCoordinates,
+            });
             return;
           }
           cti.logDebugMessage({

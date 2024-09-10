@@ -215,7 +215,9 @@ class CallingExtensions {
     let handler;
     if (type in messageHandlerNames) {
       const name = messageHandlerNames[type];
-      handler = eventHandlers[name];
+      if (name in eventHandlers) {
+        handler = eventHandlers[name];
+      }
     } else {
       // Send back a message indicating an unknown event is received
       this.sendMessage({
