@@ -1,10 +1,9 @@
-/* eslint-disable import/no-relative-packages */
-import CallingExtensions from "../../src/CallingExtensions";
-import { messageType, callEndStatus } from "../../src/Constants";
-// import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
-// const { messageType, callEndStatus } = Constants;
+import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
+import { v4 as uuidv4 } from "uuid";
+const { messageType, callEndStatus } = Constants;
 
 export const state = {
+  externalCallId: "",
   engagementId: 0,
   fromNumber: "+123456",
   incomingContactName: "",
@@ -55,6 +54,7 @@ function enableButtons(ids) {
 const cti = new CallingExtensions({
   debugMode: true,
   eventHandlers: {
+    // eslint-disable-next-line object-curly-newline
     onReady: ({ engagementId, portalId, userId, ownerId } = {}) => {
       cti.initialized({
         engagementId,
@@ -220,11 +220,13 @@ export function userUnavailable() {
 }
 
 export function incomingCall() {
+  state.externalCallId = uuidv4();
   window.setTimeout(() => {
     cti.incomingCall({
       createEngagement: true,
       fromNumber: state.fromNumber,
       toNumber: state.toNumber,
+      externalCallId: state.externalCallId,
     });
   }, 500);
   disableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
@@ -232,11 +234,13 @@ export function incomingCall() {
 }
 
 export function outgoingCall() {
+  state.externalCallId = uuidv4();
   window.setTimeout(() => {
     cti.outgoingCall({
       createEngagement: true,
       toNumber: state.toNumber,
       fromNumber: state.fromNumber,
+      externalCallId: state.externalCallId,
     });
   }, 500);
   disableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
@@ -244,13 +248,14 @@ export function outgoingCall() {
 }
 
 export function answerCall() {
-  cti.callAnswered();
+  cti.callAnswered({ externalCallId: state.externalCallId });
   disableButtons([ANSWER_CALL]);
 }
 
 export function endCall() {
   cti.callEnded({
     callEndStatus: callEndStatus.INTERNAL_COMPLETED,
+    externalCallId: state.externalCallId,
   });
   disableButtons([ANSWER_CALL, END_CALL]);
   enableButtons([COMPLETE_CALL]);
@@ -259,12 +264,14 @@ export function endCall() {
 export function completeCall() {
   cti.callCompleted({
     engagementId: state.engagementId,
+    externalCallId: state.externalCallId,
     hideWidget: false,
     engagementProperties: {
       hs_call_title: "Demo call",
       hs_call_body: "Resolved issue",
     },
   });
+  state.externalCallId = "";
   disableButtons([COMPLETE_CALL]);
   enableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
 }
