@@ -18,11 +18,12 @@
     "node": ">=14"
   },
   "dependencies": {
-    "@hubspot/calling-extensions-sdk": "^0.6.4-alpha.4",
+    "@hubspot/calling-extensions-sdk": "^0.6.4-alpha.9",
     "react": "^18.2.0",
     "react-aria": "^3.22.0",
     "react-dom": "^18.2.0",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
