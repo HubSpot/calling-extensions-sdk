@@ -17,7 +17,9 @@ import CallingExtensions, {
   OnResize,
   Options,
 } from "@hubspot/calling-extensions-sdk";
+import useLocalStorageState from "./useLocalStorageState";
 
+const EXTERNAL_CALL_ID_KEY = "LocalSettings:Calling:DemoReact:externalCallId";
 const INCOMING_NUMBER_KEY = "LocalSettings:Calling:DemoReact:incomingNumber";
 const INCOMING_CONTACT_NAME_KEY =
   "LocalSettings:Calling:DemoReact:incomingContactName";
@@ -93,6 +95,8 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   incomingCall(callDetails: OnIncomingCall) {
     this.incomingNumber = callDetails.fromNumber;
     this.externalCallId = uuidv4();
+    window.localStorage.setItem(EXTERNAL_CALL_ID_KEY, this.externalCallId);
+
     return this._cti.incomingCall({
       ...callDetails,
       externalCallId: this.externalCallId,
@@ -164,6 +168,9 @@ export const useCti = (
   const [phoneNumber, setPhoneNumber] = useState("");
   const [engagementId, setEngagementId] = useState<number | null>(null);
   const [incomingContactName, setIncomingContactName] = useState<string>("");
+
+  useLocalStorageState<number | null>("engagementId", engagementId);
+
   const cti = useMemo(() => {
     return new CallingExtensionsWrapper({
       debugMode: true,
