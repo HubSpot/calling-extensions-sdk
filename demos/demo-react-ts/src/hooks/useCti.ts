@@ -211,10 +211,7 @@ export const useCti = (
         onCreateEngagementFailed: (data: any, _rawEvent: any) => {
           /** HubSpot was unable to create an engagement for this call. */
         },
-        onUpdateEngagementSucceeded: (data: any, _rawEvent: any) => {
-          const { engagementId } = data;
-          handleSetEngagementId(engagementId);
-        },
+        onUpdateEngagementSucceeded: (data: any, _rawEvent: any) => {},
         onUpdateEngagementFailed: (data: any, _rawEvent: any) => {
           /** HubSpot was unable to update the engagement for this call. */
         },
