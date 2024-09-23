@@ -1,5 +1,5 @@
 /* eslint-disable import/no-relative-packages */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import CallingExtensions, {
   CompanyIdMatch,
@@ -17,12 +17,10 @@ import CallingExtensions, {
   OnResize,
   Options,
 } from "@hubspot/calling-extensions-sdk";
-import useLocalStorageState from "./useLocalStorageState";
+import { setSetting } from "../utils/localSettings";
 
-const EXTERNAL_CALL_ID_KEY = "LocalSettings:Calling:DemoReact:externalCallId";
-const INCOMING_NUMBER_KEY = "LocalSettings:Calling:DemoReact:incomingNumber";
-const INCOMING_CONTACT_NAME_KEY =
-  "LocalSettings:Calling:DemoReact:incomingContactName";
+const EXTERNAL_CALL_ID_KEY = "DemoReact:externalCallId";
+const ENGAGEMENT_ID_KEY = "DemoReact:engagementId";
 
 // @TODO Move it to CallingExtensions and export it once migrated to typescript
 interface CallingExtensionsContract {
@@ -95,7 +93,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   incomingCall(callDetails: OnIncomingCall) {
     this.incomingNumber = callDetails.fromNumber;
     this.externalCallId = uuidv4();
-    window.localStorage.setItem(EXTERNAL_CALL_ID_KEY, this.externalCallId);
+    setSetting(EXTERNAL_CALL_ID_KEY, this.externalCallId);
 
     return this._cti.incomingCall({
       ...callDetails,
@@ -169,7 +167,10 @@ export const useCti = (
   const [engagementId, setEngagementId] = useState<number | null>(null);
   const [incomingContactName, setIncomingContactName] = useState<string>("");
 
-  useLocalStorageState<number | null>("engagementId", engagementId);
+  const handleSetEngagementId = (engagementId: number | null) => {
+    setEngagementId(engagementId);
+    setSetting(ENGAGEMENT_ID_KEY, engagementId);
+  };
 
   const cti = useMemo(() => {
     return new CallingExtensionsWrapper({
@@ -191,20 +192,6 @@ export const useCti = (
               height: 650,
             },
           } as OnInitialized);
-          const incomingNumber =
-            window.localStorage.getItem(INCOMING_NUMBER_KEY);
-          const incomingContactName = window.localStorage.getItem(
-            INCOMING_CONTACT_NAME_KEY
-          );
-          if (engagementId && incomingNumber && incomingContactName) {
-            setEngagementId(engagementId);
-            cti.incomingNumber = incomingNumber;
-            setIncomingContactName(incomingContactName);
-            initializeCallingStateForExistingCall(incomingNumber);
-            // clear out localstorage
-            window.localStorage.removeItem(INCOMING_NUMBER_KEY);
-            window.localStorage.removeItem(INCOMING_CONTACT_NAME_KEY);
-          }
         },
         onDialNumber: (data: any, _rawEvent: any) => {
           const { phoneNumber } = data;
@@ -212,21 +199,21 @@ export const useCti = (
         },
         onEngagementCreated: (data: any, _rawEvent: any) => {
           const { engagementId } = data;
-          setEngagementId(engagementId);
+          handleSetEngagementId(engagementId);
         },
         onVisibilityChanged: (data: any, _rawEvent: any) => {
           /** The cti's visibility has changed. */
         },
         onCreateEngagementSucceeded: (data: any, _rawEvent: any) => {
           const { engagementId } = data;
-          setEngagementId(engagementId);
+          handleSetEngagementId(engagementId);
         },
         onCreateEngagementFailed: (data: any, _rawEvent: any) => {
           /** HubSpot was unable to create an engagement for this call. */
         },
         onUpdateEngagementSucceeded: (data: any, _rawEvent: any) => {
           const { engagementId } = data;
-          setEngagementId(engagementId);
+          handleSetEngagementId(engagementId);
         },
         onUpdateEngagementFailed: (data: any, _rawEvent: any) => {
           /** HubSpot was unable to update the engagement for this call. */
@@ -248,12 +235,6 @@ export const useCti = (
               message: `Incoming call from ${name} ${cti.incomingNumber}`,
               type: `${callerIdMatches.length} Caller ID Matches`,
             });
-            // save info in localstorage so that it can retrieved on redirect
-            window.localStorage.setItem(
-              INCOMING_NUMBER_KEY,
-              cti.incomingNumber
-            );
-            window.localStorage.setItem(INCOMING_CONTACT_NAME_KEY, name);
             cti.navigateToRecord({
               objectCoordinates: firstCallerIdMatch.objectCoordinates,
             });
