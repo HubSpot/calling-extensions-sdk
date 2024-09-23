@@ -1,5 +1,5 @@
 /* eslint-disable import/no-relative-packages */
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import CallingExtensions, {
   CompanyIdMatch,
