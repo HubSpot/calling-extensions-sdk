@@ -177,7 +177,8 @@ export const useCti = (
           const engagementId = (data && data.engagementId) || 0;
 
           cti.initialized({
-            isLoggedIn: true,
+            isLoggedIn: false,
+            isAvailable: false,
             engagementId,
             sizeInfo: {
               width: 400,
