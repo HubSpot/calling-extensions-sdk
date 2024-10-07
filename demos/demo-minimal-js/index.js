@@ -168,8 +168,6 @@ export function setWidgetUrl() {
       type: "SET_WIDGET_URL",
       iFrameUrl: newUrl,
     });
-
-    window.location.assign(newUrl);
   }
 }
 
