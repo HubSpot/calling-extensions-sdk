@@ -252,6 +252,18 @@ class CallingExtensions {
       data,
     });
   }
+
+  /**
+   * Sends a message to update the widget url.
+   *
+   * @param {import('./typedefs').OnSetWidgetUrl} data - The data object to be published.
+   */
+  setWidgetUrl(data) {
+    this.sendMessage({
+      type: messageType.SET_WIDGET_URL,
+      data,
+    });
+  }
 }
 
 export default CallingExtensions;

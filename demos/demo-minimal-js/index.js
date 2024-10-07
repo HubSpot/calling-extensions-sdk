@@ -164,10 +164,7 @@ export function setWidgetUrl() {
   // Redirect to a URL based on portalId
   if (state.portalId) {
     const newUrl = `https://${window.location.host}/${state.portalId}`;
-    cti.sendMessage({
-      type: "SET_WIDGET_URL",
-      iFrameUrl: newUrl,
-    });
+    cti.setWidgetUrl({ iFrameUrl: newUrl });
   }
 }
 
