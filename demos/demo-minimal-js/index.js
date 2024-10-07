@@ -163,10 +163,10 @@ const cti = new CallingExtensions({
 export function setWidgetUrl() {
   // Redirect to a URL based on portalId
   if (state.portalId) {
-    const newUrl = `localhost:9025/${state.portalId}`;
+    const newUrl = `https://${window.location.host}/${state.portalId}`;
     cti.sendMessage({
       type: "SET_WIDGET_URL",
-      iFrameUrl: `https://${newUrl}`,
+      iFrameUrl: newUrl,
     });
 
     window.location.assign(newUrl);
