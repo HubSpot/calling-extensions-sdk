@@ -96,6 +96,11 @@
  */
 
 /**
+ * @typedef {Object} OnSetWidgetUrl
+ * @property {string} iFrameUrl
+ */
+
+/**
  * @typedef {'COMPLETED'|'FAILED'|'CANCELED'|'BUSY'|'NO_ANSWER'|'REJECTED'|'MISSED'} EndStatus
  */
 

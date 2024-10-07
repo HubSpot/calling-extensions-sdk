@@ -1,4 +1,5 @@
 import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
+// import CallingExtensions, { Constants } from "../../index";
 import { v4 as uuidv4 } from "uuid";
 const { messageType, callEndStatus } = Constants;
 
@@ -158,6 +159,14 @@ const cti = new CallingExtensions({
     },
   },
 });
+
+export function setWidgetUrl() {
+  // Redirect to a URL based on portalId
+  if (state.portalId) {
+    const newUrl = `https://${window.location.host}/${state.portalId}`;
+    cti.setWidgetUrl({ iFrameUrl: newUrl });
+  }
+}
 
 export function initialize() {
   cti.initialized({
