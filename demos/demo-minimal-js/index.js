@@ -161,11 +161,10 @@ const cti = new CallingExtensions({
 });
 
 export function setWidgetUrl() {
-  // Redirect to a URL based on portalId
-  if (state.portalId) {
-    const newUrl = `https://${window.location.host}/${state.portalId}`;
-    cti.setWidgetUrl({ iFrameUrl: newUrl });
-  }
+  // Redirect to a new URL
+  const newUrl =
+    "https://github.hubspot.com/calling-extensions-sdk/demo-minimal-js.html";
+  cti.setWidgetUrl({ iFrameUrl: newUrl });
 }
 
 export function initialize() {
