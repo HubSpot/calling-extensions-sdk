@@ -6,23 +6,24 @@
 
 /**
  * @typedef {Object.<string, function>} EventHandlers
- * @property {function} onReady - Called when HubSpot is ready to receive messages.
- * @property {function} onDialNumber - Called when the HubSpot sends a dial number from the contact.
- * @property {function} onEngagementCreated - Called when HubSpot creates an engagement for the call.
- * @property {function} onVisibilityChanged - Called when the call widget's visibility changes.
  * @property {function} onCallerIdMatchFailed - Called when the caller ID match fails.
  * @property {function} onCallerIdMatchSucceeded - Called when the caller ID match succeeds.
  * @property {function} onCreateEngagementFailed - Called when creating an engagement fails.
  * @property {function} onCreateEngagementSucceeded - Called when creating an engagement succeeds.
+ * @property {function} onDialNumber - Called when the HubSpot sends a dial number from the contact.
+ * @property {function} onEndCall - Called when the call ends.
+ * @property {function} onEngagementCreated - Called when HubSpot creates an engagement for the call.
+ * @property {function} onInitiateCallIdFailed - Called when initiating a call ID fails.
+ * @property {function} onInitiateCallIdSucceeded - Called when initiating a call ID succeeds.
  * @property {function} onNavigateToRecordFailed - Called when navigating to a record fails.
  * @property {function} onPublishToChannelFailed - Called when publishing to a channel fails.
  * @property {function} onPublishToChannelSucceeded - Called when publishing to a channel succeeds.
+ * @property {function} onReady - Called when HubSpot is ready to receive messages.
  * @property {function} onSetCallState - Called when the call state changes.
+ * @property {function} onSetWidgetUrlFailed - Called when HubSpot was unable to change the widget iframe src URL.
  * @property {function} onUpdateEngagementFailed - Called when updating an engagement fails.
  * @property {function} onUpdateEngagementSucceeded - Called when updating an engagement succeeds.
- * @property {function} onEndCall - Called when the call ends.
- * @property {function} onInitiateCallIdSucceeded - Called when initiating a call ID succeeds.
- * @property {function} onInitiateCallIdFailed - Called when initiating a call ID fails.
+ * @property {function} onVisibilityChanged - Called when the call widget's visibility changes.
  * @property {function} [defaultEventHandler] - Default event handler to handle unhandled events.
  */
 

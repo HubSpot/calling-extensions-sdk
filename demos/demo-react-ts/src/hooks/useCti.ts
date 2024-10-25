@@ -1,6 +1,4 @@
 /* eslint-disable import/no-relative-packages */
-import { useMemo, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import CallingExtensions, {
   CompanyIdMatch,
   ContactIdMatch,
@@ -17,6 +15,8 @@ import CallingExtensions, {
   OnResize,
   Options,
 } from "@hubspot/calling-extensions-sdk";
+import { useMemo, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const INCOMING_NUMBER_KEY = "LocalSettings:Calling:DemoReact:incomingNumber";
 const INCOMING_CONTACT_NAME_KEY =
@@ -284,6 +284,9 @@ export const useCti = (
         },
         onInitiateCallIdFailed: (data: any, _rawEvent: any) => {
           /** HubSpot was unable to initiate call. */
+        },
+        onSetWidgetUrlFailed: (data: any, _rawEvent: any) => {
+          /** HubSpot was unable to change the widget iframe src URL. */
         },
       },
     });
