@@ -1,4 +1,3 @@
-/* eslint-disable import/no-relative-packages */
 import CallingExtensions, {
   CompanyIdMatch,
   ContactIdMatch,
@@ -159,7 +158,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 }
 
 export const useCti = (
-  initializeCallingStateForExistingCall: (incomingNumber: string) => void
+  initializeCallingStateForExistingCall: (incomingNumber: string) => void,
 ) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [engagementId, setEngagementId] = useState<number | null>(null);
@@ -188,7 +187,7 @@ export const useCti = (
           const incomingNumber =
             window.localStorage.getItem(INCOMING_NUMBER_KEY);
           const incomingContactName = window.localStorage.getItem(
-            INCOMING_CONTACT_NAME_KEY
+            INCOMING_CONTACT_NAME_KEY,
           );
           if (engagementId && incomingNumber && incomingContactName) {
             setEngagementId(engagementId);
@@ -245,7 +244,7 @@ export const useCti = (
             // save info in localstorage so that it can retrieved on redirect
             window.localStorage.setItem(
               INCOMING_NUMBER_KEY,
-              cti.incomingNumber
+              cti.incomingNumber,
             );
             window.localStorage.setItem(INCOMING_CONTACT_NAME_KEY, name);
             cti.navigateToRecord({
