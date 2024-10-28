@@ -157,6 +157,9 @@ const cti = new CallingExtensions({
     onPublishToChannelSucceeded: (data, rawEvent) => {
       /** HubSpot successfully published the call to the connected channel. */
     },
+    onSetWidgetUrlFailed: (data, rawEvent) => {
+      /** HubSpot was unable to change the widget iframe src URL. */
+    },
   },
 });
 

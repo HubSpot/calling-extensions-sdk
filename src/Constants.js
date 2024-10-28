@@ -35,14 +35,15 @@ const hostToThirdPartyEvents = {
   DIAL_NUMBER: "DIAL_NUMBER",
   /** @deprecated use CREATE_ENGAGEMENT_SUCCEEDED instead */
   ENGAGEMENT_CREATED: "ENGAGEMENT_CREATED",
+  INITIATE_CALL_ID_FAILED: "INITIATE_CALL_ID_FAILED",
+  INITIATE_CALL_ID_SUCCEEDED: "INITIATE_CALL_ID_SUCCEEDED",
   NAVIGATE_TO_RECORD_FAILED: "NAVIGATE_TO_RECORD_FAILED",
   PUBLISH_TO_CHANNEL_FAILED: "PUBLISH_TO_CHANNEL_FAILED",
   PUBLISH_TO_CHANNEL_SUCCEEDED: "PUBLISH_TO_CHANNEL_SUCCEEDED",
+  SET_WIDGET_URL_FAILED: "SET_WIDGET_URL_FAILED",
   UPDATE_ENGAGEMENT_FAILED: "UPDATE_ENGAGEMENT_FAILED",
   UPDATE_ENGAGEMENT_SUCCEEDED: "UPDATE_ENGAGEMENT_SUCCEEDED",
   VISIBILITY_CHANGED: "VISIBILITY_CHANGED",
-  INITIATE_CALL_ID_SUCCEEDED: "INITIATE_CALL_ID_SUCCEEDED",
-  INITIATE_CALL_ID_FAILED: "INITIATE_CALL_ID_FAILED",
 };
 
 export const messageType = {
@@ -70,16 +71,17 @@ export const messageHandlerNames = {
   [messageType.DIAL_NUMBER]: "onDialNumber",
   [messageType.END_CALL]: "onEndCall",
   [messageType.ENGAGEMENT_CREATED]: "onEngagementCreated",
+  [messageType.INITIATE_CALL_ID_FAILED]: "onInitiateCallIdFailed",
+  [messageType.INITIATE_CALL_ID_SUCCEEDED]: "onInitiateCallIdSucceeded",
   [messageType.NAVIGATE_TO_RECORD_FAILED]: "onNavigateToRecordFailed",
   [messageType.PUBLISH_TO_CHANNEL_FAILED]: "onPublishToChannelFailed",
   [messageType.PUBLISH_TO_CHANNEL_SUCCEEDED]: "onPublishToChannelSucceeded",
   [messageType.READY]: "onReady",
   [messageType.SET_CALL_STATE]: "onSetCallState",
+  [messageType.SET_WIDGET_URL_FAILED]: "onSetWidgetUrlFailed",
   [messageType.UPDATE_ENGAGEMENT_FAILED]: "onUpdateEngagementFailed",
   [messageType.UPDATE_ENGAGEMENT_SUCCEEDED]: "onUpdateEngagementSucceeded",
   [messageType.VISIBILITY_CHANGED]: "onVisibilityChanged",
-  [messageType.INITIATE_CALL_ID_SUCCEEDED]: "onInitiateCallIdSucceeded",
-  [messageType.INITIATE_CALL_ID_FAILED]: "onInitiateCallIdFailed",
 };
 
 export const errorType = {
