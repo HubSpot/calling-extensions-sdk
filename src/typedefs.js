@@ -16,6 +16,7 @@
  * @property {function} onInitiateCallIdFailed - Called when initiating a call ID fails.
  * @property {function} onInitiateCallIdSucceeded - Called when initiating a call ID succeeds.
  * @property {function} onNavigateToRecordFailed - Called when navigating to a record fails.
+ * @property {function} onUpdateAssociationsFailed - Called when updating associations for a record fails.
  * @property {function} onPublishToChannelFailed - Called when publishing to a channel fails.
  * @property {function} onPublishToChannelSucceeded - Called when publishing to a channel succeeds.
  * @property {function} onReady - Called when HubSpot is ready to receive messages.
