@@ -214,16 +214,10 @@ class CallingExtensions {
 
     let handler;
 
-    const isFailedEvent = String(type).endsWith("_FAILED");
-
-    if (type in messageHandlerNames || isFailedEvent) {
+    if (type in messageHandlerNames) {
       const name = messageHandlerNames[type];
       if (name in eventHandlers) {
         handler = eventHandlers[name];
-      }
-
-      if (isFailedEvent) {
-        handler = eventHandlers[messageType.FAILED];
       }
     } else {
       // Send back a message indicating an unknown event is received
@@ -236,6 +230,13 @@ class CallingExtensions {
           },
         },
       });
+    }
+
+    const isFailedEvent = String(type).endsWith("_FAILED");
+
+    if (isFailedEvent) {
+      const failedHandler = eventHandlers[messageType.FAILED];
+      failedHandler(data, event);
     }
 
     handler = handler || eventHandlers.defaultEventHandler;
