@@ -38,6 +38,7 @@ const hostToThirdPartyEvents = {
   INITIATE_CALL_ID_FAILED: "INITIATE_CALL_ID_FAILED",
   INITIATE_CALL_ID_SUCCEEDED: "INITIATE_CALL_ID_SUCCEEDED",
   NAVIGATE_TO_RECORD_FAILED: "NAVIGATE_TO_RECORD_FAILED",
+  UPDATE_ASSOCIATIONS_FAILED: "UPDATE_ASSOCIATIONS_FAILED",
   PUBLISH_TO_CHANNEL_FAILED: "PUBLISH_TO_CHANNEL_FAILED",
   PUBLISH_TO_CHANNEL_SUCCEEDED: "PUBLISH_TO_CHANNEL_SUCCEEDED",
   SET_WIDGET_URL_FAILED: "SET_WIDGET_URL_FAILED",
@@ -58,6 +59,7 @@ export const messageType = {
   SYNC_ACK: "SYNC_ACK",
   SYNC: "SYNC",
   UNLOADING: "UNLOADING",
+  FAILED: "FAILED",
 };
 
 /**
@@ -74,6 +76,7 @@ export const messageHandlerNames = {
   [messageType.INITIATE_CALL_ID_FAILED]: "onInitiateCallIdFailed",
   [messageType.INITIATE_CALL_ID_SUCCEEDED]: "onInitiateCallIdSucceeded",
   [messageType.NAVIGATE_TO_RECORD_FAILED]: "onNavigateToRecordFailed",
+  [messageType.UPDATE_ASSOCIATIONS_FAILED]: "onUpdateAssociationsFailed",
   [messageType.PUBLISH_TO_CHANNEL_FAILED]: "onPublishToChannelFailed",
   [messageType.PUBLISH_TO_CHANNEL_SUCCEEDED]: "onPublishToChannelSucceeded",
   [messageType.READY]: "onReady",
@@ -82,6 +85,7 @@ export const messageHandlerNames = {
   [messageType.UPDATE_ENGAGEMENT_FAILED]: "onUpdateEngagementFailed",
   [messageType.UPDATE_ENGAGEMENT_SUCCEEDED]: "onUpdateEngagementSucceeded",
   [messageType.VISIBILITY_CHANGED]: "onVisibilityChanged",
+  [messageType.FAILED]: "onFailed",
 };
 
 export const errorType = {

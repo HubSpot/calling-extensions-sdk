@@ -213,6 +213,7 @@ class CallingExtensions {
     const { eventHandlers } = this.options;
 
     let handler;
+
     if (type in messageHandlerNames) {
       const name = messageHandlerNames[type];
       if (name in eventHandlers) {
@@ -229,6 +230,13 @@ class CallingExtensions {
           },
         },
       });
+    }
+
+    const isFailedEvent = String(type).endsWith("_FAILED");
+
+    if (isFailedEvent) {
+      const failedHandler = eventHandlers[messageType.FAILED];
+      failedHandler(data, event);
     }
 
     handler = handler || eventHandlers.defaultEventHandler;
