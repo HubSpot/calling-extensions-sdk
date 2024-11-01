@@ -213,10 +213,17 @@ class CallingExtensions {
     const { eventHandlers } = this.options;
 
     let handler;
-    if (type in messageHandlerNames) {
+
+    const isFailedEvent = String(type).endsWith("_FAILED");
+
+    if (type in messageHandlerNames || isFailedEvent) {
       const name = messageHandlerNames[type];
       if (name in eventHandlers) {
         handler = eventHandlers[name];
+      }
+
+      if (isFailedEvent) {
+        handler = eventHandlers[messageType.FAILED];
       }
     } else {
       // Send back a message indicating an unknown event is received

@@ -25,6 +25,7 @@
  * @property {function} onUpdateEngagementFailed - Called when updating an engagement fails.
  * @property {function} onUpdateEngagementSucceeded - Called when updating an engagement succeeds.
  * @property {function} onVisibilityChanged - Called when the call widget's visibility changes.
+ * @property {function} onFailed - Called when any of the failed events occurs.
  * @property {function} [defaultEventHandler] - Default event handler to handle unhandled events.
  */
 

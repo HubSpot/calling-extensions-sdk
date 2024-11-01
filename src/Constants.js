@@ -59,6 +59,7 @@ export const messageType = {
   SYNC_ACK: "SYNC_ACK",
   SYNC: "SYNC",
   UNLOADING: "UNLOADING",
+  FAILED: "FAILED",
 };
 
 /**
@@ -84,6 +85,7 @@ export const messageHandlerNames = {
   [messageType.UPDATE_ENGAGEMENT_FAILED]: "onUpdateEngagementFailed",
   [messageType.UPDATE_ENGAGEMENT_SUCCEEDED]: "onUpdateEngagementSucceeded",
   [messageType.VISIBILITY_CHANGED]: "onVisibilityChanged",
+  [messageType.FAILED]: "onFailed",
 };
 
 export const errorType = {
