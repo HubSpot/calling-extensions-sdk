@@ -52,6 +52,7 @@ function KeypadScreen({
   setDirection,
   incomingNumber,
   setIncomingNumber,
+  iframeLocation,
 }: ScreenProps) {
   const dialNumberInput = useAutoFocus();
   const [cursorStart, setCursorStart] = useState(dialNumber.length || 0);
@@ -116,11 +117,20 @@ function KeypadScreen({
 
   const handleTriggerIncomingCall = useCallback(
     (incomingCallNumber: string) => {
-      cti.incomingCall({
-        createEngagement: true,
-        fromNumber: incomingCallNumber,
-        toNumber: fromNumber,
-      });
+      if (iframeLocation === "REMOTE") {
+        cti.broadcastIncomingCall({
+          createEngagement: true,
+          fromNumber: incomingCallNumber,
+          toNumber: fromNumber,
+        });
+      } else {
+        cti.incomingCall({
+          createEngagement: true,
+          fromNumber: incomingCallNumber,
+          toNumber: fromNumber,
+        });
+      }
+
       setDirection("INBOUND");
       handleNextScreen();
     },

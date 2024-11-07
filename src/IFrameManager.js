@@ -233,8 +233,11 @@ class IFrameManager {
   onMessage(event) {
     const { data, origin } = event;
     // eslint-disable-next-line object-curly-newline
-    const { type, engagementId, portalId, userId, ownerId } = event.data;
+    const { type } = event.data;
     if (type === messageType.SYNC) {
+      const { type, portalId, userId, ownerId, engagementId, iframeLocation } =
+        event.data;
+
       // The iFrame host can send this message multiple times, don't respond more than once
       if (!this.isReady) {
         this.isReady = true;
@@ -255,8 +258,10 @@ class IFrameManager {
           portalId,
           userId,
           ownerId,
+          iframeLocation,
         });
       }
+
       return;
     }
 

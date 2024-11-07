@@ -49,6 +49,10 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   private _externalCallId = "";
 
+  broadcastChannel: BroadcastChannel = new BroadcastChannel(
+    "calling-extensions-demo-widget"
+  );
+
   constructor(options: Options) {
     this._cti = new CallingExtensions(options);
   }
@@ -92,9 +96,19 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   incomingCall(callDetails: OnIncomingCall) {
     this.incomingNumber = callDetails.fromNumber;
     this.externalCallId = uuidv4();
-    return this._cti.incomingCall({
+    this._cti.incomingCall({
       ...callDetails,
       externalCallId: this.externalCallId,
+    });
+  }
+
+  broadcastIncomingCall(callDetails: OnIncomingCall) {
+    this.broadcastChannel.postMessage({
+      type: "INCOMING_CALL",
+      payload: {
+        ...callDetails,
+        externalCallId: this.externalCallId,
+      },
     });
   }
 
@@ -158,11 +172,13 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 }
 
 export const useCti = (
-  initializeCallingStateForExistingCall: (incomingNumber: string) => void,
+  initializeCallingStateForExistingCall: (incomingNumber: string) => void
 ) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [engagementId, setEngagementId] = useState<number | null>(null);
   const [incomingContactName, setIncomingContactName] = useState<string>("");
+  const [iframeLocation, setIframeLocation] = useState("");
+
   const cti = useMemo(() => {
     return new CallingExtensionsWrapper({
       debugMode: true,
@@ -172,6 +188,7 @@ export const useCti = (
           portalId?: number;
           userId?: number;
           ownerId?: number;
+          iframeLocation?: string;
         }) => {
           const engagementId = (data && data.engagementId) || 0;
 
@@ -187,7 +204,7 @@ export const useCti = (
           const incomingNumber =
             window.localStorage.getItem(INCOMING_NUMBER_KEY);
           const incomingContactName = window.localStorage.getItem(
-            INCOMING_CONTACT_NAME_KEY,
+            INCOMING_CONTACT_NAME_KEY
           );
           if (engagementId && incomingNumber && incomingContactName) {
             setEngagementId(engagementId);
@@ -197,6 +214,9 @@ export const useCti = (
             // clear out localstorage
             window.localStorage.removeItem(INCOMING_NUMBER_KEY);
             window.localStorage.removeItem(INCOMING_CONTACT_NAME_KEY);
+          }
+          if (data.iframeLocation) {
+            setIframeLocation(data.iframeLocation);
           }
         },
         onDialNumber: (data: any, _rawEvent: any) => {
@@ -244,7 +264,7 @@ export const useCti = (
             // save info in localstorage so that it can retrieved on redirect
             window.localStorage.setItem(
               INCOMING_NUMBER_KEY,
-              cti.incomingNumber,
+              cti.incomingNumber
             );
             window.localStorage.setItem(INCOMING_CONTACT_NAME_KEY, name);
             cti.navigateToRecord({
@@ -295,5 +315,6 @@ export const useCti = (
     engagementId,
     cti,
     incomingContactName,
+    iframeLocation,
   };
 };

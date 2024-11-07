@@ -93,9 +93,13 @@ function App() {
     setIncomingNumber(incomingNumber);
   };
 
-  const { cti, phoneNumber, engagementId, incomingContactName } = useCti(
-    initializeCallingStateForExistingCall
-  );
+  const {
+    cti,
+    phoneNumber,
+    engagementId,
+    incomingContactName,
+    iframeLocation,
+  } = useCti(initializeCallingStateForExistingCall);
 
   const screens = direction === "OUTBOUND" ? OUTBOUND_SCREENS : INBOUND_SCREENS;
 
@@ -128,6 +132,15 @@ function App() {
       setScreenIndex(screenIndex + 1);
     }
   }, [screenIndex]);
+
+  cti.broadcastChannel.onmessage = ({ data }: MessageEvent) => {
+    if (iframeLocation === "POPUP" && data.type === "INCOMING_CALL") {
+      setIncomingNumber(data.payload.fromNumber);
+      handleNavigateToScreen(ScreenNames.Incoming);
+      setDirection("INBOUND");
+      cti.incomingCall(data.payload);
+    }
+  };
 
   const screenComponent = useMemo(() => {
     const handleEndCall = () => {
@@ -175,6 +188,7 @@ function App() {
         incomingContactName={incomingContactName}
         callStatus={callStatus}
         setCallStatus={setCallStatus}
+        iframeLocation={iframeLocation}
       />
     );
   }, [
@@ -198,6 +212,7 @@ function App() {
     direction,
     incomingContactName,
     resetInputs,
+    iframeLocation,
   ]);
 
   return (
