@@ -60,6 +60,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   constructor(options: Options) {
     this._cti = new CallingExtensions(options);
+    window.broadcastChannel = this.broadcastChannel;
   }
 
   get externalCallId() {
