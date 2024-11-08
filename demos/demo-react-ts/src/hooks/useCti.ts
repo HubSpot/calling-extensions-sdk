@@ -14,6 +14,7 @@ import CallingExtensions, {
   OnResize,
   Options,
   // } from "@hubspot/calling-extensions-sdk";
+  // @TODO: Uncomment the above line and comment the below line
 } from "../../../../src/CallingExtensions";
 
 import { useMemo, useState } from "react";
