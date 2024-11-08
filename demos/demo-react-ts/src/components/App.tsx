@@ -41,6 +41,19 @@ export const INBOUND_SCREENS = [
   CallEndedScreen,
 ];
 
+const CTI_EVENT_HANDLERS = {
+  LOG_IN: "userLoggedIn",
+  LOG_OUT: "userLoggedOut",
+  INITIALIZE: "initialize",
+  OUTGOING_CALL: "outgoingCall",
+  USER_AVAILABLE: "userAvailable",
+  USER_UNAVAILABLE: "userUnavailable",
+  INCOMING_CALL: "incomingCall",
+  CALL_ANSWERED: "callAnswered",
+  CALL_ENDED: "callEnded",
+  CALL_COMPLETED: "callCompleted",
+};
+
 const ALERT_CONTENT = (
   <span>
     Open your console to see the{" "}
@@ -133,12 +146,44 @@ function App() {
     }
   }, [screenIndex]);
 
-  cti.broadcastChannel.onmessage = ({ data }: MessageEvent) => {
-    if (iframeLocation === "POPUP" && data.type === "INCOMING_CALL") {
-      setIncomingNumber(data.payload.fromNumber);
-      handleNavigateToScreen(ScreenNames.Incoming);
-      setDirection("INBOUND");
-      cti.incomingCall(data.payload);
+  cti.broadcastChannel.onmessage = ({
+    data,
+  }: MessageEvent<{ type: string }>) => {
+    // Send SDK message to HubSpot
+    if (iframeLocation === "popup") {
+      const eventHandler = CTI_EVENT_HANDLERS[data.type];
+      if (eventHandler) {
+        cti[eventHandler](data.payload);
+      }
+    }
+
+    // Handle SDK message in iframe
+    switch (data.type) {
+      case "LOGGED_IN":
+        handleNavigateToScreen(ScreenNames.Keypad);
+        break;
+
+      case "LOGGED_OUT":
+        handleNavigateToScreen(ScreenNames.Login);
+        break;
+
+      case "USER_AVAILABLE":
+        setAvailability("AVAILABLE");
+        break;
+
+      case "USER_UNAVAILABLE":
+        setAvailability("UNAVAILABLE");
+        break;
+
+      case "INCOMING_CALL":
+        setIncomingNumber(data.payload.fromNumber);
+        handleNavigateToScreen(ScreenNames.Incoming);
+        setDirection("INBOUND");
+        break;
+
+      // TODO: Implement the rest of the event handlers
+      default:
+      // Do nothing
     }
   };
 
@@ -188,7 +233,6 @@ function App() {
         incomingContactName={incomingContactName}
         callStatus={callStatus}
         setCallStatus={setCallStatus}
-        iframeLocation={iframeLocation}
       />
     );
   }, [

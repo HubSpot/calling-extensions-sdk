@@ -57,6 +57,7 @@ function CallingScreen({
     cti.callEnded({
       callEndStatus: "COMPLETED",
     });
+
     handleEndCall();
   };
 
