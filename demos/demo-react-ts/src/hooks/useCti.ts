@@ -16,6 +16,7 @@ import CallingExtensions, {
   // } from "@hubspot/calling-extensions-sdk";
   // @TODO: Uncomment the above line and comment the below line
 } from "../../../../src/CallingExtensions";
+import { thirdPartyToHostEvents } from "../../../../src/Constants";
 
 import { useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -88,6 +89,11 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   initialized(userData: OnInitialized) {
+    if (this._iframeLocation === "remote") {
+      this.broadcastMessage({ type: thirdPartyToHostEvents.INITIALIZED });
+      return;
+    }
+
     if (userData.iframeLocation) {
       this._iframeLocation = userData.iframeLocation;
     }
@@ -97,7 +103,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   userAvailable() {
     if (this._iframeLocation === "remote") {
-      this.broadcastMessage({ type: "USER_AVAILABLE" });
+      this.broadcastMessage({ type: thirdPartyToHostEvents.USER_AVAILABLE });
       return;
     }
 
@@ -106,7 +112,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   userUnavailable() {
     if (this._iframeLocation === "remote") {
-      this.broadcastMessage({ type: "USER_UNAVAILABLE" });
+      this.broadcastMessage({ type: thirdPartyToHostEvents.USER_UNAVAILABLE });
       return;
     }
 
@@ -115,7 +121,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   userLoggedIn() {
     if (this._iframeLocation === "remote") {
-      this.broadcastMessage({ type: "LOGGED_IN" });
+      this.broadcastMessage({ type: thirdPartyToHostEvents.LOGGED_IN });
       return;
     }
 
@@ -124,7 +130,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   userLoggedOut() {
     if (this._iframeLocation === "remote") {
-      this.broadcastMessage({ type: "LOGGED_OUT" });
+      this.broadcastMessage({ type: thirdPartyToHostEvents.LOGGED_OUT });
       return;
     }
 
@@ -134,13 +140,19 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   incomingCall(callDetails: OnIncomingCall) {
     // Triggered from remote
     if (this._iframeLocation === "remote") {
-      this.broadcastMessage({ type: "INCOMING_CALL", payload: callDetails });
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.INCOMING_CALL,
+        payload: callDetails,
+      });
       return;
     }
 
     // Triggered from popup
     if (this._iframeLocation === "popup") {
-      this.broadcastMessage({ type: "INCOMING_CALL", payload: callDetails });
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.INCOMING_CALL,
+        payload: callDetails,
+      });
     }
 
     // Send message to HubSpot
@@ -154,7 +166,10 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   outgoingCall(callDetails: OnOutgoingCall) {
     if (this._iframeLocation === "remote") {
-      this.broadcastMessage({ type: "OUTGOING_CALL", payload: callDetails });
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.OUTGOING_CALL_STARTED,
+        payload: callDetails,
+      });
       return;
     }
 
@@ -171,7 +186,10 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   callAnswered(data: OnCallAnswered) {
     if (this._iframeLocation === "remote") {
-      this.broadcastMessage({ type: "CALL_ANSWERED", payload: data });
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.CALL_ANSWERED,
+        payload: data,
+      });
       return;
     }
 
@@ -187,7 +205,10 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   callEnded(engagementData: OnCallEnded) {
     if (this._iframeLocation === "remote") {
-      this.broadcastMessage({ type: "CALL_ENDED", payload: engagementData });
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.CALL_ENDED,
+        payload: engagementData,
+      });
       return;
     }
 
@@ -200,7 +221,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   callCompleted(callCompletedData: OnCallCompleted) {
     if (this._iframeLocation === "remote") {
       this.broadcastMessage({
-        type: "CALL_COMPLETED",
+        type: thirdPartyToHostEvents.CALL_COMPLETED,
         payload: callCompletedData,
       });
       return;
