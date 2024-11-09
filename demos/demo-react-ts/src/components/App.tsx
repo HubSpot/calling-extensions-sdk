@@ -24,6 +24,7 @@ import {
 import Alert from "./Alert";
 import { CALYPSO, GYPSUM, KOALA, OLAF, SLINKY } from "../utils/colors";
 import { FROM_NUMBER_ONE } from "../utils/phoneNumberUtils";
+import { thirdPartyToHostEvents } from "../../../../src/Constants";
 
 export const OUTBOUND_SCREENS = [
   LoginScreen,
@@ -41,17 +42,17 @@ export const INBOUND_SCREENS = [
   CallEndedScreen,
 ];
 
-const CTI_EVENT_HANDLERS = {
-  LOG_IN: "userLoggedIn",
-  LOG_OUT: "userLoggedOut",
-  INITIALIZE: "initialize",
-  OUTGOING_CALL: "outgoingCall",
-  USER_AVAILABLE: "userAvailable",
-  USER_UNAVAILABLE: "userUnavailable",
-  INCOMING_CALL: "incomingCall",
-  CALL_ANSWERED: "callAnswered",
-  CALL_ENDED: "callEnded",
-  CALL_COMPLETED: "callCompleted",
+export const broadcastEventHandlers = {
+  [thirdPartyToHostEvents.LOGGED_IN]: "userLoggedIn",
+  [thirdPartyToHostEvents.LOGGED_OUT]: "userLoggedOut",
+  [thirdPartyToHostEvents.INITIALIZE]: "initialize",
+  [thirdPartyToHostEvents.OUTGOING_CALL]: "outgoingCall",
+  [thirdPartyToHostEvents.USER_AVAILABLE]: "userAvailable",
+  [thirdPartyToHostEvents.USER_UNAVAILABLE]: "userUnavailable",
+  [thirdPartyToHostEvents.INCOMING_CALL]: "incomingCall",
+  [thirdPartyToHostEvents.CALL_ANSWERED]: "callAnswered",
+  [thirdPartyToHostEvents.CALL_ENDED]: "callEnded",
+  [thirdPartyToHostEvents.CALL_COMPLETED]: "callCompleted",
 };
 
 const ALERT_CONTENT = (
@@ -146,12 +147,34 @@ function App() {
     }
   }, [screenIndex]);
 
+  const handleOutgoingCallStarted = useCallback(() => {
+    const callStartTime = Date.now();
+    startTimer(callStartTime);
+    setDirection("OUTBOUND");
+    handleNavigateToScreen(ScreenNames.Dialing);
+  }, []);
+
+  const handleIncomingCall = useCallback(() => {
+    setDirection("INBOUND");
+    handleNavigateToScreen(ScreenNames.Incoming);
+  }, []);
+
+  const handleCallEnded = useCallback(() => {
+    stopTimer();
+    handleNavigateToScreen(ScreenNames.CallEnded);
+  }, [stopTimer]);
+
+  const handleCallCompleted = useCallback(() => {
+    resetInputs();
+    handleNavigateToScreen(ScreenNames.Keypad);
+  }, [resetInputs]);
+
   cti.broadcastChannel.onmessage = ({
     data,
   }: MessageEvent<{ type: string }>) => {
     // Send SDK message to HubSpot
     if (iframeLocation === "popup") {
-      const eventHandler = CTI_EVENT_HANDLERS[data.type];
+      const eventHandler = broadcastEventHandlers[data.type];
       if (eventHandler) {
         cti[eventHandler](data.payload);
       }
@@ -159,45 +182,50 @@ function App() {
 
     // Handle SDK message in iframe
     switch (data.type) {
-      case "LOGGED_IN":
+      case thirdPartyToHostEvents.LOGGED_IN:
         handleNavigateToScreen(ScreenNames.Keypad);
         break;
 
-      case "LOGGED_OUT":
+      case thirdPartyToHostEvents.LOGGED_OUT:
         handleNavigateToScreen(ScreenNames.Login);
         break;
 
-      case "USER_AVAILABLE":
+      case thirdPartyToHostEvents.USER_AVAILABLE:
         setAvailability("AVAILABLE");
         break;
 
-      case "USER_UNAVAILABLE":
+      case thirdPartyToHostEvents.USER_UNAVAILABLE:
         setAvailability("UNAVAILABLE");
         break;
 
-      case "INCOMING_CALL":
-        setIncomingNumber(data.payload.fromNumber);
-        handleNavigateToScreen(ScreenNames.Incoming);
-        setDirection("INBOUND");
+      case thirdPartyToHostEvents.OUTGOING_CALL_STARTED:
+        handleOutgoingCallStarted();
         break;
 
-      // TODO: Implement the rest of the event handlers
+      case thirdPartyToHostEvents.INCOMING_CALL:
+        setIncomingNumber(data.payload.fromNumber);
+        handleIncomingCall();
+        break;
+
+      case thirdPartyToHostEvents.CALL_ANSWERED: {
+        handleNavigateToScreen(ScreenNames.Calling);
+        break;
+      }
+
+      case thirdPartyToHostEvents.CALL_ENDED:
+        handleCallEnded();
+        break;
+
+      case thirdPartyToHostEvents.CALL_COMPLETED:
+        handleCallCompleted();
+        break;
+
       default:
       // Do nothing
     }
   };
 
   const screenComponent = useMemo(() => {
-    const handleEndCall = () => {
-      stopTimer();
-      handleNavigateToScreen(ScreenNames.CallEnded);
-    };
-
-    const handleSaveCall = () => {
-      resetInputs();
-      handleNavigateToScreen(ScreenNames.Keypad);
-    };
-
     const Component = screens[screenIndex];
     if (!Component) {
       return null;
@@ -220,8 +248,10 @@ function App() {
         callDurationString={callDurationString}
         startTimer={startTimer}
         stopTimer={stopTimer}
-        handleEndCall={handleEndCall}
-        handleSaveCall={handleSaveCall}
+        handleOutgoingCallStarted={handleOutgoingCallStarted}
+        handleIncomingCall={handleIncomingCall}
+        handleCallEnded={handleCallEnded}
+        handleCallCompleted={handleCallCompleted}
         fromNumber={fromNumber}
         setFromNumber={setFromNumber}
         incomingNumber={incomingNumber}
@@ -245,18 +275,21 @@ function App() {
     engagementId,
     dialNumber,
     notes,
+    isCallRecorded,
     callDuration,
     callDurationString,
     startTimer,
     stopTimer,
+    handleCallEnded,
+    handleCallCompleted,
     fromNumber,
     incomingNumber,
-    callStatus,
     availability,
     direction,
     incomingContactName,
-    resetInputs,
-    iframeLocation,
+    callStatus,
+    handleIncomingCall,
+    handleOutgoingCallStarted,
   ]);
 
   return (

@@ -16,7 +16,7 @@ import { ANSWER_CALL, END_CALL } from "../../constants/buttonIds";
 function IncomingScreen({
   handleNextScreen,
   incomingNumber,
-  handleEndCall,
+  handleCallEnded,
   cti,
   startTimer,
   incomingContactName,
@@ -32,7 +32,7 @@ function IncomingScreen({
   const onEndIncomingCall = () => {
     setCallStatus("CANCELED");
     cti.callEnded({ callEndStatus: "CANCELED" });
-    handleEndCall();
+    handleCallEnded();
   };
 
   return (

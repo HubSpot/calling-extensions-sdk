@@ -10,7 +10,7 @@ export const debugMessageType = {
   GENERIC_MESSAGE: "Generic Message",
 };
 
-const thirdPartyToHostEvents = {
+export const thirdPartyToHostEvents = {
   CALL_ANSWERED: "CALL_ANSWERED",
   CALL_COMPLETED: "CALL_COMPLETED",
   CALL_DATA: "CALL_DATA",
