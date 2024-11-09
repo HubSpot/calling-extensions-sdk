@@ -46,7 +46,7 @@ export const broadcastEventHandlers = {
   [thirdPartyToHostEvents.LOGGED_IN]: "userLoggedIn",
   [thirdPartyToHostEvents.LOGGED_OUT]: "userLoggedOut",
   [thirdPartyToHostEvents.INITIALIZE]: "initialize",
-  [thirdPartyToHostEvents.OUTGOING_CALL]: "outgoingCall",
+  [thirdPartyToHostEvents.OUTGOING_CALL_STARTED]: "outgoingCall",
   [thirdPartyToHostEvents.USER_AVAILABLE]: "userAvailable",
   [thirdPartyToHostEvents.USER_UNAVAILABLE]: "userUnavailable",
   [thirdPartyToHostEvents.INCOMING_CALL]: "incomingCall",
