@@ -24,7 +24,7 @@ const props: Partial<ScreenProps> = {
   callDurationString: "",
   startTimer: noop,
   stopTimer: noop,
-  handleEndCall: noop,
+  handleCallEnded: noop,
   handleSaveCall: noop,
   fromNumber: "",
   setFromNumber: noop,
@@ -42,6 +42,7 @@ describe("IncomingScreen", () => {
     props.handleNextScreen = jasmine.createSpy("handleNextScreen");
     props.startTimer = jasmine.createSpy("startTimer");
     cti.callAnswered = jasmine.createSpy("callAnswered");
+    props.handleCallEnded = jasmine.createSpy("handleCallEnded");
   });
 
   it("Shows call ended text - no contact match", () => {
@@ -110,7 +111,7 @@ describe("IncomingScreen", () => {
     button.click();
 
     // ASSERT
-    expect(props.handleEndCall).toHaveBeenCalled();
+    expect(props.handleCallEnded).toHaveBeenCalled();
     expect(cti.callEnded).toHaveBeenCalledWith({
       callEndStatus: "CANCELED",
     });

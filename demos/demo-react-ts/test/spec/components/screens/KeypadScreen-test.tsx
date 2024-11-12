@@ -40,6 +40,8 @@ const props: Partial<ScreenProps> = {
   setDirection: noop,
   setIncomingNumber: noop,
   setAvailability: noop,
+  handleIncomingCall: noop,
+  handleOutgoingCallStarted: noop,
 };
 
 describe("KeypadScreen", () => {
@@ -56,6 +58,10 @@ describe("KeypadScreen", () => {
     props.setDirection = jasmine.createSpy("setDirection");
     cti.incomingCall = jasmine.createSpy("incomingCall");
     props.setIncomingNumber = jasmine.createSpy("setIncomingNumber");
+    props.handleIncomingCall = jasmine.createSpy("handleIncomingCall");
+    props.handleOutgoingCallStarted = jasmine.createSpy(
+      "handleOutgoingCallStarted"
+    );
   });
 
   it("Shows initial dial number", () => {
@@ -216,13 +222,12 @@ describe("KeypadScreen", () => {
       triggerCallBtn.click();
 
       // ASSERT
-      expect(props.setDirection).toHaveBeenCalledWith("INBOUND");
       expect(cti.incomingCall).toHaveBeenCalledWith({
         createEngagement: true,
         fromNumber: "6476251259",
         toNumber: "123456789",
       });
-      expect(props.handleNextScreen).toHaveBeenCalled();
+      expect(props.handleIncomingCall).toHaveBeenCalled();
     });
   });
 
@@ -256,7 +261,7 @@ describe("KeypadScreen", () => {
         fromNumber: "+161",
         callStartTime: jasmine.anything(),
       });
-      expect(props.handleNextScreen).toHaveBeenCalled();
+      expect(props.handleOutgoingCallStarted).toHaveBeenCalled();
     });
   });
 
