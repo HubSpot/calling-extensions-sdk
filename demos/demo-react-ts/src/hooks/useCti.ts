@@ -148,7 +148,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
     }
 
     // Triggered from popup
-    if (this._iframeLocation === "popup") {
+    if (this._iframeLocation === "window") {
       this.broadcastMessage({
         type: thirdPartyToHostEvents.INCOMING_CALL,
         payload: callDetails,

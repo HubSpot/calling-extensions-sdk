@@ -173,7 +173,7 @@ function App() {
     data,
   }: MessageEvent<{ type: string }>) => {
     // Send SDK message to HubSpot
-    if (iframeLocation === "popup") {
+    if (iframeLocation === "window") {
       const eventHandler = broadcastEventHandlers[data.type];
       if (eventHandler) {
         cti[eventHandler](data.payload);
