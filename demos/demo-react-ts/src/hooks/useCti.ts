@@ -13,13 +13,15 @@ import CallingExtensions, {
   OnPublishToChannel,
   OnResize,
   Options,
-  // } from "@hubspot/calling-extensions-sdk";
-  // @TODO: Uncomment the above line and comment the below line
-} from "../../../../src/CallingExtensions";
-import { thirdPartyToHostEvents } from "../../../../src/Constants";
+  Constants,
+} from "@hubspot/calling-extensions-sdk";
+// } from "../../../../src/CallingExtensions";
 
 import { useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+
+// import { thirdPartyToHostEvents } from "../../../../src/Constants";
+const { thirdPartyToHostEvents } = Constants;
 
 const INCOMING_NUMBER_KEY = "LocalSettings:Calling:DemoReact:incomingNumber";
 const INCOMING_CONTACT_NAME_KEY =

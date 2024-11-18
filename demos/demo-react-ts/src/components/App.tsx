@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback } from "react";
 import { ThemeProvider } from "styled-components";
+import { Constants } from "@hubspot/calling-extensions-sdk";
 import { createTheme } from "../visitor-ui-component-library/theme/createTheme";
 import {
   setDisabledBackgroundColor,
@@ -24,7 +25,9 @@ import {
 import Alert from "./Alert";
 import { CALYPSO, GYPSUM, KOALA, OLAF, SLINKY } from "../utils/colors";
 import { FROM_NUMBER_ONE } from "../utils/phoneNumberUtils";
-import { thirdPartyToHostEvents } from "../../../../src/Constants";
+
+// import { thirdPartyToHostEvents } from "../../../../src/Constants";
+const { thirdPartyToHostEvents } = Constants;
 
 export const OUTBOUND_SCREENS = [
   LoginScreen,
