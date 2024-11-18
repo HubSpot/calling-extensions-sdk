@@ -9,7 +9,7 @@ function DialingScreen({
   handleNextScreen,
   dialNumber,
   callDurationString,
-  handleEndCall,
+  handleCallEnded,
   cti,
 }: ScreenProps) {
   useEffect(() => {
@@ -24,7 +24,7 @@ function DialingScreen({
     cti.callEnded({
       callEndStatus: "COMPLETED",
     });
-    handleEndCall();
+    handleCallEnded();
   };
 
   return (

@@ -13,9 +13,15 @@ import CallingExtensions, {
   OnPublishToChannel,
   OnResize,
   Options,
+  Constants,
 } from "@hubspot/calling-extensions-sdk";
+// } from "../../../../src/CallingExtensions";
+
 import { useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+
+// import { thirdPartyToHostEvents } from "../../../../src/Constants";
+const { thirdPartyToHostEvents } = Constants;
 
 const INCOMING_NUMBER_KEY = "LocalSettings:Calling:DemoReact:incomingNumber";
 const INCOMING_CONTACT_NAME_KEY =
@@ -49,8 +55,15 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   private _externalCallId = "";
 
+  private _iframeLocation = "";
+
+  broadcastChannel: BroadcastChannel = new BroadcastChannel(
+    "calling-extensions-demo-react-ts"
+  );
+
   constructor(options: Options) {
     this._cti = new CallingExtensions(options);
+    window.broadcastChannel = this.broadcastChannel;
   }
 
   get externalCallId() {
@@ -69,36 +82,99 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
     this._incomingNumber = number;
   }
 
+  get iframeLocation() {
+    return this._iframeLocation;
+  }
+
+  set iframeLocation(location: string) {
+    this._iframeLocation = location;
+  }
+
   initialized(userData: OnInitialized) {
+    if (this._iframeLocation === "remote") {
+      this.broadcastMessage({ type: thirdPartyToHostEvents.INITIALIZED });
+      return;
+    }
+
+    if (userData.iframeLocation) {
+      this._iframeLocation = userData.iframeLocation;
+    }
+
     return this._cti.initialized(userData);
   }
 
   userAvailable() {
+    if (this._iframeLocation === "remote") {
+      this.broadcastMessage({ type: thirdPartyToHostEvents.USER_AVAILABLE });
+      return;
+    }
+
     return this._cti.userAvailable();
   }
 
   userUnavailable() {
+    if (this._iframeLocation === "remote") {
+      this.broadcastMessage({ type: thirdPartyToHostEvents.USER_UNAVAILABLE });
+      return;
+    }
+
     return this._cti.userUnavailable();
   }
 
   userLoggedIn() {
+    if (this._iframeLocation === "remote") {
+      this.broadcastMessage({ type: thirdPartyToHostEvents.LOGGED_IN });
+      return;
+    }
+
     return this._cti.userLoggedIn();
   }
 
   userLoggedOut() {
+    if (this._iframeLocation === "remote") {
+      this.broadcastMessage({ type: thirdPartyToHostEvents.LOGGED_OUT });
+      return;
+    }
+
     return this._cti.userLoggedOut();
   }
 
   incomingCall(callDetails: OnIncomingCall) {
+    // Triggered from remote
+    if (this._iframeLocation === "remote") {
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.INCOMING_CALL,
+        payload: callDetails,
+      });
+      return;
+    }
+
+    // Triggered from popup
+    if (this._iframeLocation === "window") {
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.INCOMING_CALL,
+        payload: callDetails,
+      });
+    }
+
+    // Send message to HubSpot
     this.incomingNumber = callDetails.fromNumber;
     this.externalCallId = uuidv4();
-    return this._cti.incomingCall({
+    this._cti.incomingCall({
       ...callDetails,
       externalCallId: this.externalCallId,
     });
   }
 
   outgoingCall(callDetails: OnOutgoingCall) {
+    if (this._iframeLocation === "remote") {
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.OUTGOING_CALL_STARTED,
+        payload: callDetails,
+      });
+      return;
+    }
+
     this.externalCallId = uuidv4();
     return this._cti.outgoingCall({
       ...callDetails,
@@ -111,6 +187,14 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   callAnswered(data: OnCallAnswered) {
+    if (this._iframeLocation === "remote") {
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.CALL_ANSWERED,
+        payload: data,
+      });
+      return;
+    }
+
     return this._cti.callAnswered({
       ...data,
       externalCallId: this.externalCallId,
@@ -122,6 +206,14 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   callEnded(engagementData: OnCallEnded) {
+    if (this._iframeLocation === "remote") {
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.CALL_ENDED,
+        payload: engagementData,
+      });
+      return;
+    }
+
     return this._cti.callEnded({
       ...engagementData,
       externalCallId: this.externalCallId,
@@ -129,6 +221,14 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   callCompleted(callCompletedData: OnCallCompleted) {
+    if (this._iframeLocation === "remote") {
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.CALL_COMPLETED,
+        payload: callCompletedData,
+      });
+      return;
+    }
+
     this._cti.callCompleted({
       ...callCompletedData,
       externalCallId: this.externalCallId,
@@ -155,6 +255,13 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   logDebugMessage(messageData: any) {
     return this._cti.logDebugMessage(messageData);
   }
+
+  broadcastMessage({ type, payload }: { type: string; payload: any }) {
+    this.broadcastChannel.postMessage({
+      type,
+      payload: { ...payload, externalCallId: this.externalCallId },
+    });
+  }
 }
 
 export const useCti = (
@@ -163,6 +270,8 @@ export const useCti = (
   const [phoneNumber, setPhoneNumber] = useState("");
   const [engagementId, setEngagementId] = useState<number | null>(null);
   const [incomingContactName, setIncomingContactName] = useState<string>("");
+  const [iframeLocation, setIframeLocation] = useState("");
+
   const cti = useMemo(() => {
     return new CallingExtensionsWrapper({
       debugMode: true,
@@ -172,6 +281,7 @@ export const useCti = (
           portalId?: number;
           userId?: number;
           ownerId?: number;
+          iframeLocation?: string;
         }) => {
           const engagementId = (data && data.engagementId) || 0;
 
@@ -183,6 +293,7 @@ export const useCti = (
               width: 400,
               height: 650,
             },
+            iframeLocation: data.iframeLocation,
           } as OnInitialized);
           const incomingNumber =
             window.localStorage.getItem(INCOMING_NUMBER_KEY);
@@ -197,6 +308,9 @@ export const useCti = (
             // clear out localstorage
             window.localStorage.removeItem(INCOMING_NUMBER_KEY);
             window.localStorage.removeItem(INCOMING_CONTACT_NAME_KEY);
+          }
+          if (data.iframeLocation) {
+            setIframeLocation(data.iframeLocation);
           }
         },
         onDialNumber: (data: any, _rawEvent: any) => {
@@ -301,5 +415,6 @@ export const useCti = (
     engagementId,
     cti,
     incomingContactName,
+    iframeLocation,
   };
 };

@@ -52,6 +52,8 @@ function KeypadScreen({
   setDirection,
   incomingNumber,
   setIncomingNumber,
+  handleIncomingCall,
+  handleOutgoingCallStarted,
 }: ScreenProps) {
   const dialNumberInput = useAutoFocus();
   const [cursorStart, setCursorStart] = useState(dialNumber.length || 0);
@@ -109,10 +111,8 @@ function KeypadScreen({
       fromNumber,
       callStartTime,
     });
-    startTimer(callStartTime);
-    setDirection("OUTBOUND");
-    handleNextScreen();
-  }, [cti, dialNumber, handleNextScreen, startTimer, setDirection, fromNumber]);
+    handleOutgoingCallStarted();
+  }, [cti, dialNumber, fromNumber, handleOutgoingCallStarted]);
 
   const handleTriggerIncomingCall = useCallback(
     (incomingCallNumber: string) => {
@@ -121,10 +121,9 @@ function KeypadScreen({
         fromNumber: incomingCallNumber,
         toNumber: fromNumber,
       });
-      setDirection("INBOUND");
-      handleNextScreen();
+      handleIncomingCall();
     },
-    [handleNextScreen, setDirection, cti, fromNumber]
+    [cti, fromNumber, handleIncomingCall]
   );
 
   const handleBackspace = useCallback(() => {

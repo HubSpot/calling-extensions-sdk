@@ -41,4 +41,5 @@ export interface ScreenProps {
   setIncomingNumber: (number: string) => void;
   callStatus: CallStatus | null;
   setCallStatus: (callStatus: CallStatus) => void;
+  iframeLocation: string;
 }
