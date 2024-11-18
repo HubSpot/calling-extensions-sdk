@@ -56,7 +56,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   private _iframeLocation = "";
 
   broadcastChannel: BroadcastChannel = new BroadcastChannel(
-    "calling-extensions-demo-widget"
+    "calling-extensions-demo-react-ts"
   );
 
   constructor(options: Options) {
