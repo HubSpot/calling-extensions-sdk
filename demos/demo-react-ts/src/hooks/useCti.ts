@@ -401,6 +401,12 @@ export const useCti = (
         onSetWidgetUrlFailed: (data: any, _rawEvent: any) => {
           /** HubSpot was unable to change the widget iframe src URL. */
         },
+        onUpdateAssociationsFailed: (data: any, _rawEvent: any) => {
+          /** HubSpot was unable to update associations for the desired record page. */
+        },
+        onFailed: (data: any, _rawEvent: any) => {
+          /** All failed events from HubSpot */
+        },
       },
     });
   }, []);
