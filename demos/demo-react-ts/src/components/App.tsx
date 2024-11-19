@@ -174,11 +174,11 @@ function App() {
 
   cti.broadcastChannel.onmessage = ({
     data,
-  }: MessageEvent<{ type: string }>) => {
+  }: MessageEvent<{ type: string; payload?: any }>) => {
     // Send SDK message to HubSpot
     if (iframeLocation === "window") {
       const eventHandler = broadcastEventHandlers[data.type];
-      if (eventHandler) {
+      if (eventHandler && cti[eventHandler] && data.payload) {
         cti[eventHandler](data.payload);
       }
     }
