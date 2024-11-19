@@ -109,7 +109,10 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   initialized(userData: OnInitialized) {
     if (this.shouldBroadcastMessage) {
-      this.broadcastMessage({ type: thirdPartyToHostEvents.INITIALIZED });
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.INITIALIZED,
+        payload: userData,
+      });
     }
 
     if (this.isFromRemote) {
