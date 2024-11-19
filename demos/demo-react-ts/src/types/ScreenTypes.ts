@@ -28,8 +28,8 @@ export interface ScreenProps {
   callDurationString: string;
   startTimer: Function;
   stopTimer: Function;
-  handleEndCall: Function;
-  handleSaveCall: Function;
+  handleCallEnded: Function;
+  handleCallCompleted: Function;
   fromNumber: string;
   setFromNumber: Function;
   availability: Availability;
