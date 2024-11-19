@@ -32,7 +32,7 @@ function CallingScreen({
   setNotes,
   setIsCallRecorded,
   callDurationString,
-  handleEndCall,
+  handleCallEnded,
   direction,
 }: ScreenProps) {
   const [toggleRecord, setToggleRecord] = useState(false);
@@ -58,7 +58,7 @@ function CallingScreen({
       callEndStatus: "COMPLETED",
     });
 
-    handleEndCall();
+    handleCallEnded();
   };
 
   const content = useMemo(() => {

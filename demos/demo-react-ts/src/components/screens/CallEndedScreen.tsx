@@ -15,7 +15,7 @@ const RECORDING_URL =
 function CallEndedScreen({
   cti,
   engagementId,
-  handleSaveCall,
+  handleCallCompleted,
   dialNumber,
   incomingNumber,
   direction,
@@ -46,7 +46,7 @@ function CallEndedScreen({
         hs_call_recording_url: isCallRecorded ? RECORDING_URL : null,
       },
     });
-    handleSaveCall();
+    handleCallCompleted();
   };
 
   return (
