@@ -23,8 +23,8 @@ const props: Partial<ScreenProps> = {
   callDurationString: "",
   startTimer: noop,
   stopTimer: noop,
-  handleEndCall: noop,
-  handleSaveCall: noop,
+  handleCallEnded: noop,
+  handleCallCompleted: noop,
   fromNumber: "",
   setFromNumber: noop,
   direction: "OUTBOUND",
@@ -32,7 +32,7 @@ const props: Partial<ScreenProps> = {
 
 describe("CallEndedScreen", () => {
   beforeEach(() => {
-    props.handleSaveCall = jasmine.createSpy("handleSaveCall");
+    props.handleCallCompleted = jasmine.createSpy("handleCallCompleted");
     cti.callCompleted = jasmine.createSpy("callCompleted");
   });
 
@@ -61,7 +61,7 @@ describe("CallEndedScreen", () => {
     );
     const button = getByRole("button", { name: /save-call/ });
     button.click();
-    expect(props.handleSaveCall).toHaveBeenCalled();
+    expect(props.handleCallCompleted).toHaveBeenCalled();
     expect(cti.callCompleted).toHaveBeenCalledWith({
       engagementId: 1,
       hideWidget: false,
@@ -86,7 +86,7 @@ describe("CallEndedScreen", () => {
     );
     const button = getByRole("button", { name: /save-call/ });
     button.click();
-    expect(props.handleSaveCall).toHaveBeenCalled();
+    expect(props.handleCallCompleted).toHaveBeenCalled();
     expect(cti.callCompleted).toHaveBeenCalledWith({
       engagementId: 1,
       hideWidget: false,
@@ -112,7 +112,7 @@ describe("CallEndedScreen", () => {
     );
     const button = getByRole("button", { name: /save-call/ });
     button.click();
-    expect(props.handleSaveCall).toHaveBeenCalled();
+    expect(props.handleCallCompleted).toHaveBeenCalled();
     expect(
       (cti.callCompleted as jasmine.Spy).calls.argsFor(0)[0]
         .engagementProperties.hs_call_status
