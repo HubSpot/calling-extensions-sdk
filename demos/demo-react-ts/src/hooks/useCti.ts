@@ -90,9 +90,32 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
     this._iframeLocation = location;
   }
 
+  /** Do not send messages to HubSpot in the remote */
+  get isFromRemote() {
+    return this._iframeLocation === "remote";
+  }
+
+  /** Send messages to HubSpot in the calling window */
+  get isFromWindow() {
+    return this._iframeLocation === "window";
+  }
+
+  /** Broadcast message from remote or window */
+  get shouldBroadcastMessage() {
+    return (
+      this._iframeLocation === "remote" || this._iframeLocation === "window"
+    );
+  }
+
   initialized(userData: OnInitialized) {
-    if (this._iframeLocation === "remote") {
-      this.broadcastMessage({ type: thirdPartyToHostEvents.INITIALIZED });
+    if (this.shouldBroadcastMessage) {
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.INITIALIZED,
+        payload: userData,
+      });
+    }
+
+    if (this.isFromRemote) {
       return;
     }
 
@@ -104,8 +127,11 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   userAvailable() {
-    if (this._iframeLocation === "remote") {
+    if (this.shouldBroadcastMessage) {
       this.broadcastMessage({ type: thirdPartyToHostEvents.USER_AVAILABLE });
+    }
+
+    if (this.isFromRemote) {
       return;
     }
 
@@ -113,8 +139,11 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   userUnavailable() {
-    if (this._iframeLocation === "remote") {
+    if (this.shouldBroadcastMessage) {
       this.broadcastMessage({ type: thirdPartyToHostEvents.USER_UNAVAILABLE });
+    }
+
+    if (this.isFromRemote) {
       return;
     }
 
@@ -122,8 +151,11 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   userLoggedIn() {
-    if (this._iframeLocation === "remote") {
+    if (this.shouldBroadcastMessage) {
       this.broadcastMessage({ type: thirdPartyToHostEvents.LOGGED_IN });
+    }
+
+    if (this.isFromRemote) {
       return;
     }
 
@@ -131,8 +163,11 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   userLoggedOut() {
-    if (this._iframeLocation === "remote") {
+    if (this.shouldBroadcastMessage) {
       this.broadcastMessage({ type: thirdPartyToHostEvents.LOGGED_OUT });
+    }
+
+    if (this.isFromRemote) {
       return;
     }
 
@@ -140,21 +175,15 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   incomingCall(callDetails: OnIncomingCall) {
-    // Triggered from remote
-    if (this._iframeLocation === "remote") {
+    if (this.shouldBroadcastMessage) {
       this.broadcastMessage({
         type: thirdPartyToHostEvents.INCOMING_CALL,
         payload: callDetails,
       });
-      return;
     }
 
-    // Triggered from popup
-    if (this._iframeLocation === "window") {
-      this.broadcastMessage({
-        type: thirdPartyToHostEvents.INCOMING_CALL,
-        payload: callDetails,
-      });
+    if (this.isFromRemote) {
+      return;
     }
 
     // Send message to HubSpot
@@ -167,11 +196,14 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   outgoingCall(callDetails: OnOutgoingCall) {
-    if (this._iframeLocation === "remote") {
+    if (this.shouldBroadcastMessage) {
       this.broadcastMessage({
         type: thirdPartyToHostEvents.OUTGOING_CALL_STARTED,
         payload: callDetails,
       });
+    }
+
+    if (this.isFromRemote) {
       return;
     }
 
@@ -187,11 +219,14 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   callAnswered(data: OnCallAnswered) {
-    if (this._iframeLocation === "remote") {
+    if (this.shouldBroadcastMessage) {
       this.broadcastMessage({
         type: thirdPartyToHostEvents.CALL_ANSWERED,
         payload: data,
       });
+    }
+
+    if (this.isFromRemote) {
       return;
     }
 
@@ -206,11 +241,14 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   callEnded(engagementData: OnCallEnded) {
-    if (this._iframeLocation === "remote") {
+    if (this.shouldBroadcastMessage) {
       this.broadcastMessage({
         type: thirdPartyToHostEvents.CALL_ENDED,
         payload: engagementData,
       });
+    }
+
+    if (this.isFromRemote) {
       return;
     }
 
@@ -221,11 +259,14 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   callCompleted(callCompletedData: OnCallCompleted) {
-    if (this._iframeLocation === "remote") {
+    if (this.shouldBroadcastMessage) {
       this.broadcastMessage({
         type: thirdPartyToHostEvents.CALL_COMPLETED,
         payload: callCompletedData,
       });
+    }
+
+    if (this.isFromRemote) {
       return;
     }
 
@@ -256,7 +297,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
     return this._cti.logDebugMessage(messageData);
   }
 
-  broadcastMessage({ type, payload }: { type: string; payload: any }) {
+  broadcastMessage({ type, payload }: { type: string; payload?: any }) {
     this.broadcastChannel.postMessage({
       type,
       payload: { ...payload, externalCallId: this.externalCallId },
