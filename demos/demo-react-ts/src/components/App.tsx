@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { ThemeProvider } from "styled-components";
 import { Constants } from "@hubspot/calling-extensions-sdk";
 import { createTheme } from "../visitor-ui-component-library/theme/createTheme";
@@ -188,19 +189,27 @@ function App() {
       } else if (data.type === thirdPartyToHostEvents.USER_UNAVAILABLE) {
         cti._cti.userUnavailable();
       } else if (data.type === thirdPartyToHostEvents.INCOMING_CALL) {
-        if (data.payload.externalCallId) {
-          cti.externalCallId = data.payload.externalCallId;
-        }
-        cti._cti.incomingCall(data.payload);
+        cti.externalCallId = uuidv4();
+        cti._cti.incomingCall({
+          ...data.payload,
+          externalCallId: cti.externalCallId,
+        });
       } else if (data.type === thirdPartyToHostEvents.OUTGOING_CALL_STARTED) {
-        if (data.payload.externalCallId) {
-          cti.externalCallId = data.payload.externalCallId;
-        }
-        cti._cti.outgoingCall(data.payload);
+        cti.externalCallId = uuidv4();
+        cti._cti.outgoingCall({
+          ...data.payload,
+          externalCallId: cti.externalCallId,
+        });
       } else if (data.type === thirdPartyToHostEvents.CALL_ENDED) {
-        cti._cti.callEnded(data.payload);
+        cti._cti.callEnded({
+          ...data.payload,
+          externalCallId: cti.externalCallId,
+        });
       } else if (data.type === thirdPartyToHostEvents.CALL_COMPLETED) {
-        cti._cti.callCompleted(data.payload);
+        cti._cti.callCompleted({
+          ...data.payload,
+          externalCallId: cti.externalCallId,
+        });
       }
     }
 
