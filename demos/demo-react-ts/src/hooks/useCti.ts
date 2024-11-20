@@ -311,7 +311,6 @@ export const useCti = (
   const [phoneNumber, setPhoneNumber] = useState("");
   const [engagementId, setEngagementId] = useState<number | null>(null);
   const [incomingContactName, setIncomingContactName] = useState<string>("");
-  const [iframeLocation, setIframeLocation] = useState("");
 
   const cti = useMemo(() => {
     return new CallingExtensionsWrapper({
@@ -349,9 +348,6 @@ export const useCti = (
             // clear out localstorage
             window.localStorage.removeItem(INCOMING_NUMBER_KEY);
             window.localStorage.removeItem(INCOMING_CONTACT_NAME_KEY);
-          }
-          if (data.iframeLocation) {
-            setIframeLocation(data.iframeLocation);
           }
         },
         onDialNumber: (data: any, _rawEvent: any) => {
@@ -456,6 +452,5 @@ export const useCti = (
     engagementId,
     cti,
     incomingContactName,
-    iframeLocation,
   };
 };

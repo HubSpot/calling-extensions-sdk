@@ -110,13 +110,9 @@ function App() {
     setIncomingNumber(incomingNumber);
   };
 
-  const {
-    cti,
-    phoneNumber,
-    engagementId,
-    incomingContactName,
-    iframeLocation,
-  } = useCti(initializeCallingStateForExistingCall);
+  const { cti, phoneNumber, engagementId, incomingContactName } = useCti(
+    initializeCallingStateForExistingCall
+  );
 
   const screens = direction === "OUTBOUND" ? OUTBOUND_SCREENS : INBOUND_SCREENS;
 
@@ -176,7 +172,7 @@ function App() {
     data,
   }: MessageEvent<{ type: string; payload?: any }>) => {
     // Send SDK message to HubSpot in the calling window
-    if (iframeLocation === "window") {
+    if (cti.iframeLocation === "window") {
       // TODO: Refactor to use eventHandler to invoke the appropriate function
       // const eventHandler = broadcastEventHandlers[data.type];
       // cti._cti[eventHandler](data.payload);
