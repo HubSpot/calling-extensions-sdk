@@ -49,7 +49,7 @@ interface CallingExtensionsContract {
 
 // @TODO Move it to CallingExtensions and export it once migrated to typescript
 class CallingExtensionsWrapper implements CallingExtensionsContract {
-  private _cti: CallingExtensions;
+  _cti: CallingExtensions;
 
   private _incomingNumber = "";
 

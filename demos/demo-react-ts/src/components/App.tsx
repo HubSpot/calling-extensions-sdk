@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback } from "react";
 import { ThemeProvider } from "styled-components";
-import { Constants } from "@hubspot/calling-extensions-sdk";
+import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 import { createTheme } from "../visitor-ui-component-library/theme/createTheme";
 import {
   setDisabledBackgroundColor,
@@ -48,7 +48,7 @@ export const INBOUND_SCREENS = [
 export const broadcastEventHandlers = {
   [thirdPartyToHostEvents.LOGGED_IN]: "userLoggedIn",
   [thirdPartyToHostEvents.LOGGED_OUT]: "userLoggedOut",
-  [thirdPartyToHostEvents.INITIALIZE]: "initialize",
+  [thirdPartyToHostEvents.INITIALIZED]: "initialized",
   [thirdPartyToHostEvents.OUTGOING_CALL_STARTED]: "outgoingCall",
   [thirdPartyToHostEvents.USER_AVAILABLE]: "userAvailable",
   [thirdPartyToHostEvents.USER_UNAVAILABLE]: "userUnavailable",
@@ -175,11 +175,32 @@ function App() {
   cti.broadcastChannel.onmessage = ({
     data,
   }: MessageEvent<{ type: string; payload?: any }>) => {
-    // Send SDK message to HubSpot
+    // Send SDK message to HubSpot in the calling window
     if (iframeLocation === "window") {
-      const eventHandler = broadcastEventHandlers[data.type];
-      if (eventHandler && cti[eventHandler] && data.payload) {
-        cti[eventHandler](data.payload);
+      // TODO: Refactor to use eventHandler to invoke the appropriate function
+      // const eventHandler = broadcastEventHandlers[data.type];
+      // cti._cti[eventHandler](data.payload);
+
+      if (data.type === thirdPartyToHostEvents.INITIALIZED) {
+        cti._cti.initialized(data.payload);
+      } else if (data.type === thirdPartyToHostEvents.LOGGED_IN) {
+        cti._cti.userLoggedIn();
+      } else if (data.type === thirdPartyToHostEvents.LOGGED_OUT) {
+        cti._cti.userLoggedOut();
+      } else if (data.type === thirdPartyToHostEvents.USER_AVAILABLE) {
+        cti._cti.userUnavailable();
+      } else if (data.type === thirdPartyToHostEvents.USER_UNAVAILABLE) {
+        cti._cti.userAvailable();
+      } else if (data.type === thirdPartyToHostEvents.INCOMING_CALL) {
+        cti._cti.incomingCall(data.payload);
+      } else if (data.type === thirdPartyToHostEvents.OUTGOING_CALL_STARTED) {
+        cti._cti.outgoingCall(data.payload);
+      } else if (data.type === thirdPartyToHostEvents.CALL_ANSWERED) {
+        cti._cti.callAnswered(data.payload);
+      } else if (data.type === thirdPartyToHostEvents.CALL_ENDED) {
+        cti._cti.callEnded(data.payload);
+      } else if (data.type === thirdPartyToHostEvents.CALL_COMPLETED) {
+        cti._cti.callCompleted(data.payload);
       }
     }
 
