@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback } from "react";
 import { ThemeProvider } from "styled-components";
-import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
+import { Constants } from "@hubspot/calling-extensions-sdk";
 import { createTheme } from "../visitor-ui-component-library/theme/createTheme";
 import {
   setDisabledBackgroundColor,
@@ -184,15 +184,19 @@ function App() {
       } else if (data.type === thirdPartyToHostEvents.LOGGED_OUT) {
         cti._cti.userLoggedOut();
       } else if (data.type === thirdPartyToHostEvents.USER_AVAILABLE) {
-        cti._cti.userUnavailable();
-      } else if (data.type === thirdPartyToHostEvents.USER_UNAVAILABLE) {
         cti._cti.userAvailable();
+      } else if (data.type === thirdPartyToHostEvents.USER_UNAVAILABLE) {
+        cti._cti.userUnavailable();
       } else if (data.type === thirdPartyToHostEvents.INCOMING_CALL) {
+        if (data.payload.externalCallId) {
+          cti.externalCallId = data.payload.externalCallId;
+        }
         cti._cti.incomingCall(data.payload);
       } else if (data.type === thirdPartyToHostEvents.OUTGOING_CALL_STARTED) {
+        if (data.payload.externalCallId) {
+          cti.externalCallId = data.payload.externalCallId;
+        }
         cti._cti.outgoingCall(data.payload);
-      } else if (data.type === thirdPartyToHostEvents.CALL_ANSWERED) {
-        cti._cti.callAnswered(data.payload);
       } else if (data.type === thirdPartyToHostEvents.CALL_ENDED) {
         cti._cti.callEnded(data.payload);
       } else if (data.type === thirdPartyToHostEvents.CALL_COMPLETED) {

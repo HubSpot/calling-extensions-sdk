@@ -175,6 +175,8 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   incomingCall(callDetails: OnIncomingCall) {
+    this.externalCallId = uuidv4();
+
     if (this.shouldBroadcastMessage) {
       this.broadcastMessage({
         type: thirdPartyToHostEvents.INCOMING_CALL,
@@ -188,7 +190,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
     // Send message to HubSpot
     this.incomingNumber = callDetails.fromNumber;
-    this.externalCallId = uuidv4();
+
     this._cti.incomingCall({
       ...callDetails,
       externalCallId: this.externalCallId,
@@ -196,6 +198,8 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   outgoingCall(callDetails: OnOutgoingCall) {
+    this.externalCallId = uuidv4();
+
     if (this.shouldBroadcastMessage) {
       this.broadcastMessage({
         type: thirdPartyToHostEvents.OUTGOING_CALL_STARTED,
@@ -207,7 +211,6 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
       return;
     }
 
-    this.externalCallId = uuidv4();
     return this._cti.outgoingCall({
       ...callDetails,
       externalCallId: this.externalCallId,
