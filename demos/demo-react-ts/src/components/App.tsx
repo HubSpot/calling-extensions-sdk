@@ -173,7 +173,7 @@ function App() {
     data,
   }: MessageEvent<{ type: string; payload?: any }>) => {
     // Send SDK message to HubSpot in the calling window
-    if (cti.iframeLocation === "window") {
+    if (cti.isFromWindow) {
       // TODO: Refactor to use eventHandler to invoke the appropriate function
       // const eventHandler = broadcastEventHandlers[data.type];
       // cti.contract[eventHandler](data.payload);
