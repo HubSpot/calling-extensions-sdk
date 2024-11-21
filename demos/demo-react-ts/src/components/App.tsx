@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { ThemeProvider } from "styled-components";
 import { Constants } from "@hubspot/calling-extensions-sdk";
 import { createTheme } from "../visitor-ui-component-library/theme/createTheme";
@@ -48,7 +49,7 @@ export const INBOUND_SCREENS = [
 export const broadcastEventHandlers = {
   [thirdPartyToHostEvents.LOGGED_IN]: "userLoggedIn",
   [thirdPartyToHostEvents.LOGGED_OUT]: "userLoggedOut",
-  [thirdPartyToHostEvents.INITIALIZE]: "initialize",
+  [thirdPartyToHostEvents.INITIALIZED]: "initialized",
   [thirdPartyToHostEvents.OUTGOING_CALL_STARTED]: "outgoingCall",
   [thirdPartyToHostEvents.USER_AVAILABLE]: "userAvailable",
   [thirdPartyToHostEvents.USER_UNAVAILABLE]: "userUnavailable",
@@ -110,13 +111,9 @@ function App() {
     setIncomingNumber(incomingNumber);
   };
 
-  const {
-    cti,
-    phoneNumber,
-    engagementId,
-    incomingContactName,
-    iframeLocation,
-  } = useCti(initializeCallingStateForExistingCall);
+  const { cti, phoneNumber, engagementId, incomingContactName } = useCti(
+    initializeCallingStateForExistingCall
+  );
 
   const screens = direction === "OUTBOUND" ? OUTBOUND_SCREENS : INBOUND_SCREENS;
 
@@ -175,11 +172,44 @@ function App() {
   cti.broadcastChannel.onmessage = ({
     data,
   }: MessageEvent<{ type: string; payload?: any }>) => {
-    // Send SDK message to HubSpot
-    if (iframeLocation === "window") {
-      const eventHandler = broadcastEventHandlers[data.type];
-      if (eventHandler && cti[eventHandler] && data.payload) {
-        cti[eventHandler](data.payload);
+    // Send SDK message to HubSpot in the calling window
+    if (cti.isFromWindow) {
+      // TODO: Refactor to use eventHandler to invoke the appropriate function
+      // const eventHandler = broadcastEventHandlers[data.type];
+      // cti.contract[eventHandler](data.payload);
+
+      if (data.type === thirdPartyToHostEvents.INITIALIZED) {
+        cti.contract.initialized(data.payload);
+      } else if (data.type === thirdPartyToHostEvents.LOGGED_IN) {
+        cti.contract.userLoggedIn();
+      } else if (data.type === thirdPartyToHostEvents.LOGGED_OUT) {
+        cti.contract.userLoggedOut();
+      } else if (data.type === thirdPartyToHostEvents.USER_AVAILABLE) {
+        cti.contract.userAvailable();
+      } else if (data.type === thirdPartyToHostEvents.USER_UNAVAILABLE) {
+        cti.contract.userUnavailable();
+      } else if (data.type === thirdPartyToHostEvents.INCOMING_CALL) {
+        cti.externalCallId = uuidv4();
+        cti.contract.incomingCall({
+          ...data.payload,
+          externalCallId: cti.externalCallId,
+        });
+      } else if (data.type === thirdPartyToHostEvents.OUTGOING_CALL_STARTED) {
+        cti.externalCallId = uuidv4();
+        cti.contract.outgoingCall({
+          ...data.payload,
+          externalCallId: cti.externalCallId,
+        });
+      } else if (data.type === thirdPartyToHostEvents.CALL_ENDED) {
+        cti.contract.callEnded({
+          ...data.payload,
+          externalCallId: cti.externalCallId,
+        });
+      } else if (data.type === thirdPartyToHostEvents.CALL_COMPLETED) {
+        cti.contract.callCompleted({
+          ...data.payload,
+          externalCallId: cti.externalCallId,
+        });
       }
     }
 

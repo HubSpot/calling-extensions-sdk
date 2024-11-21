@@ -66,6 +66,10 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
     window.broadcastChannel = this.broadcastChannel;
   }
 
+  get contract() {
+    return this._cti;
+  }
+
   get externalCallId() {
     return this._externalCallId;
   }
@@ -189,6 +193,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
     // Send message to HubSpot
     this.incomingNumber = callDetails.fromNumber;
     this.externalCallId = uuidv4();
+
     this._cti.incomingCall({
       ...callDetails,
       externalCallId: this.externalCallId,
@@ -300,7 +305,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   broadcastMessage({ type, payload }: { type: string; payload?: any }) {
     this.broadcastChannel.postMessage({
       type,
-      payload: { ...payload, externalCallId: this.externalCallId },
+      payload,
     });
   }
 }
@@ -311,7 +316,6 @@ export const useCti = (
   const [phoneNumber, setPhoneNumber] = useState("");
   const [engagementId, setEngagementId] = useState<number | null>(null);
   const [incomingContactName, setIncomingContactName] = useState<string>("");
-  const [iframeLocation, setIframeLocation] = useState("");
 
   const cti = useMemo(() => {
     return new CallingExtensionsWrapper({
@@ -349,9 +353,6 @@ export const useCti = (
             // clear out localstorage
             window.localStorage.removeItem(INCOMING_NUMBER_KEY);
             window.localStorage.removeItem(INCOMING_CONTACT_NAME_KEY);
-          }
-          if (data.iframeLocation) {
-            setIframeLocation(data.iframeLocation);
           }
         },
         onDialNumber: (data: any, _rawEvent: any) => {
@@ -456,6 +457,5 @@ export const useCti = (
     engagementId,
     cti,
     incomingContactName,
-    iframeLocation,
   };
 };

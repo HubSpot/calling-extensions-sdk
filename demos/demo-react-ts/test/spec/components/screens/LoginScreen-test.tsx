@@ -24,8 +24,8 @@ const props: Partial<ScreenProps> = {
   callDurationString: "",
   startTimer: noop,
   stopTimer: noop,
-  handleEndCall: noop,
-  handleSaveCall: noop,
+  handleCallEnded: noop,
+  handleCallCompleted: noop,
   fromNumber: "",
   setFromNumber: noop,
 };
