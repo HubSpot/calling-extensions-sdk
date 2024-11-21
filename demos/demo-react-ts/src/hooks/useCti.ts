@@ -49,7 +49,7 @@ interface CallingExtensionsContract {
 
 // @TODO Move it to CallingExtensions and export it once migrated to typescript
 class CallingExtensionsWrapper implements CallingExtensionsContract {
-  _cti: CallingExtensions;
+  private _cti: CallingExtensions;
 
   private _incomingNumber = "";
 
@@ -64,6 +64,10 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   constructor(options: Options) {
     this._cti = new CallingExtensions(options);
     window.broadcastChannel = this.broadcastChannel;
+  }
+
+  get contract() {
+    return this._cti;
   }
 
   get externalCallId() {

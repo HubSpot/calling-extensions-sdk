@@ -176,37 +176,37 @@ function App() {
     if (cti.iframeLocation === "window") {
       // TODO: Refactor to use eventHandler to invoke the appropriate function
       // const eventHandler = broadcastEventHandlers[data.type];
-      // cti._cti[eventHandler](data.payload);
+      // cti.contract[eventHandler](data.payload);
 
       if (data.type === thirdPartyToHostEvents.INITIALIZED) {
-        cti._cti.initialized(data.payload);
+        cti.contract.initialized(data.payload);
       } else if (data.type === thirdPartyToHostEvents.LOGGED_IN) {
-        cti._cti.userLoggedIn();
+        cti.contract.userLoggedIn();
       } else if (data.type === thirdPartyToHostEvents.LOGGED_OUT) {
-        cti._cti.userLoggedOut();
+        cti.contract.userLoggedOut();
       } else if (data.type === thirdPartyToHostEvents.USER_AVAILABLE) {
-        cti._cti.userAvailable();
+        cti.contract.userAvailable();
       } else if (data.type === thirdPartyToHostEvents.USER_UNAVAILABLE) {
-        cti._cti.userUnavailable();
+        cti.contract.userUnavailable();
       } else if (data.type === thirdPartyToHostEvents.INCOMING_CALL) {
         cti.externalCallId = uuidv4();
-        cti._cti.incomingCall({
+        cti.contract.incomingCall({
           ...data.payload,
           externalCallId: cti.externalCallId,
         });
       } else if (data.type === thirdPartyToHostEvents.OUTGOING_CALL_STARTED) {
         cti.externalCallId = uuidv4();
-        cti._cti.outgoingCall({
+        cti.contract.outgoingCall({
           ...data.payload,
           externalCallId: cti.externalCallId,
         });
       } else if (data.type === thirdPartyToHostEvents.CALL_ENDED) {
-        cti._cti.callEnded({
+        cti.contract.callEnded({
           ...data.payload,
           externalCallId: cti.externalCallId,
         });
       } else if (data.type === thirdPartyToHostEvents.CALL_COMPLETED) {
-        cti._cti.callCompleted({
+        cti.contract.callCompleted({
           ...data.payload,
           externalCallId: cti.externalCallId,
         });
