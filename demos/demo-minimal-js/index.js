@@ -56,11 +56,10 @@ const cti = new CallingExtensions({
   debugMode: true,
   eventHandlers: {
     // eslint-disable-next-line object-curly-newline
-    onReady: ({ engagementId, portalId, userId, ownerId } = {}) => {
+    onReady: ({ portalId, userId, ownerId, installedProvider } = {}) => {
       cti.initialized({
-        engagementId,
-        isLoggedIn: false,
-        sizeInfo,
+        isLoggedIn: true,
+        isAvailable: true,
       });
       disableButtons([
         INITIALIZE,
@@ -73,11 +72,6 @@ const cti = new CallingExtensions({
         COMPLETE_CALL,
         LOG_OUT,
       ]);
-      if (engagementId) {
-        enableButtons([ANSWER_CALL, END_CALL]);
-        state.engagementId = engagementId;
-        return;
-      }
       enableButtons([LOG_IN, SEND_ERROR, RESIZE_WIDGET]);
       if (portalId) {
         state.portalId = portalId;
