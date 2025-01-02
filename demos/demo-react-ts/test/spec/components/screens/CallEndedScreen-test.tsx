@@ -34,6 +34,7 @@ describe("CallEndedScreen", () => {
   beforeEach(() => {
     props.handleCallCompleted = jasmine.createSpy("handleCallCompleted");
     cti.callCompleted = jasmine.createSpy("callCompleted");
+    cti.publishToChannel = jasmine.createSpy("publishToChannel");
   });
 
   it("Shows call ended text", () => {
@@ -72,6 +73,7 @@ describe("CallEndedScreen", () => {
         hs_call_recording_url: null,
       },
     });
+    expect(cti.publishToChannel).toHaveBeenCalledWith({ engagementId: 1 });
   });
 
   it("Saves call - with recording", () => {
@@ -98,6 +100,7 @@ describe("CallEndedScreen", () => {
           "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
       },
     });
+    expect(cti.publishToChannel).toHaveBeenCalledWith({ engagementId: 1 });
   });
 
   it("Saves canceled call", () => {
@@ -117,5 +120,6 @@ describe("CallEndedScreen", () => {
       (cti.callCompleted as jasmine.Spy).calls.argsFor(0)[0]
         .engagementProperties.hs_call_status
     ).toEqual("CANCELED");
+    expect(cti.publishToChannel).toHaveBeenCalledWith({ engagementId: 1 });
   });
 });

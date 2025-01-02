@@ -279,11 +279,13 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
       ...callCompletedData,
       externalCallId: this.externalCallId,
     });
-    this.externalCallId = "";
   }
 
   publishToChannel(data: OnPublishToChannel) {
-    return this._cti.publishToChannel(data);
+    return this._cti.publishToChannel({
+      ...data,
+      externalCallId: this.externalCallId,
+    });
   }
 
   sendError(errorData: OnError) {

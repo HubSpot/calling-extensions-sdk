@@ -46,6 +46,7 @@ function CallEndedScreen({
         hs_call_recording_url: isCallRecorded ? RECORDING_URL : null,
       },
     });
+    cti.publishToChannel({ engagementId });
     handleCallCompleted();
   };
 
