@@ -56,7 +56,7 @@ const cti = new CallingExtensions({
   debugMode: true,
   eventHandlers: {
     // eslint-disable-next-line object-curly-newline
-    onReady: ({ portalId, userId, ownerId, installedProvider } = {}) => {
+    onReady: ({ portalId, userId, ownerId } = {}) => {
       cti.initialized({
         isLoggedIn: true,
         isAvailable: true,
