@@ -21,7 +21,7 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "@hubspot/calling-extensions-sdk": "^0.8.1",
+    "@hubspot/calling-extensions-sdk": "^0.8.2",
     "uuid": "^10.0.0"
   }
 }
