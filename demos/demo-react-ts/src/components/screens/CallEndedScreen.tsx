@@ -90,7 +90,7 @@ function CallEndedScreen({
           aria-label="publish-to-channel"
           data-test-id={PUBLISH_TO_CHANNEL}
         >
-          Save Call
+          Publish to Channel
         </RoundedButton>
       </Row>
     </Wrapper>
