@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { RoundedButton, Row, Timer, TextArea, Wrapper } from "../Components";
 import { ScreenProps } from "../../types/ScreenTypes";
 import { formatPhoneNumber } from "../../utils/phoneNumberUtils";
-import { COMPLETE_CALL } from "../../constants/buttonIds";
+import { COMPLETE_CALL, PUBLISH_TO_CHANNEL } from "../../constants/buttonIds";
 
 const StyledRow = styled(Row)`
   justify-content: flex-start;
@@ -49,6 +49,10 @@ function CallEndedScreen({
     handleCallCompleted();
   };
 
+  const onPublishChannel = () => {
+    cti.publishToChannel({ engagementId });
+  };
+
   return (
     <Wrapper>
       <div style={{ textAlign: "center" }}>
@@ -77,6 +81,14 @@ function CallEndedScreen({
           onClick={onSaveCall}
           aria-label="save-call"
           data-test-id={COMPLETE_CALL}
+        >
+          Save Call
+        </RoundedButton>
+        <RoundedButton
+          use="secondary"
+          onClick={onPublishChannel}
+          aria-label="publish-to-channel"
+          data-test-id={PUBLISH_TO_CHANNEL}
         >
           Save Call
         </RoundedButton>

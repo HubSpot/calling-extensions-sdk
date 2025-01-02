@@ -10,3 +10,4 @@ export const RESIZE_WIDGET = "resize-widget";
 export const TOGGLE_AVAILABILITY = "toggle-availability";
 export const USER_AVAILABLE = "user-available";
 export const USER_UNAVAILABLE = "user-unavailable";
+export const PUBLISH_TO_CHANNEL = "publish-to-channel";

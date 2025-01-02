@@ -34,6 +34,7 @@ describe("CallEndedScreen", () => {
   beforeEach(() => {
     props.handleCallCompleted = jasmine.createSpy("handleCallCompleted");
     cti.callCompleted = jasmine.createSpy("callCompleted");
+    cti.publishToChannel = jasmine.createSpy("publishToChannel");
   });
 
   it("Shows call ended text", () => {
@@ -117,5 +118,21 @@ describe("CallEndedScreen", () => {
       (cti.callCompleted as jasmine.Spy).calls.argsFor(0)[0]
         .engagementProperties.hs_call_status
     ).toEqual("CANCELED");
+  });
+
+  it("Publishes to channel", () => {
+    const { getByRole } = renderWithContext(
+      <CallEndedScreen
+        {...props}
+        engagementId={1}
+        notes="calling notes"
+        callDuration={3000}
+      />
+    );
+    const button = getByRole("button", { name: /publish-to-channel/ });
+    button.click();
+    expect(cti.publishToChannel).toHaveBeenCalledWith({
+      engagementId: 1,
+    });
   });
 });
