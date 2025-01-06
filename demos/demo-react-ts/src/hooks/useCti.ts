@@ -119,10 +119,6 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
       });
     }
 
-    if (this.isFromRemote) {
-      return;
-    }
-
     if (userData.iframeLocation) {
       this._iframeLocation = userData.iframeLocation;
     }
@@ -135,20 +131,12 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
       this.broadcastMessage({ type: thirdPartyToHostEvents.USER_AVAILABLE });
     }
 
-    if (this.isFromRemote) {
-      return;
-    }
-
     return this._cti.userAvailable();
   }
 
   userUnavailable() {
     if (this.shouldBroadcastMessage) {
       this.broadcastMessage({ type: thirdPartyToHostEvents.USER_UNAVAILABLE });
-    }
-
-    if (this.isFromRemote) {
-      return;
     }
 
     return this._cti.userUnavailable();
@@ -159,20 +147,12 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
       this.broadcastMessage({ type: thirdPartyToHostEvents.LOGGED_IN });
     }
 
-    if (this.isFromRemote) {
-      return;
-    }
-
     return this._cti.userLoggedIn();
   }
 
   userLoggedOut() {
     if (this.shouldBroadcastMessage) {
       this.broadcastMessage({ type: thirdPartyToHostEvents.LOGGED_OUT });
-    }
-
-    if (this.isFromRemote) {
-      return;
     }
 
     return this._cti.userLoggedOut();
@@ -184,10 +164,6 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
         type: thirdPartyToHostEvents.INCOMING_CALL,
         payload: callDetails,
       });
-    }
-
-    if (this.isFromRemote) {
-      return;
     }
 
     // Send message to HubSpot
@@ -206,10 +182,6 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
         type: thirdPartyToHostEvents.OUTGOING_CALL_STARTED,
         payload: callDetails,
       });
-    }
-
-    if (this.isFromRemote) {
-      return;
     }
 
     this.externalCallId = uuidv4();
@@ -231,10 +203,6 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
       });
     }
 
-    if (this.isFromRemote) {
-      return;
-    }
-
     return this._cti.callAnswered({
       ...data,
       externalCallId: this.externalCallId,
@@ -253,10 +221,6 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
       });
     }
 
-    if (this.isFromRemote) {
-      return;
-    }
-
     return this._cti.callEnded({
       ...engagementData,
       externalCallId: this.externalCallId,
@@ -269,10 +233,6 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
         type: thirdPartyToHostEvents.CALL_COMPLETED,
         payload: callCompletedData,
       });
-    }
-
-    if (this.isFromRemote) {
-      return;
     }
 
     this._cti.callCompleted({
