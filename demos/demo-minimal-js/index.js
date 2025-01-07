@@ -58,8 +58,9 @@ const cti = new CallingExtensions({
     // eslint-disable-next-line object-curly-newline
     onReady: ({ portalId, userId, ownerId } = {}) => {
       cti.initialized({
-        isLoggedIn: true,
-        isAvailable: true,
+        isLoggedIn: false,
+        isAvailable: false,
+        sizeInfo,
       });
       disableButtons([
         INITIALIZE,
