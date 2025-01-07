@@ -1,6 +1,5 @@
-"use es6";
-
 import packageJson from "../package.json";
+import { EventHandlers } from "./types";
 
 export const VERSION = packageJson.version;
 
@@ -62,10 +61,7 @@ export const messageType = {
   FAILED: "FAILED",
 };
 
-/**
- * @type {{ [key: string]: keyof import('./typedefs').EventHandlers }}
- */
-export const messageHandlerNames = {
+export const messageHandlerNames: Record<string, keyof EventHandlers> = {
   [messageType.CALLER_ID_MATCH_FAILED]: "onCallerIdMatchFailed",
   [messageType.CALLER_ID_MATCH_SUCCEEDED]: "onCallerIdMatchSucceeded",
   [messageType.CREATE_ENGAGEMENT_FAILED]: "onCreateEngagementFailed",

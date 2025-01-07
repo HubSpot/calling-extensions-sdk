@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "commonjs",
+    "module": "esnext",
+    "moduleResolution": "node",
     "declaration": true,
     "declarationDir": "./dist/types",
     "outDir": "./dist",
@@ -9,8 +10,10 @@
     "allowJs": true,
     "checkJs": true,
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "noEmit": false,
+    "isolatedModules": true
   },
-  "include": ["src/**/*", "src/typedefs.js"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

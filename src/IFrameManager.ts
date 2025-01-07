@@ -1,22 +1,29 @@
-// @ts-check
-
-"use es6";
-
 import { messageType, debugMessageType, VERSION } from "./Constants";
+import { IframeManagerOptions, IframeOptions, SizeInfo } from "./types";
 
 const prefix = `[calling-extensions-sdk@${VERSION}]`;
+
 /*
  * IFrameManager abstracts the iFrame communication between the IFrameHost and an IFrame
  * An IFrameManager instance can act as part of the IFrameHost and an IFrame depending on
  * the options.
  */
 class IFrameManager {
-  /**
-   *
-   * @param {import('./typedefs').IframeManagerOptions} options
-   */
-  constructor(options) {
-    /** @type {import('./typedefs').IframeManagerOptions | null} */
+  options: IframeManagerOptions | null;
+  onMessageHandler: IframeManagerOptions["onMessageHandler"];
+  isIFrameHost: boolean;
+  debugMode: boolean;
+  callbacks: { [key: string]: Function };
+  instanceId: number;
+  instanceRegexp: RegExp;
+  isReady: boolean;
+  messageHandler: (event: any) => void;
+  iFrame: HTMLIFrameElement | null;
+  firstSyncSent: number = 0;
+  destinationWindow: Window | null;
+  destinationHost: string;
+
+  constructor(options: IframeManagerOptions) {
     this.options = options;
     const { iFrameOptions, onMessageHandler, debugMode } = options;
 
@@ -28,18 +35,16 @@ class IFrameManager {
     this.debugMode = debugMode;
 
     // Keeps track of all the callbacks
-    /** @type {{ [key: string]: Function }} */
     this.callbacks = {};
 
     this.instanceId = Date.now();
     this.instanceRegexp = new RegExp(`^${this.instanceId}`);
     this.isReady = false;
 
-    this.messageHandler = (/** @type {any} */ event) => this.onMessage(event);
+    this.messageHandler = event => this.onMessage(event);
     window.addEventListener("message", this.messageHandler);
 
     if (iFrameOptions) {
-      /** @type {HTMLIFrameElement | null} */
       this.iFrame = IFrameManager.createIFrame(
         iFrameOptions,
         () => {
@@ -50,7 +55,6 @@ class IFrameManager {
         this.handleLoadError,
       );
     } else {
-      /** @type {HTMLIFrameElement | null} */
       this.iFrame = null;
     }
 
@@ -65,7 +69,7 @@ class IFrameManager {
    * @param {string|number} instanceId
    * @returns {string}
    */
-  static createMessageId(instanceId) {
+  static createMessageId(instanceId: string | number) {
     return `${instanceId}_${Date.now()}`;
   }
 
@@ -73,7 +77,7 @@ class IFrameManager {
    * Gets the html element that hosts the iFrame
    * @param {string} hostElementSelector
    */
-  static getHostElement(hostElementSelector) {
+  static getHostElement(hostElementSelector: string) {
     const hostElement = document.querySelector(hostElementSelector);
     if (!hostElement) {
       throw new Error(
@@ -86,7 +90,7 @@ class IFrameManager {
   /**
    * @param {string} url
    */
-  static extractHostFromUrl(url) {
+  static extractHostFromUrl(url: string) {
     const a = document.createElement("a");
     a.href = url;
     return `${a.protocol}//${a.host}`;
@@ -94,9 +98,9 @@ class IFrameManager {
 
   /**
    *
-   * @param {import('./typedefs').IframeOptions} [iFrameOptions]
+   * @param {IframeOptions} [iFrameOptions]
    */
-  static getDestinationHost(iFrameOptions) {
+  static getDestinationHost(iFrameOptions: IframeOptions | undefined) {
     const url = iFrameOptions ? iFrameOptions.src : document.referrer;
     return IFrameManager.extractHostFromUrl(url);
   }
@@ -108,12 +112,16 @@ class IFrameManager {
   }
 
   /**
-   * @param {import('./typedefs').IframeOptions} iFrameOptions
+   * @param {IframeOptions} iFrameOptions
    * @param { (this: GlobalEventHandlers, ev: Event) => any } onLoadCallback
    * @param { OnErrorEventHandler } onLoadErrorCallback
    * @returns {HTMLIFrameElement | null}
    */
-  static createIFrame(iFrameOptions, onLoadCallback, onLoadErrorCallback) {
+  static createIFrame(
+    iFrameOptions: IframeOptions,
+    onLoadCallback: (event: Event) => void,
+    onLoadErrorCallback: OnErrorEventHandler,
+  ) {
     // eslint-disable-next-line object-curly-newline
     const { src, width, height, hostElementSelector } = iFrameOptions;
 
@@ -123,8 +131,7 @@ class IFrameManager {
       );
     }
 
-    /** @type {HTMLIFrameElement} */
-    const iFrame = document.createElement("iframe");
+    const iFrame: HTMLIFrameElement = document.createElement("iframe");
     iFrame.onload = onLoadCallback;
     iFrame.onerror = onLoadErrorCallback;
     iFrame.src = src;
@@ -141,9 +148,9 @@ class IFrameManager {
   }
 
   /**
-   * @param {import('./typedefs').SizeInfo} sizeInfo
+   * @param {SizeInfo} sizeInfo
    */
-  updateIFrameSize(sizeInfo) {
+  updateIFrameSize(sizeInfo: SizeInfo) {
     const { width, height } = sizeInfo;
     if (this.iFrame) {
       if (width) {
@@ -160,7 +167,7 @@ class IFrameManager {
    * @param {number | string} size
    * @returns {string}
    */
-  static formatSize(size) {
+  static formatSize(size: number | string) {
     return typeof size === "number" ? `${size}px` : size;
   }
 
@@ -195,7 +202,10 @@ class IFrameManager {
    * @param {{type: string, messageId?: string|number, hostUrl?: string}} message
    * @param {function} [callback]
    */
-  sendMessage(message, callback) {
+  sendMessage(
+    message: { type: string; messageId?: string | number; hostUrl?: string },
+    callback?: Function,
+  ) {
     const { type } = message;
     if (type !== messageType.SYNC && !this.isReady) {
       // Do not send a message unless the iFrame is ready to receive.
@@ -230,7 +240,7 @@ class IFrameManager {
   /**
    * @param {{ data: any; origin?: any; }} event
    */
-  onMessage(event) {
+  onMessage(event: { data: any; origin?: any }) {
     const { data, origin } = event;
     // eslint-disable-next-line object-curly-newline
     const { type } = event.data;
@@ -315,7 +325,7 @@ class IFrameManager {
         type: messageType.SYNC,
         hostUrl: IFrameManager.extractHostFromUrl(window.location.href),
       },
-      (/** @type {{ debugMode?: any; iFrameUrl?: any; }} */ eventData) => {
+      (eventData: { debugMode?: any; iFrameUrl?: any }) => {
         const { iFrameUrl } = eventData;
         this.destinationHost = iFrameUrl || this.destinationHost;
         this.onReady();
@@ -335,7 +345,7 @@ class IFrameManager {
   /**
    * @param {any[]} args
    */
-  logDebugMessage(...args) {
+  logDebugMessage(...args: any[]) {
     if (this.debugMode) {
       console.log.call(null, args);
       return;
