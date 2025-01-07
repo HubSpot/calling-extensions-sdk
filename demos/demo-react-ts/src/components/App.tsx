@@ -232,6 +232,7 @@ function App() {
         break;
 
       case thirdPartyToHostEvents.OUTGOING_CALL_STARTED:
+        setDialNumber(data.payload.toNumber);
         handleOutgoingCallStarted();
         break;
 
