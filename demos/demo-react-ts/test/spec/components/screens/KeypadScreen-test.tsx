@@ -23,7 +23,6 @@ const props: Partial<ScreenProps> = {
   handlePreviousScreen: noop,
   handleNavigateToScreen: noop,
   cti,
-  phoneNumber: "",
   engagementId: null,
   dialNumber: "",
   setDialNumber: noop,
@@ -68,11 +67,6 @@ describe("KeypadScreen", () => {
     renderWithContext(<KeypadScreen {...props} dialNumber="617000000" />);
     const input = screen.getByTestId("dial-number-input");
     expect((input as HTMLInputElement).value).toEqual("617000000");
-  });
-
-  it("Sets initial dial number to be HubSpot phone number", () => {
-    renderWithContext(<KeypadScreen {...props} phoneNumber="+1617000000" />);
-    expect(props.setDialNumber).toHaveBeenCalledWith("+1617000000");
   });
 
   describe("Log out", () => {
