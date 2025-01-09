@@ -6,9 +6,9 @@ const { messageType, callEndStatus } = Constants;
 export const state = {
   externalCallId: "",
   engagementId: 0,
-  fromNumber: "+123456",
+  fromNumber: "+16179483986",
   incomingContactName: "",
-  toNumber: "+1234",
+  toNumber: "+442073238299",
   userAvailable: false,
   userId: 0,
   enforceButtonsOrder: false,

@@ -16,7 +16,6 @@ export interface ScreenProps {
   handlePreviousScreen: Function;
   handleNavigateToScreen: Function;
   cti: any;
-  phoneNumber: string;
   engagementId: number | null;
   dialNumber: string;
   setDialNumber: Function;

@@ -312,10 +312,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 }
 
-export const useCti = (
-  initializeCallingStateForExistingCall: (incomingNumber: string) => void
-) => {
-  const [phoneNumber, setPhoneNumber] = useState("");
+export const useCti = (setDialNumber: (phoneNumber: string) => void) => {
   const [engagementId, setEngagementId] = useState<number | null>(null);
   const [incomingContactName, setIncomingContactName] = useState<string>("");
 
@@ -342,24 +339,12 @@ export const useCti = (
             },
             iframeLocation: data.iframeLocation,
           } as OnInitialized);
-          const incomingNumber =
-            window.localStorage.getItem(INCOMING_NUMBER_KEY);
-          const incomingContactName = window.localStorage.getItem(
-            INCOMING_CONTACT_NAME_KEY
-          );
-          if (engagementId && incomingNumber && incomingContactName) {
-            setEngagementId(engagementId);
-            cti.incomingNumber = incomingNumber;
-            setIncomingContactName(incomingContactName);
-            initializeCallingStateForExistingCall(incomingNumber);
-            // clear out localstorage
-            window.localStorage.removeItem(INCOMING_NUMBER_KEY);
-            window.localStorage.removeItem(INCOMING_CONTACT_NAME_KEY);
-          }
         },
         onDialNumber: (data: any, _rawEvent: any) => {
           const { phoneNumber } = data;
-          setPhoneNumber(phoneNumber);
+          if (phoneNumber) {
+            setDialNumber(phoneNumber);
+          }
         },
         onEngagementCreated: (data: any, _rawEvent: any) => {
           const { engagementId } = data;
@@ -455,7 +440,6 @@ export const useCti = (
     });
   }, []);
   return {
-    phoneNumber,
     engagementId,
     cti,
     incomingContactName,
