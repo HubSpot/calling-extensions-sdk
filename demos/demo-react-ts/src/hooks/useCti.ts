@@ -23,10 +23,6 @@ import { v4 as uuidv4 } from "uuid";
 // import { thirdPartyToHostEvents } from "../../../../src/Constants";
 const { thirdPartyToHostEvents } = Constants;
 
-const INCOMING_NUMBER_KEY = "LocalSettings:Calling:DemoReact:incomingNumber";
-const INCOMING_CONTACT_NAME_KEY =
-  "LocalSettings:Calling:DemoReact:incomingContactName";
-
 // @TODO Move it to CallingExtensions and export it once migrated to typescript
 interface CallingExtensionsContract {
   initialized: (userData: OnInitialized) => void;
@@ -384,21 +380,7 @@ export const useCti = (setDialNumber: (phoneNumber: string) => void) => {
               message: `Incoming call from ${name} ${cti.incomingNumber}`,
               type: `${callerIdMatches.length} Caller ID Matches`,
             });
-            // save info in localstorage so that it can retrieved on redirect
-            window.localStorage.setItem(
-              INCOMING_NUMBER_KEY,
-              cti.incomingNumber
-            );
-            window.localStorage.setItem(INCOMING_CONTACT_NAME_KEY, name);
-            cti.navigateToRecord({
-              objectCoordinates: firstCallerIdMatch.objectCoordinates,
-            });
-            return;
           }
-          cti.logDebugMessage({
-            message: `Incoming call from ${cti.incomingNumber}`,
-            type: "No Caller ID Matches",
-          });
         },
         onCallerIdMatchFailed: (data: any, _rawEvent: any) => {
           cti.logDebugMessage({
