@@ -40,7 +40,6 @@ const StyledRow = styled(Row)`
 function KeypadScreen({
   handleNextScreen,
   cti,
-  phoneNumber,
   dialNumber,
   setDialNumber,
   handleNavigateToScreen,
@@ -68,15 +67,6 @@ function KeypadScreen({
     },
     [setDialNumber]
   );
-
-  useEffect(() => {
-    if (phoneNumber) {
-      handleSetDialNumber(phoneNumber);
-      if (dialNumberInput.current) {
-        dialNumberInput.current.focus();
-      }
-    }
-  }, [phoneNumber, handleSetDialNumber, dialNumberInput]);
 
   const handleLogout = () => {
     cti.userLoggedOut();

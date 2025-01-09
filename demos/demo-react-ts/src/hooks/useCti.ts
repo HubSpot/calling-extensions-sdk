@@ -23,10 +23,6 @@ import { v4 as uuidv4 } from "uuid";
 // import { thirdPartyToHostEvents } from "../../../../src/Constants";
 const { thirdPartyToHostEvents } = Constants;
 
-const INCOMING_NUMBER_KEY = "LocalSettings:Calling:DemoReact:incomingNumber";
-const INCOMING_CONTACT_NAME_KEY =
-  "LocalSettings:Calling:DemoReact:incomingContactName";
-
 // @TODO Move it to CallingExtensions and export it once migrated to typescript
 interface CallingExtensionsContract {
   initialized: (userData: OnInitialized) => void;
@@ -312,10 +308,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 }
 
-export const useCti = (
-  initializeCallingStateForExistingCall: (incomingNumber: string) => void
-) => {
-  const [phoneNumber, setPhoneNumber] = useState("");
+export const useCti = (setDialNumber: (phoneNumber: string) => void) => {
   const [engagementId, setEngagementId] = useState<number | null>(null);
   const [incomingContactName, setIncomingContactName] = useState<string>("");
 
@@ -342,24 +335,12 @@ export const useCti = (
             },
             iframeLocation: data.iframeLocation,
           } as OnInitialized);
-          const incomingNumber =
-            window.localStorage.getItem(INCOMING_NUMBER_KEY);
-          const incomingContactName = window.localStorage.getItem(
-            INCOMING_CONTACT_NAME_KEY
-          );
-          if (engagementId && incomingNumber && incomingContactName) {
-            setEngagementId(engagementId);
-            cti.incomingNumber = incomingNumber;
-            setIncomingContactName(incomingContactName);
-            initializeCallingStateForExistingCall(incomingNumber);
-            // clear out localstorage
-            window.localStorage.removeItem(INCOMING_NUMBER_KEY);
-            window.localStorage.removeItem(INCOMING_CONTACT_NAME_KEY);
-          }
         },
         onDialNumber: (data: any, _rawEvent: any) => {
           const { phoneNumber } = data;
-          setPhoneNumber(phoneNumber);
+          if (phoneNumber) {
+            setDialNumber(phoneNumber);
+          }
         },
         onEngagementCreated: (data: any, _rawEvent: any) => {
           const { engagementId } = data;
@@ -399,21 +380,7 @@ export const useCti = (
               message: `Incoming call from ${name} ${cti.incomingNumber}`,
               type: `${callerIdMatches.length} Caller ID Matches`,
             });
-            // save info in localstorage so that it can retrieved on redirect
-            window.localStorage.setItem(
-              INCOMING_NUMBER_KEY,
-              cti.incomingNumber
-            );
-            window.localStorage.setItem(INCOMING_CONTACT_NAME_KEY, name);
-            cti.navigateToRecord({
-              objectCoordinates: firstCallerIdMatch.objectCoordinates,
-            });
-            return;
           }
-          cti.logDebugMessage({
-            message: `Incoming call from ${cti.incomingNumber}`,
-            type: "No Caller ID Matches",
-          });
         },
         onCallerIdMatchFailed: (data: any, _rawEvent: any) => {
           cti.logDebugMessage({
@@ -455,7 +422,6 @@ export const useCti = (
     });
   }, []);
   return {
-    phoneNumber,
     engagementId,
     cti,
     incomingContactName,

@@ -104,16 +104,7 @@ function App() {
     resetCallDuration,
   } = useCallDurationTimer();
 
-  const initializeCallingStateForExistingCall = (incomingNumber: string) => {
-    setDirection("INBOUND");
-    setScreenIndex(2);
-    setAvailability("AVAILABLE");
-    setIncomingNumber(incomingNumber);
-  };
-
-  const { cti, phoneNumber, engagementId, incomingContactName } = useCti(
-    initializeCallingStateForExistingCall
-  );
+  const { cti, engagementId, incomingContactName } = useCti(setDialNumber);
 
   const screens = direction === "OUTBOUND" ? OUTBOUND_SCREENS : INBOUND_SCREENS;
 
@@ -270,7 +261,6 @@ function App() {
         handlePreviousScreen={handlePreviousScreen}
         handleNavigateToScreen={handleNavigateToScreen}
         cti={cti}
-        phoneNumber={phoneNumber}
         engagementId={engagementId}
         dialNumber={dialNumber}
         setDialNumber={setDialNumber}
@@ -305,7 +295,6 @@ function App() {
     handleNextScreen,
     handlePreviousScreen,
     cti,
-    phoneNumber,
     engagementId,
     dialNumber,
     notes,
