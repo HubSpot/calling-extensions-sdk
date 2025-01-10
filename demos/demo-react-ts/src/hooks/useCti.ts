@@ -53,6 +53,8 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   private _iframeLocation = "";
 
+  private _usesCallingWindow = true;
+
   broadcastChannel: BroadcastChannel = new BroadcastChannel(
     "calling-extensions-demo-react-ts"
   );
@@ -90,25 +92,31 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
     this._iframeLocation = location;
   }
 
+  get usesCallingWindow() {
+    return this._usesCallingWindow;
+  }
+
+  set usesCallingWindow(usesCallingWindow: boolean) {
+    this._usesCallingWindow = usesCallingWindow;
+  }
+
   /** Do not send messages to HubSpot in the remote */
   get isFromRemote() {
-    return this._iframeLocation === "remote";
+    return this._usesCallingWindow && this._iframeLocation === "remote";
   }
 
   /** Send messages to HubSpot in the calling window */
   get isFromWindow() {
-    return this._iframeLocation === "window";
+    return this._usesCallingWindow && this._iframeLocation === "window";
   }
 
   /** Broadcast message from remote or window */
-  get shouldBroadcastMessage() {
-    return (
-      this._iframeLocation === "remote" || this._iframeLocation === "window"
-    );
+  get isFromRemoteOrWindow() {
+    return this.isFromWindow || this.isFromRemote;
   }
 
   initialized(userData: OnInitialized) {
-    if (this.shouldBroadcastMessage) {
+    if (this.isFromRemoteOrWindow) {
       this.broadcastMessage({
         type: thirdPartyToHostEvents.INITIALIZED,
         payload: userData,
@@ -123,11 +131,15 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
       this._iframeLocation = userData.iframeLocation;
     }
 
+    if (userData.usesCallingWindow !== undefined) {
+      this._usesCallingWindow = userData.usesCallingWindow;
+    }
+
     return this._cti.initialized(userData);
   }
 
   userAvailable() {
-    if (this.shouldBroadcastMessage) {
+    if (this.isFromRemoteOrWindow) {
       this.broadcastMessage({ type: thirdPartyToHostEvents.USER_AVAILABLE });
     }
 
@@ -139,7 +151,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   userUnavailable() {
-    if (this.shouldBroadcastMessage) {
+    if (this.isFromRemoteOrWindow) {
       this.broadcastMessage({ type: thirdPartyToHostEvents.USER_UNAVAILABLE });
     }
 
@@ -151,7 +163,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   userLoggedIn() {
-    if (this.shouldBroadcastMessage) {
+    if (this.isFromRemoteOrWindow) {
       this.broadcastMessage({ type: thirdPartyToHostEvents.LOGGED_IN });
     }
 
@@ -163,7 +175,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   userLoggedOut() {
-    if (this.shouldBroadcastMessage) {
+    if (this.isFromRemoteOrWindow) {
       this.broadcastMessage({ type: thirdPartyToHostEvents.LOGGED_OUT });
     }
 
@@ -175,7 +187,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   incomingCall(callDetails: OnIncomingCall) {
-    if (this.shouldBroadcastMessage) {
+    if (this.isFromRemoteOrWindow) {
       this.broadcastMessage({
         type: thirdPartyToHostEvents.INCOMING_CALL,
         payload: callDetails,
@@ -197,7 +209,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   outgoingCall(callDetails: OnOutgoingCall) {
-    if (this.shouldBroadcastMessage) {
+    if (this.isFromRemoteOrWindow) {
       this.broadcastMessage({
         type: thirdPartyToHostEvents.OUTGOING_CALL_STARTED,
         payload: callDetails,
@@ -220,7 +232,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   callAnswered(data: OnCallAnswered) {
-    if (this.shouldBroadcastMessage) {
+    if (this.isFromRemoteOrWindow) {
       this.broadcastMessage({
         type: thirdPartyToHostEvents.CALL_ANSWERED,
         payload: data,
@@ -242,7 +254,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   callEnded(engagementData: OnCallEnded) {
-    if (this.shouldBroadcastMessage) {
+    if (this.isFromRemoteOrWindow) {
       this.broadcastMessage({
         type: thirdPartyToHostEvents.CALL_ENDED,
         payload: engagementData,
@@ -260,7 +272,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   callCompleted(callCompletedData: OnCallCompleted) {
-    if (this.shouldBroadcastMessage) {
+    if (this.isFromRemoteOrWindow) {
       this.broadcastMessage({
         type: thirdPartyToHostEvents.CALL_COMPLETED,
         payload: callCompletedData,
@@ -308,7 +320,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 }
 
-export const useCti = (setDialNumber: (phoneNumber: string) => void) => {
+export const useCti = (setDialNumber: Function) => {
   const [engagementId, setEngagementId] = useState<number | null>(null);
   const [incomingContactName, setIncomingContactName] = useState<string>("");
 
@@ -322,6 +334,8 @@ export const useCti = (setDialNumber: (phoneNumber: string) => void) => {
           userId?: number;
           ownerId?: number;
           iframeLocation?: string;
+          usesCallingWindow?: boolean;
+          hostUrl?: string;
         }) => {
           const engagementId = (data && data.engagementId) || 0;
 
