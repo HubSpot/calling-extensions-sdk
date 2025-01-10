@@ -60,13 +60,9 @@ function KeypadScreen({
   const [isDialNumberValid, setIsDialNumberValid] = useState(false);
   const [toggleFromNumbers, setToggleFromNumbers] = useState(false);
 
-  const handleSetDialNumber = useCallback(
-    (value: string) => {
-      setDialNumber(value);
-      setIsDialNumberValid(validatePhoneNumber(value));
-    },
-    [setDialNumber]
-  );
+  useEffect(() => {
+    setIsDialNumberValid(validatePhoneNumber(dialNumber));
+  }, [dialNumber]);
 
   const handleLogout = () => {
     cti.userLoggedOut();
@@ -84,12 +80,12 @@ function KeypadScreen({
     target: { value },
   }: ChangeEvent<HTMLInputElement>) => {
     if (validateKeypadInput(value)) {
-      handleSetDialNumber(value);
+      setDialNumber(value);
     }
   };
 
   const addToDialNumber = (value: string) => {
-    handleSetDialNumber(dialNumber + value);
+    setDialNumber(dialNumber + value);
     dialNumberInput.current?.focus();
   };
 
@@ -125,19 +121,13 @@ function KeypadScreen({
         dialNumber.substring(cursorEnd);
     }
 
-    handleSetDialNumber(updatedToNumber);
+    setDialNumber(updatedToNumber);
     if (dialNumberInput.current) {
       dialNumberInput.current.value = updatedToNumber;
       dialNumberInput.current.setSelectionRange(cursorStart, cursorStart);
       dialNumberInput.current.focus();
     }
-  }, [
-    cursorEnd,
-    cursorStart,
-    dialNumber,
-    dialNumberInput,
-    handleSetDialNumber,
-  ]);
+  }, [cursorEnd, cursorStart, dialNumber, dialNumberInput, setDialNumber]);
 
   const handleSetAvailability = useCallback(
     (availability: Availability) => {
