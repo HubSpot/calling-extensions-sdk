@@ -1,13 +1,41 @@
-"use es6";
-
 import CallingExtensions from "../../src/CallingExtensions";
 import { messageType } from "../../src/Constants";
+import {
+  OnCallCompleted,
+  OnIncomingCall,
+  OnInitialized,
+  OnOutgoingCall,
+} from "../../src/types";
+
+const noop = () => {};
 
 describe("CallingExtensions", () => {
-  let instance;
+  let instance: CallingExtensions;
   beforeEach(() => {
     instance = new CallingExtensions({
-      eventHandlers: {},
+      debugMode: false,
+      eventHandlers: {
+        onCallerIdMatchFailed: noop,
+        onCallerIdMatchSucceeded: noop,
+        onCreateEngagementFailed: noop,
+        onCreateEngagementSucceeded: noop,
+        onDialNumber: noop,
+        onEndCall: noop,
+        onEngagementCreated: noop,
+        onInitiateCallIdFailed: noop,
+        onInitiateCallIdSucceeded: noop,
+        onNavigateToRecordFailed: noop,
+        onUpdateAssociationsFailed: noop,
+        onPublishToChannelFailed: noop,
+        onPublishToChannelSucceeded: noop,
+        onReady: noop,
+        onSetCallState: noop,
+        onSetWidgetUrlFailed: noop,
+        onUpdateEngagementFailed: noop,
+        onUpdateEngagementSucceeded: noop,
+        onVisibilityChanged: noop,
+        onFailed: noop,
+      },
     });
   });
   it("should instantiate", () => {
@@ -48,8 +76,10 @@ describe("CallingExtensions", () => {
     });
 
     it("should handle incoming call.", () => {
-      const callData = {
-        phoneNumber: 1234,
+      const callData: OnIncomingCall = {
+        fromNumber: "+1234567890",
+        externalCallId: "fake-id",
+        toNumber: "+0987654321",
       };
       instance.incomingCall(callData);
       expect(instance.sendMessage).toHaveBeenCalledWith({
@@ -59,8 +89,8 @@ describe("CallingExtensions", () => {
     });
 
     it("should handle initialize.", () => {
-      const data = {
-        phoneNumber: 1234,
+      const data: OnInitialized = {
+        isLoggedIn: true,
       };
       instance.initialized(data);
       expect(instance.sendMessage).toHaveBeenCalledWith({
@@ -70,8 +100,9 @@ describe("CallingExtensions", () => {
     });
 
     it("should handle outgoing call.", () => {
-      const data = {
+      const data: OnOutgoingCall = {
         createEngagement: true,
+        externalCallId: "fake-id",
       };
       instance.outgoingCall(data);
       expect(instance.sendMessage).toHaveBeenCalledWith({
@@ -81,8 +112,9 @@ describe("CallingExtensions", () => {
     });
 
     it("should handle call completed.", () => {
-      const data = {
+      const data: OnCallCompleted = {
         engagementId: 123,
+        externalCallId: "fake-id",
       };
       instance.callCompleted(data);
       expect(instance.sendMessage).toHaveBeenCalledWith({
