@@ -6,7 +6,9 @@
     "access": "public"
   },
   "scripts": {
-    "build": "webpack",
+    "build": "npm run build:cjs && npm run build:esm",
+    "build:cjs": "webpack --config webpack.cjs.config.js",
+    "build:esm": "webpack --config webpack.esm.config.js",
     "build:test": "npm run build && npm run test",
     "cover": "open coverage/lcov-report/index.html",
     "eslint": "eslint src --ext .js",
@@ -28,14 +30,14 @@
     "test:serve": "cross-env NODE_ENV=test npm run test:watch & jasmine-browser-runner serve --config=test/support/jasmine-browser.json",
     "test": "cross-env NODE_ENV=test npm run test:build && jasmine-browser-runner runSpecs --config=test/support/jasmine-browser.json --browser=headlessChrome"
   },
-  "main": "./dist/main.js",
+  "main": "./dist/main.cjs.js",
+  "module": "./dist/main.esm.js",
   "files": [
     "dist/**/*",
     "src/",
     "index.ts"
   ],
   "types": "./dist/types/index.d.ts",
-  "module": "./index.ts",
   "author": "",
   "license": "MIT",
   "engines": {
@@ -62,6 +64,7 @@
     "ts-loader": "^9.5.1",
     "typescript": "^5.5.4",
     "webpack": "^5.77.0",
-    "webpack-cli": "^5.0.1"
+    "webpack-cli": "^5.0.1",
+    "webpack-merge": "^6.0.1"
   }
 }
