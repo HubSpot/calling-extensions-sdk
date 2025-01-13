@@ -320,7 +320,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 }
 
-export const useCti = (setDialNumber: Function) => {
+export const useCti = (setDialNumber: (phoneNumber: string) => void) => {
   const [engagementId, setEngagementId] = useState<number | null>(null);
   const [incomingContactName, setIncomingContactName] = useState<string>("");
 
@@ -335,7 +335,6 @@ export const useCti = (setDialNumber: Function) => {
           ownerId?: number;
           iframeLocation?: string;
           usesCallingWindow?: boolean;
-          hostUrl?: string;
         }) => {
           const engagementId = (data && data.engagementId) || 0;
 

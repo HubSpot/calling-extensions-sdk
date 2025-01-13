@@ -21,7 +21,7 @@ export const state = {
   userId: 0,
   enforceButtonsOrder: false,
   ownerId: 0,
-  usesCallingWindow: getQueryParam("usesCallingWindow") !== false,
+  usesCallingWindow: getQueryParam("usesCallingWindow") !== "false",
   iframeLocation: getQueryParam("iframeLocation") || "widget",
 };
 
