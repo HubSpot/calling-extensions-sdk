@@ -21,8 +21,8 @@ export const state = {
   userId: 0,
   enforceButtonsOrder: false,
   ownerId: 0,
-  usesCallingWindow: true,
-  iframeLocation: getQueryParam("iframeLocation"),
+  usesCallingWindow: getQueryParam("usesCallingWindow") !== false,
+  iframeLocation: getQueryParam("iframeLocation") || "widget",
 };
 
 const sizeInfo = {
