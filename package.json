@@ -1,12 +1,14 @@
 {
   "name": "@hubspot/calling-extensions-sdk",
-  "version": "0.8.3",
+  "version": "0.8.4-beta.0",
   "description": "A JavaScript SDK for integrating calling apps into HubSpot.",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "webpack",
+    "build": "rm -rf dist && npm run build:cjs && npm run build:esm",
+    "build:cjs": "webpack --config webpack.cjs.config.js",
+    "build:esm": "webpack --config webpack.esm.config.js",
     "build:test": "npm run build && npm run test",
     "cover": "open coverage/lcov-report/index.html",
     "eslint": "eslint src --ext .js",
@@ -29,14 +31,13 @@
     "test": "cross-env NODE_ENV=test npm run test:build && jasmine-browser-runner runSpecs --config=test/support/jasmine-browser.json --browser=headlessChrome"
   },
   "main": "./dist/main.js",
+  "module": "./dist/main.esm.js",
   "files": [
     "dist/**/*",
     "src/",
-    "index.js",
-    "src/typedefs.js"
+    "index.ts"
   ],
   "types": "./dist/types/index.d.ts",
-  "module": "./index.js",
   "author": "",
   "license": "MIT",
   "engines": {
@@ -46,6 +47,8 @@
     "@babel/cli": "^7.21.0",
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.21.4",
+    "@babel/preset-typescript": "^7.26.0",
+    "@types/jasmine": "^5.1.5",
     "@typescript-eslint/eslint-plugin": "^5.59.7",
     "@typescript-eslint/parser": "^5.59.7",
     "babel-loader": "^8.0.6",
@@ -62,6 +65,7 @@
     "ts-loader": "^9.5.1",
     "typescript": "^5.5.4",
     "webpack": "^5.77.0",
-    "webpack-cli": "^5.0.1"
+    "webpack-cli": "^5.0.1",
+    "webpack-merge": "^6.0.1"
   }
 }

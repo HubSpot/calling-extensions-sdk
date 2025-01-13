@@ -1,29 +1,26 @@
 const path = require("path");
 
-const babelLoader = {
-  test: /\.js$/,
-  exclude: /(node_modules)/,
-  use: {
-    loader: "babel-loader",
-    options: {
-      presets: ["@babel/preset-env"],
-    },
-  },
-};
+// const babelLoader = {
+//   test: /\.(js|ts)$/,
+//   exclude: /(node_modules)/,
+//   use: {
+//     loader: "babel-loader",
+//     options: {
+//       presets: ["@babel/preset-env", "@babel/preset-typescript"],
+//     },
+//   },
+// };
 
 const tsLoader = {
-  test: /\.js$/,
+  test: /\.ts$/,
   exclude: /(node_modules)/,
   use: {
     loader: "ts-loader",
-    options: {
-      allowTsInNodeModules: true,
-    },
   },
 };
 
 module.exports = {
-  entry: "./index.js",
+  entry: "./index.ts",
   mode: "production",
   output: {
     filename: "main.js",
@@ -32,9 +29,9 @@ module.exports = {
     clean: true,
   },
   resolve: {
-    extensions: [".ts", ".js"],
+    extensions: [".ts", ".tsx", ".js"],
   },
   module: {
-    rules: [babelLoader, tsLoader],
+    rules: [tsLoader],
   },
 };

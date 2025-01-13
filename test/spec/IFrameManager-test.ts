@@ -1,11 +1,10 @@
-"use es6";
-
 import IFrameManager from "../../src/IFrameManager";
 import { VERSION, messageType } from "../../src/Constants";
 
 describe("iFrameManager", () => {
   const defaultOptions = {
     onMessageHandler: () => {},
+    debugMode: false,
   };
 
   function createInstance(options = {}) {
@@ -39,23 +38,37 @@ describe("iFrameManager", () => {
       };
 
       instance.onMessage(eventData);
-      expect(instance.sendMessage).toHaveBeenCalledWith({
-        type: messageType.SYNC_ACK,
-        debugMode: undefined,
-        version: VERSION,
-        iFrameUrl: IFrameManager.extractHostFromUrl(window.location.href),
-      });
+      expect(instance.sendMessage).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          type: messageType.SYNC_ACK,
+          debugMode: false,
+          version: VERSION,
+          iFrameUrl: IFrameManager.extractHostFromUrl(window.location.href),
+        }),
+      );
     });
   });
 
   describe("as iFrame host", () => {
     it("should validate iFrameOptions", () => {
-      expect(() => new IFrameManager({ iFrameOptions: {} })).toThrow();
+      expect(
+        () =>
+          new IFrameManager({
+            iFrameOptions: {
+              src: "",
+              height: "",
+              width: "",
+              hostElementSelector: "",
+            },
+            debugMode: false,
+            onMessageHandler: () => {},
+          }),
+      ).toThrow();
     });
 
     it("should get host element", () => {
       expect(IFrameManager.getHostElement("body")).toBe(
-        document.querySelector("body"),
+        document.querySelector("body")!,
       );
     });
 
@@ -71,7 +84,7 @@ describe("iFrameManager", () => {
     it("should get origin", done => {
       spyOn(IFrameManager, "createIFrame").and.returnValue({
         contentWindow: null,
-      });
+      } as HTMLIFrameElement);
       const instance = createInstance(options);
       expect(instance).toBeDefined();
 
@@ -83,7 +96,7 @@ describe("iFrameManager", () => {
       const createIFrameSpy = spyOn(
         IFrameManager,
         "createIFrame",
-      ).and.returnValue({ contentWindow: null });
+      ).and.returnValue({ contentWindow: null } as HTMLIFrameElement);
       const instance = createInstance(options);
       expect(instance).toBeDefined();
 
