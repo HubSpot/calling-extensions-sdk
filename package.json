@@ -6,7 +6,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "npm run build:cjs && npm run build:esm",
+    "build": "rm -rf dist && npm run build:cjs && npm run build:esm",
     "build:cjs": "webpack --config webpack.cjs.config.js",
     "build:esm": "webpack --config webpack.esm.config.js",
     "build:test": "npm run build && npm run test",
@@ -30,7 +30,7 @@
     "test:serve": "cross-env NODE_ENV=test npm run test:watch & jasmine-browser-runner serve --config=test/support/jasmine-browser.json",
     "test": "cross-env NODE_ENV=test npm run test:build && jasmine-browser-runner runSpecs --config=test/support/jasmine-browser.json --browser=headlessChrome"
   },
-  "main": "./dist/main.cjs.js",
+  "main": "./dist/main.js",
   "module": "./dist/main.esm.js",
   "files": [
     "dist/**/*",

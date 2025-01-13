@@ -5,7 +5,7 @@ const common = require("./webpack.common");
 module.exports = merge(common, {
   mode: "production",
   output: {
-    filename: "main.cjs.js",
+    filename: "main.js",
     library: {
       type: "commonjs2",
     },
