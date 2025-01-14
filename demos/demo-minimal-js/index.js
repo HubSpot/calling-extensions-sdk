@@ -1,7 +1,15 @@
+/* eslint-disable no-undef */
 import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 // import CallingExtensions, { Constants } from "../../index";
 import { v4 as uuidv4 } from "uuid";
 const { messageType, callEndStatus } = Constants;
+
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
+
+const bc = new BroadcastChannel("calling-extensions-demo-minimal-js");
 
 export const state = {
   externalCallId: "",
@@ -13,6 +21,8 @@ export const state = {
   userId: 0,
   enforceButtonsOrder: false,
   ownerId: 0,
+  usesCallingWindow: getQueryParam("usesCallingWindow") !== "false",
+  iframeLocation: getQueryParam("iframeLocation") || "widget",
 };
 
 const sizeInfo = {
@@ -56,7 +66,13 @@ const cti = new CallingExtensions({
   debugMode: true,
   eventHandlers: {
     // eslint-disable-next-line object-curly-newline
-    onReady: ({ portalId, userId, ownerId } = {}) => {
+    onReady: ({
+      portalId,
+      userId,
+      ownerId,
+      usesCallingWindow,
+      iframeLocation,
+    } = {}) => {
       cti.initialized({
         isLoggedIn: false,
         isAvailable: false,
@@ -82,6 +98,18 @@ const cti = new CallingExtensions({
       }
       if (ownerId) {
         state.ownerId = ownerId;
+      }
+
+      if (iframeLocation) {
+        state.iframeLocation = iframeLocation;
+      }
+
+      if (usesCallingWindow === false) {
+        state.usesCallingWindow = false;
+
+        document
+          .querySelector(".openwindow")
+          .setAttribute("style", JSON.stringify({ display: "block" }));
       }
     },
     onDialNumber: (data, rawEvent) => {
@@ -225,18 +253,39 @@ export function userUnavailable() {
   enableButtons([USER_AVAILABLE]);
 }
 
-export function incomingCall() {
+export function incomingCall(optionalPayload) {
   state.externalCallId = uuidv4();
+  const payload = {
+    createEngagement: true,
+    fromNumber: state.fromNumber,
+    toNumber: state.toNumber,
+    externalCallId: state.externalCallId,
+  };
   window.setTimeout(() => {
-    cti.incomingCall({
-      createEngagement: true,
-      fromNumber: state.fromNumber,
-      toNumber: state.toNumber,
-      externalCallId: state.externalCallId,
-    });
+    cti.incomingCall(optionalPayload || payload);
   }, 500);
   disableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
   enableButtons([ANSWER_CALL, END_CALL]);
+
+  // Trigger incoming call from window
+  // Send message to all open remote tabs
+  if (!state.usesCallingWindow && state.iframeLocation === "window") {
+    bc.postMessage({ type: INCOMING_CALL, payload });
+  }
+}
+
+if (!state.usesCallingWindow && state.iframeLocation === "remote") {
+  bc.onmessage = ({ data }) => {
+    console.log(
+      "Received broadcast message from window:",
+      data.type,
+      data.payload,
+    );
+
+    if (data.type === INCOMING_CALL) {
+      incomingCall(data.payload);
+    }
+  };
 }
 
 export function outgoingCall() {
