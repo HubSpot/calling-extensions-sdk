@@ -4,6 +4,11 @@ import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 import { v4 as uuidv4 } from "uuid";
 const { messageType, callEndStatus } = Constants;
 
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
+
 const bc = new BroadcastChannel("calling-extensions-demo-minimal-js");
 
 export const state = {
@@ -16,8 +21,8 @@ export const state = {
   userId: 0,
   enforceButtonsOrder: false,
   ownerId: 0,
-  usesCallingWindow: true,
-  iframeLocation: "widget",
+  usesCallingWindow: getQueryParam("usesCallingWindow") !== "false",
+  iframeLocation: getQueryParam("iframeLocation") || "widget",
 };
 
 const sizeInfo = {
@@ -38,6 +43,13 @@ const RESIZE_WIDGET = "resizewidget";
 const SEND_ERROR = "senderror";
 const USER_AVAILABLE = "useravailable";
 const USER_UNAVAILABLE = "userunavailable";
+
+function toSnakeUpperCase(type) {
+  if (type === INCOMING_CALL) {
+    return "INCOMING_CALL";
+  }
+  return type.toUpperCase();
+}
 
 function disableButtons(ids) {
   if (!state.enforceButtonsOrder) {
@@ -259,24 +271,32 @@ export function incomingCall(optionalPayload) {
     toNumber: state.toNumber,
     externalCallId: state.externalCallId,
   };
+
+  // Trigger incoming call from window
+  // Send message to all open remote tabs
+  if (!state.usesCallingWindow && state.iframeLocation === "window") {
+    console.log(
+      "Sent broadcast message to remote:",
+      toSnakeUpperCase(INCOMING_CALL),
+      payload,
+    );
+    bc.postMessage({ type: INCOMING_CALL, payload });
+    return;
+  }
+
+  // Send message to HubSpot
   window.setTimeout(() => {
     cti.incomingCall(optionalPayload || payload);
   }, 500);
   disableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
   enableButtons([ANSWER_CALL, END_CALL]);
-
-  // Trigger incoming call from window
-  // Send message to all open remote tabs
-  if (!state.usesCallingWindow && state.iframeLocation === "window") {
-    bc.postMessage({ type: INCOMING_CALL, payload });
-  }
 }
 
 if (!state.usesCallingWindow && state.iframeLocation === "remote") {
   bc.onmessage = ({ data }) => {
     console.log(
       "Received broadcast message from window:",
-      data.type,
+      toSnakeUpperCase(data.type),
       data.payload,
     );
 
