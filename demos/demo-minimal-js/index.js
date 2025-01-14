@@ -4,11 +4,6 @@ import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
 import { v4 as uuidv4 } from "uuid";
 const { messageType, callEndStatus } = Constants;
 
-function getQueryParam(param) {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(param);
-}
-
 const bc = new BroadcastChannel("calling-extensions-demo-minimal-js");
 
 export const state = {
@@ -21,8 +16,8 @@ export const state = {
   userId: 0,
   enforceButtonsOrder: false,
   ownerId: 0,
-  usesCallingWindow: getQueryParam("usesCallingWindow") !== "false",
-  iframeLocation: getQueryParam("iframeLocation") || "widget",
+  usesCallingWindow: true,
+  iframeLocation: "widget",
 };
 
 const sizeInfo = {
@@ -72,6 +67,7 @@ const cti = new CallingExtensions({
       ownerId,
       usesCallingWindow,
       iframeLocation,
+      hostUrl,
     } = {}) => {
       cti.initialized({
         isLoggedIn: false,
@@ -105,10 +101,12 @@ const cti = new CallingExtensions({
       }
 
       if (usesCallingWindow === false) {
+        const url = `${hostUrl}/calling-integration-popup-ui/${portalId}?usesCallingWindow=false`;
         state.usesCallingWindow = false;
 
         document
           .querySelector(".openwindow")
+          .setAttribute("href", url)
           .setAttribute("style", JSON.stringify({ display: "block" }));
       }
     },
