@@ -69,6 +69,21 @@ function enableButtons(ids) {
   });
 }
 
+export function addOnMessageHandler() {
+  bc.onmessage = ({ data }) => {
+    console.log(
+      "Received broadcast message from window:",
+      toSnakeUpperCase(data.type),
+      data.payload,
+    );
+
+    if (data.type === INCOMING_CALL) {
+      // eslint-disable-next-line no-use-before-define
+      incomingCall(data.payload);
+    }
+  };
+}
+
 const cti = new CallingExtensions({
   debugMode: true,
   eventHandlers: {
@@ -112,14 +127,19 @@ const cti = new CallingExtensions({
         state.iframeLocation = iframeLocation;
       }
 
-      if (usesCallingWindow === false) {
-        const url = `${hostUrl}/calling-integration-popup-ui/${portalId}?usesCallingWindow=false`;
+      if (hostUrl && usesCallingWindow === false) {
         state.usesCallingWindow = false;
+
+        const hostUrl = "https://app.hubspotqa.com/";
+        const url = `${hostUrl}/calling-integration-popup-ui/${portalId}?usesCallingWindow=false`;
 
         document
           .querySelector(".openwindow")
-          .setAttribute("href", url)
-          .setAttribute("style", JSON.stringify({ display: "block" }));
+          .children[0].setAttribute("href", url);
+
+        document.querySelector(".openwindow").setAttribute("display", "block");
+
+        addOnMessageHandler();
       }
     },
     onDialNumber: (data, rawEvent) => {
@@ -290,20 +310,6 @@ export function incomingCall(optionalPayload) {
   }, 500);
   disableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
   enableButtons([ANSWER_CALL, END_CALL]);
-}
-
-if (!state.usesCallingWindow && state.iframeLocation === "remote") {
-  bc.onmessage = ({ data }) => {
-    console.log(
-      "Received broadcast message from window:",
-      toSnakeUpperCase(data.type),
-      data.payload,
-    );
-
-    if (data.type === INCOMING_CALL) {
-      incomingCall(data.payload);
-    }
-  };
 }
 
 export function outgoingCall() {
