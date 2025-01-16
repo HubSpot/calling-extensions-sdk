@@ -10,5 +10,8 @@
     "build:gh": "npm run build:js && npm run build:react && cp ./src/index.html build/index.html && cp -a demo-minimal-js/bin/. build && cp -a demo-react-ts/dist/. build",
     "test:react": "cd demo-react-ts && npm run test",
     "test": "npm run test:react"
+  },
+  "dependencies": {
+    "@hubspot/calling-extensions-sdk": "^0.9.1-alpha.1"
   }
 }

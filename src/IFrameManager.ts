@@ -276,6 +276,7 @@ class IFrameManager {
           ownerId,
           iframeLocation,
           usesCallingWindow,
+          hostUrl,
         });
       }
 
