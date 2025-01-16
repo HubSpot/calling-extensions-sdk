@@ -1,21 +1,13 @@
 const path = require("path");
 
-// const babelLoader = {
-//   test: /\.(js|ts)$/,
-//   exclude: /(node_modules)/,
-//   use: {
-//     loader: "babel-loader",
-//     options: {
-//       presets: ["@babel/preset-env", "@babel/preset-typescript"],
-//     },
-//   },
-// };
-
 const tsLoader = {
   test: /\.ts$/,
   exclude: /(node_modules)/,
   use: {
     loader: "ts-loader",
+    options: {
+      configFile: "tsconfig.esm.json",
+    },
   },
 };
 

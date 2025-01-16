@@ -7,8 +7,22 @@ module.exports = merge(common, {
   output: {
     filename: "main.js",
     library: {
-      type: "commonjs2",
+      type: "umd",
     },
     path: path.resolve(__dirname, "dist"),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "ts-loader",
+          options: {
+            configFile: "tsconfig.cjs.json",
+          },
+        },
+      },
+    ],
   },
 });
