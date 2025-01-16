@@ -7,7 +7,7 @@ module.exports = merge(common, {
   output: {
     filename: "main.js",
     library: {
-      type: "commonjs2",
+      type: "umd",
     },
     path: path.resolve(__dirname, "dist"),
   },
