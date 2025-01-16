@@ -11,4 +11,18 @@ module.exports = merge(common, {
     },
     path: path.resolve(__dirname, "dist"),
   },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "ts-loader",
+          options: {
+            configFile: "tsconfig.cjs.json",
+          },
+        },
+      },
+    ],
+  },
 });
