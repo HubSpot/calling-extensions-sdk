@@ -9,7 +9,8 @@ function getQueryParam(param) {
   return urlParams.get(param);
 }
 
-const bc = new BroadcastChannel("calling-extensions-demo-minimal-js");
+const broadcastChannelName = "calling-extensions-demo";
+const bc = new BroadcastChannel(broadcastChannelName);
 
 export const state = {
   externalCallId: "",
@@ -23,6 +24,7 @@ export const state = {
   ownerId: 0,
   usesCallingWindow: getQueryParam("usesCallingWindow") !== "false",
   iframeLocation: getQueryParam("iframeLocation") || "widget",
+  broadcastChannelName,
 };
 
 const sizeInfo = {
