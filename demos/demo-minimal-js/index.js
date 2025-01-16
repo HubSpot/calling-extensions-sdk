@@ -46,12 +46,12 @@ const SEND_ERROR = "senderror";
 const USER_AVAILABLE = "useravailable";
 const USER_UNAVAILABLE = "userunavailable";
 
-function toSnakeUpperCase(type) {
-  if (type === INCOMING_CALL) {
-    return "INCOMING_CALL";
-  }
-  return type.toUpperCase();
-}
+const eventHandlers = {
+  [INCOMING_CALL]: "incomingCall",
+  [ANSWER_CALL]: "answerCall",
+  [END_CALL]: "endCall",
+  [COMPLETE_CALL]: "completeCall",
+};
 
 function disableButtons(ids) {
   if (!state.enforceButtonsOrder) {
@@ -71,17 +71,29 @@ function enableButtons(ids) {
   });
 }
 
-export function addOnMessageHandler() {
+const getUsesCallingWindowFalseInPopup = () => {
+  return !state.usesCallingWindow && state.iframeLocation === "window";
+};
+
+const getUsesCallingWindowFalseInRemote = () => {
+  return !state.usesCallingWindow && state.iframeLocation === "remote";
+};
+
+const sendBroadcastMessage = (type, payload = {}) => {
+  console.log("Sent broadcast message to remote:", type, payload);
+  bc.postMessage({ type, payload });
+};
+
+function listenToBroadcastMessage() {
   bc.onmessage = ({ data }) => {
     console.log(
       "Received broadcast message from window:",
-      toSnakeUpperCase(data.type),
+      data.type,
       data.payload,
     );
 
-    if (data.type === INCOMING_CALL) {
-      // eslint-disable-next-line no-use-before-define
-      incomingCall(data.payload);
+    if (eventHandlers[data.type]) {
+      eventHandlers[data.type](data.payload);
     }
   };
 }
@@ -140,8 +152,10 @@ const cti = new CallingExtensions({
           .children[0].setAttribute("href", url);
 
         document.querySelector(".openwindow").setAttribute("display", "block");
+      }
 
-        addOnMessageHandler();
+      if (getUsesCallingWindowFalseInRemote()) {
+        listenToBroadcastMessage();
       }
     },
     onDialNumber: (data, rawEvent) => {
@@ -294,15 +308,8 @@ export function incomingCall(optionalPayload) {
     externalCallId: state.externalCallId,
   };
 
-  // Trigger incoming call from window
-  // Send message to all open remote tabs
-  if (!state.usesCallingWindow && state.iframeLocation === "window") {
-    console.log(
-      "Sent broadcast message to remote:",
-      toSnakeUpperCase(INCOMING_CALL),
-      payload,
-    );
-    bc.postMessage({ type: INCOMING_CALL, payload });
+  if (getUsesCallingWindowFalseInPopup()) {
+    sendBroadcastMessage(INCOMING_CALL, payload);
     return;
   }
 
@@ -329,11 +336,21 @@ export function outgoingCall() {
 }
 
 export function answerCall() {
+  if (getUsesCallingWindowFalseInPopup()) {
+    sendBroadcastMessage(ANSWER_CALL);
+    return;
+  }
+
   cti.callAnswered({ externalCallId: state.externalCallId });
   disableButtons([ANSWER_CALL]);
 }
 
 export function endCall() {
+  if (getUsesCallingWindowFalseInPopup()) {
+    sendBroadcastMessage(END_CALL);
+    return;
+  }
+
   cti.callEnded({
     callEndStatus: callEndStatus.INTERNAL_COMPLETED,
     externalCallId: state.externalCallId,
@@ -343,6 +360,11 @@ export function endCall() {
 }
 
 export function completeCall() {
+  if (getUsesCallingWindowFalseInPopup()) {
+    sendBroadcastMessage(COMPLETE_CALL);
+    return;
+  }
+
   cti.callCompleted({
     engagementId: state.engagementId,
     externalCallId: state.externalCallId,
