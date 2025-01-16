@@ -1,0 +1,26 @@
+{
+  "name": "calling-extensions-sdk-demo-cdn-load",
+  "version": "1.0.0",
+  "description": "HubSpot calling extension sdk demo cdn load",
+  "private": true,
+  "scripts": {
+    "build": "webpack",
+    "build:gh": "npm ci && cross-env NODE_ENV=production npm run build",
+    "serve": "webpack serve",
+    "start": "webpack serve --open"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=14"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "html-webpack-plugin": "^5.5.0",
+    "webpack": "^5.94.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "dependencies": {
+    "uuid": "^10.0.0"
+  }
+}
