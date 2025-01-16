@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES5",
-    "module": "CommonJS",
+    "target": "es5",
+    "module": "commonjs",
     "declaration": true,
     "declarationDir": "./dist/types",
     "outDir": "./dist",
@@ -11,6 +11,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*", "index.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
