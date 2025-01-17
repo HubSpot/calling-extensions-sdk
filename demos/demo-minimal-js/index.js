@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-undef */
 import { v4 as uuidv4 } from "uuid";
 const CallingExtensions = window.default;
@@ -47,10 +48,10 @@ const USER_AVAILABLE = "useravailable";
 const USER_UNAVAILABLE = "userunavailable";
 
 const eventHandlers = {
-  [INCOMING_CALL]: "incomingCall",
-  [ANSWER_CALL]: "answerCall",
-  [END_CALL]: "endCall",
-  [COMPLETE_CALL]: "completeCall",
+  [INCOMING_CALL]: incomingCall,
+  [ANSWER_CALL]: answerCall,
+  [END_CALL]: endCall,
+  [COMPLETE_CALL]: completeCall,
 };
 
 function disableButtons(ids) {
