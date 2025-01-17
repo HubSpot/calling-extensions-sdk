@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-import CallingExtensions, { Constants } from "@hubspot/calling-extensions-sdk";
-// import CallingExtensions, { Constants } from "../../index";
 import { v4 as uuidv4 } from "uuid";
+const CallingExtensions = window.default;
+const { Constants } = window;
 const { messageType, callEndStatus } = Constants;
 
 function getQueryParam(param) {
