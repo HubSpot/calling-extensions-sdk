@@ -347,6 +347,7 @@ export const useCti = (setDialNumber: (phoneNumber: string) => void) => {
               height: 650,
             },
             iframeLocation: data.iframeLocation,
+            usesCallingWindow: data.usesCallingWindow,
           } as OnInitialized);
         },
         onDialNumber: (data: any, _rawEvent: any) => {
