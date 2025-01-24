@@ -28,6 +28,12 @@ function LoginScreen({ cti, handleNextScreen }: ScreenProps) {
     target: { value },
   }: ChangeEvent<HTMLInputElement>) => setPassword(value);
 
+  const handleOpenWindow = () => {
+    const hostUrl = "https://app.hubspotqa.com/";
+    const url = `${hostUrl}/calling-integration-popup-ui/${cti.portalId}?usesCallingWindow=false`;
+    window.open(url, "_blank");
+  };
+
   return (
     <Wrapper style={{ color: PANTERA }}>
       <form>
@@ -67,6 +73,18 @@ function LoginScreen({ cti, handleNextScreen }: ScreenProps) {
             Sign in with SSO
           </LinkButton>
         </Row>
+        <br />
+        {!cti.usesCallingWindow && (
+          <Row>
+            <LinkButton
+              use="transparent-on-primary"
+              onClick={handleOpenWindow}
+              type="button"
+            >
+              Open calling window
+            </LinkButton>
+          </Row>
+        )}
       </form>
     </Wrapper>
   );

@@ -55,6 +55,8 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   private _usesCallingWindow = true;
 
+  portalId = 0;
+
   broadcastChannel: BroadcastChannel = new BroadcastChannel(
     "calling-extensions-demo-react-ts"
   );
@@ -137,6 +139,10 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
     if (userData.usesCallingWindow !== undefined) {
       this._usesCallingWindow = userData.usesCallingWindow;
+    }
+
+    if (userData.portalId) {
+      this.portalId = userData.portalId;
     }
 
     return this._cti.initialized(userData);
@@ -352,6 +358,7 @@ export const useCti = (setDialNumber: (phoneNumber: string) => void) => {
             },
             iframeLocation: data.iframeLocation,
             usesCallingWindow: data.usesCallingWindow,
+            portalId: data.portalId,
           } as OnInitialized);
         },
         onDialNumber: (data: any, _rawEvent: any) => {
