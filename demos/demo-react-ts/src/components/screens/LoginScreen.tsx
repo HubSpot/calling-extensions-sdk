@@ -29,8 +29,7 @@ function LoginScreen({ cti, handleNextScreen }: ScreenProps) {
   }: ChangeEvent<HTMLInputElement>) => setPassword(value);
 
   const handleOpenWindow = () => {
-    const hostUrl = "https://app.hubspotqa.com/";
-    const url = `${hostUrl}/calling-integration-popup-ui/${cti.portalId}?usesCallingWindow=false`;
+    const url = `${cti.hostUrl}/calling-integration-popup-ui/${cti.portalId}?usesCallingWindow=false`;
     window.open(url, "_blank");
   };
 

@@ -145,7 +145,6 @@ const cti = new CallingExtensions({
       if (hostUrl && usesCallingWindow === false) {
         state.usesCallingWindow = false;
 
-        const hostUrl = "https://app.hubspotqa.com/";
         const url = `${hostUrl}/calling-integration-popup-ui/${portalId}?usesCallingWindow=false`;
 
         document

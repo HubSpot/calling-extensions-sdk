@@ -57,6 +57,8 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   portalId = 0;
 
+  hostUrl = "";
+
   broadcastChannel: BroadcastChannel = new BroadcastChannel(
     "calling-extensions-demo-react-ts"
   );
@@ -143,6 +145,10 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
     if (userData.portalId) {
       this.portalId = userData.portalId;
+    }
+
+    if (userData.hostUrl) {
+      this.hostUrl = userData.hostUrl;
     }
 
     return this._cti.initialized(userData);
@@ -338,14 +344,7 @@ export const useCti = (setDialNumber: (phoneNumber: string) => void) => {
     return new CallingExtensionsWrapper({
       debugMode: true,
       eventHandlers: {
-        onReady: (data: {
-          engagementId?: number;
-          portalId?: number;
-          userId?: number;
-          ownerId?: number;
-          iframeLocation?: string;
-          usesCallingWindow?: boolean;
-        }) => {
+        onReady: (data: OnInitialized) => {
           const engagementId = (data && data.engagementId) || 0;
 
           cti.initialized({
@@ -359,6 +358,7 @@ export const useCti = (setDialNumber: (phoneNumber: string) => void) => {
             iframeLocation: data.iframeLocation,
             usesCallingWindow: data.usesCallingWindow,
             portalId: data.portalId,
+            hostUrl: data.hostUrl,
           } as OnInitialized);
         },
         onDialNumber: (data: any, _rawEvent: any) => {
