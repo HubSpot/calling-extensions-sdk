@@ -100,6 +100,10 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
     this._usesCallingWindow = usesCallingWindow;
   }
 
+  get isFromRemoteWithoutWindow() {
+    return this._iframeLocation === "remote";
+  }
+
   /** Do not send messages to HubSpot in the remote */
   get isFromRemote() {
     return this._usesCallingWindow && this._iframeLocation === "remote";
@@ -107,7 +111,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   /** Send messages to HubSpot in the calling window */
   get isFromWindow() {
-    return this._usesCallingWindow && this._iframeLocation === "window";
+    return this._iframeLocation === "window";
   }
 
   /** Broadcast message from remote or window */

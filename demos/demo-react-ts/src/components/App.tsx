@@ -163,8 +163,10 @@ function App() {
   cti.broadcastChannel.onmessage = ({
     data,
   }: MessageEvent<{ type: string; payload?: any }>) => {
-    // Send SDK message to HubSpot in the calling window
-    if (cti.isFromWindow) {
+    // Send SDK message to HubSpot in the calling window or if usesCallingWindow is false
+    if (
+      cti.usesCallingWindow ? cti.isFromWindow : cti.isFromRemoteWithoutWindow
+    ) {
       // TODO: Refactor to use eventHandler to invoke the appropriate function
       // const eventHandler = broadcastEventHandlers[data.type];
       // cti.contract[eventHandler](data.payload);
