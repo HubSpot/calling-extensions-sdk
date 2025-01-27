@@ -55,6 +55,10 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   private _usesCallingWindow = true;
 
+  portalId = 0;
+
+  hostUrl = "";
+
   broadcastChannel: BroadcastChannel = new BroadcastChannel(
     "calling-extensions-demo-react-ts"
   );
@@ -100,6 +104,10 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
     this._usesCallingWindow = usesCallingWindow;
   }
 
+  get isFromRemoteWithoutWindow() {
+    return !this._usesCallingWindow && this._iframeLocation === "remote";
+  }
+
   /** Do not send messages to HubSpot in the remote */
   get isFromRemote() {
     return this._usesCallingWindow && this._iframeLocation === "remote";
@@ -107,7 +115,7 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
   /** Send messages to HubSpot in the calling window */
   get isFromWindow() {
-    return this._usesCallingWindow && this._iframeLocation === "window";
+    return this._iframeLocation === "window";
   }
 
   /** Broadcast message from remote or window */
@@ -133,6 +141,14 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
 
     if (userData.usesCallingWindow !== undefined) {
       this._usesCallingWindow = userData.usesCallingWindow;
+    }
+
+    if (userData.portalId) {
+      this.portalId = userData.portalId;
+    }
+
+    if (userData.hostUrl) {
+      this.hostUrl = userData.hostUrl;
     }
 
     return this._cti.initialized(userData);
@@ -328,14 +344,7 @@ export const useCti = (setDialNumber: (phoneNumber: string) => void) => {
     return new CallingExtensionsWrapper({
       debugMode: true,
       eventHandlers: {
-        onReady: (data: {
-          engagementId?: number;
-          portalId?: number;
-          userId?: number;
-          ownerId?: number;
-          iframeLocation?: string;
-          usesCallingWindow?: boolean;
-        }) => {
+        onReady: (data: OnInitialized) => {
           const engagementId = (data && data.engagementId) || 0;
 
           cti.initialized({
@@ -348,6 +357,8 @@ export const useCti = (setDialNumber: (phoneNumber: string) => void) => {
             },
             iframeLocation: data.iframeLocation,
             usesCallingWindow: data.usesCallingWindow,
+            portalId: data.portalId,
+            hostUrl: data.hostUrl,
           } as OnInitialized);
         },
         onDialNumber: (data: any, _rawEvent: any) => {
