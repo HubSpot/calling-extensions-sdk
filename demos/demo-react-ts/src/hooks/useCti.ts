@@ -10,10 +10,10 @@ import CallingExtensions, {
   OnMessage,
   OnNavigateToRecord,
   OnOutgoingCall,
-  OnPublishToChannel,
   OnResize,
   Options,
   Constants,
+  OnFinalizeEngagement,
 } from "@hubspot/calling-extensions-sdk";
 // } from "../../../../src/CallingExtensions";
 
@@ -40,7 +40,7 @@ interface CallingExtensionsContract {
   resizeWidget: (sizeInfo: OnResize) => void;
   sendMessage: (message: OnMessage) => void;
   logDebugMessage: (messageData: unknown) => void;
-  publishToChannel: (data: OnPublishToChannel) => void;
+  finalizeEngagement: (data: OnFinalizeEngagement) => void;
 }
 
 // @TODO Move it to CallingExtensions and export it once migrated to typescript
@@ -305,8 +305,8 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
     });
   }
 
-  publishToChannel(data: OnPublishToChannel) {
-    return this._cti.publishToChannel({
+  finalizeEngagement(data: OnFinalizeEngagement) {
+    return this._cti.finalizeEngagement({
       ...data,
       externalCallId: this.externalCallId,
     });
@@ -416,11 +416,11 @@ export const useCti = (setDialNumber: (phoneNumber: string) => void) => {
         onNavigateToRecordFailed: (data: any, _rawEvent: any) => {
           /** HubSpot was unable to navigate to the desired record page. */
         },
-        onPublishToChannelFailed: (data: any, _rawEvent: any) => {
-          /** HubSpot was unable to publish the call to the connected channel. */
+        onFinalizeEngagementFailed: (data: any, _rawEvent: any) => {
+          /** HubSpot was unable to finalize the engagement. */
         },
-        onPublishToChannelSucceeded: (data: any, _rawEvent: any) => {
-          /** HubSpot successfully published the call to the connected channel. */
+        onFinalizeEngagementSucceeded: (data: any, _rawEvent: any) => {
+          /** HubSpot successfully finalized the engagement. */
         },
         onSetCallState: (data: any, _rawEvent: any) => {
           /** HubSpot successfully published the call to the connected channel. */

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { RoundedButton, Row, Timer, TextArea, Wrapper } from "../Components";
 import { ScreenProps } from "../../types/ScreenTypes";
 import { formatPhoneNumber } from "../../utils/phoneNumberUtils";
-import { COMPLETE_CALL, PUBLISH_TO_CHANNEL } from "../../constants/buttonIds";
+import { COMPLETE_CALL, FINALIZE_ENGAGEMENT } from "../../constants/buttonIds";
 
 const StyledRow = styled(Row)`
   justify-content: flex-start;
@@ -49,8 +49,8 @@ function CallEndedScreen({
     handleCallCompleted();
   };
 
-  const onPublishChannel = () => {
-    cti.publishToChannel({ engagementId });
+  const onFinalizeEngagement = () => {
+    cti.finalizeEngagement({ engagementId });
   };
 
   return (
@@ -86,11 +86,11 @@ function CallEndedScreen({
         </RoundedButton>
         <RoundedButton
           use="secondary"
-          onClick={onPublishChannel}
-          aria-label="publish-to-channel"
-          data-test-id={PUBLISH_TO_CHANNEL}
+          onClick={onFinalizeEngagement}
+          aria-label="finalize-engagement"
+          data-test-id={FINALIZE_ENGAGEMENT}
         >
-          Publish to Channel
+          Finalize Engagement
         </RoundedButton>
       </Row>
     </Wrapper>
