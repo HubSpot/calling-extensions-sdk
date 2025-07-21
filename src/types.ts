@@ -12,6 +12,8 @@ export type EventHandlers = {
   onUpdateAssociationsFailed: Function;
   onPublishToChannelFailed: Function;
   onPublishToChannelSucceeded: Function;
+  onFinalizeEngagementFailed: Function;
+  onFinalizeEngagementSucceeded: Function;
   onReady: Function;
   onSetCallState: Function;
   onSetWidgetUrlFailed: Function;
@@ -73,7 +75,15 @@ export type OnCallAnswered = {
   externalCallId: string;
 };
 
+/**
+ * @deprecated use OnFinalizeEngagement instead
+ */
 export type OnPublishToChannel = {
+  externalCallId: string;
+  engagementId: number;
+};
+
+export type OnFinalizeEngagement = {
   externalCallId: string;
   engagementId: number;
 };
