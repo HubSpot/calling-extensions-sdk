@@ -28,6 +28,8 @@ describe("CallingExtensions", () => {
         onUpdateAssociationsFailed: noop,
         onPublishToChannelFailed: noop,
         onPublishToChannelSucceeded: noop,
+        onFinalizeEngagementFailed: noop,
+        onFinalizeEngagementSucceeded: noop,
         onReady: noop,
         onSetCallState: noop,
         onSetWidgetUrlFailed: noop,
