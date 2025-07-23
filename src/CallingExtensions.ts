@@ -12,6 +12,7 @@ import {
   OnCallCompleted,
   OnCallEnded,
   OnError,
+  OnFinalizeEngagement,
   OnIncomingCall,
   OnInitialized,
   OnMessage,
@@ -276,10 +277,23 @@ class CallingExtensions {
    * Publishes the call to a connected channel.
    *
    * @param {OnPublishToChannel} data - The data object to be published.
+   * @deprecated use finalizeEngagement instead
    */
   publishToChannel(data: OnPublishToChannel) {
     this.sendMessage({
       type: messageType.PUBLISH_TO_CHANNEL,
+      data,
+    });
+  }
+
+  /**
+   * Finalizes the engagement.
+   *
+   * @param {OnFinalizeEngagement} data - The data object to be published.
+   */
+  finalizeEngagement(data: OnFinalizeEngagement) {
+    this.sendMessage({
+      type: messageType.FINALIZE_ENGAGEMENT,
       data,
     });
   }
