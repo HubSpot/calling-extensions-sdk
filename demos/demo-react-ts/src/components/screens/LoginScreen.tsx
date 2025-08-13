@@ -79,6 +79,7 @@ function LoginScreen({ cti, handleNextScreen }: ScreenProps) {
               use="transparent-on-primary"
               onClick={handleOpenWindow}
               type="button"
+              data-test-id="open-calling-window"
             >
               Open calling window
             </LinkButton>
