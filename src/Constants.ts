@@ -39,7 +39,6 @@ const hostToThirdPartyEvents = {
   INITIATE_CALL_ID_FAILED: "INITIATE_CALL_ID_FAILED",
   INITIATE_CALL_ID_SUCCEEDED: "INITIATE_CALL_ID_SUCCEEDED",
   NAVIGATE_TO_RECORD_FAILED: "NAVIGATE_TO_RECORD_FAILED",
-  UPDATE_ASSOCIATIONS_FAILED: "UPDATE_ASSOCIATIONS_FAILED",
   /** @deprecated use FINALIZE_ENGAGEMENT_FAILED instead */
   PUBLISH_TO_CHANNEL_FAILED: "PUBLISH_TO_CHANNEL_FAILED",
   /** @deprecated use FINALIZE_ENGAGEMENT_SUCCEEDED instead */
@@ -78,7 +77,6 @@ export const messageHandlerNames: Record<string, keyof EventHandlers> = {
   [messageType.INITIATE_CALL_ID_FAILED]: "onInitiateCallIdFailed",
   [messageType.INITIATE_CALL_ID_SUCCEEDED]: "onInitiateCallIdSucceeded",
   [messageType.NAVIGATE_TO_RECORD_FAILED]: "onNavigateToRecordFailed",
-  [messageType.UPDATE_ASSOCIATIONS_FAILED]: "onUpdateAssociationsFailed",
   [messageType.PUBLISH_TO_CHANNEL_FAILED]: "onPublishToChannelFailed",
   [messageType.PUBLISH_TO_CHANNEL_SUCCEEDED]: "onPublishToChannelSucceeded",
   [messageType.FINALIZE_ENGAGEMENT_FAILED]: "onFinalizeEngagementFailed",

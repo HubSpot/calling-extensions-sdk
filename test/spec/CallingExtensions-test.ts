@@ -25,7 +25,6 @@ describe("CallingExtensions", () => {
         onInitiateCallIdFailed: noop,
         onInitiateCallIdSucceeded: noop,
         onNavigateToRecordFailed: noop,
-        onUpdateAssociationsFailed: noop,
         onPublishToChannelFailed: noop,
         onPublishToChannelSucceeded: noop,
         onFinalizeEngagementFailed: noop,
