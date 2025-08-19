@@ -9,7 +9,6 @@ export type EventHandlers = {
   onInitiateCallIdFailed: Function;
   onInitiateCallIdSucceeded: Function;
   onNavigateToRecordFailed: Function;
-  onUpdateAssociationsFailed: Function;
   onPublishToChannelFailed: Function;
   onPublishToChannelSucceeded: Function;
   onFinalizeEngagementFailed: Function;
