@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import {
   CallButton,
   EndCallButton,
@@ -17,12 +18,36 @@ function IncomingScreen({
   handleNextScreen,
   incomingNumber,
   handleCallEnded,
+  handleCallCompleted,
   cti,
   startTimer,
   incomingContactName,
   setCallStatus,
 }: ScreenProps) {
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    // Set up 5-second timeout to trigger callTransferred if call is not answered
+    timeoutRef.current = setTimeout(() => {
+      cti.callTransferred({});
+      handleCallCompleted();
+    }, 5000);
+
+    // Cleanup timeout on component unmount
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [cti, handleCallEnded]);
+
   const onAnswerCall = () => {
+    // Clear the timeout since call is being answered
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
     const callStartTime = Date.now();
     cti.callAnswered();
     startTimer(callStartTime);
@@ -30,6 +55,12 @@ function IncomingScreen({
   };
 
   const onEndIncomingCall = () => {
+    // Clear the timeout since call is being ended
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
     setCallStatus("CANCELED");
     cti.callEnded({ callEndStatus: "CANCELED" });
     handleCallEnded();
@@ -38,7 +69,10 @@ function IncomingScreen({
   return (
     <IncomingScreenWrapper>
       <div style={{ textAlign: "center" }}>
-        <IncomingCallText>Incoming call...</IncomingCallText>
+        <IncomingCallText>
+          Incoming call... (Call will be transferred if not received in 5
+          seconds)
+        </IncomingCallText>
         {incomingContactName ? (
           <>
             <IncomingCallContactDisplay>
