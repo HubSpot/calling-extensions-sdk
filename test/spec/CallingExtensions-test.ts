@@ -5,6 +5,7 @@ import {
   OnIncomingCall,
   OnInitialized,
   OnOutgoingCall,
+  OnCallTransferred,
 } from "../../src/types";
 
 const noop = () => {};
@@ -120,6 +121,17 @@ describe("CallingExtensions", () => {
       instance.callCompleted(data);
       expect(instance.sendMessage).toHaveBeenCalledWith({
         type: messageType.CALL_COMPLETED,
+        data,
+      });
+    });
+
+    it("should handle call transferred.", () => {
+      const data: OnCallTransferred = {
+        externalCallId: "fake-id",
+      };
+      instance.callTransferred(data);
+      expect(instance.sendMessage).toHaveBeenCalledWith({
+        type: messageType.CALL_TRANSFERRED,
         data,
       });
     });

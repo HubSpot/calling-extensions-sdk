@@ -46,12 +46,14 @@ const RESIZE_WIDGET = "resizewidget";
 const SEND_ERROR = "senderror";
 const USER_AVAILABLE = "useravailable";
 const USER_UNAVAILABLE = "userunavailable";
+const TRANSFER_CALL = "transfercall";
 
 const eventHandlers = {
   [INCOMING_CALL]: incomingCall,
   [ANSWER_CALL]: answerCall,
   [END_CALL]: endCall,
   [COMPLETE_CALL]: completeCall,
+  [TRANSFER_CALL]: transferCall,
 };
 
 function disableButtons(ids) {
@@ -125,6 +127,7 @@ const cti = new CallingExtensions({
         ANSWER_CALL,
         END_CALL,
         COMPLETE_CALL,
+        TRANSFER_CALL,
         LOG_OUT,
       ]);
       enableButtons([LOG_IN, SEND_ERROR, RESIZE_WIDGET]);
@@ -252,6 +255,7 @@ export function initialize() {
     ANSWER_CALL,
     END_CALL,
     COMPLETE_CALL,
+    TRANSFER_CALL,
     LOG_OUT,
   ]);
   enableButtons([LOG_IN, SEND_ERROR, RESIZE_WIDGET]);
@@ -279,6 +283,7 @@ export function logOut() {
     ANSWER_CALL,
     END_CALL,
     COMPLETE_CALL,
+    TRANSFER_CALL,
     USER_AVAILABLE,
     USER_UNAVAILABLE,
   ]);
@@ -318,7 +323,7 @@ export function incomingCall(optionalPayload) {
     cti.incomingCall(optionalPayload || payload);
   }, 500);
   disableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
-  enableButtons([ANSWER_CALL, END_CALL]);
+  enableButtons([ANSWER_CALL, END_CALL, TRANSFER_CALL]);
 }
 
 export function outgoingCall() {
@@ -357,6 +362,18 @@ export function endCall() {
   });
   disableButtons([ANSWER_CALL, END_CALL]);
   enableButtons([COMPLETE_CALL]);
+}
+
+export function transferCall() {
+  if (getUsesCallingWindowFalseInPopup()) {
+    sendBroadcastMessage(TRANSFER_CALL);
+    return;
+  }
+
+  cti.callTransferred({ externalCallId: state.externalCallId });
+  state.externalCallId = "";
+  disableButtons([ANSWER_CALL, END_CALL, TRANSFER_CALL]);
+  enableButtons([OUTGOING_CALL, INCOMING_CALL, USER_UNAVAILABLE]);
 }
 
 export function completeCall() {

@@ -4,6 +4,7 @@ import CallingExtensions, {
   OnCallAnswered,
   OnCallCompleted,
   OnCallEnded,
+  OnCallTransferred,
   OnError,
   OnIncomingCall,
   OnInitialized,
@@ -33,6 +34,7 @@ interface CallingExtensionsContract {
   incomingCall: (callDetails: OnIncomingCall) => void;
   outgoingCall: (callDetails: OnOutgoingCall) => void;
   callAnswered: (payload: OnCallAnswered) => void;
+  callTransferred: (payload: OnCallTransferred) => void;
   callData: (data: unknown) => void;
   callEnded: (engagementData: OnCallEnded) => void;
   callCompleted: (callCompletedData: OnCallCompleted) => void;
@@ -260,6 +262,23 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
     }
 
     return this._cti.callAnswered({
+      ...data,
+      externalCallId: this.externalCallId,
+    });
+  }
+
+  callTransferred(data: OnCallTransferred) {
+    if (this.isFromRemoteOrWindow) {
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.CALL_TRANSFERRED,
+        payload: data,
+      });
+    }
+
+    if (this.isFromRemote) {
+      return;
+    }
+    return this._cti.callTransferred({
       ...data,
       externalCallId: this.externalCallId,
     });

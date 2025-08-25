@@ -11,6 +11,7 @@ import {
   OnCallAnswered,
   OnCallCompleted,
   OnCallEnded,
+  OnCallTransferred,
   OnError,
   OnFinalizeEngagement,
   OnIncomingCall,
@@ -131,6 +132,18 @@ class CallingExtensions {
   callAnswered(payload: OnCallAnswered) {
     this.sendMessage({
       type: messageType.CALL_ANSWERED,
+      data: payload,
+    });
+  }
+
+  /**
+   * Sends a message to notify HubSpot that a call has been transferred.
+   *
+   * @param {OnCallTransferred} payload
+   */
+  callTransferred(payload: OnCallTransferred) {
+    this.sendMessage({
+      type: messageType.CALL_TRANSFERRED,
       data: payload,
     });
   }
