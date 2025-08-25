@@ -268,6 +268,16 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   callTransferred(data: OnCallTransferred) {
+    if (this.isFromRemoteOrWindow) {
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.CALL_TRANSFERRED,
+        payload: data,
+      });
+    }
+
+    if (this.isFromRemote) {
+      return;
+    }
     return this._cti.callTransferred({
       ...data,
       externalCallId: this.externalCallId,
