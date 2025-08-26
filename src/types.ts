@@ -74,6 +74,10 @@ export type OnCallAnswered = {
   externalCallId: string;
 };
 
+export type OnCallTransferred = {
+  externalCallId: string;
+};
+
 /**
  * @deprecated use OnFinalizeEngagement instead
  */
