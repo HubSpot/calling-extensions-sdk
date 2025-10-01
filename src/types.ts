@@ -145,6 +145,7 @@ export type ObjectCoordinates = {
 export type OnNavigateToRecord = {
   engagementId?: number;
   objectCoordinates: ObjectCoordinates;
+  openIn?: "CURRENT_TAB" | "NEW_TAB";
 };
 
 export type OnError = {
