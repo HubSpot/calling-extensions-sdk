@@ -424,6 +424,10 @@ export const useCti = (setDialNumber: (phoneNumber: string) => void) => {
               message: `Incoming call from ${name} ${cti.incomingNumber}`,
               type: `${callerIdMatches.length} Caller ID Matches`,
             });
+            cti.navigateToRecord({
+              objectCoordinates: firstCallerIdMatch.objectCoordinates,
+              openIn: "CURRENT_TAB",
+            });
           }
         },
         onCallerIdMatchFailed: (data: any, _rawEvent: any) => {
