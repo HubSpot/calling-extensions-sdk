@@ -246,6 +246,17 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   navigateToRecord(data: OnNavigateToRecord) {
+    if (this.isFromRemoteOrWindow) {
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.NAVIGATE_TO_RECORD,
+        payload: data,
+      });
+    }
+
+    if (this.isFromWindow) {
+      // this event should not be sent to HubSpot from the window
+      return;
+    }
     return this._cti.navigateToRecord(data);
   }
 

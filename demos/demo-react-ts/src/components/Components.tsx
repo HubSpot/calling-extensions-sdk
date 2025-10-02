@@ -236,7 +236,7 @@ export const IncomingScreenWrapper = styled(Wrapper)`
   flex-grow: 1;
 `;
 
-export const IncomingCallText = styled.p`
+export const IncomingCallText = styled.span`
   color: ${SLINKY};
   text-align: center;
   font-size: 14px;
