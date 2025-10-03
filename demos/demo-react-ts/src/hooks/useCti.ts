@@ -246,6 +246,17 @@ class CallingExtensionsWrapper implements CallingExtensionsContract {
   }
 
   navigateToRecord(data: OnNavigateToRecord) {
+    if (this.isFromRemoteOrWindow) {
+      this.broadcastMessage({
+        type: thirdPartyToHostEvents.NAVIGATE_TO_RECORD,
+        payload: data,
+      });
+    }
+
+    if (this.isFromWindow) {
+      // this event should not be sent to HubSpot from the window
+      return;
+    }
     return this._cti.navigateToRecord(data);
   }
 
@@ -423,6 +434,10 @@ export const useCti = (setDialNumber: (phoneNumber: string) => void) => {
             cti.logDebugMessage({
               message: `Incoming call from ${name} ${cti.incomingNumber}`,
               type: `${callerIdMatches.length} Caller ID Matches`,
+            });
+            cti.navigateToRecord({
+              objectCoordinates: firstCallerIdMatch.objectCoordinates,
+              openIn: "CURRENT_TAB",
             });
           }
         },
