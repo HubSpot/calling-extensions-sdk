@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@hubspot/calling-extensions-sdk@latest/dist/main.js"></script>
+    <script defer src="demo-minimal-js.bundle.js"></script>
+    <title>Demo Widget JS</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="This app features a minimal implementation of the Calling Extensions SDK using JavaScript, HTML, and CSS."
+    />
+
+    <style>
+      body {
+        align-items: center;
+        color: #33475b;
+        display: flex;
+        flex-direction: column;
+        font-family: "Lexend", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        justify-content: center;
+        margin: 0;
+        vertical-align: initial;
+      }
+      main {
+        height: 650px;
+        width: 300px;
+      }
+      input[type="button"] {
+        background-color: #eaf0f6;
+        border-color: #cbd6e2;
+        border-radius: 3px;
+        border-style: solid;
+        border-width: 1px;
+        color: #506e91;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 14px;
+        margin-top: 5px;
+        padding: 8px 16px;
+      }
+      input[type="button"]:active {
+        background-color: #cbd6e2;
+        border-color: #7c98b6;
+        color: #506e91;
+      }
+      input[type="button"]:disabled {
+        background-color: #eaf0f6;
+        border-color: #eaf0f6;
+        color: #b0c1d4;
+      }
+      button {
+        display: inline-flex;
+        align-items: center;
+        column-gap: 5px;
+        background-color: #eaf0f6;
+        border-color: #cbd6e2;
+        border-radius: 3px;
+        border-style: solid;
+        border-width: 1px;
+        color: #506e91;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 14px;
+        padding: 8px 12px;
+      }
+      button:active {
+        background-color: #cbd6e2;
+        border-color: #7c98b6;
+        color: #506e91;
+      }
+      button:disabled {
+        background-color: #eaf0f6;
+        border-color: #eaf0f6;
+        color: #b0c1d4;
+      }
+      p {
+        margin-bottom: 0;
+        margin-top: 1rem;
+      }
+      p.instructions {
+        font-weight: 300;
+        margin-bottom: 1rem;
+      }
+      p.other-events {
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        padding-top: 0.5rem;
+      }
+      span.beta-badge {
+        display: inline-block;
+        font-family: var(--uicomponents-font-family, "Lexend Deca", Helvetica, Arial, sans-serif);
+        font-weight: 700;
+        font-size: 10.1px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        text-transform: uppercase;
+        vertical-align: inherit;
+        -webkit-hyphens: manual;
+        -moz-hyphens: manual;
+        -ms-hyphens: manual;
+        hyphens: manual;
+        border-radius: 3px;
+        line-height: 20px;
+        min-height: 20px;
+        background-color: #6a78d1;
+        color: #ffffff;
+        padding: 0 8px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <header>
+        <p class="instructions">
+          Click the buttons to send messages to HubSpot via the Calling
+          Extensions SDK. Open your console to see the <a href="https://developers.hubspot.com/docs/api/crm/extensions/receive-calls-in-hubspot-when-using-calling-apps" target="_blank"
+          rel="noreferrer">incoming (beta)</a> and outgoing
+          messages with HubSpot.
+        </p>
+        <p class="openwindow" style="display: none;">
+          <a href="https://github.hubspot.com/calling-extensions-sdk/demo-minimal-js.html?usesCallingWindow=false&iframeLocation=window" target="_blank">Open calling window</a>
+        </p>
+      </header>
+      <section id="events">
+        <p>1. Initialize the calling app</p>
+        <input
+          id="initialize"
+          onclick="initialize()"
+          type="button"
+          value="initialized"
+        />
+        <input
+        id="setwidgeturl"
+        onclick="setWidgetUrl()"
+        type="button"
+        value="set widget url"
+      />
+        <p>2. Log in to the app</p>
+        <input
+          id="login"
+          onclick="logIn()"
+          type="button"
+          value="log in"
+        />
+        <input
+          id="logout"
+          onclick="logOut()"
+          type="button"
+          value="log out"
+        />
+        <p>3. Set inbound calling availability</p>
+        <button
+          id="useravailable"
+          onclick="userAvailable()"
+          type="button"
+        ><span>available</span><span class="beta-badge">BETA</span></button>
+        <button
+          id="userunavailable"
+          onclick="userUnavailable()"
+          type="button"
+        ><span>unavailable</span><span class="beta-badge">BETA</span></button>
+        <p>4. Start a call</p>
+        <button
+          id="incomingcall"
+          onclick="incomingCall()"
+          type="button"
+        ><span>incoming call started</span><span class="beta-badge">BETA</span></button>
+        <input
+          id="outgoingcall"
+          onclick="outgoingCall()"
+          type="button"
+          value="outgoing call started"
+        />
+        <input
+          id="answercall"
+          onclick="answerCall()"
+          type="button"
+          value="call answered"
+        />
+        <p>5. End a call</p>
+        <input
+          id="endcall"
+          onclick="endCall()"
+          type="button"
+          value="call ended"
+        />
+        <input
+          id="completecall"
+          onclick="completeCall()"
+          type="button"
+          value="call completed"
+        />
+        <input
+          id="transfercall"
+          onclick="transferCall()"
+          type="button"
+          value="call transferred"
+        />
+        <p class="other-events">Other events</p>
+        <input
+          id="senderror"
+          onclick="sendError()"
+          type="button"
+          value="send error"
+        />
+        <input
+          id="resizewidget"
+          onclick="resizeWidget()"
+          type="button"
+          value="resize widget"
+        />
+      </section>
+    </main>
+  </body>
+</html>
